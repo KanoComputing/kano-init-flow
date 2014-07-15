@@ -21,11 +21,13 @@ class UpdateScreen():
 
         # check internet
         if is_internet():
-            self.template = Template("../media/images/image_3.png", "Great, you have internet!", "Now let's update your system", "UPDATE NOW!", "USING PROXY?")
+            self.template = Template("../media/images/image_3.png", "Great, you have internet!",
+                                     "Now let's update your system", "UPDATE NOW!", "USING PROXY?")
             self.template.kano_button.connect("button_release_event", self.launch_updater)
             self.template.orange_button.connect("button_release_event", self.using_proxy)
         else:
-            self.template = Template("../media/images/image_3.png", "No internet?", "No worried, we can still play", "NEXT", "CONNECT")
+            self.template = Template("../media/images/image_3.png", "No internet?",
+                                     "No worries, we can still play", "NEXT", "CONNECT")
             self.template.kano_button.connect("button_release_event", self.next_screen)
             self.template.orange_button.connect("button_release_event", self.launch_wifi_config)
 

@@ -42,7 +42,7 @@ class MainWindow(Gtk.Window):
     def __init__(self, stage=0):
 
         WINDOW_WIDTH = 590
-        WINDOW_HEIGHT = 405
+        WINDOW_HEIGHT = 440
 
         apply_styles()
 

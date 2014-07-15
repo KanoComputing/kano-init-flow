@@ -16,7 +16,8 @@ class FirstScreen():
     def __init__(self, win):
 
         self.win = win
-        self.template = Template("../media/images/image_1.png", "Welcome!", "You made a computer.  Now let's connect it to the internet", "START", "")
+        self.template = Template("../media/images/image_1.png", "Welcome!",
+                                 "You made a computer.  Now let's connect it to the internet", "START", "")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.show_all()

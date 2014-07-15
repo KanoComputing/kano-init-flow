@@ -38,7 +38,8 @@ class AudioScreen():
 
         self.win = win
 
-        self.template = AudioTemplate("../media/images/image_5.png", "Can you hear me?", "", "PLAY SOUND", "")
+        self.template = AudioTemplate("../media/images/image_5.png", "Can you hear me?",
+                                      "", "PLAY SOUND", "")
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
@@ -96,4 +97,6 @@ class Reboot():
         self.win.show_all()
 
     def reboot(self, widget, event):
-        sys.exit(5)
+        # For now
+        exit_code = self.template.exit_codes["reboot"]
+        sys.exit(exit_code)
