@@ -8,7 +8,7 @@
 # Tells user they will configure display and audio
 #
 
-from stage import Stage
+from template import Template
 from display_screen import DisplayScreen
 
 
@@ -18,9 +18,9 @@ class SettingsIntroScreen():
         self.win = win
 
         # check internet
-        self.stage = Stage("../media/images/image_3.png", "Let's put your powers to the test", "Time to test audio and display settings", "NEXT", "")
-        self.stage.kano_button.connect("button_release_event", self.activate)
-        self.win.add(self.stage)
+        self.template = Template("../media/images/image_3.png", "Let's put your powers to the test", "Time to test audio and display settings", "NEXT", "")
+        self.template.kano_button.connect("button_release_event", self.activate)
+        self.win.add(self.template)
 
         self.win.show_all()
 

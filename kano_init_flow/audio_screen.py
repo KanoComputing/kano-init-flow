@@ -9,7 +9,7 @@
 #
 
 import sys
-from kano_init_flow.stage import Stage
+from kano_init_flow.template import Template
 
 
 class AudioScreen():
@@ -18,9 +18,9 @@ class AudioScreen():
         self.win = win
 
         # check internet
-        self.stage = Stage("../media/images/image_5.png", "Audio screen placeholder", "", "FINISH", "")
-        self.stage.kano_button.connect("button_release_event", self.activate)
-        self.win.add(self.stage)
+        self.template = Template("../media/images/image_5.png", "Audio screen placeholder", "", "FINISH", "")
+        self.template.kano_button.connect("button_release_event", self.activate)
+        self.win.add(self.template)
 
         self.win.show_all()
 

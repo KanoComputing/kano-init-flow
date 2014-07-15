@@ -8,7 +8,7 @@
 # Screen for configuring display
 #
 
-from stage import Stage
+from template import Template
 from audio_screen import AudioScreen
 
 
@@ -18,9 +18,9 @@ class DisplayScreen():
         self.win = win
 
         # check internet
-        self.stage = Stage("../media/images/image_4.png", "Display screen placeholder", "", "NEXT", "")
-        self.stage.kano_button.connect("button_release_event", self.activate)
-        self.win.add(self.stage)
+        self.template = Template("../media/images/image_4.png", "Display screen placeholder", "", "NEXT", "")
+        self.template.kano_button.connect("button_release_event", self.activate)
+        self.win.add(self.template)
 
         self.win.show_all()
 

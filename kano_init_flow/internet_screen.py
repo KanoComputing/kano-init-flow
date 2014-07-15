@@ -9,7 +9,7 @@
 #
 
 import sys
-from stage import Stage
+from template import Template
 from update_screen import UpdateScreen
 
 
@@ -17,10 +17,10 @@ class InternetScreen():
     def __init__(self, win):
 
         self.win = win
-        self.stage = Stage("../media/images/image_2.png", "Connect to the world", "Let's setup Wifi and bring your Kano to life", "CONNECT", "LATER")
-        self.win.add(self.stage)
-        self.stage.kano_button.connect("button_release_event", self.activate)
-        self.stage.orange_button.connect("button_release_event", self.skip)
+        self.template = Template("../media/images/image_2.png", "Connect to the world", "Let's setup Wifi and bring your Kano to life", "CONNECT", "LATER")
+        self.win.add(self.template)
+        self.template.kano_button.connect("button_release_event", self.activate)
+        self.template.orange_button.connect("button_release_event", self.skip)
         self.win.show_all()
 
     def activate(self, widget, event):

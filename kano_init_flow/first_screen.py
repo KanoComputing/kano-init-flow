@@ -8,7 +8,7 @@
 # Intro screen of the first boot
 #
 
-from stage import Stage
+from template import Template
 from internet_screen import InternetScreen
 
 
@@ -16,9 +16,9 @@ class FirstScreen():
     def __init__(self, win):
 
         self.win = win
-        self.stage = Stage("../media/images/image_1.png", "Welcome!", "You made a computer.  Now let's connect it to the internet", "START", "")
-        self.win.add(self.stage)
-        self.stage.kano_button.connect("button_release_event", self.activate)
+        self.template = Template("../media/images/image_1.png", "Welcome!", "You made a computer.  Now let's connect it to the internet", "START", "")
+        self.win.add(self.template)
+        self.template.kano_button.connect("button_release_event", self.activate)
         self.win.show_all()
 
     def activate(self, widget, event):

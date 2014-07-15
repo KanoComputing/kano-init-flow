@@ -23,7 +23,7 @@ from kano.gtk3.heading import Heading
 
 
 # Window class
-class Stage(Gtk.Box):
+class Template(Gtk.Box):
 
     def __init__(self, img_filename, title, description, kano_button_text, orange_button_text):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
