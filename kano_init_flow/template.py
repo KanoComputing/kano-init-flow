@@ -31,15 +31,19 @@ class Template(Gtk.Box):
         self.image = Gtk.Image.new_from_file(img_filename)
         self.heading = Heading(title, description)
         self.kano_button = KanoButton(kano_button_text)
-        self.kano_button.pack_and_align()
 
         self.pack_start(self.image, False, False, 0)
         self.pack_start(self.heading.container, False, False, 0)
-        self.pack_start(self.kano_button.align, False, False, 0)
+
+        button_box = Gtk.ButtonBox()
+        button_box.set_layout(Gtk.ButtonBoxStyle.SPREAD)
+        self.pack_start(button_box, False, False, 0)
 
         if not orange_button_text == "":
             self.orange_button = OrangeButton(orange_button_text)
-            align = Gtk.Alignment()
-            align.set_padding(5, 5, 0, 0)
-            align.add(self.orange_button)
-            self.pack_start(align, False, False, 10)
+            button_box.pack_start(self.orange_button, False, False, 10)
+            button_box.pack_start(self.kano_button, False, False, 10)
+            label = Gtk.Label("    ")
+            button_box.pack_start(label, False, False, 10)
+        else:
+            button_box.pack_start(self.kano_button, False, False, 0)
