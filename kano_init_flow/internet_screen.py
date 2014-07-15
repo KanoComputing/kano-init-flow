@@ -24,11 +24,9 @@ class InternetScreen():
         self.win.show_all()
 
     def activate(self, widget, event):
-        # launch the wifi config
-        sys.exit(2)
+        exit_code = self.template.exit_codes["launch_wifi"]
+        sys.exit(exit_code)
 
     def skip(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         UpdateScreen(self.win)

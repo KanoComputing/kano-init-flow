@@ -25,6 +25,8 @@ from kano.gtk3.heading import Heading
 # Window class
 class Template(Gtk.Box):
 
+    exit_codes = {"launch_wifi": 1, "launch_updater": 2, "launch_profile": 4}
+
     def __init__(self, img_filename, title, description, kano_button_text, orange_button_text):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
@@ -35,15 +37,16 @@ class Template(Gtk.Box):
         self.pack_start(self.image, False, False, 0)
         self.pack_start(self.heading.container, False, False, 0)
 
-        button_box = Gtk.ButtonBox()
+        button_box = Gtk.ButtonBox(spacing=10)
         button_box.set_layout(Gtk.ButtonBoxStyle.SPREAD)
         self.pack_start(button_box, False, False, 0)
 
         if not orange_button_text == "":
             self.orange_button = OrangeButton(orange_button_text)
-            button_box.pack_start(self.orange_button, False, False, 10)
-            button_box.pack_start(self.kano_button, False, False, 10)
+            button_box.pack_start(self.orange_button, False, False, 0)
+            button_box.pack_start(self.kano_button, False, False, 0)
+            # The empty label is to centre the kano_button
             label = Gtk.Label("    ")
-            button_box.pack_start(label, False, False, 10)
+            button_box.pack_start(label, False, False, 0)
         else:
             button_box.pack_start(self.kano_button, False, False, 0)

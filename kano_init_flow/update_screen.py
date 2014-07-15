@@ -33,13 +33,16 @@ class UpdateScreen():
         self.win.show_all()
 
     def launch_updater(self, widget, event):
-        sys.exit(3)
+        exit_code = self.template.exit_codes["launch_updater"]
+        sys.exit(exit_code)
 
     def launch_wifi_config(self, widget, event):
-        sys.exit(2)
+        exit_code = self.template.exit_codes["launch_wifi"]
+        sys.exit(exit_code)
 
     def using_proxy(self, widget, event):
-        sys.exit(4)
+        exit_code = self.template.exit_codes["launch_profile"]
+        sys.exit(exit_code)
 
     def next_screen(self, widget, event):
         for child in self.win:

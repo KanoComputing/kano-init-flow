@@ -25,8 +25,5 @@ class DisplayScreen():
         self.win.show_all()
 
     def activate(self, widget, event):
-
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         AudioScreen(self.win)
