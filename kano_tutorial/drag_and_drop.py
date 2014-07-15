@@ -15,32 +15,34 @@ if __name__ == '__main__' and __package__ is None:
         sys.path.append(dir_path)
 
 
-class Judoka(Gtk.EventBox):
+class Judoka(Gtk.Fixed):
 
     def __init__(self, img_filename, action=Gdk.DragAction.ASK):
-        Gtk.EventBox.__init__(self)
+        Gtk.Fixed.__init__(self)
 
         self.width = 500
         self.height = 500
         self.set_size_request(self.width, self.height)
 
-        self.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [], action)
-
         self.action = action
 
-        self.image = Gtk.Image.new_from_file(img_filename)
-        self.add(self.image)
+        self.eventbox = Gtk.EventBox()
+        self.put(self.eventbox, 50, 50)
 
+        self.image = Gtk.Image.new_from_file(img_filename)
+        self.eventbox.add(self.image)
+
+        self.eventbox.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [], action)
         # To send image data
-        self.drag_source_add_image_targets()
+        self.eventbox.drag_source_add_image_targets()
 
         self.pixbuf = GdkPixbuf.Pixbuf.new_from_file(img_filename)
 
-        self.connect("drag-begin", self.on_drag_begin)
-        self.connect("drag-data-get", self.on_drag_data_get)
-        self.connect("drag-failed", self.on_drag_fail)
-        self.connect("drag-end", self.on_drag_end)
-        self.connect("drag-data-delete", self.on_drag_delete)
+        self.eventbox.connect("drag-begin", self.on_drag_begin)
+        self.eventbox.connect("drag-data-get", self.on_drag_data_get)
+        self.eventbox.connect("drag-failed", self.on_drag_fail)
+        self.eventbox.connect("drag-end", self.on_drag_end)
+        self.eventbox.connect("drag-data-delete", self.on_drag_delete)
 
     def on_drag_begin(self, widget, drag_context):
         print "entered on drag begin"
