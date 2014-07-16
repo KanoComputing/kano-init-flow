@@ -26,6 +26,7 @@ from kano_init_flow.settings_intro_screen import SettingsIntroScreen
 from kano_init_flow.display_screen import DisplayScreen
 from kano_init_flow.audio_screen import AudioScreen
 from kano_init_flow.unlock_screen import UnlockScreen
+from kano_init_flow.keyboard_screen import KeyboardScreen
 
 
 refs = {
@@ -36,6 +37,7 @@ refs = {
     4: DisplayScreen,
     5: AudioScreen,
     6: UnlockScreen,
+    7: KeyboardScreen,
 }
 
 
