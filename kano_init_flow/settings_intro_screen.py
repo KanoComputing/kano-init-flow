@@ -18,8 +18,9 @@ class SettingsIntroScreen():
         self.win = win
 
         # check internet
-        self.template = Template("../media/images/image_3.png", "Let's put your powers to the test",
-                                 "Time to test audio and display settings", "NEXT", "")
+        header = "You have the power!"
+        subheader = "Update successful! Now let's test out your powers."
+        self.template = Template("../media/images/image_3.png", header, subheader, "TEST SOUND", "")
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.add(self.template)
 

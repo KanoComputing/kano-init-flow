@@ -25,6 +25,7 @@ from kano_init_flow.update_screen import UpdateScreen
 from kano_init_flow.settings_intro_screen import SettingsIntroScreen
 from kano_init_flow.display_screen import DisplayScreen
 from kano_init_flow.audio_screen import AudioScreen
+from kano_init_flow.unlock_screen import UnlockScreen
 
 refs = {
     0: FirstScreen,
@@ -33,6 +34,7 @@ refs = {
     3: SettingsIntroScreen,
     4: DisplayScreen,
     5: AudioScreen,
+    6: UnlockScreen,
 }
 
 

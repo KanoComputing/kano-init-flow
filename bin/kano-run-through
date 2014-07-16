@@ -13,6 +13,7 @@ LAUNCH_UPDATER=2
 LAUNCH_SETTINGS=3
 REBOOT=4
 LAUNCH_PROFILE=5
+LAUNCH_SWAG=6
 
 ./kano-tutorial 0
 ./kano-init-flow 0
@@ -21,13 +22,13 @@ EXIT_CODE=$?
 while [ $EXIT_CODE -le $LAUNCH_UPDATER ]; do
 
     if [ $EXIT_CODE -eq $LAUNCH_WIFI_CONFIG ]; then
-       rxvt -title \'WiFi\' -e /usr/bin/kano-wifi
+       rxvt -title \'WiFi\' -e sudo /usr/bin/kano-wifi
        ./kano-init-flow $LAUNCH_UPDATER
        EXIT_CODE=$?
     fi
 
     if [ $EXIT_CODE -eq $LAUNCH_UPDATER ]; then
-       sudo kano-updater
+       sudo kano-updater # ADD -f flag
        ./kano-init-flow $LAUNCH_SETTINGS
        EXIT_CODE=$?
     fi
@@ -44,3 +45,5 @@ if [ $EXIT_CODE -eq $LAUNCH_WIFI_CONFIG ]; then
 elif [ $EXIT_CODE -eq $LAUNCH_PROFILE ]; then
     kano-login first_boot
 fi
+
+./kano-init-flow $LAUNCH_SWAG
