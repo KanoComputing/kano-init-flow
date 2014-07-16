@@ -1,3 +1,4 @@
 bin/* /usr/bin
 kano_init_flow /usr/lib/python2.7/dist-packages
+kano_tutorial /usr/lib/python2.7/dist-packages
 media /usr/share/kano-init-flow

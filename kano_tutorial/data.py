@@ -8,10 +8,13 @@
 # Data functions for getting level specific data from the json
 
 import json
+import os
+from kano_tutorial.paths import tutorial_dir
 
 
 def get_data(stage):
-    json_data = open('../data/tutorials.json')
+    filename = os.path.join(tutorial_dir, "data", "tutorials.json")
+    json_data = open(filename)
     data = json.load(json_data)
     stage_data = data["TUTORIAL_" + str(stage)]
     return stage_data

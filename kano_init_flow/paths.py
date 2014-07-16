@@ -21,12 +21,14 @@ else:
 
 dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-css_local_init = os.path.join(dir_path, 'kano_init_flow', 'CSS')
-css_usr_init = '/usr/lib/python2.7/dist-packages/kano_init_flow/CSS'
+css_local_init = os.path.join(dir_path, 'kano_init_flow')
+css_usr_init = '/usr/lib/python2.7/dist-packages/kano_init_flow'
 
 if os.path.exists(css_local_init):
-    css_dir = css_local_init
+    init_dir = css_local_init
 elif os.path.exists(css_usr_init):
-    css_dir = css_usr_init
+    init_dir = css_usr_init
 else:
     raise Exception('Neither local nor usr css dir found!')
+
+css_dir = os.path.join(init_dir, 'CSS')
