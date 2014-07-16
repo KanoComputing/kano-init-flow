@@ -10,18 +10,19 @@
 
 import os
 import sys
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 if __name__ == '__main__' and __package__ is None:
     dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     if dir_path != '/usr':
         sys.path.append(dir_path)
 
-#from kano.gtk3.apply_styles import apply_styles
-#from kano.utils import is_number
+from kano.gtk3.apply_styles import apply_styles
+from kano.utils import is_number
 
 from kano_tutorial.screens import Screen1, Screen2
 from kano_tutorial.drag_and_drop import DragAndDrop
+from kano_tutorial.paths import css_dir
 
 refs = {
     0: Screen1,
@@ -34,17 +35,17 @@ class MainWindow(Gtk.Window):
 
     def __init__(self, stage=0):
 
-        WINDOW_WIDTH = 590
-        WINDOW_HEIGHT = 440
-
-        #apply_styles()
+        apply_styles()
+        specific_css = Gtk.CssProvider()
+        css_path = os.path.join(css_dir, "kano-tutorial.css")
+        specific_css.load_from_path(css_path)
+        screen = Gdk.Screen.get_default()
+        styleContext = Gtk.StyleContext()
+        styleContext.add_provider_for_screen(screen, specific_css, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
         # Create main window
         Gtk.Window.__init__(self, title="Kano")
-        self.set_decorated(False)
-        self.set_size_request(WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_resizable(False)
+        self.fullscreen()
         self.connect("delete-event", Gtk.main_quit)
         self.goto(stage)
 
@@ -63,7 +64,7 @@ def main():
     if len(sys.argv) == 2:
         text = sys.argv[1]
 
-        if not text is None:   # and is_number(text):
+        if not text is None and is_number(text):
             stage_number = int(text)
 
     win = MainWindow(stage_number)

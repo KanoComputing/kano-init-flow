@@ -9,15 +9,24 @@ import os
 # setting up directories
 dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-# media dir
-media_local = os.path.join(dir_path, 'media')
-media_usr = '/usr/share/kano-init-flow/media'
+media_local_init = os.path.join(dir_path, 'media', 'kano-init-flow')
+media_usr_init = '/usr/share/kano-init-flow/media/kano-init-flow'
 
-if os.path.exists(media_local):
-    common_media_dir = media_local
-elif os.path.exists(media_usr):
-    common_media_dir = media_usr
+if os.path.exists(media_local_init):
+    media_dir = media_local_init
+elif os.path.exists(media_usr_init):
+    media_dir = media_usr_init
 else:
     raise Exception('Neither local nor usr media dir found!')
 
-common_css_dir = os.path.join(common_media_dir, 'CSS')
+dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+css_local_init = os.path.join(dir_path, 'kano_init_flow', 'CSS')
+css_usr_init = '/usr/lib/python2.7/dist-packages/kano_init_flow/CSS'
+
+if os.path.exists(css_local_init):
+    css_dir = css_local_init
+elif os.path.exists(css_usr_init):
+    css_dir = css_usr_init
+else:
+    raise Exception('Neither local nor usr css dir found!')

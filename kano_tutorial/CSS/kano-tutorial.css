@@ -1,0 +1,41 @@
+
+
+GtkWindow {
+    background: #545454;
+    color: #545454;
+}
+
+.drag_source,
+.drag_source.button,
+.drag_source.image,
+.drag_source GtkEventBox {
+    background: #393939;
+}
+
+.drag_source_label {
+    color: #ffffff;
+    font: Bariol 16;
+}
+
+.drag_source_label_bold {
+    color: #ffffff;
+    font: Bariol Bold 16;
+}
+
+.drag_dest.button {
+    background: #fd8438;
+}
+
+.drag_dest_label {
+    color: #ffffff;
+    font: Bariol 16;
+}
+
+.drag_dest_label_bold {
+    color: #ffffff;
+    font: Bariol Bold 16;
+}
+
+.keyboard {
+    background: #545454;
+}

@@ -27,6 +27,7 @@ from kano_init_flow.display_screen import DisplayScreen
 from kano_init_flow.audio_screen import AudioScreen
 from kano_init_flow.unlock_screen import UnlockScreen
 
+
 refs = {
     0: FirstScreen,
     1: InternetScreen,

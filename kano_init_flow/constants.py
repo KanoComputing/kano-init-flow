@@ -10,8 +10,8 @@
 import os
 import sys
 
-rel_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../media'))
-abs_path = '/usr/share/kano-init-flow/media'
+rel_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../media/kano-init-flow'))
+abs_path = '/usr/share/kano-init-flow/media/kano-init-flow'
 
 if os.path.exists(rel_path):
     media = rel_path

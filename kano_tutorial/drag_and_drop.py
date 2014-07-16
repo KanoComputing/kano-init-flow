@@ -17,20 +17,23 @@ if __name__ == '__main__' and __package__ is None:
 
 from kano_tutorial.data import get_data
 from kano_tutorial.tutorial_template import TutorialTemplate
+from kano_tutorial.paths import media_dir
 
 data_3 = get_data(3)
 data_4 = get_data(4)
 
 
-class Judoka(Gtk.Fixed):
+class Judoka(Gtk.EventBox):
 
     def __init__(self):
-        Gtk.Fixed.__init__(self)
+        Gtk.EventBox.__init__(self)
+
+        self.get_style_context().add_class("drag_source")
 
         label1_text = data_3["LABEL_1"]
         label2_text = data_3["LABEL_2"]
-        img_filename = data_3["WORD_JUDOKA_FILENAME"]
-        drag_icon_filename = data_3["DRAGGING_JUDOKA_FILENAME"]
+        img_filename = os.path.join(media_dir, data_3["WORD_JUDOKA_FILENAME"])
+        drag_icon_filename = os.path.join(media_dir, data_3["DRAGGING_JUDOKA_FILENAME"])
 
         self.width = 500
         self.height = 500
@@ -39,13 +42,21 @@ class Judoka(Gtk.Fixed):
         self.image = Gtk.Image.new_from_file(img_filename)
         self.eventbox = Gtk.EventBox()
         self.eventbox.add(self.image)
+        self.eventbox.set_size_request(210, 280)
+        align = Gtk.Alignment()
+        align.add(self.eventbox)
+        align.set_padding(60, 40, 0, 0)
 
         self.label1 = Gtk.Label(label1_text)
+        self.label1.get_style_context().add_class("drag_source_label")
         self.label2 = Gtk.Label(label2_text)
+        self.label2.get_style_context().add_class("drag_source_label_bold")
 
-        self.put(self.eventbox, 50, 50)
-        self.put(self.label1, 50, 300)
-        self.put(self.label2, 50, 350)
+        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.box.pack_start(align, False, False, 0)
+        self.box.pack_start(self.label1, False, False, 0)
+        self.box.pack_start(self.label2, False, False, 0)
+        self.add(self.box)
 
         self.eventbox.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [], Gdk.DragAction.ASK)
         # To send image data
@@ -62,8 +73,8 @@ class Judoka(Gtk.Fixed):
     def on_drag_begin(self, widget, drag_context):
         print "entered on drag begin"
         # (120, 90) refers to where the cursor relative to the drag icon
-        Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 120, 90)
-        widget.hide()
+        Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 100, 20)
+        self.image.set_visible(False)
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
         print "entered on_drag_data_get"
@@ -75,13 +86,13 @@ class Judoka(Gtk.Fixed):
 
     def on_drag_end(self, widget, event):
         print "drag ended"
-        widget.show()
+        self.image.show()
 
     def on_drag_delete(self, widget, event):
         print "drag deleted"
-        self.image.hide()
-        self.label1.hide()
-        self.label2.hide()
+        self.image.destroy()
+        self.label1.destroy()
+        self.label2.destroy()
 
 
 class DropArea(Gtk.Button):
@@ -89,13 +100,15 @@ class DropArea(Gtk.Button):
     def __init__(self):
         Gtk.Button.__init__(self)
 
-        self.width = 500
-        self.height = 500
+        self.get_style_context().add_class("drag_dest")
+
+        self.width = 600
+        self.height = 450
         self.set_size_request(self.width, self.height)
 
         label1_text = data_4["LABEL_1"]
         label2_text = data_4["LABEL_2"]
-        colour_judoka_filename = data_4["COLOUR_JUDOKA_FILENAME"]
+        colour_judoka_filename = os.path.join(media_dir, data_4["COLOUR_JUDOKA_FILENAME"])
 
         self.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.ASK)
         targets = Gtk.TargetList.new([])
@@ -106,12 +119,17 @@ class DropArea(Gtk.Button):
 
         self.image = Gtk.Image()
         self.image.set_from_file(colour_judoka_filename)
+        align = Gtk.Alignment()
+        align.add(self.image)
+        align.set_padding(30, 0, 0, 0)
 
         self.label1 = Gtk.Label(label1_text)
+        self.label1.get_style_context().add_class("drag_dest_label")
         self.label2 = Gtk.Label(label2_text)
+        self.label2.get_style_context().add_class("drag_dest_label_bold")
 
         self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.box.pack_start(self.image, False, False, 0)
+        self.box.pack_start(align, False, False, 0)
         self.box.pack_start(self.label1, False, False, 0)
         self.box.pack_start(self.label2, False, False, 0)
 
@@ -158,7 +176,7 @@ class DragAndDrop(TutorialTemplate):
         self.judoka = Judoka()
 
         self.box.pack_start(self.judoka, False, False, 0)
-        self.box.pack_start(self.drop_area, False, False, 100)
+        self.box.pack_start(self.drop_area, False, False, 0)
 
         self.win.add(self)
         self.win.show_all()
