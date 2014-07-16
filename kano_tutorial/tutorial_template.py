@@ -14,7 +14,7 @@ from kano_tutorial.data import get_data
 
 class TutorialTemplate(Gtk.Box):
 
-    def __init__(self, level=0):
+    def __init__(self, level=1):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.keyboard = Gtk.Image()
         self.box = Gtk.Box()

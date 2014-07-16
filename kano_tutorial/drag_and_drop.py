@@ -3,6 +3,7 @@
 # Copyright (C) 2014 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
+# drag_and_drop.py
 
 
 from gi.repository import Gtk, Gdk, GdkPixbuf
@@ -83,10 +84,10 @@ class Judoka(Gtk.Fixed):
         self.label2.hide()
 
 
-class DropArea(Gtk.EventBox):
+class DropArea(Gtk.Button):
 
     def __init__(self):
-        Gtk.EventBox.__init__(self)
+        Gtk.Button.__init__(self)
 
         self.width = 500
         self.height = 500
@@ -130,10 +131,21 @@ class DropArea(Gtk.EventBox):
             self.label2.show()
             drag_context.finish(True, True, time)
 
-            # Hacky: get top level window
+            # Hacky: get top level window to change keyboard image
             win = self.get_toplevel()
             template = win.get_children()[0]
             template.set_from_level(4)
+
+            self.connect("key-release-event", self.close_application)
+            self.grab_focus()
+
+    def close_application(self, widget, event):
+
+        # If ENTER key is pressed
+        if event.keyval == 65293:
+
+            # Currently, exit code has no effect, kano-init-flow is launched regardless
+            sys.exit(0)
 
 
 class DragAndDrop(TutorialTemplate):
