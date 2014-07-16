@@ -14,29 +14,43 @@ if __name__ == '__main__' and __package__ is None:
     if dir_path != '/usr':
         sys.path.append(dir_path)
 
+from kano_tutorial.data import get_data
+from kano_tutorial.tutorial_template import TutorialTemplate
+
+data_3 = get_data(3)
+data_4 = get_data(4)
+
 
 class Judoka(Gtk.Fixed):
 
-    def __init__(self, img_filename, action=Gdk.DragAction.ASK):
+    def __init__(self):
         Gtk.Fixed.__init__(self)
+
+        label1_text = data_3["LABEL_1"]
+        label2_text = data_3["LABEL_2"]
+        img_filename = data_3["WORD_JUDOKA_FILENAME"]
+        drag_icon_filename = data_3["DRAGGING_JUDOKA_FILENAME"]
 
         self.width = 500
         self.height = 500
         self.set_size_request(self.width, self.height)
 
-        self.action = action
-
-        self.eventbox = Gtk.EventBox()
-        self.put(self.eventbox, 50, 50)
-
         self.image = Gtk.Image.new_from_file(img_filename)
+        self.eventbox = Gtk.EventBox()
         self.eventbox.add(self.image)
 
-        self.eventbox.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [], action)
+        self.label1 = Gtk.Label(label1_text)
+        self.label2 = Gtk.Label(label2_text)
+
+        self.put(self.eventbox, 50, 50)
+        self.put(self.label1, 50, 300)
+        self.put(self.label2, 50, 350)
+
+        self.eventbox.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [], Gdk.DragAction.ASK)
         # To send image data
         self.eventbox.drag_source_add_image_targets()
 
-        self.pixbuf = GdkPixbuf.Pixbuf.new_from_file(img_filename)
+        self.pixbuf = GdkPixbuf.Pixbuf.new_from_file(drag_icon_filename)
 
         self.eventbox.connect("drag-begin", self.on_drag_begin)
         self.eventbox.connect("drag-data-get", self.on_drag_data_get)
@@ -46,9 +60,9 @@ class Judoka(Gtk.Fixed):
 
     def on_drag_begin(self, widget, drag_context):
         print "entered on drag begin"
+        # (120, 90) refers to where the cursor relative to the drag icon
         Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 120, 90)
-        if self.action == Gdk.DragAction.ASK:
-            widget.hide()
+        widget.hide()
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
         print "entered on_drag_data_get"
@@ -60,11 +74,13 @@ class Judoka(Gtk.Fixed):
 
     def on_drag_end(self, widget, event):
         print "drag ended"
-        self.image.hide()
+        widget.show()
 
     def on_drag_delete(self, widget, event):
         print "drag deleted"
-        widget.destroy()
+        self.image.hide()
+        self.label1.hide()
+        self.label2.hide()
 
 
 class DropArea(Gtk.EventBox):
@@ -76,7 +92,11 @@ class DropArea(Gtk.EventBox):
         self.height = 500
         self.set_size_request(self.width, self.height)
 
-        self.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.COPY | Gdk.DragAction.ASK)
+        label1_text = data_4["LABEL_1"]
+        label2_text = data_4["LABEL_2"]
+        colour_judoka_filename = data_4["COLOUR_JUDOKA_FILENAME"]
+
+        self.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.ASK)
         targets = Gtk.TargetList.new([])
         targets.add_image_targets(2, True)
         self.drag_dest_set_target_list(targets)
@@ -84,48 +104,50 @@ class DropArea(Gtk.EventBox):
         self.connect("drag-data-received", self.on_drag_data_received)
 
         self.image = Gtk.Image()
-        self.image.set_from_file("judoka_1.png")
+        self.image.set_from_file(colour_judoka_filename)
+
+        self.label1 = Gtk.Label(label1_text)
+        self.label2 = Gtk.Label(label2_text)
+
+        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.box.pack_start(self.image, False, False, 0)
+        self.box.pack_start(self.label1, False, False, 0)
+        self.box.pack_start(self.label2, False, False, 0)
+
+        self.add(self.box)
+
+    def hide_image_labels(self):
+        self.image.hide()
+        self.label1.hide()
+        self.label2.hide()
 
     def on_drag_data_received(self, widget, drag_context, x, y, data, info, time):
         print "on_drag_data_received"
 
         if info == 2:
-            self.add(self.image)
             self.image.show()
-            drag_context.finish(False, False, time)
+            self.label1.show()
+            self.label2.show()
+            drag_context.finish(True, True, time)
+
+            # Hacky: get top level window
+            win = self.get_toplevel()
+            template = win.get_children()[0]
+            template.set_from_level(4)
 
 
-# Window class
-class MainWindow(Gtk.Window):
+class DragAndDrop(TutorialTemplate):
 
-    def __init__(self, stage=0):
+    def __init__(self, win):
+        TutorialTemplate.__init__(self, 3)
 
-        WINDOW_WIDTH = 900
-        WINDOW_HEIGHT = 500
-
-        # Create main window
-        Gtk.Window.__init__(self, title="Kano")
-        self.set_decorated(False)
-        self.set_size_request(WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_resizable(False)
-        self.connect("delete-event", Gtk.main_quit)
-
+        self.win = win
         self.drop_area = DropArea()
-        self.judoka = Judoka("judoka_2.png")
+        self.judoka = Judoka()
 
-        self.box = Gtk.Box()
         self.box.pack_start(self.judoka, False, False, 0)
         self.box.pack_start(self.drop_area, False, False, 100)
 
-        self.add(self.box)
-
-
-def main():
-    win = MainWindow()
-    win.show_all()
-    Gtk.main()
-
-
-if __name__ == '__main__':
-    main()
+        self.win.add(self)
+        self.win.show_all()
+        self.drop_area.hide_image_labels()
