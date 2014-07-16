@@ -13,6 +13,10 @@ from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
 from template import Template
+from kano.utils import play_sound
+import kano_init_flow.constants as constants
+
+number_tries = 0
 
 
 class AudioTemplate(Template):
@@ -35,11 +39,14 @@ class AudioTemplate(Template):
 
 class AudioScreen():
     def __init__(self, win):
+        global number_tries
 
         self.win = win
+        number_tries += 1
 
-        self.template = AudioTemplate("../media/images/image_5.png", "Can you hear me?",
-                                      "", "PLAY SOUND", "")
+        header = "Can you hear me?"
+        subheader = ""
+        self.template = AudioTemplate(constants.media + "/sound_test.png", header, subheader, "PLAY SOUND", "")
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
@@ -48,7 +55,8 @@ class AudioScreen():
         self.win.show_all()
 
     def play_sound(self, widget, event):
-        print "Playing sound"
+
+        play_sound('/usr/share/kano-media/sounds/kano_updated.wav', background=False)
         self.template.yes_button.set_sensitive(True)
         self.template.no_button.set_sensitive(True)
 
@@ -58,7 +66,77 @@ class AudioScreen():
 
     def fix_sound(self, widget, event):
         self.win.clear_win()
-        TvSpeakersScreen(self.win)
+        if number_tries == 1:
+            AudioTutorial1(self.win)
+        else:
+            TvSpeakersScreen(self.win)
+
+
+class AudioTutorial1():
+    def __init__(self, win):
+
+        self.win = win
+
+        header = "Can you see the light?"
+        subheader = "If the power plug is connected properly you should see a blue light."
+        self.template = Template("../media/images/image_3.png", header, subheader, "YES", "NO")
+        self.template.kano_button.connect("button_release_event", self.end_screen)
+        self.template.orange_button.connect("button_release_event", self.next_screen)
+        self.win.add(self.template)
+
+        self.win.show_all()
+
+    def end_screen(self, widget, event):
+        for child in self.win:
+            self.win.remove(child)
+
+        AudioTutorial3(self.win)
+
+    def next_screen(self, widget, event):
+        for child in self.win:
+            self.win.remove(child)
+
+        AudioTutorial2(self.win)
+
+
+class AudioTutorial2():
+    def __init__(self, win):
+
+        self.win = win
+
+        header = "No light? Check the GPIO"
+        subheader = "Make sure that you've connected the  power lead to the right pins."
+        self.template = Template("../media/images/image_3.png", header, subheader, "NEXT", "")
+        self.template.kano_button.connect("button_release_event", self.next_screen)
+        self.win.add(self.template)
+
+        self.win.show_all()
+
+    def next_screen(self, widget, event):
+        for child in self.win:
+            self.win.remove(child)
+
+        AudioTutorial3(self.win)
+
+
+class AudioTutorial3():
+    def __init__(self, win):
+
+        self.win = win
+
+        header = "Plug in the blue cable"
+        subheader = "If you see the light, it's powered!"
+        self.template = Template("../media/images/image_3.png", header, subheader, "FINISH", "")
+        self.template.kano_button.connect("button_release_event", self.next_screen)
+        self.win.add(self.template)
+
+        self.win.show_all()
+
+    def next_screen(self, widget, event):
+        for child in self.win:
+            self.win.remove(child)
+
+        AudioScreen(self.win)
 
 
 class TvSpeakersScreen():
@@ -66,8 +144,9 @@ class TvSpeakersScreen():
 
         self.win = win
 
-        self.template = Template("../media/images/image_5.png", "Let's switch to the TV speakers",
-                                 "If you are using a TV with speakers, click the button below", "USE TV SPEAKERS", "STEtUP LATER")
+        header = "Let's switch to the TV speakers"
+        subheader = "If you are using a TV with speakers, click the button below"
+        self.template = Template("../media/images/image_5.png", header, subheader, "USE TV SPEAKERS", "Setup Later")
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.win.add(self.template)
@@ -89,8 +168,9 @@ class Reboot():
 
         self.win = win
 
-        self.template = Template("../media/images/image_5.png", "Reboot",
-                                 "To apply changes and get sound from the TV, we'll need to do a quick reboot", "REBOOT", "")
+        header = "Reboot"
+        subheader = "To apply changes and get sound from the TV, we'll need to do a quick reboot"
+        self.template = Template("../media/images/image_5.png", header, subheader, "REBOOT", "")
         self.template.kano_button.connect("button_release_event", self.reboot)
         self.win.add(self.template)
 
