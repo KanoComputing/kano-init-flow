@@ -1,0 +1,29 @@
+{
+    "TUTORIAL_1": {
+    "KEYBOARD_FILENAME": "../kano_tutorial/judoka_1.png",
+    "JUDOKA_FILENAME": "../kano_tutorial/judoka_1.png",
+    "LABEL_1": "Phew, we just made it!",
+    "LABEL_2": "But my code hot corrupted...",
+    "LABEL_3": "Click on me to repair my code"
+  },
+    "TUTORIAL_2": {
+    "KEYBOARD_FILENAME": "../kano_tutorial/judoka_1.png",
+    "JUDOKA_FILENAME": "../kano_tutorial/judoka_1.png",
+    "LABEL_1": "Wow thanks - you fixed me!",
+    "LABEL_2": "Now I just need my colours.",
+    "LABEL_3": "Press [ENTER] to continue"
+  },
+  "TUTORIAL_3": {
+    "KEYBOARD_FILENAME": "../kano_tutorial/judoka_1.png",
+    "WORD_JUDOKA_FILENAME": "../kano_tutorial/judoka_1.png",
+    "DRAGGING_JUDOKA_FILENAME": "../kano_tutorial/judoka_2.png",
+    "LABEL_1": "I'm stuck in a world of words",
+    "LABEL_2": "Drag me to the color to activate colours"
+  },
+  "TUTORIAL_4": {
+    "KEYBOARD_FILENAME": "../kano_tutorial/judoka_2.png",
+    "COLOUR_JUDOKA_FILENAME": "../kano_tutorial/judoka_2.png",
+    "LABEL_1": "Yes! Computer colours are the coolest",
+    "LABEL_2": "Press [ENTER] to continue"
+  }
+}
