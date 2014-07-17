@@ -24,6 +24,7 @@ from kano_tutorial.paths import media_dir
 class ButtonTemplate(Gtk.Button):
     def __init__(self):
         Gtk.Button.__init__(self)
+
         self.get_style_context().add_class("drag_source")
         self.set_size_request(1024, 450)
 

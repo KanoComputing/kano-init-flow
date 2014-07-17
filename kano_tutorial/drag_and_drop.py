@@ -35,6 +35,7 @@ class Judoka(Gtk.EventBox):
         label2_text = data_3["LABEL_2"]
         img_filename = os.path.join(media_dir, data_3["WORD_JUDOKA_FILENAME"])
         drag_icon_filename = os.path.join(media_dir, data_3["DRAGGING_JUDOKA_FILENAME"])
+        drag_bg_filename = os.path.join(media_dir, data_3["DRAGGING_BG_FILENAME"])
 
         self.width = 512
         self.height = 500
@@ -44,11 +45,14 @@ class Judoka(Gtk.EventBox):
         self.eventbox = Gtk.EventBox()
         self.eventbox.add(self.image)
 
+        self.bg_image = Gtk.Image()
+        self.bg_image.set_from_file(drag_bg_filename)
+
         # Mimic dimensions of the image so when the image is hidden, event box does not change size
         self.eventbox.set_size_request(210, 280)
-        align = Gtk.Alignment()
-        align.add(self.eventbox)
-        align.set_padding(60, 40, 0, 0)
+        self.align = Gtk.Alignment()
+        self.align.add(self.eventbox)
+        self.align.set_padding(70, 40, 0, 0)
 
         self.label1 = Gtk.Label(label1_text)
         self.label1.get_style_context().add_class("drag_source_label")
@@ -56,7 +60,7 @@ class Judoka(Gtk.EventBox):
         self.label2.get_style_context().add_class("drag_source_label_bold")
 
         self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.box.pack_start(align, False, False, 0)
+        self.box.pack_start(self.align, False, False, 0)
         self.box.pack_start(self.label1, False, False, 0)
         self.box.pack_start(self.label2, False, False, 0)
         self.add(self.box)
@@ -80,7 +84,11 @@ class Judoka(Gtk.EventBox):
 
         # (120, 90) refers to where the cursor relative to the drag icon
         Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 100, 20)
-        self.image.set_visible(False)
+        #self.image.set_visible(False)
+        self.eventbox.remove(self.image)
+        self.align.set_padding(30, 10, 0, 0)
+        self.eventbox.add(self.bg_image)
+        self.eventbox.show_all()
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
         logger.info("Data is sent from source")
@@ -92,11 +100,14 @@ class Judoka(Gtk.EventBox):
 
     def on_drag_end(self, widget, event):
         logger.info("Drag ended")
-        self.image.show()
+        self.eventbox.remove(self.bg_image)
+        self.eventbox.add(self.image)
+        self.align.set_padding(70, 40, 0, 0)
+        self.eventbox.show_all()
 
     def on_drag_delete(self, widget, event):
         logger.info("Drag deleted")
-        self.image.destroy()
+        self.eventbox.destroy()
         self.label1.destroy()
         self.label2.destroy()
 

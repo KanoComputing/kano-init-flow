@@ -16,7 +16,8 @@
   "TUTORIAL_3": {
     "KEYBOARD_FILENAME": "click-and-hold.png",
     "WORD_JUDOKA_FILENAME": "judoka-pointing.png",
-    "DRAGGING_JUDOKA_FILENAME": "judoka-drag.png",
+    "DRAGGING_JUDOKA_FILENAME": "judoka-dragged.png",
+    "DRAGGING_BG_FILENAME": "judoka-dragged-BG.png",
     "LABEL_1": "I'm stuck in a world of words",
     "LABEL_2": "Drag me to the color to activate colours"
   },
