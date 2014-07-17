@@ -43,6 +43,8 @@ class Judoka(Gtk.EventBox):
         self.image = Gtk.Image.new_from_file(img_filename)
         self.eventbox = Gtk.EventBox()
         self.eventbox.add(self.image)
+
+        # Mimic dimensions of the image so when the image is hidden, event box does not change size
         self.eventbox.set_size_request(210, 280)
         align = Gtk.Alignment()
         align.add(self.eventbox)
@@ -60,9 +62,11 @@ class Judoka(Gtk.EventBox):
         self.add(self.box)
 
         self.eventbox.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [], Gdk.DragAction.ASK)
+
         # To send image data
         self.eventbox.drag_source_add_image_targets()
 
+        # The pixbuf is to set the dragging icon that follows the mouse
         self.pixbuf = GdkPixbuf.Pixbuf.new_from_file(drag_icon_filename)
 
         self.eventbox.connect("drag-begin", self.on_drag_begin)
@@ -105,7 +109,7 @@ class DropArea(Gtk.Button):
         self.get_style_context().add_class("drag_dest")
 
         self.width = 512
-        self.height = 450
+        self.height = 500
         self.set_size_request(self.width, self.height)
 
         label1_text = data_4["LABEL_1"]
