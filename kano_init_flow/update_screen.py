@@ -23,15 +23,17 @@ class UpdateScreen():
 
         # check internet
         if is_internet():
-            network = self.network_info()[0]
+            network = self.network_info()
             header = "You are connected to %s- Now let's update!" % network
             subheader = "Updating takes about 10 minutes."
-            self.template = Template(constants.media + "/update.png", header, subheader, "UPDATE NOW!", "")
+            image = constants.media + "/update.png"
+            self.template = Template(image, header, subheader, "UPDATE NOW!", "")
             self.template.kano_button.connect("button_release_event", self.launch_updater)
         else:
             header = "No internet?"
             subheader = "Try again, or connect later. You need internet for most of Kano's cool powers."
-            self.template = Template(constants.media + "/update.png", header, subheader, "TRY AGAIN", "Connect Later")
+            image = constants.media + "/no_internet.png"
+            self.template = Template(image, header, subheader, "TRY AGAIN", "Connect Later")
             self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
             self.template.orange_button.connect("button_release_event", self.next_screen)
 
@@ -55,15 +57,11 @@ class UpdateScreen():
     # TODO: This is duplicated code from kano_settings/set_wifi/wifi.py
     def network_info(self):
         network = ''
-        command_ip = ''
         command_network = '/sbin/iwconfig wlan0 | grep \'ESSID:\' | awk \'{print $4}\' | sed \'s/ESSID://g\' | sed \'s/\"//g\''
         out, e, _ = run_cmd(command_network)
         if e:
             network = "Ethernet"
-            command_ip = '/sbin/ifconfig eth0 | grep inet | awk \'{print $2}\' | cut -d\':\' -f2'
         else:
             network = out
-            command_ip = '/sbin/ifconfig wlan0 | grep inet | awk \'{print $2}\' | cut -d\':\' -f2'
-        ip, _, _ = run_cmd(command_ip)
 
-        return [network.rstrip(), ip.rstrip()]
+        return network.rstrip()
