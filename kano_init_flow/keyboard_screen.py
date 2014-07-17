@@ -54,8 +54,10 @@ class KeyboardScreen(Gtk.Box):
 
     def __init__(self, _win):
         global continents_combo, variants_combo, countries_combo
+
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.win = _win
+        self.win.add(self)
 
         # Contains all the settings
         settings = fixed_size_box.Fixed()
@@ -63,12 +65,20 @@ class KeyboardScreen(Gtk.Box):
         # Heading
         self.heading = Heading("Keyboard", "Where do you live? So I can set your keyboard")
 
+        heading_align = Gtk.Alignment()
+        heading_align.set_padding(60, 0, 0, 0)
+        heading_align.add(self.heading.container)
+
+        # Set padding around heading
+        self.heading_align = Gtk.Alignment(yscale=0, yalign=0.5)
+
         # Button
         self.kano_button = KanoButton("APPLY CHANGES")
         self.kano_button.set_sensitive(False)  # Make sure continue button is enabled
         self.kano_button.connect("button_release_event", self.apply_changes)
         button_box = Gtk.ButtonBox(spacing=10)
         button_box.set_layout(Gtk.ButtonBoxStyle.SPREAD)
+        button_box.add(self.kano_button)
 
         # Create Continents Combo box
         continents_combo = Gtk.ComboBoxText.new()
@@ -82,11 +92,11 @@ class KeyboardScreen(Gtk.Box):
         countries_combo.props.valign = Gtk.Align.CENTER
 
         # Create Advance mode checkbox
-        advance_button = Gtk.CheckButton("Advanced options")
-        advance_button.set_can_focus(False)
-        advance_button.props.valign = Gtk.Align.CENTER
-        advance_button.connect("clicked", self.on_advance_mode)
-        advance_button.set_active(False)
+        self.advance_button = Gtk.CheckButton("Advanced options")
+        self.advance_button.set_can_focus(False)
+        self.advance_button.props.valign = Gtk.Align.CENTER
+        self.advance_button.connect("clicked", self.on_advance_mode)
+        self.advance_button.set_active(False)
 
         # Create Variants Combo box
         variants_combo = Gtk.ComboBoxText.new()
@@ -116,7 +126,7 @@ class KeyboardScreen(Gtk.Box):
         dropdown_box_keys.set_size_request(230, 30)
         dropdown_box_countries.pack_start(continents_combo, False, False, 0)
         dropdown_box_countries.pack_start(countries_combo, False, False, 0)
-        dropdown_box_keys.pack_start(advance_button, False, False, 0)
+        dropdown_box_keys.pack_start(self.advance_button, False, False, 0)
         dropdown_box_keys.pack_start(variants_combo, False, False, 0)
         dropdown_container = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=20)
         dropdown_container.pack_start(dropdown_box_countries, False, False, 0)
@@ -128,7 +138,7 @@ class KeyboardScreen(Gtk.Box):
         valign.add(dropdown_container)
         settings.box.pack_start(valign, False, False, 0)
 
-        self.pack_start(self.heading.container, False, False, 0)
+        self.pack_start(heading_align, False, False, 0)
         self.pack_start(settings.box, False, False, 0)
         self.pack_start(button_box, False, False, 0)
 
@@ -140,7 +150,7 @@ class KeyboardScreen(Gtk.Box):
         self.win.show_all()
         variants_combo.hide()
 
-    def apply_changes(self):
+    def apply_changes(self, widget, event):
         global variants_combo
 
         # Apply changes
@@ -149,9 +159,6 @@ class KeyboardScreen(Gtk.Box):
 
         # Save the changes in the config
         self.update_config()
-
-        # Refresh window
-        self.win.show_all()
 
         # Exit
         sys.exit(0)
@@ -254,8 +261,10 @@ class KeyboardScreen(Gtk.Box):
                         selected_variant_index = combo.get_active()
                         selected_variant_hr = str(variant)
 
-    def on_advance_mode(self):
-        if int(self.kano_button.get_active()):
+    def on_advance_mode(self, widget):
+        global variants_combo
+
+        if int(self.advance_button.get_active()):
             variants_combo.show()
         else:
             variants_combo.hide()

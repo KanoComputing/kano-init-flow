@@ -79,7 +79,6 @@ def main():
             stage_number = int(text)
 
     win = MainWindow(stage_number)
-    win.show_all()
     Gtk.main()
 
 
