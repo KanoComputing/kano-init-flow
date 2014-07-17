@@ -18,6 +18,7 @@ if __name__ == '__main__' and __package__ is None:
 from kano_tutorial.data import get_data
 from kano_tutorial.tutorial_template import TutorialTemplate
 from kano_tutorial.paths import media_dir
+from kano.logging import logger
 
 data_3 = get_data(3)
 data_4 = get_data(4)
@@ -35,7 +36,7 @@ class Judoka(Gtk.EventBox):
         img_filename = os.path.join(media_dir, data_3["WORD_JUDOKA_FILENAME"])
         drag_icon_filename = os.path.join(media_dir, data_3["DRAGGING_JUDOKA_FILENAME"])
 
-        self.width = 500
+        self.width = 512
         self.height = 500
         self.set_size_request(self.width, self.height)
 
@@ -71,25 +72,26 @@ class Judoka(Gtk.EventBox):
         self.eventbox.connect("drag-data-delete", self.on_drag_delete)
 
     def on_drag_begin(self, widget, drag_context):
-        print "entered on drag begin"
+        logger.info("Drag has begun")
+
         # (120, 90) refers to where the cursor relative to the drag icon
         Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 100, 20)
         self.image.set_visible(False)
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
-        print "entered on_drag_data_get"
+        logger.info("Data is sent from source")
         data.set_pixbuf(self.pixbuf)
 
     def on_drag_fail(self, drag_context, drag_result, data):
-        print "drag failed"
-        print data
+        logger.info("Drag failed")
+        logger.info(data)
 
     def on_drag_end(self, widget, event):
-        print "drag ended"
+        logger.info("Drag ended")
         self.image.show()
 
     def on_drag_delete(self, widget, event):
-        print "drag deleted"
+        logger.info("Drag deleted")
         self.image.destroy()
         self.label1.destroy()
         self.label2.destroy()
@@ -102,7 +104,7 @@ class DropArea(Gtk.Button):
 
         self.get_style_context().add_class("drag_dest")
 
-        self.width = 600
+        self.width = 512
         self.height = 450
         self.set_size_request(self.width, self.height)
 
@@ -141,7 +143,7 @@ class DropArea(Gtk.Button):
         self.label2.hide()
 
     def on_drag_data_received(self, widget, drag_context, x, y, data, info, time):
-        print "on_drag_data_received"
+        logger.info("Drop area has recieved data")
 
         if info == 2:
             self.image.show()
