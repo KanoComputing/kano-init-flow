@@ -16,17 +16,34 @@ LAUNCH_PROFILE=5
 LAUNCH_SWAG=6
 LAUNCH_KEYBOARD=7
 
-./kano-tutorial 0
-./kano-init-flow $LAUNCH_KEYBOARD
+# Check for Kano keyboard
+python -c "import kano.utils as u; import sys; sys.exit(int(u.detect_kano_keyboard()))"
+if [ $? -eq 1 ];  then
+    kano-tutorial
+else
+    # No keyboard detected
+    ./kano-init-flow $LAUNCH_KEYBOARD
+fi
+
+# Launch init flow from the beginning
 ./kano-init-flow 0
 EXIT_CODE=$?
 
 while [ $EXIT_CODE -le $LAUNCH_UPDATER ]; do
 
     if [ $EXIT_CODE -eq $LAUNCH_WIFI_CONFIG ]; then
-       rxvt -title \'WiFi\' -e sudo /usr/bin/kano-wifi
-       ./kano-init-flow $LAUNCH_UPDATER
-       EXIT_CODE=$?
+        rxvt -title \'WiFi\' -e sudo /usr/bin/kano-wifi
+        # Check for internet
+        /usr/bin/is_internet
+        rc=$?
+        if [ "$rc" -eq "0" ]; then
+            ./kano-init-flow $LAUNCH_UPDATER
+            EXIT_CODE=$?
+        else
+            # Launch again internet screen
+            ./kano-init-flow 1
+            EXIT_CODE=$?
+        fi
     fi
 
     if [ $EXIT_CODE -eq $LAUNCH_UPDATER ]; then

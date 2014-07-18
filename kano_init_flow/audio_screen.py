@@ -146,7 +146,7 @@ class TvSpeakersScreen():
 
         header = "Let's switch to the TV speakers"
         subheader = "If you are using a TV with speakers, click the button below"
-        self.template = Template("../media/images/image_5.png", header, subheader, "USE TV SPEAKERS", "Setup Later")
+        self.template = Template(constants.media + "/tv-speakers.png", header, subheader, "USE TV SPEAKERS", "Setup Later")
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.win.add(self.template)

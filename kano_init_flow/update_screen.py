@@ -22,20 +22,15 @@ class UpdateScreen():
         self.win = win
 
         # check internet
-        if is_internet():
-            network = self.network_info()
-            header = "You are connected to %s- Now let's update!" % network
-            subheader = "Updating takes about 10 minutes."
-            image = constants.media + "/update.png"
-            self.template = Template(image, header, subheader, "UPDATE NOW!", "")
-            self.template.kano_button.connect("button_release_event", self.launch_updater)
-        else:
-            header = "No internet?"
-            subheader = "Try again, or connect later. You need internet for most of Kano's cool powers."
-            image = constants.media + "/no_internet.png"
-            self.template = Template(image, header, subheader, "TRY AGAIN", "Connect Later")
-            self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
-            self.template.orange_button.connect("button_release_event", self.next_screen)
+        if not is_internet():
+            self.next_screen()
+
+        network = self.network_info()
+        header = "You are connected to %s- Now let's update!" % network
+        subheader = "Updating takes about 10 minutes."
+        image = constants.media + "/update.png"
+        self.template = Template(image, header, subheader, "UPDATE NOW!", "")
+        self.template.kano_button.connect("button_release_event", self.launch_updater)
 
         self.win.add(self.template)
         self.win.show_all()
@@ -44,11 +39,7 @@ class UpdateScreen():
         exit_code = self.template.exit_codes["launch_updater"]
         sys.exit(exit_code)
 
-    def launch_wifi_config(self, widget, event):
-        exit_code = self.template.exit_codes["launch_wifi"]
-        sys.exit(exit_code)
-
-    def next_screen(self, widget, event):
+    def next_screen(self):
         for child in self.win:
             self.win.remove(child)
 
