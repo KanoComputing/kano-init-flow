@@ -9,7 +9,8 @@
 #
 
 from template import Template
-from display_screen import DisplayScreen
+#from display_screen import DisplayScreen
+from audio_screen import AudioScreen
 import kano_init_flow.constants as constants
 
 
@@ -28,4 +29,5 @@ class SettingsIntroScreen():
 
     def activate(self, widget, event):
         self.win.clear_win()
-        DisplayScreen(self.win)
+        # DisplayScreen(self.win)
+        AudioScreen(self.win)
