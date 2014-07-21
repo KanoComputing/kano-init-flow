@@ -10,6 +10,8 @@
 
 from template import Template
 from internet_screen import InternetScreen
+from update_screen import UpdateScreen
+from kano.network import is_internet
 import kano_init_flow.constants as constants
 
 
@@ -26,4 +28,9 @@ class FirstScreen():
 
     def activate(self, widget, event):
         self.win.clear_win()
-        InternetScreen(self.win)
+
+        # Check first for internet
+        if not is_internet():
+            InternetScreen(self.win)
+        else:
+            UpdateScreen(self.win)

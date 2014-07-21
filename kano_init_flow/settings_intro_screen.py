@@ -10,6 +10,7 @@
 
 from template import Template
 from display_screen import DisplayScreen
+import kano_init_flow.constants as constants
 
 
 class SettingsIntroScreen():
@@ -17,10 +18,9 @@ class SettingsIntroScreen():
 
         self.win = win
 
-        # check internet
         header = "You have the power!"
         subheader = "Update successful! Now let's test out your powers."
-        self.template = Template("../media/images/image_3.png", header, subheader, "TEST SOUND", "")
+        self.template = Template(constants.media + "/update_successful.png", header, subheader, "TEST SOUND", "")
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.add(self.template)
 
