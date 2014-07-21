@@ -21,11 +21,11 @@ if [ $? -eq 1 ];  then
     kano-tutorial
 else
     # No keyboard detected
-    ./kano-init-flow $LAUNCH_KEYBOARD
+    kano-init-flow $LAUNCH_KEYBOARD
 fi
 
 # Launch init flow from the beginning
-./kano-init-flow 0
+kano-init-flow 0
 EXIT_CODE=$?
 
 while [ $EXIT_CODE -le $LAUNCH_UPDATER ]; do
@@ -36,18 +36,18 @@ while [ $EXIT_CODE -le $LAUNCH_UPDATER ]; do
         /usr/bin/is_internet
         rc=$?
         if [ "$rc" -eq "0" ]; then
-            ./kano-init-flow $LAUNCH_UPDATER
+            kano-init-flow $LAUNCH_UPDATER
             EXIT_CODE=$?
         else
             # Launch again internet screen
-            ./kano-init-flow 1
+            kano-init-flow 1
             EXIT_CODE=$?
         fi
     fi
 
     if [ $EXIT_CODE -eq $LAUNCH_UPDATER ]; then
        sudo kano-updater # ADD -f flag
-       ./kano-init-flow $LAUNCH_SETTINGS
+       kano-init-flow $LAUNCH_SETTINGS
        EXIT_CODE=$?
     fi
 
@@ -64,4 +64,4 @@ elif [ $EXIT_CODE -eq $LAUNCH_PROFILE ]; then
     kano-login first_boot
 fi
 
-./kano-init-flow $LAUNCH_SWAG
+kano-init-flow $LAUNCH_SWAG

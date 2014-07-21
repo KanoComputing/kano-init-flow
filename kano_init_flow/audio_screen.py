@@ -86,6 +86,7 @@ class AudioTutorial1():
         self.template = Template(constants.media + "/Audio_See_the_light.png", header, subheader, "YES", "NO")
         self.template.kano_button.connect("button_release_event", self.end_screen)
         self.template.orange_button.connect("button_release_event", self.next_screen)
+        self.template.set_size_request(590, 540)
         self.win.add(self.template)
 
         self.win.show_all()
@@ -112,6 +113,7 @@ class AudioTutorial2():
         subheader = "Make sure that you've connected the power lead to the right pins."
         self.template = Template(constants.media + "/Audio_GPIO.png", header, subheader, "NEXT", "")
         self.template.kano_button.connect("button_release_event", self.next_screen)
+        self.template.set_size_request(590, 540)
         self.win.add(self.template)
 
         self.win.show_all()
@@ -132,6 +134,7 @@ class AudioTutorial3():
         subheader = "If you see the light, it's powered!"
         self.template = Template(constants.media + "/Audio_blue-cable.png", header, subheader, "FINISH", "")
         self.template.kano_button.connect("button_release_event", self.next_screen)
+        self.template.set_size_request(590, 540)
         self.win.add(self.template)
 
         self.win.show_all()
