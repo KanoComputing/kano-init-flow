@@ -14,6 +14,7 @@ from gi.repository import Gtk
 from kano.gtk3.buttons import KanoButton
 from template import Template
 from kano.utils import play_sound
+from kano_settings.config_file import file_replace
 import kano_init_flow.constants as constants
 
 number_tries = 0
@@ -56,7 +57,7 @@ class AudioScreen():
 
     def play_sound(self, widget, event):
 
-        play_sound('/usr/share/kano-media/sounds/kano_updated.wav', background=False)
+        play_sound('/usr/share/kano-media/sounds/kano_make.wav', background=False)
         self.template.yes_button.set_sensitive(True)
         self.template.no_button.set_sensitive(True)
 
@@ -154,7 +155,24 @@ class TvSpeakersScreen():
         self.win.show_all()
 
     def setup_hdmi(self, widget, event):
-        print "setup hdmi"
+        # Apply HDMI settings
+        rc_local_path = "/etc/rc.audio"
+        config_txt_path = "/boot/config.txt"
+        # Uncomment/comment out the line in /boot/config.txt
+        amixer_from = "amixer -c 0 cset numid=3 [0-9]"
+        edid_from = "#?hdmi_ignore_edid_audio=1"
+        drive_from = "#?hdmi_drive=2"
+        # HDMI config
+        amixer_to = "amixer -c 0 cset numid=3 2"
+        edid_to = "#hdmi_ignore_edid_audio=1"
+        drive_to = "hdmi_drive=2"
+
+        file_replace(rc_local_path, amixer_from, amixer_to)
+        file_replace(config_txt_path, edid_from, edid_to)
+        file_replace(config_txt_path, drive_from, drive_to)
+
+        # TODO: indicate kano-settings that we are now in HDMI
+
         self.win.clear_win()
         Reboot(self.win)
 
