@@ -1,0 +1,84 @@
+{
+  "FIRST_SCREEN": {
+    "IMG_FILENAME": "/made_it.png",
+    "LABEL_1": "We made it!",
+    "LABEL_2": "You made a computer - now let's give it new powers!"
+  },
+  "INTERNET_SCREEN": {
+    "IMG_FILENAME": "/connect.png",
+    "LABEL_1": "Connect to the world",
+    "LABEL_2": "Let's setup Wifi and bring your Kano to life"
+  },
+  "NO_INTERNET_SCREEN": {
+    "IMG_FILENAME": "/no_internet.png",
+    "LABEL_1": "No internet?",
+    "LABEL_2": "Try again, or connect later. You need internet for most of Kano's cool powers."
+  },
+  "OFFLINE_SCREEN": {
+      "IMG_FILENAME": "/internet_trouble.png",
+      "LABEL_1": "Internet trouble? We can help!",
+      "LABEL_2": "Kano is coolest when it's online. Go to http://help.kano.me and we'll help you."
+    },
+  "UPDATE_SCREEN": {
+    "IMG_FILENAME": "/update.png",
+    "LABEL_2": "Updating takes about 10 minutes."
+  },
+  "SETTINGS_INTRO_SCREEN": {
+    "IMG_FILENAME": "/update_successful.png",
+    "LABEL_1": "You have the power!",
+    "LABEL_2": "Update successful! Now let's test out your powers."
+  },
+  "DISPLAY_SCREEN": {
+    "KEYBOARD_FILENAME": "enter.png",
+    "COLOUR_JUDOKA_FILENAME": "judoka-coloured.png",
+    "LABEL_1": "Yes! Computer colours are the coolest",
+    "LABEL_2": "Press [ENTER] to continue"
+  },
+  "AUDIO_SCREEN": {
+    "IMG_FILENAME": "enter.png",
+    "LABEL_1": "Can you hear me?",
+    "LABEL_2": ""
+  },
+  "AUDIO_TUTORIAL_1": {
+    "IMG_FILENAME": "/Audio_See_the_light.png",
+    "LABEL_1": "Can you see the light?",
+    "LABEL_2": "If the power plug is connected properly you should see a blue light."
+  },
+  "AUDIO_TUTORIAL_2": {
+    "IMG_FILENAME": "/Audio_GPIO.png",
+    "LABEL_1": "No light? Check the GPIO",
+    "LABEL_2": "Make sure that you've connected the power lead to the right pins."
+  },
+  "AUDIO_TUTORIAL_3": {
+    "IMG_FILENAME": "/Audio_blue-cable.png",
+    "LABEL_1": "Plug in the blue cable",
+    "LABEL_2": "If you see the light, it's powered!"
+  },
+  "TV_SPEAKERS_SCREEN": {
+    "IMG_FILENAME": "/tv-speakers.png",
+    "LABEL_1": "Let's switch to the TV speakers",
+    "LABEL_2": "If you are using a TV with speakers, click the button below"
+  },
+  "REBOOT": {
+      "LABEL_1": "Reboot",
+      "LABEL_2": "To apply changes and get sound from the TV, we'll need to do a quick reboot"
+    },
+  "KEYBOARD_SCREEN": {
+    "LABEL_1": "Keyboard",
+    "LABEL_2": "Where do you live? So I can set your keyboard"
+  },
+  "PROFILE_CREATED": {
+    "IMG_FILENAME" : "/profile_created.png",
+    "LABEL_1": "Profile created!",
+    "LABEL_2": "Now you can download music and videos, share your character, and connect with friends around the world."
+  },
+  "NO_PROFILE": {
+    "IMG_FILENAME" : "/no_profile.png",
+    "LABEL_1": "No online profile for now",
+    "LABEL_2": "Your profile is where you can store all your swag, badges and challenges. But fear not - we will save everything for when you have internet."
+  },
+  "SWAG_SCREEN": {
+      "LABEL_1": "Swag time!",
+      "LABEL_2": "As you play, you win! You unlocked a new badge, background and levelled up!"
+  }
+}
