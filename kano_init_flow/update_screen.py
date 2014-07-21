@@ -47,8 +47,7 @@ class UpdateScreen():
         sys.exit(exit_code)
 
     def next_screen(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
+        self.win.clear_win()
 
         SettingsIntroScreen(self.win)
 

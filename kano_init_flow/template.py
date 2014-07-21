@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python
 
-# stage.py
+# template.py
 #
 # Copyright (C) 2014 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
@@ -22,6 +22,26 @@ from kano.gtk3.buttons import KanoButton, OrangeButton
 from kano.gtk3.heading import Heading
 
 
+class KanoButtonBox(Gtk.ButtonBox):
+
+    def __init__(self, kano_button_text, orange_button_text):
+
+        Gtk.ButtonBox.__init__(self, spacing=10)
+        self.set_layout(Gtk.ButtonBoxStyle.SPREAD)
+
+        self.kano_button = KanoButton(kano_button_text)
+
+        if orange_button_text:
+            self.orange_button = OrangeButton(orange_button_text)
+            self.pack_start(self.orange_button, False, False, 0)
+            self.pack_start(self.kano_button, False, False, 0)
+            # The empty label is to centre the kano_button
+            label = Gtk.Label("    ")
+            self.pack_start(label, False, False, 0)
+        else:
+            self.pack_start(self.kano_button, False, False, 0)
+
+
 # Window class
 class Template(Gtk.Box):
 
@@ -32,21 +52,12 @@ class Template(Gtk.Box):
 
         self.image = Gtk.Image.new_from_file(img_filename)
         self.heading = Heading(title, description)
-        self.kano_button = KanoButton(kano_button_text)
+        self.button_box = KanoButtonBox(kano_button_text, orange_button_text)
+        self.kano_button = self.button_box.kano_button
 
         self.pack_start(self.image, False, False, 0)
         self.pack_start(self.heading.container, False, False, 0)
+        self.pack_start(self.button_box, False, False, 0)
 
-        button_box = Gtk.ButtonBox(spacing=10)
-        button_box.set_layout(Gtk.ButtonBoxStyle.SPREAD)
-        self.pack_start(button_box, False, False, 0)
-
-        if not orange_button_text == "":
-            self.orange_button = OrangeButton(orange_button_text)
-            button_box.pack_start(self.orange_button, False, False, 0)
-            button_box.pack_start(self.kano_button, False, False, 0)
-            # The empty label is to centre the kano_button
-            label = Gtk.Label("    ")
-            button_box.pack_start(label, False, False, 0)
-        else:
-            button_box.pack_start(self.kano_button, False, False, 0)
+    def get_orange_button(self):
+        return getattr(self.button_box, "orange_button", None)

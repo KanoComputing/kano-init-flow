@@ -29,7 +29,7 @@ class InternetScreen():
 
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
-        self.template.orange_button.connect("button_release_event", self.skip)
+        self.template.get_orange_button().connect("button_release_event", self.skip)
         self.win.show_all()
 
     def activate(self, widget, event):
@@ -37,4 +37,5 @@ class InternetScreen():
         sys.exit(exit_code)
 
     def skip(self, widget, event):
+        self.win.clear_win()
         UpdateScreen(self.win)
