@@ -13,15 +13,18 @@ from internet_screen import InternetScreen
 from update_screen import UpdateScreen
 from kano.network import is_internet
 import kano_init_flow.constants as constants
+from kano_init_flow.data import get_data
 
 
 class FirstScreen():
+    data = get_data("FIRST_SCREEN")
+
     def __init__(self, win):
 
         self.win = win
-        header = "We made it!"
-        subheader = "You made a computer - now let's give it new powers!"
-        self.template = Template(constants.media + "/made_it.png", header, subheader, "START SETUP", "")
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "START SETUP", "")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.show_all()

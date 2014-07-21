@@ -12,9 +12,13 @@ from template import Template
 from swag_screen import SwagScreen
 from kano_world.functions import is_registered
 import kano_init_flow.constants as constants
+from kano_init_flow.data import get_data
 
 
 class UnlockScreen():
+    profile_created_data = get_data("PROFILE_CREATED")
+    no_profile_data = get_data["NO_PROFILE"]
+
     def __init__(self, win):
 
         self.win = win
@@ -23,13 +27,13 @@ class UnlockScreen():
         login = is_registered()
 
         if login:
-            header = "Profile created!"
-            subheader = "Now you can download music and videos, share your character, and connect with friends around the world."
-            image += "/profile_created.png"
+            header = self.profile_created_data("LABEL_1")
+            subheader = self.profile_created_data("LABEL_1")
+            image += self.profile_created_data("IMG_FILENAME")
         else:
-            header = "No online profile for now"
-            subheader = "Your profile is where you can store all your swag, badges and challenges. But fear not - we will save everything for when you have internet."
-            image += "/no_profile.png"
+            header = self.no_profile_data("LABEL_1")
+            subheader = self.no_profile_data("LABEL_1")
+            image += self.no_profile_data("IMG_FILENAME")
 
         self.template = Template(image, header, subheader, "UNLOCK REWARDS", "")
         self.win.add(self.template)

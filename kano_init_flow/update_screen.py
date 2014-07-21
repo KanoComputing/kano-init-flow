@@ -14,11 +14,13 @@ from kano.network import is_internet
 from settings_intro_screen import SettingsIntroScreen
 from kano.utils import run_cmd
 import kano_init_flow.constants as constants
+from kano_init_flow.data import get_data
 
 
 class UpdateScreen():
-    def __init__(self, win):
+    data = get_data("UPDATE_SCREEN")
 
+    def __init__(self, win):
         self.win = win
 
         # check internet
@@ -28,8 +30,8 @@ class UpdateScreen():
 
         network = self.network_info()
         header = "You are connected to %s- Now let's update!" % network
-        subheader = "Updating takes about 10 minutes."
-        image = constants.media + "/update.png"
+        subheader = self.data["LABEL_2"]
+        image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "UPDATE NOW!", "")
         self.template.kano_button.connect("button_release_event", self.launch_updater)
 

@@ -12,16 +12,19 @@ from template import Template
 #from display_screen import DisplayScreen
 from audio_screen import AudioScreen
 import kano_init_flow.constants as constants
+from kano_init_flow.data import get_data
 
 
 class SettingsIntroScreen():
+    data = get_data("SETTINGS_INTRO_SCREEN")
+
     def __init__(self, win):
 
         self.win = win
 
-        header = "You have the power!"
-        subheader = "Update successful! Now let's test out your powers."
-        self.template = Template(constants.media + "/update_successful.png", header, subheader, "TEST SOUND", "")
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "TEST SOUND", "")
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.add(self.template)
 

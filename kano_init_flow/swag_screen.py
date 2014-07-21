@@ -11,15 +11,18 @@
 import sys
 from template import Template
 import kano_init_flow.constants as constants
+from kano_init_flow.data import get_data
 
 
 class SwagScreen():
+    data = get_data("SWAG_SCREEN")
+
     def __init__(self, win):
 
         self.win = win
-        header = "Swag time!"
-        subheader = "As you play, you win! You unlocked a new badge, background and levelled up!"
-        self.template = Template(constants.media + "/swag.png", header, subheader, "TO THE DESKTOP", "")
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "TO THE DESKTOP", "")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.show_all()

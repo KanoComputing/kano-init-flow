@@ -12,17 +12,19 @@ import sys
 from template import Template
 from settings_intro_screen import SettingsIntroScreen
 import kano_init_flow.constants as constants
+from kano_init_flow.data import get_data
 
 
 class InternetScreen():
+    data = get_data("INTERNET_SCREEN")
 
     def __init__(self, win):
 
         self.win = win
 
-        header = "Connect to the world"
-        subheader = "Let's setup Wifi and bring your Kano to life"
-        self.template = Template(constants.media + "/connect.png", header, subheader, "CONNECT", "No Internet")
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONNECT", "No Internet")
 
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
@@ -39,13 +41,14 @@ class InternetScreen():
 
 
 class NoInternetScreen():
+    data = get_data("NO_INTERNET_SCREEN")
 
     def __init__(self, win):
 
         self.win = win
-        header = "No internet?"
-        subheader = "Try again, or connect later. You need internet for most of Kano's cool powers."
-        image = constants.media + "/no_internet.png"
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
+        image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "TRY AGAIN", "Connect Later")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
@@ -62,13 +65,14 @@ class NoInternetScreen():
 
 
 class OfflineScreen():
+    data = get_data("OFFLINE_SCREEN")
 
     def __init__(self, win):
 
         self.win = win
-        header = "Internet trouble? We can help!"
-        subheader = "Kano is coolest when it's online. Go to http://help.kano.me and we''l help you."
-        image = constants.media + "/internet_trouble.png"
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
+        image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "PLAY OFFLINE", "")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.skip)
