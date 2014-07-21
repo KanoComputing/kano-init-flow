@@ -63,9 +63,7 @@ class AudioScreen():
         self.template.no_button.set_sensitive(True)
 
     def go_to_next(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         RebootScreen(self.win)
 
     def fix_sound(self, widget, event):
@@ -92,15 +90,11 @@ class AudioTutorial1():
         self.win.show_all()
 
     def end_screen(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         AudioTutorial3(self.win)
 
     def next_screen(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         AudioTutorial2(self.win)
 
 
@@ -119,9 +113,7 @@ class AudioTutorial2():
         self.win.show_all()
 
     def next_screen(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         AudioTutorial3(self.win)
 
 
@@ -140,9 +132,7 @@ class AudioTutorial3():
         self.win.show_all()
 
     def next_screen(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         AudioScreen(self.win)
 
 
@@ -180,9 +170,6 @@ class TvSpeakersScreen():
         # TODO: indicate kano-settings that we are now in HDMI
 
         self.win.clear_win()
-        for child in self.win:
-            self.win.remove(child)
-
         RebootScreen(self.win)
 
     def go_to_next(self, widget, event):

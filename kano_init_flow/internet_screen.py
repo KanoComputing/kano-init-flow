@@ -34,9 +34,7 @@ class InternetScreen():
         sys.exit(exit_code)
 
     def skip(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         NoInternetScreen(self.win)
 
 
@@ -59,9 +57,7 @@ class NoInternetScreen():
         sys.exit(exit_code)
 
     def next_screen(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         OfflineScreen(self.win)
 
 
@@ -79,7 +75,5 @@ class OfflineScreen():
         self.win.show_all()
 
     def skip(self, widget, event):
-        for child in self.win:
-            self.win.remove(child)
-
+        self.win.clear_win()
         SettingsIntroScreen(self.win)
