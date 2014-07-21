@@ -28,12 +28,6 @@
     "LABEL_1": "You have the power!",
     "LABEL_2": "Update successful! Now let's test out your powers."
   },
-  "DISPLAY_SCREEN": {
-    "KEYBOARD_FILENAME": "enter.png",
-    "COLOUR_JUDOKA_FILENAME": "judoka-coloured.png",
-    "LABEL_1": "Yes! Computer colours are the coolest",
-    "LABEL_2": "Press [ENTER] to continue"
-  },
   "AUDIO_SCREEN": {
     "IMG_FILENAME": "enter.png",
     "LABEL_1": "Can you hear me?",
@@ -78,6 +72,7 @@
     "LABEL_2": "Your profile is where you can store all your swag, badges and challenges. But fear not - we will save everything for when you have internet."
   },
   "SWAG_SCREEN": {
+      "IMG_FILENAME": "/swag.png",
       "LABEL_1": "Swag time!",
       "LABEL_2": "As you play, you win! You unlocked a new badge, background and levelled up!"
   }
