@@ -16,6 +16,7 @@ from template import Template
 from kano.utils import play_sound
 from kano_settings.config_file import file_replace
 import kano_init_flow.constants as constants
+from kano_init_flow.reboot_screen import RebootScreen
 
 number_tries = 0
 
@@ -62,8 +63,10 @@ class AudioScreen():
         self.template.no_button.set_sensitive(True)
 
     def go_to_next(self, widget, event):
-        exit_code = self.template.exit_codes["launch_profile"]
-        sys.exit(exit_code)
+        for child in self.win:
+            self.win.remove(child)
+
+        RebootScreen(self.win)
 
     def fix_sound(self, widget, event):
         self.win.clear_win()
@@ -174,27 +177,12 @@ class TvSpeakersScreen():
         # TODO: indicate kano-settings that we are now in HDMI
 
         self.win.clear_win()
-        Reboot(self.win)
+        for child in self.win:
+            self.win.remove(child)
+
+        RebootScreen(self.win)
 
     def go_to_next(self, widget, event):
         exit_code = self.template.exit_codes["launch_profile"]
         sys.exit(exit_code)
 
-
-class Reboot():
-    def __init__(self, win):
-
-        self.win = win
-
-        header = "Reboot"
-        subheader = "To apply changes and get sound from the TV, we'll need to do a quick reboot"
-        self.template = Template("../media/images/image_5.png", header, subheader, "REBOOT", "")
-        self.template.kano_button.connect("button_release_event", self.reboot)
-        self.win.add(self.template)
-
-        self.win.show_all()
-
-    def reboot(self, widget, event):
-        # For now
-        exit_code = self.template.exit_codes["reboot"]
-        sys.exit(exit_code)

@@ -27,7 +27,7 @@ from kano_init_flow.display_screen import DisplayScreen
 from kano_init_flow.audio_screen import AudioScreen
 from kano_init_flow.unlock_screen import UnlockScreen
 from kano_init_flow.keyboard_screen import KeyboardScreen
-
+from kano_init_flow.reboot_screen import RebootScreen
 
 refs = {
     0: FirstScreen,
@@ -38,6 +38,7 @@ refs = {
     5: AudioScreen,
     6: UnlockScreen,
     7: KeyboardScreen,
+    8: RebootScreen,
 }
 
 
@@ -78,7 +79,7 @@ def main():
         if not text is None and is_number(text):
             stage_number = int(text)
 
-    win = MainWindow(stage_number)
+    MainWindow(stage_number)
     Gtk.main()
 
 
