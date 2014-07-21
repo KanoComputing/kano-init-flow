@@ -45,18 +45,19 @@ class KanoButtonBox(Gtk.ButtonBox):
 # Window class
 class Template(Gtk.Box):
 
-    exit_codes = {"launch_wifi": 1, "launch_updater": 2, "reboot": 4, "launch_profile": 5}
+    exit_codes = {"launch_wifi": 1, "launch_updater": 2, "launch_profile": 5}
 
     def __init__(self, img_filename, title, description, kano_button_text, orange_button_text):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
-        self.image = Gtk.Image.new_from_file(img_filename)
+        if img_filename is not None:
+            self.image = Gtk.Image.new_from_file(img_filename)
+            self.pack_start(self.image, False, False, 0)
         self.heading = Heading(title, description)
         self.button_box = KanoButtonBox(kano_button_text, orange_button_text)
         self.kano_button = self.button_box.kano_button
         self.orange_button = self.get_orange_button()
 
-        self.pack_start(self.image, False, False, 0)
         self.pack_start(self.heading.container, False, False, 0)
         self.pack_start(self.button_box, False, False, 0)
 

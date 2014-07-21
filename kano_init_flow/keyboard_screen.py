@@ -153,12 +153,14 @@ class KeyboardScreen(Gtk.Box):
     def apply_changes(self, widget, event):
         global variants_combo
 
-        # Apply changes
-        thread = WorkerThread(self.work_finished_cb)
-        thread.start()
+        # Check for changes
+        if selected_country != "USA" and selected_variant != "generic":
+            # Apply changes
+            thread = WorkerThread(self.work_finished_cb)
+            thread.start()
 
-        # Save the changes in the config
-        self.update_config()
+            # Save the changes in the config
+            self.update_config()
 
         # Exit
         sys.exit(0)
