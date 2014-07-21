@@ -33,7 +33,7 @@ class UpdateScreen():
             subheader = "Try again, or connect later. You need internet for most of Kano's cool powers."
             self.template = Template(constants.media + "/update.png", header, subheader, "TRY AGAIN", "Connect Later")
             self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
-            self.template.orange_button.connect("button_release_event", self.next_screen)
+            self.template.get_orange_button().connect("button_release_event", self.next_screen)
 
         self.win.add(self.template)
         self.win.show_all()
@@ -48,7 +48,6 @@ class UpdateScreen():
 
     def next_screen(self, widget, event):
         self.win.clear_win()
-
         SettingsIntroScreen(self.win)
 
     # TODO: This is duplicated code from kano_settings/set_wifi/wifi.py

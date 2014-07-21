@@ -19,13 +19,15 @@ class InternetScreen():
     def __init__(self, win):
 
         self.win = win
-        header = "Connect to the world"
-        subheader = "Let's setup Wifi and bring your Kano to life"
-        self.template = Template(constants.media + "/connect.png", header, subheader, "CONNECT", "No Internet")
 
         # Check first for internet
         if is_internet():
             self.skip(None, None)
+            return
+
+        header = "Connect to the world"
+        subheader = "Let's setup Wifi and bring your Kano to life"
+        self.template = Template(constants.media + "/connect.png", header, subheader, "CONNECT", "No Internet")
 
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
@@ -37,5 +39,4 @@ class InternetScreen():
         sys.exit(exit_code)
 
     def skip(self, widget, event):
-        self.win.clear_win()
         UpdateScreen(self.win)
