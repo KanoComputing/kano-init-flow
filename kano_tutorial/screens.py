@@ -6,7 +6,7 @@
 # screens.py
 
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 import os
 import sys
 
@@ -26,7 +26,10 @@ class ButtonTemplate(Gtk.Button):
         Gtk.Button.__init__(self)
 
         self.get_style_context().add_class("drag_source")
-        self.set_size_request(1024, 450)
+
+        self.width = Gdk.Screen.width()
+        self.height = Gdk.Screen.height() / 2
+        self.set_size_request(self.width, self.height)
 
         # Container for the elements in the box
         self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)

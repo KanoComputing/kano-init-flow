@@ -37,8 +37,8 @@ class Judoka(Gtk.EventBox):
         drag_icon_filename = os.path.join(media_dir, data_3["DRAGGING_JUDOKA_FILENAME"])
         drag_bg_filename = os.path.join(media_dir, data_3["DRAGGING_BG_FILENAME"])
 
-        self.width = 512
-        self.height = 500
+        self.width = Gdk.Screen.width() / 2
+        self.height = Gdk.Screen.height() / 2
         self.set_size_request(self.width, self.height)
 
         self.image = Gtk.Image.new_from_file(img_filename)
@@ -119,8 +119,8 @@ class DropArea(Gtk.Button):
 
         self.get_style_context().add_class("drag_dest")
 
-        self.width = 512
-        self.height = 500
+        self.width = Gdk.Screen.width() / 2
+        self.height = Gdk.Screen.height() / 2
         self.set_size_request(self.width, self.height)
 
         label1_text = data_4["LABEL_1"]

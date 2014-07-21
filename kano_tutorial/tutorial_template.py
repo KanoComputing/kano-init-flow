@@ -9,7 +9,7 @@
 #
 
 import os
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from data import get_data
 from kano_tutorial.paths import media_dir
 
@@ -19,13 +19,20 @@ class TutorialTemplate(Gtk.Box):
     def __init__(self, level=1):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
+        self.eventbox = Gtk.EventBox()
+        width = Gdk.Screen.width() / 2
+        height = Gdk.Screen.height() / 2
+        self.eventbox.set_size_request(width, height)
+
         self.keyboard = Gtk.Image()
+        self.eventbox.add(self.keyboard)
+        self.eventbox.get_style_context().add_class("keyboard")
 
         self.box = Gtk.Box()
         align = Gtk.Alignment(xscale=0, xalign=0.5)
         align.add(self.box)
         self.pack_start(align, False, False, 0)
-        self.pack_start(self.keyboard, False, False, 0)
+        self.pack_start(self.eventbox, False, False, 0)
         self.set_from_level(level)
 
     def set_from_level(self, level):
