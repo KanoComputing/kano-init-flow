@@ -27,13 +27,13 @@ class UnlockScreen():
         login = is_registered()
 
         if login:
-            header = self.profile_created_data("LABEL_1")
-            subheader = self.profile_created_data("LABEL_1")
-            image += self.profile_created_data("IMG_FILENAME")
+            header = self.profile_created_data["LABEL_1"]
+            subheader = self.profile_created_data["LABEL_2"]
+            image += self.profile_created_data["IMG_FILENAME"]
         else:
-            header = self.no_profile_data("LABEL_1")
-            subheader = self.no_profile_data("LABEL_1")
-            image += self.no_profile_data("IMG_FILENAME")
+            header = self.no_profile_data["LABEL_1"]
+            subheader = self.no_profile_data["LABEL_2"]
+            image += self.no_profile_data["IMG_FILENAME"]
 
         self.template = Template(image, header, subheader, "UNLOCK REWARDS", "")
         self.win.add(self.template)
