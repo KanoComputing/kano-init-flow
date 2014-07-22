@@ -17,7 +17,7 @@ from kano_init_flow.data import get_data
 
 class UnlockScreen():
     profile_created_data = get_data("PROFILE_CREATED")
-    no_profile_data = get_data["NO_PROFILE"]
+    no_profile_data = get_data("NO_PROFILE")
 
     def __init__(self, win):
 
