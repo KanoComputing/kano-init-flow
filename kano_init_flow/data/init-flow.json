@@ -29,7 +29,7 @@
     "LABEL_2": "Update successful! Now let's test out your powers."
   },
   "AUDIO_SCREEN": {
-    "IMG_FILENAME": "enter.png",
+    "IMG_FILENAME": "/sound_test.png",
     "LABEL_1": "Can you hear me?",
     "LABEL_2": ""
   },
