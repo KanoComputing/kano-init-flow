@@ -49,6 +49,8 @@ class AudioHintTemplate(Template):
         hint.get_style_context().add_class("hint_label")
 
         self.heading.container.pack_start(hint, False, False, 0)
+        self.heading.container.set_size_request(590, 140)
+        self.button_box.set_size_request(590, 50)
 
 
 class AudioScreen():
@@ -146,7 +148,7 @@ class AudioTutorial3():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", "", hint)
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", "", hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.set_size_request(590, 540)
         self.win.add(self.template)
