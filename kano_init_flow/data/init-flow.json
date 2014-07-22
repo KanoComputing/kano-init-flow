@@ -12,7 +12,7 @@
   "NO_INTERNET_SCREEN": {
     "IMG_FILENAME": "/no_internet.png",
     "LABEL_1": "No internet?",
-    "LABEL_2": "Try again, or connect later. You need internet for most of Kano's cool powers."
+    "LABEL_2": "Try again, or connect later. You need internet for most of Kano's coolest powers."
   },
   "OFFLINE_SCREEN": {
       "IMG_FILENAME": "/internet_trouble.png",
