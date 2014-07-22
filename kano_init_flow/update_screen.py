@@ -44,7 +44,7 @@ class UpdateScreen():
 
     def next_screen(self):
         self.win.clear_win()
-        SettingsIntroScreen(self.win)
+        SettingsIntroScreen(self.win, False)
 
     # TODO: This is duplicated code from kano_settings/set_wifi/wifi.py
     def network_info(self):

@@ -80,4 +80,4 @@ class OfflineScreen():
 
     def skip(self, widget, event):
         self.win.clear_win()
-        SettingsIntroScreen(self.win)
+        SettingsIntroScreen(self.win, False)
