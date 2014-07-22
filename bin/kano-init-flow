@@ -77,6 +77,14 @@ class MainWindow(Gtk.Window):
         for i in self.get_children():
             self.remove(i)
 
+    def set_size_template(self, string):
+        if string == "normal":
+            self.set_size_request(590, 440)
+        elif string == "short":
+            self.set_size_request(590, 150)
+        elif string == "tall":
+            self.set_size_request(590, 540)
+
 
 def main():
     stage_number = 0
