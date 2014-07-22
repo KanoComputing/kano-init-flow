@@ -9,12 +9,11 @@
 
 import json
 import os
-from kano_init_flow.constants import media
 
 
 def get_data(string):
 
-    filename = os.path.join(media + "/data/init-flow.json")
+    filename = os.path.join("/usr/lib/python2.7/dist-packages/kano_init_flow/data/init-flow.json")
     json_data = open(filename)
     data = json.load(json_data)
     stage_data = data[string]
