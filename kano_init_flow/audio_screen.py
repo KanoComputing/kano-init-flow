@@ -199,6 +199,5 @@ class TvSpeakersScreen():
         RebootScreen(self.win)
 
     def go_to_next(self, widget, event):
-        exit_code = self.template.exit_codes["launch_profile"]
-        sys.exit(exit_code)
+        RebootScreen(self.win)
 

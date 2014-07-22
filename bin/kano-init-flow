@@ -70,7 +70,6 @@ class MainWindow(Gtk.Window):
         self.goto(stage)
 
     def goto(self, stage):
-        #self.clear_win()
         refs[stage](self)
 
     def clear_win(self):

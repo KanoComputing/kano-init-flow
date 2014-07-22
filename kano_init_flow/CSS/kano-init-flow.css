@@ -9,4 +9,5 @@
 
 .hint_label {
     font: Bariol Bold 13px;
+    color: @active_text;
 }
