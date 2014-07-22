@@ -40,6 +40,17 @@ class AudioTemplate(Template):
         self.pack_start(button_box, False, False, 10)
 
 
+class AudioHintTemplate(Template):
+
+    def __init__(self, img_filename, title, description, kano_button_text, orange_button_text, hint_text):
+        Template.__init__(self, img_filename, title, description, kano_button_text, orange_button_text)
+
+        hint = Gtk.Label(hint_text)
+        hint.get_style_context().add_class("hint_label")
+
+        self.heading.container.pack_start(hint, False, False, 0)
+
+
 class AudioScreen():
     data = get_data("AUDIO_SCREEN")
 
@@ -112,7 +123,8 @@ class AudioTutorial2():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", "")
+        hint = self.data["LABEL_3"]
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", "", hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.set_size_request(590, 540)
         self.win.add(self.template)
@@ -133,7 +145,8 @@ class AudioTutorial3():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", "")
+        hint = self.data["LABEL_3"]
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", "", hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.set_size_request(590, 540)
         self.win.add(self.template)
