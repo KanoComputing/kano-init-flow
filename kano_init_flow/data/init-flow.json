@@ -36,12 +36,12 @@
   "AUDIO_TUTORIAL_1": {
     "IMG_FILENAME": "/Audio_See_the_light.png",
     "LABEL_1": "Can you see the light?",
-    "LABEL_2": "If the power plug is connected properly you should see a blue light."
+    "LABEL_2": "If the power lead is connected correctly, you should see a blue light."
   },
   "AUDIO_TUTORIAL_2": {
     "IMG_FILENAME": "/Audio_GPIO.png",
     "LABEL_1": "No light? Check the GPIO",
-    "LABEL_2": "Make sure that you've connected the power lead to the right pins."
+    "LABEL_2": "The red and black cables have to be connected to these two pins – exactly."
   },
   "AUDIO_TUTORIAL_3": {
     "IMG_FILENAME": "/Audio_blue-cable.png",
@@ -51,11 +51,11 @@
   "TV_SPEAKERS_SCREEN": {
     "IMG_FILENAME": "/tv-speakers.png",
     "LABEL_1": "Let's switch to the TV speakers",
-    "LABEL_2": "If you are using a TV with speakers, click the button below"
+    "LABEL_2": "If you're using a TV with speakers, click the button below"
   },
   "REBOOT": {
-      "LABEL_1": "Reboot",
-      "LABEL_2": "To apply changes and get sound from the TV, we'll need to do a quick reboot"
+      "LABEL_1": "Time to reboot",
+      "LABEL_2": "To finish setup, we have to do a quick reboot. Don't worry! Everything is saved."
     },
   "KEYBOARD_SCREEN": {
     "LABEL_1": "Keyboard",
