@@ -12,7 +12,7 @@ import os
 from kano_init_flow.constants import media
 
 
-def get_data(stage, string):
+def get_data(string):
 
     filename = os.path.join(media + "/data/init-flow.json")
     json_data = open(filename)
