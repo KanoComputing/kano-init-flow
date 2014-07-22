@@ -12,7 +12,7 @@
   "NO_INTERNET_SCREEN": {
     "IMG_FILENAME": "/no_internet.png",
     "LABEL_1": "No internet?",
-    "LABEL_2": "Try again, or connect later. You need internet for most of Kano's cool powers."
+    "LABEL_2": "Try again, or connect later. You need internet for most of Kano's coolest powers."
   },
   "OFFLINE_SCREEN": {
       "IMG_FILENAME": "/internet_trouble.png",
@@ -21,7 +21,7 @@
     },
   "UPDATE_SCREEN": {
     "IMG_FILENAME": "/update.png",
-    "LABEL_2": "Updating takes about 10 minutes."
+    "LABEL_2": "Updating takes about 15 minutes."
   },
   "SETTINGS_INTRO_SCREEN": {
     "IMG_FILENAME": "/update_successful.png",
@@ -36,12 +36,12 @@
   "AUDIO_TUTORIAL_1": {
     "IMG_FILENAME": "/Audio_See_the_light.png",
     "LABEL_1": "Can you see the light?",
-    "LABEL_2": "If the power plug is connected properly you should see a blue light."
+    "LABEL_2": "If the power lead is connected correctly, you should see a blue light."
   },
   "AUDIO_TUTORIAL_2": {
     "IMG_FILENAME": "/Audio_GPIO.png",
     "LABEL_1": "No light? Check the GPIO",
-    "LABEL_2": "Make sure that you've connected the power lead to the right pins.",
+    "LABEL_2": "The red and black cables have to be connected to these two pins – exactly.",
     "LABEL_3": "Make sure the red cable is on top."
   },
   "AUDIO_TUTORIAL_3": {
@@ -53,11 +53,11 @@
   "TV_SPEAKERS_SCREEN": {
     "IMG_FILENAME": "/tv-speakers.png",
     "LABEL_1": "Let's switch to the TV speakers",
-    "LABEL_2": "If you are using a TV with speakers, click the button below"
+    "LABEL_2": "If you're using a TV with speakers, click the button below"
   },
   "REBOOT_SCREEN": {
       "LABEL_1": "Time to reboot",
-      "LABEL_2": "To finish setup, we just have to do a quick reboot. Don't worry! Everything is saved"
+      "LABEL_2": "To finish setup, we have to do a quick reboot. Don't worry! Everything is saved."
     },
   "KEYBOARD_SCREEN": {
     "LABEL_1": "Keyboard",

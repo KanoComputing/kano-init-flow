@@ -10,7 +10,7 @@
 
 import os
 import sys
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 if __name__ == '__main__' and __package__ is None:
     dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -28,6 +28,7 @@ from kano_init_flow.audio_screen import AudioScreen
 from kano_init_flow.unlock_screen import UnlockScreen
 from kano_init_flow.keyboard_screen import KeyboardScreen
 from kano_init_flow.reboot_screen import RebootScreen
+from kano_init_flow.paths import css_dir
 
 refs = {
     0: FirstScreen,
@@ -51,6 +52,12 @@ class MainWindow(Gtk.Window):
         WINDOW_HEIGHT = 440
 
         apply_styles()
+        specific_css = Gtk.CssProvider()
+        css_path = os.path.join(css_dir, "kano-init-flow.css")
+        specific_css.load_from_path(css_path)
+        screen = Gdk.Screen.get_default()
+        styleContext = Gtk.StyleContext()
+        styleContext.add_provider_for_screen(screen, specific_css, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
         # Create main window
         Gtk.Window.__init__(self, title="Kano")
@@ -59,10 +66,11 @@ class MainWindow(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_resizable(False)
         self.connect("delete-event", Gtk.main_quit)
+        self.show_all()
         self.goto(stage)
 
     def goto(self, stage):
-        self.clear_win()
+        #self.clear_win()
         refs[stage](self)
 
     def clear_win(self):

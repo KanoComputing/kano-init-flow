@@ -9,8 +9,8 @@
     "TUTORIAL_2": {
     "KEYBOARD_FILENAME": "enter.png",
     "JUDOKA_FILENAME": "judoka-fixed.png",
-    "LABEL_1": "Wow thanks - you fixed me!",
-    "LABEL_2": "Now I just need my colours.",
+    "LABEL_1": "Good clicking, you fixed me!",
+    "LABEL_2": "Now I just need my colors.",
     "LABEL_3": "Press [ENTER] to continue"
   },
   "TUTORIAL_3": {
@@ -18,13 +18,13 @@
     "WORD_JUDOKA_FILENAME": "judoka-pointing.png",
     "DRAGGING_JUDOKA_FILENAME": "judoka-dragged.png",
     "DRAGGING_BG_FILENAME": "judoka-dragged-BG.png",
-    "LABEL_1": "I'm stuck in a world of words",
-    "LABEL_2": "Drag me to the color to activate colours"
+    "LABEL_1": "I can show you more pictures!",
+    "LABEL_2": "Click and drag me to the color"
   },
   "TUTORIAL_4": {
     "KEYBOARD_FILENAME": "enter.png",
     "COLOUR_JUDOKA_FILENAME": "judoka-coloured.png",
-    "LABEL_1": "Yes! Computer colours are the coolest",
+    "LABEL_1": "Nice work, keyboard ninja!",
     "LABEL_2": "Press [ENTER] to continue"
   }
 }
