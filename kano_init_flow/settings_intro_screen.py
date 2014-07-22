@@ -18,12 +18,15 @@ from kano_init_flow.data import get_data
 class SettingsIntroScreen():
     data = get_data("SETTINGS_INTRO_SCREEN")
 
-    def __init__(self, win):
+    def __init__(self, win, internet=True):
 
         self.win = win
 
         header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
+        if internet:
+            subheader = self.data["LABEL_2"]
+        else:
+            subheader = self.data["LABEL_3"]
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "TEST SOUND", "")
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.add(self.template)
@@ -32,5 +35,5 @@ class SettingsIntroScreen():
 
     def activate(self, widget, event):
         self.win.clear_win()
-        # DisplayScreen(self.win)
+        # TODO: DisplayScreen(self.win)
         AudioScreen(self.win)

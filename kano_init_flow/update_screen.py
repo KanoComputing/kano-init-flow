@@ -29,7 +29,7 @@ class UpdateScreen():
             return
 
         network = self.network_info()
-        header = "You are connected to %s- Now let's update!" % network
+        header = "You are connected to %s - Now let's update!" % network
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "UPDATE NOW!", "")
@@ -44,7 +44,7 @@ class UpdateScreen():
 
     def next_screen(self):
         self.win.clear_win()
-        SettingsIntroScreen(self.win)
+        SettingsIntroScreen(self.win, False)
 
     # TODO: This is duplicated code from kano_settings/set_wifi/wifi.py
     def network_info(self):
