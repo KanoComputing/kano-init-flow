@@ -19,7 +19,7 @@ class RebootScreen():
     def __init__(self, win):
 
         self.win = win
-        self.win.set_size_request(590, 150)
+        self.win.set_size_template("short")
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         self.template = Template(None, header, subheader, "REBOOT", "")
