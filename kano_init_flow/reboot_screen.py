@@ -10,14 +10,18 @@
 
 import sys
 from template import Template
+from kano_init_flow.data import get_data
 
 
 class RebootScreen():
+    data = get_data("REBOOT_SCREEN")
+
     def __init__(self, win):
 
         self.win = win
-        header = "Time to reboot"
-        subheader = "To finish setup, we just have to do a quick reboot. Don't worry! Everything is saved"
+        self.win.set_size_request(590, 150)
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
         self.template = Template(None, header, subheader, "REBOOT", "")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
