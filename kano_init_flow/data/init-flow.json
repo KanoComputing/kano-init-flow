@@ -17,7 +17,7 @@
   "OFFLINE_SCREEN": {
       "IMG_FILENAME": "/internet_trouble.png",
       "LABEL_1": "Internet trouble? We can help!",
-      "LABEL_2": "Kano is coolest when it's online. Go to http://help.kano.me and we'll help you."
+      "LABEL_2": "Visit http://help.kano.me on another device, or email wifi@kano.me. You can play offline in the meantime."
     },
   "UPDATE_SCREEN": {
     "IMG_FILENAME": "/update.png",
