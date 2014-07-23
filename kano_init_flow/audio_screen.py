@@ -8,7 +8,6 @@
 # Screen for configuring audio
 #
 
-import sys
 from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
@@ -68,6 +67,7 @@ class AudioScreen():
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
+        self.win.set_size_template("normal")
         self.win.add(self.template)
 
         self.win.show_all()
