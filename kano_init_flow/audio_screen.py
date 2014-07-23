@@ -199,5 +199,7 @@ class TvSpeakersScreen():
         RebootScreen(self.win)
 
     def go_to_next(self, widget, event):
+
+        self.win.clear_win()
         RebootScreen(self.win)
 
