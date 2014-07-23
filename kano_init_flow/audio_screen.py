@@ -67,8 +67,8 @@ class AudioScreen():
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
-        self.win.set_size_template("normal")
         self.win.add(self.template)
+        self.win.set_size_template("normal")
 
         self.win.show_all()
 
@@ -80,11 +80,13 @@ class AudioScreen():
 
     def go_to_next(self, widget, event):
         self.win.clear_win()
+        move_window(self.win, 0, 150)
         RebootScreen(self.win)
 
     def fix_sound(self, widget, event):
         self.win.clear_win()
         if number_tries == 1:
+            move_window(self.win, 0, -50)
             AudioTutorial1(self.win)
         else:
             TvSpeakersScreen(self.win)
@@ -109,10 +111,12 @@ class AudioTutorial1():
 
     def end_screen(self, widget, event):
         self.win.clear_win()
+        move_window(self.win, 0, -50)
         AudioTutorial3(self.win)
 
     def next_screen(self, widget, event):
         self.win.clear_win()
+        move_window(self.win, 0, -50)
         AudioTutorial2(self.win)
 
 
@@ -157,6 +161,10 @@ class AudioTutorial3():
 
     def next_screen(self, widget, event):
         self.win.clear_win()
+        move_window(self.win, 0, 100)
+        self.template.set_size_request(590, 100)
+        self.win.set_size_template("normal")
+
         AudioScreen(self.win)
 
 
@@ -196,11 +204,17 @@ class TvSpeakersScreen():
 
         # TODO: indicate kano-settings that we are now in HDMI
 
+        self.got_to_next()
+
+    def go_to_next(self, widget=None, event=None):
+
         self.win.clear_win()
+        move_window(self.win, 0, 150)
         RebootScreen(self.win)
 
-    def go_to_next(self, widget, event):
 
-        self.win.clear_win()
-        RebootScreen(self.win)
-
+def move_window(window, dx=0, dy=0):
+    # Hacky way of moving the window back to the centre
+    # Get current coordinates, then move the window up by 100 pixels
+    x, y = window.get_position()
+    window.move(x + dx, y + dy)
