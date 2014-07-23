@@ -8,6 +8,6 @@
 */
 
 .hint_label {
-    font: Bariol Bold 13px;
-    color: @active_text;
+    font: Bariol Bold 14px;
+    color: @active_writing;
 }
