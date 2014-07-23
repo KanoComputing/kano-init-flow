@@ -128,8 +128,8 @@ class AudioTutorial2():
         hint = self.data["LABEL_3"]
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", "", hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
-        self.template.set_size_request(590, 540)
         self.win.add(self.template)
+        self.win.set_size_template("tall")
 
         self.win.show_all()
 
@@ -150,8 +150,8 @@ class AudioTutorial3():
         hint = self.data["LABEL_3"]
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", "", hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
-        self.template.set_size_request(590, 540)
         self.win.add(self.template)
+        self.win.set_size_template("tall")
 
         self.win.show_all()
 
@@ -173,6 +173,7 @@ class TvSpeakersScreen():
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.win.add(self.template)
+        self.win.set_size_template("normal")
 
         self.win.show_all()
 

@@ -82,7 +82,7 @@ class MainWindow(Gtk.Window):
         elif string == "short":
             self.set_size_request(590, 150)
         elif string == "tall":
-            self.set_size_request(590, 540)
+            self.set_size_request(590, 570)
 
 
 def main():
