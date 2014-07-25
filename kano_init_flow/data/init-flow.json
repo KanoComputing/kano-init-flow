@@ -33,6 +33,7 @@
     "IMG_FILENAME": "/sound_test.png",
     "LABEL_1": "Can you hear me?",
     "LABEL_2": ""
+    "LABEL_3": "Let's try again – can you hear me now?"
   },
   "AUDIO_TUTORIAL_1": {
     "IMG_FILENAME": "/Audio_See_the_light.png",

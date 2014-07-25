@@ -24,7 +24,7 @@ class InternetScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONNECT", "No Internet")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONNECT", "No internet")
 
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
@@ -49,7 +49,7 @@ class NoInternetScreen():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]
-        self.template = Template(image, header, subheader, "TRY AGAIN", "Connect Later")
+        self.template = Template(image, header, subheader, "TRY AGAIN", "Connect later")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
         self.template.orange_button.connect("button_release_event", self.next_screen)
