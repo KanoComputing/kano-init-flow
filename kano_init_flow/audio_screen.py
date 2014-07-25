@@ -61,7 +61,10 @@ class AudioScreen():
         self.win = win
         number_tries += 1
 
-        header = self.data["LABEL_1"]
+        if number_tries == 0:
+            header = self.data["LABEL_1"]
+        else:
+            header = self.data["LABEL_3"]
         subheader = self.data["LABEL_2"]
         self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "PLAY SOUND", "")
         self.template.kano_button.connect("button_release_event", self.play_sound)
