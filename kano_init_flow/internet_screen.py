@@ -46,6 +46,7 @@ class NoInternetScreen():
     def __init__(self, win):
 
         self.win = win
+        self.win.set_resizable(True)
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]

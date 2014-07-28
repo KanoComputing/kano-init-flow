@@ -44,6 +44,5 @@ class UnlockScreen():
 
     def activate(self, widget, event):
         self.win.clear_win()
-        self.win.set_resizable(False)
         self.win.set_size_template("normal")
         SwagScreen(self.win)

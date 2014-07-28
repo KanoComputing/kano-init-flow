@@ -11,12 +11,14 @@
 from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
+from kano.gtk3.heading import Heading
 from template import Template
 from kano.utils import play_sound
 from kano_settings.config_file import file_replace
 import kano_init_flow.constants as constants
 from kano_init_flow.reboot_screen import RebootScreen
 from kano_init_flow.data import get_data
+from kano_init_flow.paths import media_dir
 
 number_tries = 0
 
@@ -24,9 +26,20 @@ number_tries = 0
 class AudioTemplate(Template):
 
     def __init__(self, img_filename, title, description, kano_button_text, orange_button_text):
-        Template.__init__(self, img_filename, title, description, kano_button_text, orange_button_text)
+        Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
-        button_box = Gtk.ButtonBox(spacing=10)
+        if img_filename is not None:
+            self.image = Gtk.Image.new_from_file(img_filename)
+            self.pack_start(self.image, False, False, 0)
+        self.heading = Heading(title, description)
+
+        self.kano_button = KanoButton(text="PLAY SOUND", color="blue", icon_filename=media_dir + "/play-sound.png")
+        self.kano_button.pack_and_align()
+        self.kano_button.set_margin_top(10)
+        self.pack_start(self.heading.container, False, False, 0)
+        self.pack_start(self.kano_button.align, False, False, 0)
+
+        button_box = Gtk.ButtonBox(spacing=15)
         button_box.set_layout(Gtk.ButtonBoxStyle.CENTER)
 
         self.yes_button = KanoButton("YES")
@@ -35,8 +48,9 @@ class AudioTemplate(Template):
         self.no_button.set_sensitive(False)
         button_box.pack_start(self.yes_button, False, False, 0)
         button_box.pack_start(self.no_button, False, False, 0)
+        button_box.set_margin_bottom(5)
 
-        self.pack_start(button_box, False, False, 10)
+        self.pack_start(button_box, False, False, 15)
 
 
 class AudioHintTemplate(Template):
@@ -48,8 +62,6 @@ class AudioHintTemplate(Template):
         hint.get_style_context().add_class("hint_label")
 
         self.heading.container.pack_start(hint, False, False, 0)
-        self.heading.container.set_size_request(590, 140)
-        self.button_box.set_size_request(590, 50)
 
 
 class AudioScreen():
@@ -59,7 +71,6 @@ class AudioScreen():
         global number_tries
 
         self.win = win
-        number_tries += 1
 
         if number_tries == 0:
             header = self.data["LABEL_1"]
@@ -71,9 +82,11 @@ class AudioScreen():
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
         self.win.add(self.template)
-        self.win.set_size_template("normal")
+        self.win.reset_allocation()
 
         self.win.show_all()
+
+        number_tries += 1
 
     def play_sound(self, widget, event):
 
@@ -83,13 +96,11 @@ class AudioScreen():
 
     def go_to_next(self, widget, event):
         self.win.clear_win()
-        move_window(self.win, 0, 150)
         RebootScreen(self.win)
 
     def fix_sound(self, widget, event):
         self.win.clear_win()
         if number_tries == 1:
-            move_window(self.win, 0, -50)
             AudioTutorial1(self.win)
         else:
             TvSpeakersScreen(self.win)
@@ -107,19 +118,16 @@ class AudioTutorial1():
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", "NO")
         self.template.kano_button.connect("button_release_event", self.end_screen)
         self.template.orange_button.connect("button_release_event", self.next_screen)
-        self.template.set_size_request(590, 540)
         self.win.add(self.template)
 
         self.win.show_all()
 
     def end_screen(self, widget, event):
         self.win.clear_win()
-        move_window(self.win, 0, -50)
         AudioTutorial3(self.win)
 
     def next_screen(self, widget, event):
         self.win.clear_win()
-        move_window(self.win, 0, -50)
         AudioTutorial2(self.win)
 
 
@@ -136,7 +144,6 @@ class AudioTutorial2():
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", "", hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.win.add(self.template)
-        self.win.set_size_template("tall")
 
         self.win.show_all()
 
@@ -158,15 +165,12 @@ class AudioTutorial3():
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", "", hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.win.add(self.template)
-        self.win.set_size_template("tall")
+        self.win.reset_allocation()
 
         self.win.show_all()
 
     def next_screen(self, widget, event):
         self.win.clear_win()
-        move_window(self.win, 0, 100)
-        self.template.set_size_request(590, 100)
-        self.win.set_size_template("normal")
 
         AudioScreen(self.win)
 
@@ -184,7 +188,6 @@ class TvSpeakersScreen():
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.win.add(self.template)
-        self.win.set_size_template("normal")
 
         self.win.show_all()
 
@@ -212,12 +215,4 @@ class TvSpeakersScreen():
     def go_to_next(self, widget=None, event=None):
 
         self.win.clear_win()
-        move_window(self.win, 0, 150)
         RebootScreen(self.win)
-
-
-def move_window(window, dx=0, dy=0):
-    # Hacky way of moving the window back to the centre
-    # Get current coordinates, then move the window up by 100 pixels
-    x, y = window.get_position()
-    window.move(x + dx, y + dy)
