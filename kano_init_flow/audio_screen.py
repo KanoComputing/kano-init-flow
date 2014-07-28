@@ -15,8 +15,8 @@ from template import Template
 from kano.utils import play_sound
 from kano_settings.config_file import file_replace
 import kano_init_flow.constants as constants
-from kano_init_flow.reboot_screen import RebootScreen
 from kano_init_flow.data import get_data
+from kano_init_flow.display_screen import DisplayScreen
 
 number_tries = 0
 
@@ -83,8 +83,7 @@ class AudioScreen():
 
     def go_to_next(self, widget, event):
         self.win.clear_win()
-        move_window(self.win, 0, 150)
-        RebootScreen(self.win)
+        DisplayScreen(self.win)
 
     def fix_sound(self, widget, event):
         self.win.clear_win()
