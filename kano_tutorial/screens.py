@@ -32,35 +32,33 @@ class ButtonTemplate(Gtk.Button):
         self.set_size_request(self.width, self.height)
 
         # Container for the elements in the box
-        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
         self.image = Gtk.Image()
-        align_image = Gtk.Alignment()
-        align_image.set_padding(40, 10, 0, 0)
-        align_image.add(self.image)
+
         self.label1 = Gtk.Label()
         self.label1.get_style_context().add_class("drag_source_label")
         self.label2 = Gtk.Label()
-        self.label2.get_style_context().add_class("drag_source_label")
-        self.label3 = Gtk.Label()
-        self.label3.get_style_context().add_class("drag_source_label_bold")
+        self.label2.get_style_context().add_class("drag_source_label_bold")
 
-        self.box.pack_start(align_image, False, False, 0)
+        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        self.box.pack_start(self.image, False, False, 0)
         self.box.pack_start(self.label1, False, False, 0)
         self.box.pack_start(self.label2, False, False, 0)
-        self.box.pack_start(self.label3, False, False, 0)
 
-        self.add(self.box)
+        align = Gtk.Alignment(xscale=0, yscale=0, xalign=0.5, yalign=0.5)
+        align.add(self.box)
+        align.set_size_request(self.width, self.height)
+
+        self.add(align)
 
     def set_level(self, level):
         data = get_data(level)
         filename = os.path.join(media_dir, data["JUDOKA_FILENAME"])
         label1_text = data["LABEL_1"]
         label2_text = data["LABEL_2"]
-        label3_text = data["LABEL_3"]
         self.image.set_from_file(filename)
         self.label1.set_text(label1_text)
         self.label2.set_text(label2_text)
-        self.label3.set_text(label3_text)
 
 
 class Screen1(TutorialTemplate):
@@ -72,14 +70,16 @@ class Screen1(TutorialTemplate):
 
         top = ButtonTemplate()
         top.set_level(1)
-        top.connect("button-release-event", self.next)
+        top.connect("key-release-event", self.next)
 
         self.box.pack_start(top, False, False, 0)
         self.win.show_all()
 
     def next(self, widget, event):
-        self.win.clear_win()
-        Screen2(self.win)
+        keyname = Gdk.keyval_name(event.keyval)
+        if keyname == "Tab":
+            self.win.clear_win()
+            Screen2(self.win)
 
 
 class Screen2(TutorialTemplate):
@@ -98,7 +98,49 @@ class Screen2(TutorialTemplate):
         self.win.show_all()
 
     def next(self, widget, event):
-        # if ENTER key is pressed
-        if event.keyval == 65293:
+        keyname = Gdk.keyval_name(event.keyval)
+        if keyname == "Return":
+            self.win.clear_win()
+            Screen3(self.win)
+
+
+class Screen3(TutorialTemplate):
+    def __init__(self, win):
+        TutorialTemplate.__init__(self, 3)
+
+        self.win = win
+        self.win.add(self)
+
+        top = ButtonTemplate()
+        top.set_level(3)
+        top.connect("button-release-event", self.next)
+
+        self.box.pack_start(top, False, False, 0)
+        self.win.show_all()
+
+    def next(self, widget, event):
+        self.win.clear_win()
+        Screen4(self.win)
+
+
+class Screen4(TutorialTemplate):
+    def __init__(self, win):
+        TutorialTemplate.__init__(self, 4)
+
+        self.win = win
+        self.win.add(self)
+
+        top = ButtonTemplate()
+        top.set_level(4)
+        top.connect("key-release-event", self.next)
+
+        self.box.add(top)
+        top.grab_focus()
+        self.win.show_all()
+
+    def next(self, widget, event):
+        keyname = Gdk.keyval_name(event.keyval)
+        if keyname == "Return":
             self.win.clear_win()
             DragAndDrop(self.win)
+

@@ -20,8 +20,8 @@ from kano_tutorial.tutorial_template import TutorialTemplate
 from kano_tutorial.paths import media_dir
 from kano.logging import logger
 
-data_3 = get_data(3)
-data_4 = get_data(4)
+data_5 = get_data(5)
+data_6 = get_data(6)
 
 
 class Judoka(Gtk.EventBox):
@@ -31,11 +31,11 @@ class Judoka(Gtk.EventBox):
 
         self.get_style_context().add_class("drag_source")
 
-        label1_text = data_3["LABEL_1"]
-        label2_text = data_3["LABEL_2"]
-        img_filename = os.path.join(media_dir, data_3["WORD_JUDOKA_FILENAME"])
-        drag_icon_filename = os.path.join(media_dir, data_3["DRAGGING_JUDOKA_FILENAME"])
-        drag_bg_filename = os.path.join(media_dir, data_3["DRAGGING_BG_FILENAME"])
+        label1_text = data_5["LABEL_1"]
+        label2_text = data_5["LABEL_2"]
+        img_filename = os.path.join(media_dir, data_5["WORD_JUDOKA_FILENAME"])
+        drag_icon_filename = os.path.join(media_dir, data_5["DRAGGING_JUDOKA_FILENAME"])
+        drag_bg_filename = os.path.join(media_dir, data_5["DRAGGING_BG_FILENAME"])
 
         self.width = Gdk.Screen.width() / 2
         self.height = Gdk.Screen.height() / 2
@@ -48,21 +48,24 @@ class Judoka(Gtk.EventBox):
         self.bg_image = Gtk.Image()
         self.bg_image.set_from_file(drag_bg_filename)
 
-        # Mimic dimensions of the image so when the image is hidden, event box does not change size
-        self.eventbox.set_size_request(210, 280)
-        self.align = Gtk.Alignment()
-        self.align.add(self.eventbox)
-        self.align.set_padding(70, 40, 0, 0)
-
         self.label1 = Gtk.Label(label1_text)
         self.label1.get_style_context().add_class("drag_source_label")
         self.label2 = Gtk.Label(label2_text)
         self.label2.get_style_context().add_class("drag_source_label_bold")
 
+        # Mimic dimensions of the image so when the image is hidden, event box does not change size
+        self.eventbox.set_size_request(291, 350)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        box.pack_start(self.eventbox, False, False, 0)
+        box.pack_start(self.label1, False, False, 0)
+        box.pack_start(self.label2, False, False, 0)
+
+        self.align = Gtk.Alignment(xscale=0, yscale=0, xalign=0.5, yalign=0.5)
+        self.align.add(box)
+
         self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.box.pack_start(self.align, False, False, 0)
-        self.box.pack_start(self.label1, False, False, 0)
-        self.box.pack_start(self.label2, False, False, 0)
+        self.box.pack_start(self.align, True, True, 0)
         self.add(self.box)
 
         self.eventbox.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [], Gdk.DragAction.ASK)
@@ -84,9 +87,7 @@ class Judoka(Gtk.EventBox):
 
         # (120, 90) refers to where the cursor relative to the drag icon
         Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 100, 20)
-        #self.image.set_visible(False)
         self.eventbox.remove(self.image)
-        self.align.set_padding(30, 10, 0, 0)
         self.eventbox.add(self.bg_image)
         self.eventbox.show_all()
 
@@ -102,7 +103,6 @@ class Judoka(Gtk.EventBox):
         logger.info("Drag ended")
         self.eventbox.remove(self.bg_image)
         self.eventbox.add(self.image)
-        self.align.set_padding(70, 40, 0, 0)
         self.eventbox.show_all()
 
     def on_drag_delete(self, widget, event):
@@ -123,9 +123,10 @@ class DropArea(Gtk.Button):
         self.height = Gdk.Screen.height() / 2
         self.set_size_request(self.width, self.height)
 
-        label1_text = data_4["LABEL_1"]
-        label2_text = data_4["LABEL_2"]
-        colour_judoka_filename = os.path.join(media_dir, data_4["COLOUR_JUDOKA_FILENAME"])
+        label1_text = data_6["LABEL_1"]
+        label2_text = data_6["LABEL_2"]
+        colour_judoka_filename = os.path.join(media_dir, data_6["COLOUR_JUDOKA_FILENAME"])
+        target_filename = os.path.join(media_dir, data_6["TARGET_FILENAME"])
 
         self.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.ASK)
         targets = Gtk.TargetList.new([])
@@ -134,26 +135,38 @@ class DropArea(Gtk.Button):
 
         self.connect("drag-data-received", self.on_drag_data_received)
 
-        self.image = Gtk.Image()
-        self.image.set_from_file(colour_judoka_filename)
-        align = Gtk.Alignment()
-        align.add(self.image)
-        align.set_padding(30, 0, 0, 0)
+        self.colour_judoka_image = Gtk.Image()
+        self.colour_judoka_image.set_from_file(colour_judoka_filename)
+
+        self.bullseye = Gtk.Image()
+        self.bullseye.set_from_file(target_filename)
+
+        self.fixed = Gtk.Fixed()
+        self.fixed.put(self.bullseye, 0, 0)
+        self.fixed.put(self.colour_judoka_image, 0, 0)
+
+        #align.set_padding(30, 0, 0, 0)
 
         self.label1 = Gtk.Label(label1_text)
         self.label1.get_style_context().add_class("drag_dest_label")
         self.label2 = Gtk.Label(label2_text)
         self.label2.get_style_context().add_class("drag_dest_label_bold")
 
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        box.pack_start(self.fixed, False, False, 0)
+        box.pack_start(self.label1, False, False, 0)
+        box.pack_start(self.label2, False, False, 0)
+
+        align = Gtk.Alignment(xscale=0, yscale=0, xalign=0.5, yalign=0.5)
+        align.add(box)
+
         self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.box.pack_start(align, False, False, 0)
-        self.box.pack_start(self.label1, False, False, 0)
-        self.box.pack_start(self.label2, False, False, 0)
+        self.box.pack_start(align, True, True, 0)
 
         self.add(self.box)
 
     def hide_image_labels(self):
-        self.image.hide()
+        self.colour_judoka_image.hide()
         self.label1.hide()
         self.label2.hide()
 
@@ -161,7 +174,7 @@ class DropArea(Gtk.Button):
         logger.info("Drop area has recieved data")
 
         if info == 2:
-            self.image.show()
+            self.colour_judoka_image.show()
             self.label1.show()
             self.label2.show()
             drag_context.finish(True, True, time)
@@ -169,7 +182,7 @@ class DropArea(Gtk.Button):
             # Hacky: get top level window to change keyboard image
             win = self.get_toplevel()
             template = win.get_children()[0]
-            template.set_from_level(4)
+            template.set_from_level(6)
 
             self.connect("key-release-event", self.close_application)
             self.grab_focus()
@@ -186,7 +199,7 @@ class DropArea(Gtk.Button):
 class DragAndDrop(TutorialTemplate):
 
     def __init__(self, win):
-        TutorialTemplate.__init__(self, 3)
+        TutorialTemplate.__init__(self, 5)
 
         self.win = win
         self.drop_area = DropArea()
