@@ -57,9 +57,12 @@ class AudioHintTemplate(Template):
 
     def __init__(self, img_filename, title, description, kano_button_text, orange_button_text, hint_text):
         Template.__init__(self, img_filename, title, description, kano_button_text, orange_button_text)
+        self.kano_button.set_margin_top(30)
 
         hint = Gtk.Label(hint_text)
         hint.get_style_context().add_class("hint_label")
+        hint.set_margin_top(0)
+        self.heading.description.set_margin_bottom(0)
 
         self.heading.container.pack_start(hint, False, False, 0)
 
@@ -76,13 +79,13 @@ class AudioScreen():
             header = self.data["LABEL_1"]
         else:
             header = self.data["LABEL_3"]
+            self.win.reset_allocation()
         subheader = self.data["LABEL_2"]
         self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "PLAY SOUND", "")
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
         self.win.add(self.template)
-        self.win.reset_allocation()
 
         self.win.show_all()
 
