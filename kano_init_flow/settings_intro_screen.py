@@ -9,7 +9,6 @@
 #
 
 from template import Template
-#from display_screen import DisplayScreen
 from audio_screen import AudioScreen
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
@@ -21,7 +20,7 @@ class SettingsIntroScreen():
     def __init__(self, win, internet=True):
 
         self.win = win
-
+        self.win.set_resizable(True)
         header = self.data["LABEL_1"]
         if internet:
             subheader = self.data["LABEL_2"]
@@ -30,6 +29,7 @@ class SettingsIntroScreen():
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "TEST SOUND", "")
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.add(self.template)
+        self.win.reset_allocation()
 
         self.win.show_all()
 

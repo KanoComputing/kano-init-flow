@@ -54,7 +54,10 @@ class Template(Gtk.Box):
             self.image = Gtk.Image.new_from_file(img_filename)
             self.pack_start(self.image, False, False, 0)
         self.heading = Heading(title, description)
+        self.heading.container.set_size_request(590, -1)
         self.button_box = KanoButtonBox(kano_button_text, orange_button_text)
+        self.button_box.set_margin_top(10)
+        self.button_box.set_margin_bottom(30)
         self.kano_button = self.button_box.kano_button
         self.orange_button = self.get_orange_button()
 
