@@ -16,9 +16,9 @@ from template import Template
 from kano.utils import play_sound
 from kano_settings.config_file import file_replace
 import kano_init_flow.constants as constants
-from kano_init_flow.reboot_screen import RebootScreen
 from kano_init_flow.data import get_data
 from kano_init_flow.paths import media_dir
+from kano_init_flow.display_screen import DisplayScreen
 
 number_tries = 0
 
@@ -57,9 +57,12 @@ class AudioHintTemplate(Template):
 
     def __init__(self, img_filename, title, description, kano_button_text, orange_button_text, hint_text):
         Template.__init__(self, img_filename, title, description, kano_button_text, orange_button_text)
+        self.kano_button.set_margin_top(30)
 
         hint = Gtk.Label(hint_text)
         hint.get_style_context().add_class("hint_label")
+        hint.set_margin_top(0)
+        self.heading.description.set_margin_bottom(0)
 
         self.heading.container.pack_start(hint, False, False, 0)
 
@@ -76,13 +79,13 @@ class AudioScreen():
             header = self.data["LABEL_1"]
         else:
             header = self.data["LABEL_3"]
+            self.win.reset_allocation()
         subheader = self.data["LABEL_2"]
         self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "PLAY SOUND", "")
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
         self.win.add(self.template)
-        self.win.reset_allocation()
 
         self.win.show_all()
 
@@ -96,7 +99,7 @@ class AudioScreen():
 
     def go_to_next(self, widget, event):
         self.win.clear_win()
-        RebootScreen(self.win)
+        DisplayScreen(self.win)
 
     def fix_sound(self, widget, event):
         self.win.clear_win()
@@ -215,4 +218,4 @@ class TvSpeakersScreen():
     def go_to_next(self, widget=None, event=None):
 
         self.win.clear_win()
-        RebootScreen(self.win)
+        DisplayScreen(self.win)
