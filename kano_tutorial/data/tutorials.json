@@ -1,30 +1,42 @@
 {
-    "TUTORIAL_1": {
-    "KEYBOARD_FILENAME": "click.png",
-    "JUDOKA_FILENAME": "judoka-corrupted.png",
-    "LABEL_1": "Phew, we just made it!",
-    "LABEL_2": "But my code got corrupted...",
-    "LABEL_3": "Click on me to repair my code"
+  "TUTORIAL_1": {
+    "KEYBOARD_FILENAME": "keyboard-tab.png",
+    "JUDOKA_FILENAME": "mouse-dotted.png",
+    "LABEL_1": "We just made it!  Now let's start activating out powers!  First - the mouse.",
+    "LABEL_2": "Press [tab] to activate the mouse"
   },
-    "TUTORIAL_2": {
-    "KEYBOARD_FILENAME": "enter.png",
-    "JUDOKA_FILENAME": "judoka-fixed.png",
-    "LABEL_1": "Good clicking, you fixed me!",
-    "LABEL_2": "Now I just need my colors.",
-    "LABEL_3": "Press [ENTER] to continue"
+  "TUTORIAL_2": {
+    "KEYBOARD_FILENAME": "keyboard-enter.png",
+    "JUDOKA_FILENAME": "mouse-filled.png",
+    "LABEL_1": "Great!",
+    "LABEL_2": "Pres [enter] to continue"
   },
   "TUTORIAL_3": {
-    "KEYBOARD_FILENAME": "click-and-hold.png",
+    "KEYBOARD_FILENAME": "keyboard-click.png",
+    "JUDOKA_FILENAME": "judoka-hanging.png",
+    "LABEL_1": "But wait, I'm upside down!  Click me to flip me over!",
+    "LABEL_2": "Click the Judoka"
+  },
+  "TUTORIAL_4": {
+    "KEYBOARD_FILENAME": "keyboard-enter.png",
+    "JUDOKA_FILENAME": "judoka-fixed.png",
+    "LABEL_1": "Wow thanks - you flipped me!  Now I just need my colors.",
+    "LABEL_2": "Press [enter] to continue"
+  },
+  "TUTORIAL_5": {
+    "KEYBOARD_FILENAME": "keyboard-clickandhold.png",
+    "TARGET_FILENAME": "bullseye.png",
     "WORD_JUDOKA_FILENAME": "judoka-pointing.png",
     "DRAGGING_JUDOKA_FILENAME": "judoka-dragged.png",
     "DRAGGING_BG_FILENAME": "judoka-dragged-BG.png",
     "LABEL_1": "I can show you more pictures!",
     "LABEL_2": "Click and drag me to the color"
   },
-  "TUTORIAL_4": {
-    "KEYBOARD_FILENAME": "enter.png",
+  "TUTORIAL_6": {
+    "KEYBOARD_FILENAME": "keyboard-enter.png",
+    "TARGET_FILENAME": "bullseye.png",
     "COLOUR_JUDOKA_FILENAME": "judoka-coloured.png",
     "LABEL_1": "Nice work, keyboard ninja!",
-    "LABEL_2": "Press [ENTER] to continue"
+    "LABEL_2": "Press [enter] to continue"
   }
 }

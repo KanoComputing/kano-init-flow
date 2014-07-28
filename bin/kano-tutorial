@@ -20,14 +20,16 @@ if __name__ == '__main__' and __package__ is None:
 from kano.gtk3.apply_styles import apply_styles
 from kano.utils import is_number
 
-from kano_tutorial.screens import Screen1, Screen2
+from kano_tutorial.screens import Screen1, Screen2, Screen3, Screen4
 from kano_tutorial.drag_and_drop import DragAndDrop
 from kano_tutorial.paths import css_dir
 
 refs = {
     0: Screen1,
     1: Screen2,
-    2: DragAndDrop,
+    2: Screen3,
+    3: Screen4,
+    4: DragAndDrop,
 }
 
 
