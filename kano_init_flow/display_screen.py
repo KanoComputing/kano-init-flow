@@ -120,7 +120,7 @@ class DisplayTutorial():
         self.win.connect("key-press-event", self.on_key_press)
         # Create UI
         header = self.data["LABEL_1"]
-        subheader = ""
+        subheader = self.data["LABEL_2"]
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", "Skip")
         self.template.kano_button.connect("button_release_event", self.apply_changes)
         self.template.orange_button.connect("button_release_event", self.skip)
