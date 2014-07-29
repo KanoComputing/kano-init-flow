@@ -42,9 +42,9 @@ class DisplayScreen():
         # Create UI
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", "NO")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", orange_button_text="NO")
         self.template.kano_button.connect("button_release_event", self.next_screen)
-        self.template.orange_button.connect("button_release_event", self.tutorial_screen)
+        self.template.get_orange_button().connect("button_release_event", self.tutorial_screen)
         self.win.add(self.template)
 
         self.win.show_all()
