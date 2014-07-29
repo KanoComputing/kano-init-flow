@@ -24,12 +24,12 @@ from kano.gtk3.heading import Heading
 
 class KanoButtonBox(Gtk.ButtonBox):
 
-    def __init__(self, kano_button_text, orange_button_text):
+    def __init__(self, button1_text, orange_button_text=""):
 
         Gtk.ButtonBox.__init__(self, spacing=10)
         self.set_layout(Gtk.ButtonBoxStyle.SPREAD)
 
-        self.kano_button = KanoButton(kano_button_text)
+        self.kano_button = KanoButton(button1_text)
 
         if orange_button_text:
             self.orange_button = OrangeButton(orange_button_text)
@@ -42,12 +42,26 @@ class KanoButtonBox(Gtk.ButtonBox):
             self.pack_start(self.kano_button, False, False, 0)
 
 
+class TwoButtons(Gtk.ButtonBox):
+
+    def __init__(self, button1_text, button2_text=""):
+
+        Gtk.ButtonBox.__init__(self, spacing=10)
+        self.set_layout(Gtk.ButtonBoxStyle.CENTER)
+
+        self.kano_button = KanoButton(button1_text)
+
+        self.button2 = KanoButton(button2_text)
+        self.pack_start(self.kano_button, False, False, 0)
+        self.pack_start(self.button2, False, False, 0)
+
+
 # Window class
 class Template(Gtk.Box):
 
     exit_codes = {"launch_wifi": 1, "launch_updater": 2, "launch_profile": 5}
 
-    def __init__(self, img_filename, title, description, kano_button_text, orange_button_text):
+    def __init__(self, img_filename, title, description, button1_text, button2_text="", orange_button_text=""):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
         if img_filename is not None:
@@ -55,11 +69,15 @@ class Template(Gtk.Box):
             self.pack_start(self.image, False, False, 0)
         self.heading = Heading(title, description)
         self.heading.container.set_size_request(590, -1)
-        self.button_box = KanoButtonBox(kano_button_text, orange_button_text)
+        if button2_text:
+            self.button_box = TwoButtons(button1_text, button2_text)
+            self.kano_button2 = getattr(self.button_box, "button2", None)
+        else:
+            self.button_box = KanoButtonBox(button1_text, orange_button_text)
+            self.orange_button = self.get_orange_button()
         self.button_box.set_margin_top(10)
         self.button_box.set_margin_bottom(30)
         self.kano_button = self.button_box.kano_button
-        self.orange_button = self.get_orange_button()
 
         self.pack_start(self.heading.container, False, False, 0)
         self.pack_start(self.button_box, False, False, 0)

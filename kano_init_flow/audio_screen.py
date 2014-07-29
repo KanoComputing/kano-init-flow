@@ -23,9 +23,9 @@ from kano_init_flow.display_screen import DisplayScreen
 number_tries = 0
 
 
-class AudioTemplate(Template):
+class AudioTemplate(Gtk.Box):
 
-    def __init__(self, img_filename, title, description, kano_button_text, orange_button_text):
+    def __init__(self, img_filename, title, description):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
         if img_filename is not None:
@@ -55,8 +55,8 @@ class AudioTemplate(Template):
 
 class AudioHintTemplate(Template):
 
-    def __init__(self, img_filename, title, description, kano_button_text, orange_button_text, hint_text):
-        Template.__init__(self, img_filename, title, description, kano_button_text, orange_button_text)
+    def __init__(self, img_filename, title, description, kano_button_text, hint_text="", orange_button_text=""):
+        Template.__init__(self, img_filename, title, description, kano_button_text, orange_button_text=orange_button_text)
         self.kano_button.set_margin_top(30)
 
         hint = Gtk.Label(hint_text)
@@ -81,7 +81,7 @@ class AudioScreen():
             header = self.data["LABEL_3"]
             self.win.reset_allocation()
         subheader = self.data["LABEL_2"]
-        self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "PLAY SOUND", "")
+        self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader)
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
@@ -118,9 +118,9 @@ class AudioTutorial1():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", "NO")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2_text="NO")
         self.template.kano_button.connect("button_release_event", self.end_screen)
-        self.template.orange_button.connect("button_release_event", self.next_screen)
+        self.template.kano_button2.connect("button_release_event", self.next_screen)
         self.win.add(self.template)
 
         self.win.show_all()
@@ -144,7 +144,7 @@ class AudioTutorial2():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", "", hint)
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.win.add(self.template)
 
@@ -165,7 +165,7 @@ class AudioTutorial3():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", "", hint)
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.win.add(self.template)
         self.win.reset_allocation()
@@ -187,7 +187,7 @@ class TvSpeakersScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "USE TV SPEAKERS", "Setup later")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "USE TV SPEAKERS", orange_button_text="Setup later")
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.win.add(self.template)

@@ -82,7 +82,7 @@ class DisplayTutorial():
         # Create UI
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", "Reset")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", orange_button_text="Reset")
         self.template.kano_button.connect("button_release_event", self.apply_changes)
         self.template.orange_button.connect("button_release_event", self.reset)
         self.win.add(self.template)

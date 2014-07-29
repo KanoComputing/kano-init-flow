@@ -37,7 +37,7 @@ class UnlockScreen():
             subheader = self.no_profile_data["LABEL_2"]
             image += self.no_profile_data["IMG_FILENAME"]
 
-        self.template = Template(image, header, subheader, "UNLOCK REWARDS", "")
+        self.template = Template(image, header, subheader, "UNLOCK REWARDS")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.show_all()

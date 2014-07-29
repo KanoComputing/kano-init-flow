@@ -32,7 +32,7 @@ class UpdateScreen():
         header = "You are connected to %s - Now let's update!" % network
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]
-        self.template = Template(image, header, subheader, "UPDATE NOW!", "")
+        self.template = Template(image, header, subheader, "UPDATE NOW!")
         self.template.kano_button.connect("button_release_event", self.launch_updater)
 
         self.win.add(self.template)
