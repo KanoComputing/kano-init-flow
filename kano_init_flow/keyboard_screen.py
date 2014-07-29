@@ -64,6 +64,7 @@ class KeyboardScreen(Gtk.Box):
 
         # Heading
         self.heading = Heading("Keyboard", "Where do you live? So I can set your keyboard")
+        self.heading.container.set_size_request(590, -1)
 
         heading_align = Gtk.Alignment()
         heading_align.set_padding(60, 0, 0, 0)
@@ -79,6 +80,7 @@ class KeyboardScreen(Gtk.Box):
         button_box = Gtk.ButtonBox(spacing=10)
         button_box.set_layout(Gtk.ButtonBoxStyle.SPREAD)
         button_box.add(self.kano_button)
+        button_box.set_margin_bottom(30)
 
         # Create Continents Combo box
         continents_combo = Gtk.ComboBoxText.new()
