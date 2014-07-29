@@ -154,8 +154,8 @@ class KeyboardScreen(Gtk.Box):
     def apply_changes(self, widget, event):
         global variants_combo
 
-        # Check for changes
-        if selected_country != "USA" and selected_variant != "generic":
+        # Check for changes from default
+        if not (selected_country.lower() == "us" and selected_variant == "generic"):
             # Apply changes
             thread = WorkerThread(self.work_finished_cb)
             thread.start()
