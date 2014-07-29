@@ -82,9 +82,9 @@ class DisplayTutorial():
         # Create UI
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", "Skip")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", "Reset")
         self.template.kano_button.connect("button_release_event", self.apply_changes)
-        self.template.orange_button.connect("button_release_event", self.skip)
+        self.template.orange_button.connect("button_release_event", self.reset)
         self.win.add(self.template)
 
         self.win.show_all()
@@ -123,12 +123,10 @@ class DisplayTutorial():
         # Next screen
         self.go_to_next()
 
-    def skip(self, widget, event):
+    def reset(self, widget, event):
         # Restore overscan if any
         if self.original_overscan != self.overscan_values:
             set_overscan_status(self.original_overscan)
-        # Next screen
-        self.go_to_next()
 
     def go_to_next(self):
         # Restore background
