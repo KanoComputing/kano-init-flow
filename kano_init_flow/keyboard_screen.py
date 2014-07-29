@@ -67,7 +67,6 @@ class KeyboardScreen(Gtk.Box):
         self.heading.container.set_size_request(590, -1)
 
         heading_align = Gtk.Alignment()
-        heading_align.set_padding(60, 0, 0, 0)
         heading_align.add(self.heading.container)
 
         # Set padding around heading
