@@ -23,7 +23,7 @@ class RebootScreen():
         self.win.set_size_request(590, -1)
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(None, header, subheader, "REBOOT", "")
+        self.template = Template(None, header, subheader, "REBOOT")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.show_all()

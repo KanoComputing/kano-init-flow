@@ -121,7 +121,7 @@ class DisplayTutorial():
         # Create UI
         header = self.data["LABEL_1"]
         subheader = ""
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", "Skip")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", orange_button_text="Skip")
         self.template.kano_button.connect("button_release_event", self.apply_changes)
         self.template.orange_button.connect("button_release_event", self.skip)
         self.win.add(self.template)
