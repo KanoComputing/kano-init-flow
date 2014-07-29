@@ -7,16 +7,19 @@
 # Styling specific to the tutorial screens
 */
 
+@define-color keyboard_background #404040;
+@define-color judoka_background #393939;
+
 GtkWindow {
-    background: #545454;
-    color: #545454;
+    background: @keyboard_background;
+    color: @keyboard_background;
 }
 
 .drag_source,
 .drag_source.button,
 .drag_source.image,
 .drag_source GtkEventBox {
-    background: #393939;
+    background: @judoka_background;
 }
 
 .drag_source_label {
@@ -44,5 +47,5 @@ GtkWindow {
 }
 
 .keyboard {
-    background: #545454;
+    background: @keyboard_background;
 }
