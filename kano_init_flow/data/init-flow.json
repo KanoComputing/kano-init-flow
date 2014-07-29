@@ -76,7 +76,7 @@
   },
   "PROFILE_CREATED": {
     "IMG_FILENAME" : "/profile_created.png",
-    "LABEL_1": "Profile created!",
+    "LABEL_1": "Welcome to your profile!",
     "LABEL_2": "Now you can download music and videos, share your character, and connect with friends around the world."
   },
   "NO_PROFILE": {
