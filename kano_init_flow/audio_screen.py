@@ -213,7 +213,7 @@ class TvSpeakersScreen():
 
         # TODO: indicate kano-settings that we are now in HDMI
 
-        self.got_to_next()
+        self.go_to_next()
 
     def go_to_next(self, widget=None, event=None):
 
