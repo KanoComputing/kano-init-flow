@@ -59,8 +59,8 @@
   },
   "DISPLAY_SCREEN": {
     "IMG_FILENAME": "/display_test.png",
-    "LABEL_1": "Can you see the corners?",
-    "LABEL_2": "Corneeeeer!!!"
+    "LABEL_1": "Are the lines touching the display edges?",
+    "LABEL_2": "Make sure the corners are aligned"
   },
     "DISPLAY_TUTORIAL": {
     "IMG_FILENAME": "/display_test2.png",
