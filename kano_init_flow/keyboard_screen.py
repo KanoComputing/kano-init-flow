@@ -14,7 +14,6 @@ import kano_settings.keyboard.keyboard_layouts as keyboard_layouts
 import kano_settings.keyboard.keyboard_config as keyboard_config
 from kano.gtk3.heading import Heading
 from kano.gtk3.buttons import KanoButton
-import kano_settings.components.fixed_size_box as fixed_size_box
 from kano_settings.config_file import get_setting, set_setting
 
 selected_layout = None
@@ -58,9 +57,6 @@ class KeyboardScreen(Gtk.Box):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.win = _win
         self.win.add(self)
-
-        # Contains all the settings
-        settings = fixed_size_box.Fixed()
 
         # Heading
         self.heading = Heading("Keyboard", "Where do you live? So I can set your keyboard")
@@ -134,13 +130,11 @@ class KeyboardScreen(Gtk.Box):
         dropdown_container.pack_start(dropdown_box_keys, False, False, 0)
 
         valign = Gtk.Alignment(xalign=0.5, yalign=0, xscale=0, yscale=0)
-        padding_above = (settings.height - DROPDOWN_CONTAINER_HEIGHT) / 2
-        valign.set_padding(padding_above, 0, 0, 0)
+        valign.set_padding(15, 30, 0, 0)
         valign.add(dropdown_container)
-        settings.box.pack_start(valign, False, False, 0)
 
         self.pack_start(heading_align, False, False, 0)
-        self.pack_start(settings.box, False, False, 0)
+        self.pack_start(valign, False, False, 0)
         self.pack_start(button_box, False, False, 0)
 
         # show all elements except the advanced mode
