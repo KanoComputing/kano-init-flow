@@ -64,7 +64,7 @@
   },
     "DISPLAY_TUTORIAL": {
     "IMG_FILENAME": "/display_test2.png",
-    "LABEL_1": "Use UP and DOWN arrows in the keyboard to adjust your screen",
+    "LABEL_1": "Use UP and DOWN to adjust your screen",
     "LABEL_2": "Make sure you see the white lines, and they're aligned with your display edges"
   },
   "REBOOT_SCREEN": {
