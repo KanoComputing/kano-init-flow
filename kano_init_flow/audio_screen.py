@@ -14,7 +14,7 @@ from kano.gtk3.buttons import KanoButton
 from kano.gtk3.heading import Heading
 from template import Template
 from kano.utils import play_sound
-from kano_settings.config_file import file_replace
+from kano_settings.config_file import set_setting, file_replace
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
 from kano_init_flow.paths import media_dir
@@ -211,7 +211,8 @@ class TvSpeakersScreen():
         file_replace(config_txt_path, edid_from, edid_to)
         file_replace(config_txt_path, drive_from, drive_to)
 
-        # TODO: indicate kano-settings that we are now in HDMI
+        # Indicate kano-settings that we are now in HDMI
+        set_setting("Audio", "HDMI")
 
         self.go_to_next()
 
