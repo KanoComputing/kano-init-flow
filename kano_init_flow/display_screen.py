@@ -90,12 +90,12 @@ class DisplayTutorial():
         self.win.show_all()
 
     def on_key_press(self, widget, event):
-        # Right arrow (65363)
-        if not hasattr(event, 'keyval') or event.keyval == 65363:
+        # Up arrow (65362)
+        if not hasattr(event, 'keyval') or event.keyval == 65362:
             self.zoom_out()
             return
-        # Left arrow (65361)
-        if not hasattr(event, 'keyval') or event.keyval == 65361:
+        # Down arrow (65361)
+        if not hasattr(event, 'keyval') or event.keyval == 65364:
             self.zoom_in()
             return
 
