@@ -7,7 +7,7 @@
 #
 
 import sys
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, Gdk, GObject
 GObject.threads_init()
 import threading
 import kano_settings.keyboard.keyboard_layouts as keyboard_layouts
@@ -16,43 +16,21 @@ from kano.gtk3.heading import Heading
 from kano.gtk3.buttons import KanoButton
 from kano_settings.config_file import get_setting, set_setting
 
-selected_layout = None
-selected_country = None
-selected_variant = None
-
-selected_continent_index = 1
-selected_country_index = 21
-selected_variant_index = 0
-selected_continent_hr = "America"
-selected_country_hr = "USA"
-selected_variant_hr = "generic"
-
-variants_combo = None
-countries_combo = None
-continents_combo = None
-
-continents = ['Africa', 'America', 'Asia', 'Australia', 'Europe', 'Others']
-
-DROPDOWN_CONTAINER_HEIGHT = 118
-
-
-class WorkerThread(threading.Thread):
-    def __init__(self, callback):
-        threading.Thread.__init__(self)
-        self.callback = callback
-
-    def run(self):
-        # Apply the keyboard changes
-        keyboard_config.set_keyboard(selected_country, selected_variant)
-
-        # The callback runs a GUI task, so wrap it!
-        GObject.idle_add(self.callback)
-
 
 class KeyboardScreen(Gtk.Box):
+    continents = ['Africa', 'America', 'Asia', 'Australia', 'Europe', 'Others']
 
     def __init__(self, _win):
-        global continents_combo, variants_combo, countries_combo
+        self.selected_layout = None
+        self.selected_country = None
+        self.selected_variant = None
+
+        self.selected_continent_index = 1
+        self.selected_country_index = 21
+        self.selected_variant_index = 0
+        self.selected_continent_hr = "America"
+        self.selected_country_hr = "USA"
+        self.selected_variant_hr = "generic"
 
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.win = _win
@@ -78,15 +56,15 @@ class KeyboardScreen(Gtk.Box):
         button_box.set_margin_bottom(30)
 
         # Create Continents Combo box
-        continents_combo = Gtk.ComboBoxText.new()
-        for c in continents:
-            continents_combo.append_text(c)
-        continents_combo.connect("changed", self.on_continent_changed)
+        self.continents_combo = Gtk.ComboBoxText.new()
+        for c in self.continents:
+            self.continents_combo.append_text(c)
+        self.continents_combo.connect("changed", self.on_continent_changed)
 
         # Create Countries Combo box
-        countries_combo = Gtk.ComboBoxText.new()
-        countries_combo.connect("changed", self.on_country_changed)
-        countries_combo.props.valign = Gtk.Align.CENTER
+        self.countries_combo = Gtk.ComboBoxText.new()
+        self.countries_combo.connect("changed", self.on_country_changed)
+        self.countries_combo.props.valign = Gtk.Align.CENTER
 
         # Create Advance mode checkbox
         self.advance_button = Gtk.CheckButton("Advanced options")
@@ -96,9 +74,9 @@ class KeyboardScreen(Gtk.Box):
         self.advance_button.set_active(False)
 
         # Create Variants Combo box
-        variants_combo = Gtk.ComboBoxText.new()
-        variants_combo.connect("changed", self.on_variants_changed)
-        variants_combo.props.valign = Gtk.Align.CENTER
+        self.variants_combo = Gtk.ComboBoxText.new()
+        self.variants_combo.connect("changed", self.on_variants_changed)
+        self.variants_combo.props.valign = Gtk.Align.CENTER
 
         # Set up default values in dropdown lists
         self.set_defaults("continent")
@@ -121,10 +99,10 @@ class KeyboardScreen(Gtk.Box):
         dropdown_box_countries.props.valign = Gtk.Align.CENTER
         dropdown_box_keys = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
         dropdown_box_keys.set_size_request(230, 30)
-        dropdown_box_countries.pack_start(continents_combo, False, False, 0)
-        dropdown_box_countries.pack_start(countries_combo, False, False, 0)
+        dropdown_box_countries.pack_start(self.continents_combo, False, False, 0)
+        dropdown_box_countries.pack_start(self.countries_combo, False, False, 0)
         dropdown_box_keys.pack_start(self.advance_button, False, False, 0)
-        dropdown_box_keys.pack_start(variants_combo, False, False, 0)
+        dropdown_box_keys.pack_start(self.variants_combo, False, False, 0)
         dropdown_container = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=20)
         dropdown_container.pack_start(dropdown_box_countries, False, False, 0)
         dropdown_container.pack_start(dropdown_box_keys, False, False, 0)
@@ -141,38 +119,45 @@ class KeyboardScreen(Gtk.Box):
         self.refresh_window()
 
     def refresh_window(self):
-        global variants_combo
         self.win.show_all()
-        variants_combo.hide()
+        self.variants_combo.hide()
 
     def apply_changes(self, widget, event):
-        global variants_combo
 
         # Check for changes from default
-        if not (selected_country.lower() == "us" and selected_variant == "generic"):
-            # Apply changes
-            thread = WorkerThread(self.work_finished_cb)
+        if not (self.selected_country.lower() == "us" and self.selected_variant == "generic"):
+
+            # This is a callback called by the main loop, so it's safe to
+            # manipulate GTK objects:
+            watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+            self.win.get_window().set_cursor(watch_cursor)
+            self.kano_button.set_sensitive(False)
+
+            def lengthy_process():
+                keyboard_config.set_keyboard(self.selected_country, self.selected_variant)
+
+                def done():
+                    self.win.get_window().set_cursor(None)
+                    self.kano_button.set_sensitive(True)
+                    sys.exit(0)
+
+                GObject.idle_add(done)
+
+            thread = threading.Thread(target=lengthy_process)
             thread.start()
-
-            # Save the changes in the config
-            self.update_config()
-
-        # Exit
-        sys.exit(0)
 
     def update_config(self):
 
         # Add new configurations to config file.
-        set_setting("Keyboard-continent-index", selected_continent_index)
-        set_setting("Keyboard-country-index", selected_country_index)
-        set_setting("Keyboard-variant-index", selected_variant_index)
-        set_setting("Keyboard-continent-human", selected_continent_hr)
-        set_setting("Keyboard-country-human", selected_country_hr)
-        set_setting("Keyboard-variant-human", selected_variant_hr)
+        set_setting("Keyboard-continent-index", self.selected_continent_index)
+        set_setting("Keyboard-country-index", self.selected_country_index)
+        set_setting("Keyboard-variant-index", self.selected_variant_index)
+        set_setting("Keyboard-continent-human", self.selected_continent_hr)
+        set_setting("Keyboard-country-human", self.selected_country_hr)
+        set_setting("Keyboard-variant-human", self.selected_variant_hr)
 
     # setting = "variant", "continent" or "country"
     def set_defaults(self, setting):
-        global continents_combo, countries_combo, variants_combo
 
         # Set the default info on the dropdown lists
         # "Keyboard-continent":continents_combo, "Keyboard-country", "Keyboard-variant"]:
@@ -180,37 +165,34 @@ class KeyboardScreen(Gtk.Box):
         active_item = get_setting("Keyboard-" + setting + "-index")
 
         if setting == "continent":
-            continents_combo.set_active(int(active_item))
+            self.continents_combo.set_active(int(active_item))
         elif setting == "country":
-            countries_combo.set_active(int(active_item))
+            self.countries_combo.set_active(int(active_item))
         elif setting == "variant":
-            variants_combo.set_active(int(active_item))
+            self.variants_combo.set_active(int(active_item))
         else:
             return
 
     def set_variants_to_generic(self):
-        global variants_combo
-        variants_combo.set_active(0)
+        self.variants_combo.set_active(0)
 
     def on_continent_changed(self, combo):
-        global selected_continent_hr, selected_continent_index
 
-        continent = selected_continent_hr
+        continent = self.selected_continent_hr
         tree_iter = combo.get_active_iter()
 
         if tree_iter is not None:
             model = combo.get_model()
             continent = model[tree_iter][0]
 
-        selected_continent_hr = str(continent)
-        selected_continent_index = str(combo.get_active())
+        self.selected_continent_hr = str(continent)
+        self.selected_continent_index = str(combo.get_active())
 
         self.kano_button.set_sensitive(False)
 
-        self.fill_countries_combo(selected_continent_hr)
+        self.fill_countries_combo(self.selected_continent_hr)
 
     def on_country_changed(self, combo):
-        global selected_country, selected_country_index, selected_country_hr, selected_layout, variants_combo
 
         country = None
         tree_iter = combo.get_active_iter()
@@ -223,22 +205,22 @@ class KeyboardScreen(Gtk.Box):
             return
 
         # Remove entries from variants combo box
-        variants_combo.remove_all()
-        selected_country_hr = str(country)
-        selected_country_index = combo.get_active()
+        self.variants_combo.remove_all()
+        self.selected_country_hr = str(country)
+        self.selected_country_index = combo.get_active()
 
         # Refresh variants combo box
-        selected_country = keyboard_config.find_country_code(country, selected_layout)
-        variants = keyboard_config.find_keyboard_variants(selected_country)
-        variants_combo.append_text("generic")
+        self.selected_country = keyboard_config.find_country_code(country, self.selected_layout)
+        variants = keyboard_config.find_keyboard_variants(self.selected_country)
+        self.variants_combo.append_text("generic")
         if variants is not None:
             for v in variants:
-                variants_combo.append_text(v[0])
+                self.variants_combo.append_text(v[0])
 
         self.set_variants_to_generic()
 
     def on_variants_changed(self, combo):
-        global selected_variant, selected_variant_hr, selected_variant_index
+        global selected_variant_index
 
         tree_iter = combo.get_active_iter()
         if tree_iter is not None:
@@ -246,56 +228,54 @@ class KeyboardScreen(Gtk.Box):
             variant = model[tree_iter][0]
             self.kano_button.set_sensitive(True)
             if variant == "generic":
-                selected_variant = selected_variant_hr = str(variant)
-                selected_variant_index = 0
+                self.selected_variant = self.selected_variant_hr = str(variant)
+                self.selected_variant_index = 0
                 return
             # Select the variant code
-            variants = keyboard_config.find_keyboard_variants(selected_country)
+            variants = keyboard_config.find_keyboard_variants(self.selected_country)
             if variants is not None:
                 for v in variants:
                     if v[0] == variant:
-                        selected_variant = v[1]
-                        selected_variant_index = combo.get_active()
-                        selected_variant_hr = str(variant)
+                        self.selected_variant = v[1]
+                        self.selected_variant_index = combo.get_active()
+                        self.selected_variant_hr = str(variant)
 
     def on_advance_mode(self, widget):
-        global variants_combo
 
         if int(self.advance_button.get_active()):
-            variants_combo.show()
+            self.variants_combo.show()
         else:
-            variants_combo.hide()
+            self.variants_combo.hide()
 
     def work_finished_cb(self):
         # Finished updating keyboard
         pass
 
     def fill_countries_combo(self, continent):
-        global countries_combo, variants_combo, selected_layout, selected_continent_hr
 
         continent = continent.lower()
 
         if continent == 'africa':
-            selected_layout = keyboard_layouts.layouts_africa
+            self.selected_layout = keyboard_layouts.layouts_africa
         elif continent == 'america':
-            selected_layout = keyboard_layouts.layouts_america
+            self.selected_layout = keyboard_layouts.layouts_america
         elif continent == 'asia':
-            selected_layout = keyboard_layouts.layouts_asia
+            self.selected_layout = keyboard_layouts.layouts_asia
         elif continent == 'australia':
-            selected_layout = keyboard_layouts.layouts_australia
+            self.selected_layout = keyboard_layouts.layouts_australia
         elif continent == 'europe':
-            selected_layout = keyboard_layouts.layouts_europe
+            self.selected_layout = keyboard_layouts.layouts_europe
         elif continent == 'others':
-            selected_layout = keyboard_layouts.layouts_others
+            self.selected_layout = keyboard_layouts.layouts_others
 
-        selected_continent_hr = continent
+        self.selected_continent_hr = continent
 
         # Remove entries from countries and variants combo box
-        countries_combo.remove_all()
-        variants_combo.remove_all()
+        self.countries_combo.remove_all()
+        self.variants_combo.remove_all()
 
-        sorted_countries = sorted(selected_layout)
+        sorted_countries = sorted(self.selected_layout)
 
         # Refresh countries combo box
         for country in sorted_countries:
-            countries_combo.append_text(country)
+            self.countries_combo.append_text(country)
