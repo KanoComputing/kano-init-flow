@@ -29,7 +29,7 @@ class UpdateScreen():
             return
 
         network = self.network_info()
-        header = "You are connected to %s - Now let's update!" % network
+        header = "You are connected to %s - now let's update!" % network
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "UPDATE NOW!")
