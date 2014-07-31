@@ -146,6 +146,10 @@ class KeyboardScreen(Gtk.Box):
             thread = threading.Thread(target=lengthy_process)
             thread.start()
 
+        # keyboard does not need updating
+        else:
+            sys.exit(0)
+
     def update_config(self):
 
         # Add new configurations to config file.
