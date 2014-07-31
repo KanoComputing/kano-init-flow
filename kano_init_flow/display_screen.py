@@ -103,7 +103,7 @@ class DisplayTutorial():
         if self.original_overscan != self.overscan_values:
             # Bring in message dialog box
             kdialog = kano_dialog.KanoDialog(
-                "Are you sure you want to apply changes?",
+                "Are you sure you want to set this screen size?",
                 "",
                 {
                     "OK": {
