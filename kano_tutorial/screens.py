@@ -19,6 +19,7 @@ from kano_tutorial.data import get_data
 from kano_tutorial.drag_and_drop import DragAndDrop
 from kano_tutorial.tutorial_template import TutorialTemplate
 from kano_tutorial.paths import media_dir
+from kano.gtk3.cursor import attach_cursor_events
 
 
 class ButtonTemplate(Gtk.Button):
@@ -73,6 +74,7 @@ class Screen1(TutorialTemplate):
         top.connect("key-release-event", self.next)
 
         self.box.pack_start(top, False, False, 0)
+        top.grab_focus()
         self.win.show_all()
 
     def next(self, widget, event):
@@ -114,6 +116,7 @@ class Screen3(TutorialTemplate):
         top = ButtonTemplate()
         top.set_level(3)
         top.connect("button-release-event", self.next)
+        attach_cursor_events(top)
 
         self.box.pack_start(top, False, False, 0)
         self.win.show_all()
