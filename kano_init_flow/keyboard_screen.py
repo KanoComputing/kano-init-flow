@@ -6,10 +6,12 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 
-import sys
 from gi.repository import Gtk, Gdk, GObject
 GObject.threads_init()
 import threading
+from internet_screen import InternetScreen
+from update_screen import UpdateScreen
+from kano.network import is_internet
 import kano_settings.keyboard.keyboard_layouts as keyboard_layouts
 import kano_settings.keyboard.keyboard_config as keyboard_config
 from kano.gtk3.heading import Heading
@@ -118,6 +120,14 @@ class KeyboardScreen(Gtk.Box):
         # show all elements except the advanced mode
         self.refresh_window()
 
+    def go_to_next_screen(self):
+        self.win.clear_win()
+        # Check first for internet
+        if not is_internet():
+            InternetScreen(self.win)
+        else:
+            UpdateScreen(self.win)
+
     def refresh_window(self):
         self.win.show_all()
         self.variants_combo.hide()
@@ -139,7 +149,7 @@ class KeyboardScreen(Gtk.Box):
                 def done():
                     self.win.get_window().set_cursor(None)
                     self.kano_button.set_sensitive(True)
-                    sys.exit(0)
+                    self.go_to_next_screen()
 
                 GObject.idle_add(done)
 
@@ -148,7 +158,7 @@ class KeyboardScreen(Gtk.Box):
 
         # keyboard does not need updating
         else:
-            sys.exit(0)
+            self.go_to_next_screen()
 
     def update_config(self):
 
