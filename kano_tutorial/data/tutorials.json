@@ -2,13 +2,13 @@
   "TUTORIAL_1": {
     "KEYBOARD_FILENAME": "keyboard-tab.png",
     "JUDOKA_FILENAME": "mouse-dotted.png",
-    "LABEL_1": "We just made it!  Now let's start activating out powers!  First - the mouse.",
+    "LABEL_1": "We escaped!  Now let's turn on new powers!  First - the mouse.",
     "LABEL_2": "Press [tab] to activate the mouse"
   },
   "TUTORIAL_2": {
     "KEYBOARD_FILENAME": "keyboard-enter.png",
     "JUDOKA_FILENAME": "mouse-filled.png",
-    "LABEL_1": "Great!",
+    "LABEL_1": "Nice! You can move the mouse with the touchpad.",
     "LABEL_2": "Pres [enter] to continue"
   },
   "TUTORIAL_3": {
@@ -20,7 +20,7 @@
   "TUTORIAL_4": {
     "KEYBOARD_FILENAME": "keyboard-enter.png",
     "JUDOKA_FILENAME": "judoka-fixed.png",
-    "LABEL_1": "Wow thanks - you flipped me!  Now I just need my colors.",
+    "LABEL_1": "Wow thanks - you flipped me!  Good mouse-work.",
     "LABEL_2": "Press [enter] to continue"
   },
   "TUTORIAL_5": {
@@ -29,8 +29,8 @@
     "WORD_JUDOKA_FILENAME": "judoka-pointing.png",
     "DRAGGING_JUDOKA_FILENAME": "judoka-dragged.png",
     "DRAGGING_BG_FILENAME": "judoka-dragged-BG.png",
-    "LABEL_1": "I can show you more pictures!",
-    "LABEL_2": "Click and drag me to the color"
+    "LABEL_1": "I can show colors too – 16.7 million of them!",
+    "LABEL_2": "Click, hold, and drag me to the color"
   },
   "TUTORIAL_6": {
     "KEYBOARD_FILENAME": "keyboard-enter.png",
