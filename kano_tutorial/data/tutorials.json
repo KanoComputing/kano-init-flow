@@ -9,7 +9,7 @@
     "KEYBOARD_FILENAME": "keyboard-enter.png",
     "JUDOKA_FILENAME": "mouse-filled.png",
     "LABEL_1": "Nice! You can move the mouse with the touchpad.",
-    "LABEL_2": "Pres [enter] to continue"
+    "LABEL_2": "Press [enter] to continue"
   },
   "TUTORIAL_3": {
     "KEYBOARD_FILENAME": "keyboard-click.png",
