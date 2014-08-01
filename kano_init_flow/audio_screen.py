@@ -44,7 +44,7 @@ class AudioTemplate(Gtk.Box):
 
         self.yes_button = KanoButton("YES")
         self.yes_button.set_sensitive(False)
-        self.no_button = KanoButton("NO")
+        self.no_button = KanoButton("NO", color="red")
         self.no_button.set_sensitive(False)
         button_box.pack_start(self.yes_button, False, False, 0)
         button_box.pack_start(self.no_button, False, False, 0)
