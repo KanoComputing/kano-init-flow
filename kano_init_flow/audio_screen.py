@@ -12,7 +12,7 @@ from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.heading import Heading
-from template import Template
+from template import Template, TopImageTemplate, HintHeading
 from kano.utils import play_sound
 from kano_settings.config_file import set_setting, file_replace
 import kano_init_flow.constants as constants
@@ -53,18 +53,25 @@ class AudioTemplate(Gtk.Box):
         self.pack_start(button_box, False, False, 15)
 
 
-class AudioHintTemplate(Template):
+class AudioHintTemplate(TopImageTemplate):
 
     def __init__(self, img_filename, title, description, kano_button_text, hint_text="", orange_button_text=""):
-        Template.__init__(self, img_filename, title, description, kano_button_text, orange_button_text=orange_button_text)
-        self.kano_button.set_margin_top(30)
+        TopImageTemplate.__init__(self, img_filename)
 
-        hint = Gtk.Label(hint_text)
-        hint.get_style_context().add_class("hint_label")
-        hint.set_margin_top(0)
+        self.heading = HintHeading(title, description, hint_text)
+        self.pack_start(self.heading.container, False, False, 0)
+
         self.heading.description.set_margin_bottom(0)
+        self.heading.container.set_margin_bottom(0)
+        self.heading.container.set_size_request(590, -1)
+        self.heading.container.set_spacing(0)
 
-        self.heading.container.pack_start(hint, False, False, 0)
+        self.kano_button = KanoButton(kano_button_text)
+        self.kano_button.set_margin_top(30)
+        self.kano_button.set_margin_bottom(30)
+        self.kano_button.pack_and_align()
+
+        self.pack_start(self.kano_button.align, False, False, 0)
 
 
 class AudioScreen():

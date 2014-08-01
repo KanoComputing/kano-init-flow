@@ -84,3 +84,26 @@ class Template(Gtk.Box):
 
     def get_orange_button(self):
         return getattr(self.button_box, "orange_button", None)
+
+
+class TopImageTemplate(Gtk.Box):
+
+    def __init__(self, img_filename):
+        Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
+        image = Gtk.Image()
+        image.set_from_file(img_filename)
+        self.pack_start(image, False, False, 0)
+
+
+class HintHeading(Heading):
+
+    def __init__(self, title, description, hint_text):
+        Heading.__init__(self, title, description)
+        self.container.set_spacing(0)
+        self.hint = Gtk.Label(hint_text)
+        self.description.set_justify(Gtk.Justification.CENTER)
+        self.hint.set_line_wrap(True)
+        self.hint.get_style_context().add_class("hint_label")
+        self.container.pack_start(self.hint, False, False, 0)
+
+
