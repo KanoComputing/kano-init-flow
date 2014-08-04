@@ -8,6 +8,7 @@
 # Screen for configuring audio
 #
 
+import time
 from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
@@ -100,7 +101,8 @@ class AudioScreen():
 
     def play_sound(self, widget, event):
 
-        play_sound('/usr/share/kano-media/sounds/kano_make.wav', background=False)
+        play_sound('/usr/share/kano-media/sounds/kano_make.wav', background=True)
+        time.sleep(1)
         self.template.yes_button.set_sensitive(True)
         self.template.no_button.set_sensitive(True)
 

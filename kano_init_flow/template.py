@@ -67,6 +67,7 @@ class Template(Gtk.Box):
         if img_filename is not None:
             self.image = Gtk.Image.new_from_file(img_filename)
             self.pack_start(self.image, False, False, 0)
+
         self.heading = Heading(title, description)
         self.heading.container.set_size_request(590, -1)
         if button2_text:
