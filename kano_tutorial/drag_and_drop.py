@@ -19,6 +19,7 @@ from kano_tutorial.data import get_data
 from kano_tutorial.tutorial_template import TutorialTemplate
 from kano_tutorial.paths import media_dir
 from kano.logging import logger
+from kano.gtk3.cursor import attach_cursor_events
 
 data_5 = get_data(5)
 data_6 = get_data(6)
@@ -44,6 +45,7 @@ class Judoka(Gtk.EventBox):
         self.image = Gtk.Image.new_from_file(img_filename)
         self.eventbox = Gtk.EventBox()
         self.eventbox.add(self.image)
+        attach_cursor_events(self.eventbox)
 
         self.bg_image = Gtk.Image()
         self.bg_image.set_from_file(drag_bg_filename)

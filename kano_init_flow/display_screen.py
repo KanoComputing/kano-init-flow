@@ -42,7 +42,8 @@ class DisplayScreen():
         # Create UI
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", orange_button_text="NO")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2="NO")
+        self.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.get_orange_button().connect("button_release_event", self.tutorial_screen)
         self.win.add(self.template)
@@ -103,7 +104,7 @@ class DisplayTutorial():
         if self.original_overscan != self.overscan_values:
             # Bring in message dialog box
             kdialog = kano_dialog.KanoDialog(
-                "Are you sure you want to apply changes?",
+                "Are you sure you want to set this screen size?",
                 "",
                 {
                     "OK": {

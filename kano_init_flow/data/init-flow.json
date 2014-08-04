@@ -38,7 +38,7 @@
   "AUDIO_TUTORIAL_1": {
     "IMG_FILENAME": "/Audio_See_the_light.png",
     "LABEL_1": "Can you see the light?",
-    "LABEL_2": "If the power lead is connected correctly, you should see a blue light."
+    "LABEL_2": "If the power plugs are connected correctly, you should see a blue light."
   },
   "AUDIO_TUTORIAL_2": {
     "IMG_FILENAME": "/Audio_GPIO.png",
@@ -59,13 +59,13 @@
   },
   "DISPLAY_SCREEN": {
     "IMG_FILENAME": "/display_test.png",
-    "LABEL_1": "Are the lines touching the display edges?",
-    "LABEL_2": "Make sure the corners are aligned"
+    "LABEL_1": "Are the lines touching the edges of your screen?",
+    "LABEL_2": "Make sure you can see the whole white line"
   },
     "DISPLAY_TUTORIAL": {
     "IMG_FILENAME": "/display_test2.png",
-    "LABEL_1": "Use UP and DOWN to adjust your screen",
-    "LABEL_2": "Make sure you see the white lines, and they're aligned with your display edges"
+    "LABEL_1": "Use UP and DOWN to adjust your screen size",
+    "LABEL_2": "Make sure you see the white lines, lined up with the edges of your screen"
   },
   "REBOOT_SCREEN": {
       "LABEL_1": "Time to reboot",
@@ -77,17 +77,17 @@
   },
   "PROFILE_CREATED": {
     "IMG_FILENAME" : "/profile_created.png",
-    "LABEL_1": "Welcome to your profile!",
-    "LABEL_2": "Now you can download music and videos, share your character, and connect with friends around the world."
+    "LABEL_1": "Profile created!",
+    "LABEL_2": "Now you can share stuff, build your character, and connect with friends! You've earned some rewards..."
   },
   "NO_PROFILE": {
     "IMG_FILENAME" : "/no_profile.png",
-    "LABEL_1": "No online profile for now",
-    "LABEL_2": "Your profile is where you can store all your swag, badges and challenges. But fear not - we will save everything for when you have internet."
+    "LABEL_1": "No online profile – for now",
+    "LABEL_2": "Your profile stores all your rewards, projects, and challenges. But fear not - we'll save everything for when you have internet."
   },
   "SWAG_SCREEN": {
       "IMG_FILENAME": "/swag.png",
       "LABEL_1": "Swag time!",
-      "LABEL_2": "As you play, you win! You unlocked a new badge, background and levelled up!"
+      "LABEL_2": "As you make, you win! By building and coding your own computer, you unlocked a new character, background, and badge!"
   }
 }
