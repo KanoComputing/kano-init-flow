@@ -72,10 +72,15 @@ class Screen1(TutorialTemplate):
         top = ButtonTemplate()
         top.set_level(1)
         top.connect("key-release-event", self.next)
+        self.win.connect("map-event", self.set_cursor_invisible)
 
         self.box.pack_start(top, False, False, 0)
         top.grab_focus()
         self.win.show_all()
+
+    def set_cursor_invisible(self, widget=None, event=None):
+        blank_cursor = Gdk.Cursor(Gdk.CursorType.BLANK_CURSOR)
+        self.win.get_window().set_cursor(blank_cursor)
 
     def next(self, widget, event):
         keyname = Gdk.keyval_name(event.keyval)
@@ -94,10 +99,14 @@ class Screen2(TutorialTemplate):
         top = ButtonTemplate()
         top.set_level(2)
         top.connect("key-release-event", self.next)
+        self.set_cursor_visible()
 
         self.box.add(top)
         top.grab_focus()
         self.win.show_all()
+
+    def set_cursor_visible(self):
+        self.win.get_window().set_cursor(None)
 
     def next(self, widget, event):
         keyname = Gdk.keyval_name(event.keyval)
