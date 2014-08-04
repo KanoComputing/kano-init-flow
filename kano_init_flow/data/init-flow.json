@@ -84,10 +84,5 @@
     "IMG_FILENAME" : "/no_profile.png",
     "LABEL_1": "No online profile – for now",
     "LABEL_2": "Your profile stores all your rewards, projects, and challenges. But fear not - we'll save everything for when you have internet."
-  },
-  "SWAG_SCREEN": {
-      "IMG_FILENAME": "/swag.png",
-      "LABEL_1": "Swag time!",
-      "LABEL_2": "As you make, you win! By building and coding your own computer, you unlocked a new character, background, and badge!"
   }
 }

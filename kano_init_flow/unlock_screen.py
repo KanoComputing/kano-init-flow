@@ -8,8 +8,8 @@
 # Shows profile created
 #
 
+import sys
 from template import Template
-from swag_screen import SwagScreen
 from kano_world.functions import is_registered
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
@@ -37,11 +37,11 @@ class UnlockScreen():
             subheader = self.no_profile_data["LABEL_2"]
             image += self.no_profile_data["IMG_FILENAME"]
 
-        self.template = Template(image, header, subheader, "UNLOCK REWARDS")
+        self.template = Template(image, header, subheader, "LET'S GO")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.win.show_all()
 
     def activate(self, widget, event):
-        self.win.clear_win()
-        SwagScreen(self.win)
+        # Exit
+        sys.exit(0)
