@@ -11,9 +11,11 @@
 from template import Template
 from internet_screen import InternetScreen
 from update_screen import UpdateScreen
+from keyboard_screen import KeyboardScreen
 from kano.network import is_internet
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
+from kano.utils import detect_kano_keyboard
 
 
 class FirstScreen():
@@ -32,8 +34,9 @@ class FirstScreen():
     def activate(self, widget, event):
         self.win.clear_win()
 
-        # Check first for internet
-        if not is_internet():
+        if not detect_kano_keyboard():
+            KeyboardScreen(self.win)
+        elif not is_internet():
             InternetScreen(self.win)
         else:
             UpdateScreen(self.win)
