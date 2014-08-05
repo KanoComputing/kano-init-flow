@@ -28,12 +28,16 @@ class SettingsIntroScreen():
             subheader = self.data["LABEL_3"]
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "TEST SOUND")
         self.template.kano_button.connect("button_release_event", self.activate)
+        self.template.kano_button.connect("key_release_event", self.activate)
         self.win.add(self.template)
         self.win.reset_allocation()
 
         self.win.show_all()
 
     def activate(self, widget, event):
-        self.win.clear_win()
-        # TODO: DisplayScreen(self.win)
-        AudioScreen(self.win)
+         # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+
+            self.win.clear_win()
+            # TODO: DisplayScreen(self.win)
+            AudioScreen(self.win)

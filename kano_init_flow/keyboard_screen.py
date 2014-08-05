@@ -52,6 +52,7 @@ class KeyboardScreen(Gtk.Box):
         self.kano_button = KanoButton("APPLY CHANGES")
         self.kano_button.set_sensitive(False)  # Make sure continue button is enabled
         self.kano_button.connect("button_release_event", self.apply_changes)
+        self.kano_button.connect("key_release_event", self.apply_changes)
         button_box = Gtk.ButtonBox(spacing=10)
         button_box.set_layout(Gtk.ButtonBoxStyle.SPREAD)
         button_box.add(self.kano_button)
@@ -133,32 +134,34 @@ class KeyboardScreen(Gtk.Box):
         self.variants_combo.hide()
 
     def apply_changes(self, widget, event):
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
 
-        # Check for changes from default
-        if not (self.selected_country.lower() == "us" and self.selected_variant == "generic"):
+            # Check for changes from default
+            if not (self.selected_country.lower() == "us" and self.selected_variant == "generic"):
 
-            # This is a callback called by the main loop, so it's safe to
-            # manipulate GTK objects:
-            watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
-            self.win.get_window().set_cursor(watch_cursor)
-            self.kano_button.set_sensitive(False)
+                # This is a callback called by the main loop, so it's safe to
+                # manipulate GTK objects:
+                watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+                self.win.get_window().set_cursor(watch_cursor)
+                self.kano_button.set_sensitive(False)
 
-            def lengthy_process():
-                keyboard_config.set_keyboard(self.selected_country, self.selected_variant)
+                def lengthy_process():
+                    keyboard_config.set_keyboard(self.selected_country, self.selected_variant)
 
-                def done():
-                    self.win.get_window().set_cursor(None)
-                    self.kano_button.set_sensitive(True)
-                    self.go_to_next_screen()
+                    def done():
+                        self.win.get_window().set_cursor(None)
+                        self.kano_button.set_sensitive(True)
+                        self.go_to_next_screen()
 
-                GObject.idle_add(done)
+                    GObject.idle_add(done)
 
-            thread = threading.Thread(target=lengthy_process)
-            thread.start()
+                thread = threading.Thread(target=lengthy_process)
+                thread.start()
 
-        # keyboard does not need updating
-        else:
-            self.go_to_next_screen()
+            # keyboard does not need updating
+            else:
+                self.go_to_next_screen()
 
     def update_config(self):
 

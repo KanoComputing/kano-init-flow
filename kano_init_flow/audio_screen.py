@@ -93,6 +93,9 @@ class AudioScreen():
         self.template.kano_button.connect("button_release_event", self.play_sound)
         self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.no_button.connect("button_release_event", self.fix_sound)
+        self.template.kano_button.connect("key_release_event", self.play_sound)
+        self.template.yes_button.connect("key_release_event", self.go_to_next)
+        self.template.no_button.connect("key_release_event", self.fix_sound)
         self.win.add(self.template)
 
         self.win.show_all()
@@ -100,22 +103,27 @@ class AudioScreen():
         number_tries += 1
 
     def play_sound(self, widget, event):
-
-        play_sound('/usr/share/kano-media/sounds/kano_make.wav', background=True)
-        time.sleep(1)
-        self.template.yes_button.set_sensitive(True)
-        self.template.no_button.set_sensitive(True)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            play_sound('/usr/share/kano-media/sounds/kano_make.wav', background=True)
+            time.sleep(1)
+            self.template.yes_button.set_sensitive(True)
+            self.template.no_button.set_sensitive(True)
 
     def go_to_next(self, widget, event):
-        self.win.clear_win()
-        DisplayScreen(self.win)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            self.win.clear_win()
+            DisplayScreen(self.win)
 
     def fix_sound(self, widget, event):
-        self.win.clear_win()
-        if number_tries == 1:
-            AudioTutorial1(self.win)
-        else:
-            TvSpeakersScreen(self.win)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            self.win.clear_win()
+            if number_tries == 1:
+                AudioTutorial1(self.win)
+            else:
+                TvSpeakersScreen(self.win)
 
 
 class AudioTutorial1():
@@ -130,17 +138,25 @@ class AudioTutorial1():
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2_text="NO")
         self.template.kano_button.connect("button_release_event", self.end_screen)
         self.template.kano_button2.connect("button_release_event", self.next_screen)
+        self.template.kano_button.connect("key_release_event", self.end_screen)
+        self.template.kano_button2.connect("key_release_event", self.next_screen)
         self.win.add(self.template)
 
         self.win.show_all()
 
     def end_screen(self, widget, event):
-        self.win.clear_win()
-        AudioTutorial3(self.win)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+
+            self.win.clear_win()
+            AudioTutorial3(self.win)
 
     def next_screen(self, widget, event):
-        self.win.clear_win()
-        AudioTutorial2(self.win)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+
+            self.win.clear_win()
+            AudioTutorial2(self.win)
 
 
 class AudioTutorial2():
@@ -155,13 +171,16 @@ class AudioTutorial2():
         hint = self.data["LABEL_3"]
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
+        self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.add(self.template)
 
         self.win.show_all()
 
     def next_screen(self, widget, event):
-        self.win.clear_win()
-        AudioTutorial3(self.win)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            self.win.clear_win()
+            AudioTutorial3(self.win)
 
 
 class AudioTutorial3():
@@ -176,15 +195,18 @@ class AudioTutorial3():
         hint = self.data["LABEL_3"]
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
+        self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.add(self.template)
         self.win.reset_allocation()
 
         self.win.show_all()
 
     def next_screen(self, widget, event):
-        self.win.clear_win()
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
 
-        AudioScreen(self.win)
+            self.win.clear_win()
+            AudioScreen(self.win)
 
 
 class TvSpeakersScreen():
@@ -199,31 +221,35 @@ class TvSpeakersScreen():
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "USE TV SPEAKERS", orange_button_text="Setup later")
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
+        self.template.kano_button.connect("key_release_event", self.setup_hdmi)
         self.win.add(self.template)
 
         self.win.show_all()
 
     def setup_hdmi(self, widget, event):
-        # Apply HDMI settings
-        rc_local_path = "/etc/rc.audio"
-        config_txt_path = "/boot/config.txt"
-        # Uncomment/comment out the line in /boot/config.txt
-        amixer_from = "amixer -c 0 cset numid=3 [0-9]"
-        edid_from = "#?hdmi_ignore_edid_audio=1"
-        drive_from = "#?hdmi_drive=2"
-        # HDMI config
-        amixer_to = "amixer -c 0 cset numid=3 2"
-        edid_to = "#hdmi_ignore_edid_audio=1"
-        drive_to = "hdmi_drive=2"
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
 
-        file_replace(rc_local_path, amixer_from, amixer_to)
-        file_replace(config_txt_path, edid_from, edid_to)
-        file_replace(config_txt_path, drive_from, drive_to)
+            # Apply HDMI settings
+            rc_local_path = "/etc/rc.audio"
+            config_txt_path = "/boot/config.txt"
+            # Uncomment/comment out the line in /boot/config.txt
+            amixer_from = "amixer -c 0 cset numid=3 [0-9]"
+            edid_from = "#?hdmi_ignore_edid_audio=1"
+            drive_from = "#?hdmi_drive=2"
+            # HDMI config
+            amixer_to = "amixer -c 0 cset numid=3 2"
+            edid_to = "#hdmi_ignore_edid_audio=1"
+            drive_to = "hdmi_drive=2"
 
-        # Indicate kano-settings that we are now in HDMI
-        set_setting("Audio", "HDMI")
+            file_replace(rc_local_path, amixer_from, amixer_to)
+            file_replace(config_txt_path, edid_from, edid_to)
+            file_replace(config_txt_path, drive_from, drive_to)
 
-        self.go_to_next()
+            # Indicate kano-settings that we are now in HDMI
+            set_setting("Audio", "HDMI")
+
+            self.go_to_next()
 
     def go_to_next(self, widget=None, event=None):
 

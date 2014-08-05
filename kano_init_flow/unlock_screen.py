@@ -40,8 +40,11 @@ class UnlockScreen():
         self.template = Template(image, header, subheader, "LET'S GO")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
+        self.template.kano_button.connect("key_release_event", self.activate)
         self.win.show_all()
 
     def activate(self, widget, event):
-        # Exit
-        sys.exit(0)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            # Exit
+            sys.exit(0)

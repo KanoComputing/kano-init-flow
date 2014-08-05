@@ -34,13 +34,16 @@ class UpdateScreen():
         image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "UPDATE NOW!")
         self.template.kano_button.connect("button_release_event", self.launch_updater)
+        self.template.kano_button.connect("key_release_event", self.launch_updater)
 
         self.win.add(self.template)
         self.win.show_all()
 
     def launch_updater(self, widget, event):
-        exit_code = self.template.exit_codes["launch_updater"]
-        sys.exit(exit_code)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            exit_code = self.template.exit_codes["launch_updater"]
+            sys.exit(exit_code)
 
     def next_screen(self):
         self.win.clear_win()

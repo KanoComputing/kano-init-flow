@@ -28,12 +28,16 @@ class InternetScreen():
 
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
+        self.template.kano_button.connect("key_release_event", self.activate)
         self.template.get_orange_button().connect("button_release_event", self.skip)
         self.win.show_all()
 
     def activate(self, widget, event):
-        exit_code = self.template.exit_codes["launch_wifi"]
-        sys.exit(exit_code)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+
+            exit_code = self.template.exit_codes["launch_wifi"]
+            sys.exit(exit_code)
 
     def skip(self, widget, event):
         self.win.clear_win()
@@ -53,12 +57,16 @@ class NoInternetScreen():
         self.template = Template(image, header, subheader, "TRY AGAIN", orange_button_text="Connect later")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
+        self.template.kano_button.connect("key_release_event", self.launch_wifi_config)
         self.template.orange_button.connect("button_release_event", self.next_screen)
         self.win.show_all()
 
     def launch_wifi_config(self, widget, event):
-        exit_code = self.template.exit_codes["launch_wifi"]
-        sys.exit(exit_code)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+
+            exit_code = self.template.exit_codes["launch_wifi"]
+            sys.exit(exit_code)
 
     def next_screen(self, widget, event):
         self.win.clear_win()
@@ -77,8 +85,12 @@ class OfflineScreen():
         self.template = Template(image, header, subheader, "PLAY OFFLINE")
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.skip)
+        self.template.kano_button.connect("key_release_event", self.skip)
         self.win.show_all()
 
     def skip(self, widget, event):
-        self.win.clear_win()
-        SettingsIntroScreen(self.win, False)
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+
+            self.win.clear_win()
+            SettingsIntroScreen(self.win, False)
