@@ -43,7 +43,7 @@ class DisplayScreen():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2_text="NO")
-        self.kano_button2.set_color("red")
+        self.template.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button2.connect("button_release_event", self.tutorial_screen)
         self.win.add(self.template)
