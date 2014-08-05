@@ -9,7 +9,7 @@
 #
 
 import os
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GdkPixbuf
 from data import get_data
 from kano_tutorial.paths import media_dir
 
@@ -38,4 +38,9 @@ class TutorialTemplate(Gtk.Box):
     def set_from_level(self, level):
         data = get_data(level)
         filename = os.path.join(media_dir, data["KEYBOARD_FILENAME"])
-        self.keyboard.set_from_file(filename)
+        extension = os.path.splitext(filename)[1]
+        if extension == '.gif':
+            anim = GdkPixbuf.PixbufAnimation.new_from_file(filename)
+            self.keyboard.set_from_animation(anim)
+        else:
+            self.keyboard.set_from_file(filename)
