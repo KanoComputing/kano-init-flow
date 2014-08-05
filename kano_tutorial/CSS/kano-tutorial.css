@@ -24,12 +24,12 @@ GtkWindow {
 
 .drag_source_label {
     color: #ffffff;
-    font: Bariol 16;
+    font: FreeMono 16;
 }
 
 .drag_source_label_bold {
     color: #ffffff;
-    font: Bariol Bold 16;
+    font: FreeMono Bold 16;
 }
 
 .drag_dest.button {
