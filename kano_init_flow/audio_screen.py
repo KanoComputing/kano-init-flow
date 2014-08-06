@@ -82,6 +82,7 @@ class AudioScreen():
         global number_tries
 
         self.win = win
+        self.time_click = None
 
         if number_tries == 0:
             header = self.data["LABEL_1"]
@@ -103,8 +104,11 @@ class AudioScreen():
         number_tries += 1
 
     def play_sound(self, widget, event):
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        # Check if first click or 3 seconds have past
+        ready = (self.time_click is None) or (time.time() - self.time_click > 3)
+        # If ready and enter key is pressed or mouse button is clicked
+        if ready and (not hasattr(event, 'keyval') or event.keyval == 65293):
+            self.time_click = time.time()
             play_sound('/usr/share/kano-media/sounds/kano_make.wav', background=True)
             time.sleep(1)
             self.template.yes_button.set_sensitive(True)
