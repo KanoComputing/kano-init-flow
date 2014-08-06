@@ -69,7 +69,6 @@ class Template(Gtk.Box):
             self.pack_start(self.image, False, False, 0)
 
         self.heading = Heading(title, description)
-        self.heading.container.set_size_request(590, -1)
         if button2_text:
             self.button_box = TwoButtons(button1_text, button2_text)
             self.kano_button2 = getattr(self.button_box, "button2", None)
