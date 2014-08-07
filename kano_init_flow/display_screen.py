@@ -145,8 +145,10 @@ class DisplayTutorial():
         set_overscan_status(self.overscan_values)
 
     def zoom_in(self):
-        self.overscan_values['top'] -= self.inc
-        self.overscan_values['bottom'] -= self.inc
-        self.overscan_values['left'] -= self.inc
-        self.overscan_values['right'] -= self.inc
-        set_overscan_status(self.overscan_values)
+        # Do not go into negative values
+        if self.overscan_values['top'] > 0:
+            self.overscan_values['top'] -= self.inc
+            self.overscan_values['bottom'] -= self.inc
+            self.overscan_values['left'] -= self.inc
+            self.overscan_values['right'] -= self.inc
+            set_overscan_status(self.overscan_values)
