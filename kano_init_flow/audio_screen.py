@@ -15,6 +15,7 @@ from kano.gtk3.buttons import KanoButton
 from kano.gtk3.heading import Heading
 from template import Template, TopImageTemplate, HintHeading
 from kano.utils import play_sound
+from kano_settings.boot_config import set_config_value
 from kano_settings.config_file import set_setting, file_replace
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
@@ -237,19 +238,15 @@ class TvSpeakersScreen():
 
             # Apply HDMI settings
             rc_local_path = "/etc/rc.audio"
-            config_txt_path = "/boot/config.txt"
-            # Uncomment/comment out the line in /boot/config.txt
-            amixer_from = "amixer -c 0 cset numid=3 [0-9]"
-            edid_from = "#?hdmi_ignore_edid_audio=1"
-            drive_from = "#?hdmi_drive=2"
-            # HDMI config
-            amixer_to = "amixer -c 0 cset numid=3 2"
-            edid_to = "#hdmi_ignore_edid_audio=1"
-            drive_to = "hdmi_drive=2"
 
+            # Uncomment/comment out the line in /etc/rc.audio
+            amixer_from = "amixer -c 0 cset numid=3 [0-9]"
+            amixer_to = "amixer -c 0 cset numid=3 2"
+
+            # HDMI config also in /boot/config.txt
             file_replace(rc_local_path, amixer_from, amixer_to)
-            file_replace(config_txt_path, edid_from, edid_to)
-            file_replace(config_txt_path, drive_from, drive_to)
+            set_config_value("hdmi_ignore_edid_audio", None)
+            set_config_value("hdmi_drive", 2)
 
             # Indicate kano-settings that we are now in HDMI
             set_setting("Audio", "HDMI")
