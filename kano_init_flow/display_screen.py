@@ -127,6 +127,7 @@ class DisplayTutorial():
     def reset(self, widget, event):
         # Restore overscan if any
         if self.original_overscan != self.overscan_values:
+            self.overscan_values = self.original_overscan
             set_overscan_status(self.original_overscan)
 
     def go_to_next(self):
