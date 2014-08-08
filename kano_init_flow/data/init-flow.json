@@ -7,7 +7,7 @@
   "INTERNET_SCREEN": {
     "IMG_FILENAME": "/connect.png",
     "LABEL_1": "Connect to the world",
-    "LABEL_2": "Let's setup Wifi and bring your Kano to life"
+    "LABEL_2": "Let's set up Wifi and bring your Kano to life"
   },
   "NO_INTERNET_SCREEN": {
     "IMG_FILENAME": "/no_internet.png",
@@ -26,8 +26,8 @@
   "SETTINGS_INTRO_SCREEN": {
     "IMG_FILENAME": "/update_successful.png",
     "LABEL_1": "You have the power!",
-    "LABEL_2": "Update successful! Now let's test out your powers.",
-    "LABEL_3": "Now let's test out your powers."
+    "LABEL_2": "Now let's test your computer's sound and screen.",
+    "LABEL_3": "Now let's test your computer's sound and screen."
   },
   "AUDIO_SCREEN": {
     "IMG_FILENAME": "/sound_test.png",
@@ -73,7 +73,7 @@
   },
   "KEYBOARD_SCREEN": {
     "LABEL_1": "Keyboard",
-    "LABEL_2": "Where do you live? So I can set your keyboard"
+    "LABEL_2": "Where do you live? So I can set your keyboard layout"
   },
   "PROFILE_CREATED": {
     "IMG_FILENAME" : "/profile_created.png",
