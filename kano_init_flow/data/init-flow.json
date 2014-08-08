@@ -7,7 +7,7 @@
   "INTERNET_SCREEN": {
     "IMG_FILENAME": "/connect.png",
     "LABEL_1": "Connect to the world",
-    "LABEL_2": "Let's set up Wifi and bring your Kano to life"
+    "LABEL_2": "Let's set up WiFi and bring your Kano to life"
   },
   "NO_INTERNET_SCREEN": {
     "IMG_FILENAME": "/no_internet.png",
@@ -60,12 +60,12 @@
   "DISPLAY_SCREEN": {
     "IMG_FILENAME": "/display_test.png",
     "LABEL_1": "Are the lines touching the edges of your screen?",
-    "LABEL_2": "Make sure you can see the whole white line"
+    "LABEL_2": "Make sure you can see all four lines"
   },
     "DISPLAY_TUTORIAL": {
     "IMG_FILENAME": "/display_test2.png",
-    "LABEL_1": "Use UP and DOWN to adjust your screen size",
-    "LABEL_2": "Make sure you see the white lines, lined up with the edges of your screen"
+    "LABEL_1": "Use UP and DOWN keys",
+    "LABEL_2": "Stretch or shrink your screen, until the white lines are lined up with the edges"
   },
   "REBOOT_SCREEN": {
       "LABEL_1": "Time to reboot",
