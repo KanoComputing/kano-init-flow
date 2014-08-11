@@ -159,6 +159,9 @@ class KeyboardScreen(Gtk.Box):
                 thread = threading.Thread(target=lengthy_process)
                 thread.start()
 
+                # Save the changes in the config
+                self.update_config()
+
             # keyboard does not need updating
             else:
                 self.go_to_next_screen()
