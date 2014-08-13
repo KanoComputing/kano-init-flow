@@ -45,21 +45,29 @@ class DisplayScreen():
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2_text="NO")
         self.template.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event", self.next_screen)
+        self.template.kano_button.connect("key_release_event", self.next_screen)
         self.template.kano_button2.connect("button_release_event", self.tutorial_screen)
         self.win.add(self.template)
+
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
 
         self.win.show_all()
 
     def tutorial_screen(self, widget, event):
-        self.win.clear_win()
-        DisplayTutorial(self.win)
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            self.win.clear_win()
+            DisplayTutorial(self.win)
 
     def next_screen(self, widget, event):
-        # Restore background
-        change_wallpaper(wallpaper_path, "kanux-background")
-        # Go to next screen
-        self.win.clear_win()
-        RebootScreen(self.win)
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+
+            # Restore background
+            change_wallpaper(wallpaper_path, "kanux-background")
+
+            # Go to next screen
+            self.win.clear_win()
+            RebootScreen(self.win)
 
 
 class DisplayTutorial():
@@ -96,7 +104,7 @@ class DisplayTutorial():
             self.zoom_out()
             return
         # Down arrow (65361)
-        if not hasattr(event, 'keyval') or event.keyval == 65364:
+        if not hasattr(event, 'keyval') or event.keyval == 65361:
             self.zoom_in()
             return
 

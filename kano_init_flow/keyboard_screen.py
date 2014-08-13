@@ -118,6 +118,9 @@ class KeyboardScreen(Gtk.Box):
         self.pack_start(valign, False, False, 0)
         self.pack_start(button_box, False, False, 0)
 
+        # Make the kano button grab the focus
+        self.kano_button.grab_focus()
+
         # show all elements except the advanced mode
         self.refresh_window()
 

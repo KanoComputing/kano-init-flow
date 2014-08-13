@@ -30,6 +30,10 @@ class InternetScreen():
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
         self.template.get_orange_button().connect("button_release_event", self.skip)
+
+        # Make one of the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def activate(self, widget, event):
@@ -59,6 +63,10 @@ class NoInternetScreen():
         self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
         self.template.kano_button.connect("key_release_event", self.launch_wifi_config)
         self.template.orange_button.connect("button_release_event", self.next_screen)
+
+        # Make one of the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def launch_wifi_config(self, widget, event):
@@ -86,6 +94,10 @@ class OfflineScreen():
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.skip)
         self.template.kano_button.connect("key_release_event", self.skip)
+
+        # Make one of the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def skip(self, widget, event):

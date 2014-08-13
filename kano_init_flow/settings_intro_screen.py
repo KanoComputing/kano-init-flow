@@ -32,6 +32,9 @@ class SettingsIntroScreen():
         self.win.add(self.template)
         self.win.reset_allocation()
 
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def activate(self, widget, event):
