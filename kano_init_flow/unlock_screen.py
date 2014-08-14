@@ -41,6 +41,10 @@ class UnlockScreen():
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
+
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def activate(self, widget, event):

@@ -30,10 +30,13 @@ class FirstScreen():
         self.win.add(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
+
+        # Make one of the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def activate(self, widget, event):
-        # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
             self.win.clear_win()

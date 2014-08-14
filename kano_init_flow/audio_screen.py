@@ -100,6 +100,9 @@ class AudioScreen():
         self.template.no_button.connect("key_release_event", self.fix_sound)
         self.win.add(self.template)
 
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
         number_tries += 1
@@ -148,6 +151,9 @@ class AudioTutorial1():
         self.template.kano_button2.connect("key_release_event", self.next_screen)
         self.win.add(self.template)
 
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def end_screen(self, widget, event):
@@ -180,6 +186,9 @@ class AudioTutorial2():
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.add(self.template)
 
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def next_screen(self, widget, event):
@@ -205,6 +214,9 @@ class AudioTutorial3():
         self.win.add(self.template)
         self.win.reset_allocation()
 
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def next_screen(self, widget, event):
@@ -229,6 +241,9 @@ class TvSpeakersScreen():
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.template.kano_button.connect("key_release_event", self.setup_hdmi)
         self.win.add(self.template)
+
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
 
         self.win.show_all()
 
