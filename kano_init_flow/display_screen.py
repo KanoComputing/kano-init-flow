@@ -103,8 +103,8 @@ class DisplayTutorial():
         if not hasattr(event, 'keyval') or event.keyval == 65362:
             self.zoom_out()
             return
-        # Down arrow (65361)
-        if not hasattr(event, 'keyval') or event.keyval == 65361:
+        # Down arrow (65364)
+        if not hasattr(event, 'keyval') or event.keyval == 65364:
             self.zoom_in()
             return
 
