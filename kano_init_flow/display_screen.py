@@ -47,6 +47,7 @@ class DisplayScreen():
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.template.kano_button2.connect("button_release_event", self.tutorial_screen)
+        self.template.kano_button2.connect("key_release_event", self.tutorial_screen)
         self.win.add(self.template)
 
         # Make the kano button grab the focus
@@ -93,6 +94,7 @@ class DisplayTutorial():
         subheader = self.data["LABEL_2"]
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", orange_button_text="Reset")
         self.template.kano_button.connect("button_release_event", self.apply_changes)
+        self.template.kano_button.connect("key_release_event", self.apply_changes)
         self.template.orange_button.connect("button_release_event", self.reset)
         self.win.add(self.template)
 
@@ -109,28 +111,29 @@ class DisplayTutorial():
             return
 
     def apply_changes(self, widget, event):
-        if self.original_overscan != self.overscan_values:
-            # Bring in message dialog box
-            kdialog = kano_dialog.KanoDialog(
-                "Are you sure you want to set this screen size?",
-                "",
-                {
-                    "OK": {
-                        "return_value": -1
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            if self.original_overscan != self.overscan_values:
+                # Bring in message dialog box
+                kdialog = kano_dialog.KanoDialog(
+                    "Are you sure you want to set this screen size?",
+                    "",
+                    {
+                        "OK": {
+                            "return_value": -1
+                        },
+                        "CANCEL": {
+                            "return_value": 0
+                        }
                     },
-                    "CANCEL": {
-                        "return_value": 0
-                    }
-                },
-                parent_window=self.win
-            )
-            response = kdialog.run()
-            if response == 0:
-                return
-            # Apply changes
-            write_overscan_values(self.overscan_values)
-        # Next screen
-        self.go_to_next()
+                    parent_window=self.win
+                )
+                response = kdialog.run()
+                if response == 0:
+                    return
+                # Apply changes
+                write_overscan_values(self.overscan_values)
+            # Next screen
+            self.go_to_next()
 
     def reset(self, widget, event):
         # Restore overscan if any
