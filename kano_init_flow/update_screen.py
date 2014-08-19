@@ -32,15 +32,11 @@ class UpdateScreen():
         header = "You are connected to %s - now let's update!" % network
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]
-        self.template = Template(image, header, subheader, "UPDATE NOW!")
+        self.template = Template(image, header, subheader, "UPDATE NOW")
         self.template.kano_button.connect("button_release_event", self.launch_updater)
         self.template.kano_button.connect("key_release_event", self.launch_updater)
 
         self.win.add(self.template)
-
-        # Make the kano button grab the focus
-        self.template.kano_button.grab_focus()
-
         self.win.show_all()
 
     def launch_updater(self, widget, event):

@@ -21,7 +21,7 @@
     },
   "UPDATE_SCREEN": {
     "IMG_FILENAME": "/update.png",
-    "LABEL_2": "Updating takes about 15 minutes."
+    "LABEL_2": "Keep your Kano fast and fun. Updating takes about 15 minutes."
   },
   "SETTINGS_INTRO_SCREEN": {
     "IMG_FILENAME": "/update_successful.png",
