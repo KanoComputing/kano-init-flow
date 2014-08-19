@@ -23,6 +23,20 @@ from kano_init_flow.paths import media_dir
 from kano_init_flow.display_screen import DisplayScreen
 
 number_tries = 0
+rc_local_path = "/etc/rc.audio"
+
+
+def current_audio_setting():
+    f = open(rc_local_path, 'r')
+    file_string = str(f.read())
+    analogue_string = "amixer -c 0 cset numid=3 1"
+    hdmi_string = "amixer -c 0 cset numid=3 2"
+
+    if file_string.find(analogue_string) != -1:
+        return "Analogue"
+
+    elif file_string.find(hdmi_string) != -1:
+        return "HDMI"
 
 
 class AudioTemplate(Gtk.Box):
@@ -129,7 +143,12 @@ class AudioScreen():
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
             if number_tries == 1:
-                AudioTutorial1(self.win)
+
+                # check if current settings is configured for HDMI or analogue
+                if current_audio_setting() == "Analogue":
+                    AudioTutorial1(self.win)
+                else:
+                    GoToAnalogueScreen(self.win)
             else:
                 TvSpeakersScreen(self.win)
 
@@ -236,7 +255,8 @@ class TvSpeakersScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "USE TV SPEAKERS", orange_button_text="Setup later")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader,
+                                 "USE TV SPEAKERS", orange_button_text="Setup later")
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.template.kano_button.connect("key_release_event", self.setup_hdmi)
@@ -251,9 +271,6 @@ class TvSpeakersScreen():
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
-            # Apply HDMI settings
-            rc_local_path = "/etc/rc.audio"
-
             # Uncomment/comment out the line in /etc/rc.audio
             amixer_from = "amixer -c 0 cset numid=3 [0-9]"
             amixer_to = "amixer -c 0 cset numid=3 2"
@@ -265,6 +282,52 @@ class TvSpeakersScreen():
 
             # Indicate kano-settings that we are now in HDMI
             set_setting("Audio", "HDMI")
+
+            self.go_to_next()
+
+    def go_to_next(self, widget=None, event=None):
+
+        self.win.clear_win()
+        DisplayScreen(self.win)
+
+
+class GoToAnalogueScreen():
+    data = get_data("ANALOGUE_SCREEN")
+
+    def __init__(self, win):
+
+        self.win = win
+
+        header = self.data["LABEL_1"]
+        subheader = self.data["LABEL_2"]
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader,
+                                 "USE SPEAKERS", orange_button_text="Setup later")
+        self.template.kano_button.connect("button_release_event", self.setup_analogue)
+        self.template.orange_button.connect("button_release_event", self.go_to_next)
+        self.template.kano_button.connect("key_release_event", self.setup_analogue)
+        self.win.add(self.template)
+
+        # Make the kano button grab the focus
+        self.template.kano_button.grab_focus()
+
+        self.win.show_all()
+
+    def setup_analogue(self, widget, event):
+        # If enter key is pressed or mouse button is clicked
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
+            print "entered analogue"
+
+            # Uncomment/comment out the line in /etc/rc.audio
+            amixer_from = "amixer -c 0 cset numid=3 [0-9]"
+            amixer_to = "amixer -c 0 cset numid=3 1"
+
+            # HDMI config also in /boot/config.txt
+            file_replace(rc_local_path, amixer_from, amixer_to)
+            set_config_value("hdmi_ignore_edid_audio", None)
+            set_config_value("hdmi_drive", 1)
+
+            # Indicate kano-settings that we are now in HDMI
+            set_setting("Audio", "Analogue")
 
             self.go_to_next()
 
