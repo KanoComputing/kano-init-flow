@@ -20,7 +20,7 @@ import kano.gtk3.kano_dialog as kano_dialog
 
 kdeskrc_home = "/home/%s/.kdeskrc"
 wallpaper_path = "/usr/share/kano-desktop/wallpapers/"
-overscan_pipe = "/var/tmp/overscan"
+overscan_pipe = "/dev/mailbox"
 
 
 class DisplayScreen():
