@@ -59,8 +59,8 @@
   },
   "ANALOGUE_SCREEN": {
     "IMG_FILENAME": "/Audio_Use_Speakers.png",
-    "LABEL_1": "Let's switch to a speaker",
-    "LABEL_2": "If you want to stop using TV speaker, click the button below"
+    "LABEL_1": "Let's switch your speaker",
+    "LABEL_2": "If you want to change from TV sound to analogue speaker, click the button below"
   },
   "DISPLAY_SCREEN": {
     "IMG_FILENAME": "/display_test.png",

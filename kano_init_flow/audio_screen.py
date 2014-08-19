@@ -315,7 +315,6 @@ class GoToAnalogueScreen():
     def setup_analogue(self, widget, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
-            print "entered analogue"
 
             # Uncomment/comment out the line in /etc/rc.audio
             amixer_from = "amixer -c 0 cset numid=3 [0-9]"
