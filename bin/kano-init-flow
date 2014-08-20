@@ -18,6 +18,7 @@ if __name__ == '__main__' and __package__ is None:
         sys.path.append(dir_path)
 
 from kano.gtk3.apply_styles import apply_styles
+from kano.gtk3.application_window import ApplicationWindow
 from kano.utils import is_number
 from kano_init_flow.first_screen import FirstScreen
 from kano_init_flow.internet_screen import InternetScreen
@@ -44,7 +45,7 @@ refs = {
 
 
 # Window class
-class MainWindow(Gtk.Window):
+class MainWindow(ApplicationWindow):
 
     def __init__(self, stage=0):
 
@@ -57,7 +58,7 @@ class MainWindow(Gtk.Window):
         styleContext.add_provider_for_screen(screen, specific_css, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
         # Create main window
-        Gtk.Window.__init__(self, title="Kano")
+        ApplicationWindow.__init__(self, title="Kano", width=2, height=2)
         self.set_decorated(False)
         self.set_resizable(False)
         self.connect("delete-event", Gtk.main_quit)
@@ -69,8 +70,7 @@ class MainWindow(Gtk.Window):
         refs[stage](self)
 
     def clear_win(self):
-        for i in self.get_children():
-            self.remove(i)
+        self.remove_main_widget()
 
     def reset_allocation(self):
         # hacky fix - reset height allocation for the window

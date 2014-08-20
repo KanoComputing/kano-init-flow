@@ -29,7 +29,7 @@ class SettingsIntroScreen():
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "TEST SOUND")
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
         self.win.reset_allocation()
 
         # Make the kano button grab the focus

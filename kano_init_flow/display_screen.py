@@ -31,11 +31,11 @@ class DisplayScreen():
         self.win = _win
 
         # check for monitor
-        if is_monitor():
+        #if is_monitor():
             # Go to next screen
-            self.win.clear_win()
-            RebootScreen(self.win)
-            return
+            #self.win.clear_win()
+            #RebootScreen(self.win)
+            #return
 
         # Change background
         change_wallpaper(constants.media, "/Display-Test")
@@ -48,7 +48,7 @@ class DisplayScreen():
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.template.kano_button2.connect("button_release_event", self.tutorial_screen)
         self.template.kano_button2.connect("key_release_event", self.tutorial_screen)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
@@ -96,7 +96,7 @@ class DisplayTutorial():
         self.template.kano_button.connect("button_release_event", self.apply_changes)
         self.template.kano_button.connect("key_release_event", self.apply_changes)
         self.template.orange_button.connect("button_release_event", self.reset)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
 
         self.win.show_all()
 

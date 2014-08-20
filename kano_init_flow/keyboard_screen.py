@@ -36,7 +36,7 @@ class KeyboardScreen(Gtk.Box):
 
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.win = _win
-        self.win.add(self)
+        self.win.set_main_widget(self)
 
         # Heading
         self.heading = Heading("Keyboard", "Where do you live? So I can set your keyboard")
