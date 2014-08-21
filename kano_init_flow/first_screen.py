@@ -27,7 +27,7 @@ class FirstScreen():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "START SETUP")
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
 

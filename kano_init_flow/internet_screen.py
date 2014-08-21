@@ -26,7 +26,7 @@ class InternetScreen():
         subheader = self.data["LABEL_2"]
         self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONNECT", orange_button_text="No internet")
 
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
         self.template.get_orange_button().connect("button_release_event", self.skip)
@@ -59,7 +59,7 @@ class NoInternetScreen():
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "TRY AGAIN", orange_button_text="Connect later")
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
         self.template.kano_button.connect("key_release_event", self.launch_wifi_config)
         self.template.orange_button.connect("button_release_event", self.next_screen)
@@ -91,7 +91,7 @@ class OfflineScreen():
         subheader = self.data["LABEL_2"]
         image = constants.media + self.data["IMG_FILENAME"]
         self.template = Template(image, header, subheader, "PLAY OFFLINE")
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.skip)
         self.template.kano_button.connect("key_release_event", self.skip)
 

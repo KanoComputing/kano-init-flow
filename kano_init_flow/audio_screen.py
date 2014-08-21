@@ -112,7 +112,7 @@ class AudioScreen():
         self.template.kano_button.connect("key_release_event", self.play_sound)
         self.template.yes_button.connect("key_release_event", self.go_to_next)
         self.template.no_button.connect("key_release_event", self.fix_sound)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
@@ -168,7 +168,7 @@ class AudioTutorial1():
         self.template.kano_button2.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.end_screen)
         self.template.kano_button2.connect("key_release_event", self.next_screen)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
@@ -203,7 +203,7 @@ class AudioTutorial2():
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
@@ -230,7 +230,7 @@ class AudioTutorial3():
         self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
         self.win.reset_allocation()
 
         # Make the kano button grab the focus
@@ -260,7 +260,7 @@ class TvSpeakersScreen():
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.template.kano_button.connect("key_release_event", self.setup_hdmi)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
@@ -305,7 +305,7 @@ class GoToAnalogueScreen():
         self.template.kano_button.connect("button_release_event", self.setup_analogue)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.template.kano_button.connect("key_release_event", self.setup_analogue)
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
