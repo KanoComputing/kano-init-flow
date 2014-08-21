@@ -37,6 +37,8 @@ class UpdateScreen():
         self.template.kano_button.connect("key_release_event", self.launch_updater)
 
         self.win.set_main_widget(self.template)
+
+        self.template.kano_button.grab_focus()
         self.win.show_all()
 
     def launch_updater(self, widget, event):

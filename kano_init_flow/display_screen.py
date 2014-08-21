@@ -98,6 +98,8 @@ class DisplayTutorial():
         self.template.orange_button.connect("button_release_event", self.reset)
         self.win.set_main_widget(self.template)
 
+        self.template.kano_button.grab_focus()
+
         self.win.show_all()
 
     def on_key_press(self, widget, event):
