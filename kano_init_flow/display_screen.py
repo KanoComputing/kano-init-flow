@@ -31,11 +31,11 @@ class DisplayScreen():
         self.win = _win
 
         # check for monitor
-        #if is_monitor():
+        if is_monitor():
             # Go to next screen
-            #self.win.clear_win()
-            #RebootScreen(self.win)
-            #return
+            self.win.clear_win()
+            RebootScreen(self.win)
+            return
 
         # Change background
         change_wallpaper(constants.media, "/Display-Test")
