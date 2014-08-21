@@ -59,10 +59,11 @@ class MainWindow(ApplicationWindow):
 
         # Create main window
         ApplicationWindow.__init__(self, title="Kano", width=2, height=2)
-        self.set_decorated(False)
-        self.set_resizable(False)
-        self.connect("delete-event", Gtk.main_quit)
+
+        # This needs to be here to get the resizing correct for the screens
         self.show_all()
+
+        # This is to get position right when the window resizes
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         self.goto(stage)
 
