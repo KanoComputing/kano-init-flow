@@ -18,6 +18,8 @@ from kano_settings.system.display import get_overscan_status, write_overscan_val
 from kano_settings.set_wallpaper import change_wallpaper
 import kano.gtk3.kano_dialog as kano_dialog
 
+from gi.repository import Gdk
+
 kdeskrc_home = "/home/%s/.kdeskrc"
 wallpaper_path = "/usr/share/kano-desktop/wallpapers/"
 overscan_pipe = "/dev/mailbox"
@@ -56,12 +58,12 @@ class DisplayScreen():
         self.win.show_all()
 
     def tutorial_screen(self, widget, event):
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             self.win.clear_win()
             DisplayTutorial(self.win)
 
     def next_screen(self, widget, event):
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
 
             # Restore background
             change_wallpaper(wallpaper_path, "kanux-background")
@@ -104,16 +106,16 @@ class DisplayTutorial():
 
     def on_key_press(self, widget, event):
         # Up arrow (65362)
-        if not hasattr(event, 'keyval') or event.keyval == 65362:
+        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Up:
             self.zoom_out()
             return
         # Down arrow (65364)
-        if not hasattr(event, 'keyval') or event.keyval == 65364:
+        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Down:
             self.zoom_in()
             return
 
     def apply_changes(self, widget, event):
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             if self.original_overscan != self.overscan_values:
                 # Bring in message dialog box
                 kdialog = kano_dialog.KanoDialog(
