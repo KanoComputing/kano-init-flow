@@ -14,7 +14,7 @@ from kano.utils import is_monitor, run_cmd
 from kano_init_flow.reboot_screen import RebootScreen
 from kano_init_flow.data import get_data
 import kano_init_flow.constants as constants
-from kano_settings.display.functions import get_overscan_status, write_overscan_values, set_overscan_status
+from kano_settings.system.display import get_overscan_status, write_overscan_values, set_overscan_status
 from kano_settings.set_wallpaper import change_wallpaper
 import kano.gtk3.kano_dialog as kano_dialog
 
