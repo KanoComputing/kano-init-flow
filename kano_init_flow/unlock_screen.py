@@ -38,7 +38,7 @@ class UnlockScreen():
             image += self.no_profile_data["IMG_FILENAME"]
 
         self.template = Template(image, header, subheader, "LET'S GO")
-        self.win.add(self.template)
+        self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
 
