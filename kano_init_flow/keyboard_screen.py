@@ -12,8 +12,8 @@ import threading
 from internet_screen import InternetScreen
 from update_screen import UpdateScreen
 from kano.network import is_internet
-import kano_settings.keyboard.keyboard_layouts as keyboard_layouts
-import kano_settings.keyboard.keyboard_config as keyboard_config
+import kano_settings.system.keyboard_layouts as keyboard_layouts
+import kano_settings.system.keyboard_config as keyboard_config
 from kano.gtk3.heading import Heading
 from kano.gtk3.buttons import KanoButton
 from kano_settings.config_file import get_setting, set_setting
