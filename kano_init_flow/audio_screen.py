@@ -23,20 +23,6 @@ from kano_init_flow.paths import media_dir
 from kano_init_flow.display_screen import DisplayScreen
 
 number_tries = 0
-rc_local_path = "/etc/rc.audio"
-
-
-def current_audio_setting():
-    f = open(rc_local_path, 'r')
-    file_string = str(f.read())
-    analogue_string = "amixer -c 0 cset numid=3 1"
-    hdmi_string = "amixer -c 0 cset numid=3 2"
-
-    if file_string.find(analogue_string) != -1:
-        return "Analogue"
-
-    elif file_string.find(hdmi_string) != -1:
-        return "HDMI"
 
 
 class AudioTemplate(Gtk.Box):
@@ -49,7 +35,8 @@ class AudioTemplate(Gtk.Box):
             self.pack_start(self.image, False, False, 0)
         self.heading = Heading(title, description)
 
-        self.kano_button = KanoButton(text="PLAY SOUND", color="blue", icon_filename=media_dir + "/play-sound.png")
+        self.kano_button = KanoButton(text="PLAY SOUND", color="blue",
+                                      icon_filename=media_dir + "/play-sound.png")
         self.kano_button.pack_and_align()
         self.kano_button.set_margin_top(10)
         self.pack_start(self.heading.container, False, False, 0)
@@ -71,7 +58,8 @@ class AudioTemplate(Gtk.Box):
 
 class AudioHintTemplate(TopImageTemplate):
 
-    def __init__(self, img_filename, title, description, kano_button_text, hint_text="", orange_button_text=""):
+    def __init__(self, img_filename, title, description, kano_button_text,
+                 hint_text="", orange_button_text=""):
         TopImageTemplate.__init__(self, img_filename)
 
         self.heading = HintHeading(title, description, hint_text)
@@ -105,12 +93,13 @@ class AudioScreen():
             header = self.data["LABEL_3"]
             self.win.reset_allocation()
         subheader = self.data["LABEL_2"]
-        self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader)
+        self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"],
+                                      header, subheader)
         self.template.kano_button.connect("button_release_event", self.play_sound)
-        self.template.yes_button.connect("button_release_event", self.go_to_next)
-        self.template.no_button.connect("button_release_event", self.fix_sound)
         self.template.kano_button.connect("key_release_event", self.play_sound)
+        self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.yes_button.connect("key_release_event", self.go_to_next)
+        self.template.no_button.connect("button_release_event", self.fix_sound)
         self.template.no_button.connect("key_release_event", self.fix_sound)
         self.win.set_main_widget(self.template)
 
