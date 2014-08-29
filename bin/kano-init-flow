@@ -19,7 +19,7 @@ if __name__ == '__main__' and __package__ is None:
 
 from kano.gtk3.apply_styles import apply_styles
 from kano.gtk3.application_window import ApplicationWindow
-from kano.utils import is_number
+from kano.utils import is_number, enforce_root
 from kano_init_flow.first_screen import FirstScreen
 from kano_init_flow.internet_screen import InternetScreen
 from kano_init_flow.update_screen import UpdateScreen
@@ -42,6 +42,8 @@ refs = {
     7: KeyboardScreen,
     8: RebootScreen,
 }
+
+enforce_root('Please run it as root / sudo user!')
 
 
 # Window class
