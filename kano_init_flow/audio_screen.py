@@ -14,7 +14,6 @@ from gi.repository import Gtk
 import kano_init_flow.constants as constants
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.heading import Heading
-from kano.gtk3.kano_dialog import KanoDialog
 from kano.utils import play_sound
 from kano_init_flow.data import get_data
 from kano_init_flow.display_screen import DisplayScreen
@@ -142,11 +141,6 @@ class AudioScreen():
                 if hdmi_supported:
                     TvSpeakersScreen(self.win)
                 else:
-                    kdialog = KanoDialog("Problem with audio",
-                                         "Possibly there is a problem with your speaker?",
-                                         parent_window=self.win)
-                    kdialog.run()
-                    self.win.clear_win()
                     DisplayScreen(self.win)
 
 
