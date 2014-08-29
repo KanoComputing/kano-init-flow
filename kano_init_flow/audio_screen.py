@@ -159,7 +159,8 @@ class SeeTheLightScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2_text="NO")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header,
+                                 subheader, "YES", button2_text="NO")
         self.template.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event", self.end_screen)
         self.template.kano_button.connect("key_release_event", self.end_screen)
@@ -197,7 +198,8 @@ class CheckTheGPIOScreen():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", hint_text=hint)
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"],
+                                          header, subheader, "NEXT", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.set_main_widget(self.template)
@@ -224,7 +226,8 @@ class BlueCableScreen():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", hint_text=hint)
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"],
+                                          header, subheader, "FINISH", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.set_main_widget(self.template)
@@ -252,8 +255,9 @@ class TvSpeakersScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader,
-                                 "USE TV SPEAKERS", orange_button_text="Setup later")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header,
+                                 subheader, "USE TV SPEAKERS",
+                                 orange_button_text="Setup later")
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.template.kano_button.connect("key_release_event", self.setup_hdmi)
