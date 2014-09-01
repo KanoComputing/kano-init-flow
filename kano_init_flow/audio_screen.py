@@ -11,32 +11,17 @@
 import time
 from gi.repository import Gtk
 
+import kano_init_flow.constants as constants
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.heading import Heading
-from template import Template, TopImageTemplate, HintHeading
 from kano.utils import play_sound
-from kano_settings.boot_config import set_config_value
-from kano_settings.config_file import set_setting, file_replace
-import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
-from kano_init_flow.paths import media_dir
 from kano_init_flow.display_screen import DisplayScreen
+from kano_init_flow.paths import media_dir
+from kano_init_flow.template import Template, TopImageTemplate, HintHeading
+from kano_settings.system.audio import is_HDMI, set_to_HDMI, hdmi_supported
 
 number_tries = 0
-rc_local_path = "/etc/rc.audio"
-
-
-def current_audio_setting():
-    f = open(rc_local_path, 'r')
-    file_string = str(f.read())
-    analogue_string = "amixer -c 0 cset numid=3 1"
-    hdmi_string = "amixer -c 0 cset numid=3 2"
-
-    if file_string.find(analogue_string) != -1:
-        return "Analogue"
-
-    elif file_string.find(hdmi_string) != -1:
-        return "HDMI"
 
 
 class AudioTemplate(Gtk.Box):
@@ -49,7 +34,8 @@ class AudioTemplate(Gtk.Box):
             self.pack_start(self.image, False, False, 0)
         self.heading = Heading(title, description)
 
-        self.kano_button = KanoButton(text="PLAY SOUND", color="blue", icon_filename=media_dir + "/play-sound.png")
+        self.kano_button = KanoButton(text="PLAY SOUND", color="blue",
+                                      icon_filename=media_dir + "/play-sound.png")
         self.kano_button.pack_and_align()
         self.kano_button.set_margin_top(10)
         self.pack_start(self.heading.container, False, False, 0)
@@ -71,7 +57,8 @@ class AudioTemplate(Gtk.Box):
 
 class AudioHintTemplate(TopImageTemplate):
 
-    def __init__(self, img_filename, title, description, kano_button_text, hint_text="", orange_button_text=""):
+    def __init__(self, img_filename, title, description, kano_button_text,
+                 hint_text="", orange_button_text=""):
         TopImageTemplate.__init__(self, img_filename)
 
         self.heading = HintHeading(title, description, hint_text)
@@ -105,12 +92,13 @@ class AudioScreen():
             header = self.data["LABEL_3"]
             self.win.reset_allocation()
         subheader = self.data["LABEL_2"]
-        self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader)
+        self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"],
+                                      header, subheader)
         self.template.kano_button.connect("button_release_event", self.play_sound)
-        self.template.yes_button.connect("button_release_event", self.go_to_next)
-        self.template.no_button.connect("button_release_event", self.fix_sound)
         self.template.kano_button.connect("key_release_event", self.play_sound)
+        self.template.yes_button.connect("button_release_event", self.go_to_next)
         self.template.yes_button.connect("key_release_event", self.go_to_next)
+        self.template.no_button.connect("button_release_event", self.fix_sound)
         self.template.no_button.connect("key_release_event", self.fix_sound)
         self.win.set_main_widget(self.template)
 
@@ -122,7 +110,7 @@ class AudioScreen():
         number_tries += 1
 
     def play_sound(self, widget, event):
-        # Check if first click or 3 seconds have past
+        # Check if first click or 3 seconds have passed
         ready = (self.time_click is None) or (time.time() - self.time_click > 3)
         # If ready and enter key is pressed or mouse button is clicked
         if ready and (not hasattr(event, 'keyval') or event.keyval == 65293):
@@ -145,15 +133,18 @@ class AudioScreen():
             if number_tries == 1:
 
                 # check if current settings is configured for HDMI or analogue
-                if current_audio_setting() == "Analogue":
-                    AudioTutorial1(self.win)
+                if not is_HDMI():
+                    SeeTheLightScreen(self.win)
                 else:
-                    GoToAnalogueScreen(self.win)
+                    AnalogueScreen(self.win)
             else:
-                TvSpeakersScreen(self.win)
+                if hdmi_supported:
+                    TvSpeakersScreen(self.win)
+                else:
+                    DisplayScreen(self.win)
 
 
-class AudioTutorial1():
+class SeeTheLightScreen():
     data = get_data("AUDIO_TUTORIAL_1")
 
     def __init__(self, win):
@@ -162,11 +153,12 @@ class AudioTutorial1():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2_text="NO")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header,
+                                 subheader, "YES", button2_text="NO")
         self.template.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event", self.end_screen)
-        self.template.kano_button2.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.end_screen)
+        self.template.kano_button2.connect("button_release_event", self.next_screen)
         self.template.kano_button2.connect("key_release_event", self.next_screen)
         self.win.set_main_widget(self.template)
 
@@ -180,17 +172,17 @@ class AudioTutorial1():
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
             self.win.clear_win()
-            AudioTutorial3(self.win)
+            BlueCableScreen(self.win)
 
     def next_screen(self, widget, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
             self.win.clear_win()
-            AudioTutorial2(self.win)
+            CheckTheGPIOScreen(self.win)
 
 
-class AudioTutorial2():
+class CheckTheGPIOScreen():
     data = get_data("AUDIO_TUTORIAL_2")
 
     def __init__(self, win):
@@ -200,7 +192,8 @@ class AudioTutorial2():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "NEXT", hint_text=hint)
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"],
+                                          header, subheader, "NEXT", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.set_main_widget(self.template)
@@ -214,10 +207,10 @@ class AudioTutorial2():
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
-            AudioTutorial3(self.win)
+            BlueCableScreen(self.win)
 
 
-class AudioTutorial3():
+class BlueCableScreen():
     data = get_data("AUDIO_TUTORIAL_3")
 
     def __init__(self, win):
@@ -227,7 +220,8 @@ class AudioTutorial3():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"], header, subheader, "FINISH", hint_text=hint)
+        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"],
+                                          header, subheader, "FINISH", hint_text=hint)
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.set_main_widget(self.template)
@@ -255,8 +249,9 @@ class TvSpeakersScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader,
-                                 "USE TV SPEAKERS", orange_button_text="Setup later")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header,
+                                 subheader, "USE TV SPEAKERS",
+                                 orange_button_text="Setup later")
         self.template.kano_button.connect("button_release_event", self.setup_hdmi)
         self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.template.kano_button.connect("key_release_event", self.setup_hdmi)
@@ -270,19 +265,7 @@ class TvSpeakersScreen():
     def setup_hdmi(self, widget, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
-
-            # Uncomment/comment out the line in /etc/rc.audio
-            amixer_from = "amixer -c 0 cset numid=3 [0-9]"
-            amixer_to = "amixer -c 0 cset numid=3 2"
-
-            # HDMI config also in /boot/config.txt
-            file_replace(rc_local_path, amixer_from, amixer_to)
-            set_config_value("hdmi_ignore_edid_audio", None)
-            set_config_value("hdmi_drive", 2)
-
-            # Indicate kano-settings that we are now in HDMI
-            set_setting("Audio", "HDMI")
-
+            set_to_HDMI(True)
             self.go_to_next()
 
     def go_to_next(self, widget=None, event=None):
@@ -291,7 +274,7 @@ class TvSpeakersScreen():
         DisplayScreen(self.win)
 
 
-class GoToAnalogueScreen():
+class AnalogueScreen():
     data = get_data("ANALOGUE_SCREEN")
 
     def __init__(self, win):
@@ -300,11 +283,12 @@ class GoToAnalogueScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader,
-                                 "USE SPEAKERS", orange_button_text="Setup later")
+        self.template = Template(constants.media + self.data["IMG_FILENAME"],
+                                 header, subheader, "USE SPEAKERS",
+                                 orange_button_text="Setup later")
         self.template.kano_button.connect("button_release_event", self.setup_analogue)
-        self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.template.kano_button.connect("key_release_event", self.setup_analogue)
+        self.template.orange_button.connect("button_release_event", self.go_to_next)
         self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
@@ -315,19 +299,7 @@ class GoToAnalogueScreen():
     def setup_analogue(self, widget, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
-
-            # Uncomment/comment out the line in /etc/rc.audio
-            amixer_from = "amixer -c 0 cset numid=3 [0-9]"
-            amixer_to = "amixer -c 0 cset numid=3 1"
-
-            # HDMI config also in /boot/config.txt
-            file_replace(rc_local_path, amixer_from, amixer_to)
-            set_config_value("hdmi_ignore_edid_audio", None)
-            set_config_value("hdmi_drive", 1)
-
-            # Indicate kano-settings that we are now in HDMI
-            set_setting("Audio", "Analogue")
-
+            set_to_HDMI(False)
             self.go_to_next()
 
     def go_to_next(self, widget=None, event=None):
