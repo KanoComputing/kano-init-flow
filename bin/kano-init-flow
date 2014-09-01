@@ -60,6 +60,7 @@ class MainWindow(ApplicationWindow):
         styleContext.add_provider_for_screen(screen, specific_css, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
         # Create main window
+        # Try without the ApplicationWindow class
         ApplicationWindow.__init__(self, title="Kano", width=2, height=2)
 
         # This needs to be here to get the resizing correct for the screens
@@ -75,12 +76,17 @@ class MainWindow(ApplicationWindow):
     def clear_win(self):
         self.remove_main_widget()
 
+    # hacky fix - reset height allocation for the window
     def reset_allocation(self):
-        # hacky fix - reset height allocation for the window
+
         allocation = self.get_allocation()
         allocation.width = 1
         allocation.height = 1
         self.size_allocate(allocation)
+
+    # hacky fix - shrink height of window
+    def shrink(self):
+        self.resize(590, 100)
 
 
 def main():

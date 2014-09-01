@@ -30,7 +30,7 @@ class SettingsIntroScreen():
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
         self.win.set_main_widget(self.template)
-        self.win.reset_allocation()
+        self.win.shrink()
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
@@ -42,5 +42,4 @@ class SettingsIntroScreen():
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
             self.win.clear_win()
-            # TODO: DisplayScreen(self.win)
             AudioScreen(self.win)
