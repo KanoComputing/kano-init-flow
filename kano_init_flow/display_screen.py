@@ -31,6 +31,7 @@ class DisplayScreen():
     def __init__(self, _win):
 
         self.win = _win
+        self.win.set_resizable(True)
 
         # check for monitor
         if is_monitor():

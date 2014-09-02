@@ -90,7 +90,7 @@ class AudioScreen():
             header = self.data["LABEL_1"]
         else:
             header = self.data["LABEL_3"]
-            self.win.reset_allocation()
+            self.win.shrink()
         subheader = self.data["LABEL_2"]
         self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"],
                                       header, subheader)
@@ -225,7 +225,7 @@ class BlueCableScreen():
         self.template.kano_button.connect("button_release_event", self.next_screen)
         self.template.kano_button.connect("key_release_event", self.next_screen)
         self.win.set_main_widget(self.template)
-        self.win.reset_allocation()
+        self.win.shrink()
 
         # Make the kano button grab the focus
         self.template.kano_button.grab_focus()
