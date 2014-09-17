@@ -149,6 +149,7 @@ class KeyboardScreen(Gtk.Box):
                 # This is a callback called by the main loop, so it's safe to
                 # manipulate GTK objects:
                 watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+                self.kano_button.start_spinner()
                 self.win.get_window().set_cursor(watch_cursor)
                 self.kano_button.set_sensitive(False)
 
@@ -157,6 +158,7 @@ class KeyboardScreen(Gtk.Box):
 
                     def done():
                         self.win.get_window().set_cursor(None)
+                        self.kano_button.stop_spinner()
                         self.kano_button.set_sensitive(True)
                         self.go_to_next_screen()
 
