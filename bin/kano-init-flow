@@ -32,15 +32,15 @@ from kano_init_flow.reboot_screen import RebootScreen
 from kano_init_flow.paths import css_dir
 
 refs = {
-    0: FirstScreen,
-    1: InternetScreen,
-    2: UpdateScreen,
-    3: SettingsIntroScreen,
-    4: DisplayScreen,
-    5: AudioScreen,
-    6: UnlockScreen,
-    7: KeyboardScreen,
-    8: RebootScreen,
+    10: FirstScreen,
+    11: InternetScreen,
+    12: UpdateScreen,
+    13: SettingsIntroScreen,
+    14: DisplayScreen,
+    15: AudioScreen,
+    16: UnlockScreen,
+    17: KeyboardScreen,
+    18: RebootScreen,
 }
 
 enforce_root('Please run it as root / sudo user!')
@@ -49,7 +49,7 @@ enforce_root('Please run it as root / sudo user!')
 # Window class
 class MainWindow(ApplicationWindow):
 
-    def __init__(self, stage=0):
+    def __init__(self, stage=10):
 
         apply_styles_to_screen()
         specific_css = Gtk.CssProvider()
@@ -90,7 +90,7 @@ class MainWindow(ApplicationWindow):
 
 
 def main():
-    stage_number = 0
+    stage_number = 10
 
     if len(sys.argv) == 2:
         text = sys.argv[1]
