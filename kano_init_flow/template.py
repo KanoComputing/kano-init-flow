@@ -59,7 +59,7 @@ class TwoButtons(Gtk.ButtonBox):
 # Window class
 class Template(Gtk.Box):
 
-    exit_codes = {"launch_wifi": 1, "launch_updater": 2, "launch_profile": 5}
+    exit_codes = {"launch_wifi": 11, "launch_updater": 12, "launch_profile": 15}
 
     def __init__(self, img_filename, title, description, button1_text, button2_text="", orange_button_text=""):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)

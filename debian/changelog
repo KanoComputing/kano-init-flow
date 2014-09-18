@@ -1,3 +1,9 @@
+kano-init-flow (1.2.2-1) unstable; urgency=low
+
+  * Changed stage ref numbers
+
+ -- Team Kano <dev@kano.me>  Wed, 18 Sep 2014 14:39:10 +0100
+
 kano-init-flow (1.1-1) unstable; urgency=low
 
   * Initial packaging
