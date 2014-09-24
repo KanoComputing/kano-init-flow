@@ -35,7 +35,11 @@ class KeyboardScreen(Gtk.Box):
         self.selected_country_hr = "USA"
         self.selected_variant_hr = "generic"
 
+        # Set combobox styling to the screen
+        KanoComboBox.apply_styling_to_screen()
+
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
+
         self.win = _win
         self.win.set_main_widget(self)
 
