@@ -15,6 +15,7 @@ from settings_intro_screen import SettingsIntroScreen
 from kano.utils import run_cmd
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
+from kano_init_flow.common import get_init_conf
 
 
 class UpdateScreen():
@@ -23,8 +24,13 @@ class UpdateScreen():
     def __init__(self, win):
         self.win = win
 
-        # check internet
-        if not is_internet():
+        try:
+            flow_type = get_init_conf()["kano_init_flow"]["flow"]
+        except KeyError:
+            flow_type = "normal"
+
+        # no internet or the workshop flavour: skip the update
+        if not is_internet() or flow_type == "workshops":
             self.next_screen()
             return
 

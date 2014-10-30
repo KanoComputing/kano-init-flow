@@ -13,7 +13,7 @@ from template import Template
 from settings_intro_screen import SettingsIntroScreen
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
-
+from kano_init_flow.common import get_init_conf
 
 class InternetScreen():
     data = get_data("INTERNET_SCREEN")
@@ -21,6 +21,17 @@ class InternetScreen():
     def __init__(self, win):
 
         self.win = win
+
+        # Skip Internet setup for workshops
+        try:
+            flow_type = get_init_conf()["kano_init_flow"]["flow"]
+        except KeyError:
+            flow_type = "normal"
+
+        if flow_type == "workshops":
+            self.win.clear_win()
+            SettingsIntroScreen(self.win)
+            return
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]

@@ -19,7 +19,6 @@ from kano.gtk3.buttons import KanoButton
 from kano.gtk3.kano_combobox import KanoComboBox
 from kano_settings.config_file import get_setting, set_setting
 
-
 class KeyboardScreen(Gtk.Box):
     continents = ['Africa', 'America', 'Asia', 'Australia', 'Europe', 'Others']
 
@@ -133,7 +132,7 @@ class KeyboardScreen(Gtk.Box):
 
     def go_to_next_screen(self):
         self.win.clear_win()
-        # Check first for internet
+
         if not is_internet():
             InternetScreen(self.win)
         else:
