@@ -28,23 +28,7 @@ try:
     from kano.gtk3.application_window import ApplicationWindow
     from kano.utils import enforce_root
     from kano_init_flow.first_screen import FirstScreen
-    from kano_init_flow.internet_screen import InternetScreen
-    from kano_init_flow.update_screen import UpdateScreen
-    from kano_init_flow.settings_intro_screen import SettingsIntroScreen
-    from kano_init_flow.display_screen import DisplayScreen
-    from kano_init_flow.audio_screen import AudioScreen
-    from kano_init_flow.keyboard_screen import KeyboardScreen
     from kano_init_flow.paths import css_dir
-
-    refs = {
-        0: FirstScreen,
-        1: InternetScreen,
-        2: UpdateScreen,
-        3: SettingsIntroScreen,
-        4: DisplayScreen,
-        5: AudioScreen,
-        6: KeyboardScreen,
-    }
 
     enforce_root('Please run it as root / sudo user!')
 
@@ -67,9 +51,6 @@ try:
             self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
             # Start on First Screen
             FirstScreen(self)
-
-        def goto(self, stage):
-            refs[stage](self)
 
         def clear_win(self):
             self.remove_main_widget()
