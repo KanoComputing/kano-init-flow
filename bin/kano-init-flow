@@ -26,16 +26,14 @@ try:
 
     from kano.gtk3.apply_styles import apply_common_to_screen
     from kano.gtk3.application_window import ApplicationWindow
-    from kano.utils import is_number, enforce_root
+    from kano.utils import enforce_root
     from kano_init_flow.first_screen import FirstScreen
     from kano_init_flow.internet_screen import InternetScreen
     from kano_init_flow.update_screen import UpdateScreen
     from kano_init_flow.settings_intro_screen import SettingsIntroScreen
     from kano_init_flow.display_screen import DisplayScreen
     from kano_init_flow.audio_screen import AudioScreen
-    from kano_init_flow.unlock_screen import UnlockScreen
     from kano_init_flow.keyboard_screen import KeyboardScreen
-    from kano_init_flow.reboot_screen import RebootScreen
     from kano_init_flow.paths import css_dir
 
     refs = {
@@ -45,19 +43,15 @@ try:
         3: SettingsIntroScreen,
         4: DisplayScreen,
         5: AudioScreen,
-        6: UnlockScreen,
-        7: KeyboardScreen,
-        8: RebootScreen,
+        6: KeyboardScreen,
     }
 
     enforce_root('Please run it as root / sudo user!')
 
-
     # Window class
     class MainWindow(ApplicationWindow):
 
-        def __init__(self, stage=0):
-
+        def __init__(self):
             apply_common_to_screen()
             specific_css = Gtk.CssProvider()
             css_path = os.path.join(css_dir, "kano-init-flow.css")
@@ -65,17 +59,14 @@ try:
             screen = Gdk.Screen.get_default()
             styleContext = Gtk.StyleContext()
             styleContext.add_provider_for_screen(screen, specific_css, Gtk.STYLE_PROVIDER_PRIORITY_USER)
-
             # Create main window
-            # Try without the ApplicationWindow class
             ApplicationWindow.__init__(self, title="Kano", width=2, height=2)
-
             # This needs to be here to get the resizing correct for the screens
             self.show_all()
-
             # This is to get position right when the window resizes
             self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
-            self.goto(stage)
+            # Start on First Screen
+            FirstScreen(self)
 
         def goto(self, stage):
             refs[stage](self)
@@ -95,30 +86,17 @@ try:
         def shrink(self):
             self.resize(590, 100)
 
-
     def main():
-        stage_number = 0
-
-        if len(sys.argv) == 2:
-            text = sys.argv[1]
-
-            if not text is None and is_number(text):
-                stage_number = int(text)
-
-        MainWindow(stage_number)
+        MainWindow()
         Gtk.main()
-
 
     if __name__ == '__main__':
         main()
 except:
     import traceback
     from kano.logging import logger
-
     exc = traceback.format_exc().splitlines()
     for line in exc:
         logger.error(line)
 
-    # This must be bigger than 10 because kano-uixinit uses it to
-    # determine which stage to go to next.
-    sys.exit(32)
+    sys.exit(0)

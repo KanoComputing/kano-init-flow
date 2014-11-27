@@ -10,7 +10,7 @@ from gi.repository import Gtk, Gdk, GObject
 GObject.threads_init()
 import threading
 from internet_screen import InternetScreen
-from update_screen import UpdateScreen
+from settings_intro_screen import SettingsIntroScreen
 from kano.network import is_internet
 import kano_settings.system.keyboard_layouts as keyboard_layouts
 import kano_settings.system.keyboard_config as keyboard_config
@@ -18,6 +18,7 @@ from kano.gtk3.heading import Heading
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.kano_combobox import KanoComboBox
 from kano_settings.config_file import get_setting, set_setting
+
 
 class KeyboardScreen(Gtk.Box):
     continents = ['Africa', 'America', 'Asia', 'Australia', 'Europe', 'Others']
@@ -136,7 +137,7 @@ class KeyboardScreen(Gtk.Box):
         if not is_internet():
             InternetScreen(self.win)
         else:
-            UpdateScreen(self.win)
+            SettingsIntroScreen(self.win)
 
     def refresh_window(self):
         self.win.show_all()

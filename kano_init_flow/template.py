@@ -59,8 +59,6 @@ class TwoButtons(Gtk.ButtonBox):
 # Window class
 class Template(Gtk.Box):
 
-    exit_codes = {"launch_wifi": 1, "launch_updater": 2, "launch_profile": 5}
-
     def __init__(self, img_filename, title, description, button1_text, button2_text="", orange_button_text=""):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
@@ -106,5 +104,3 @@ class HintHeading(Heading):
         self.hint.set_line_wrap(True)
         self.hint.get_style_context().add_class("hint_label")
         self.container.pack_start(self.hint, False, False, 0)
-
-

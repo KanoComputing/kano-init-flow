@@ -9,9 +9,9 @@
 #
 
 import os
+import sys
 from template import Template
 from kano.utils import is_monitor, run_cmd
-from kano_init_flow.reboot_screen import RebootScreen
 from kano_init_flow.data import get_data
 import kano_init_flow.constants as constants
 from kano_settings.system.display import get_overscan_status, write_overscan_values, set_overscan_status
@@ -29,16 +29,12 @@ class DisplayScreen():
     data = get_data("DISPLAY_SCREEN")
 
     def __init__(self, _win):
+        # check for monitor
+        if is_monitor():
+            sys.exit(0)
 
         self.win = _win
         self.win.set_resizable(True)
-
-        # check for monitor
-        if is_monitor():
-            # Go to next screen
-            self.win.clear_win()
-            RebootScreen(self.win)
-            return
 
         # Change background
         change_wallpaper(constants.media, "/Display-Test")
@@ -65,13 +61,10 @@ class DisplayScreen():
 
     def next_screen(self, widget, event):
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-
             # Restore background
             change_wallpaper(wallpaper_path, "kanux-background")
-
-            # Go to next screen
-            self.win.clear_win()
-            RebootScreen(self.win)
+            # Init flow completed
+            sys.exit(0)
 
 
 class DisplayTutorial():
@@ -149,9 +142,8 @@ class DisplayTutorial():
     def go_to_next(self):
         # Restore background
         change_wallpaper(wallpaper_path, "kanux-background")
-        # Go to next screen
-        self.win.clear_win()
-        RebootScreen(self.win)
+        # Init flow completed
+        sys.exit(0)
 
     def zoom_out(self):
         self.overscan_values['top'] += self.inc

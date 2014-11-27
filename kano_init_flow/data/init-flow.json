@@ -72,22 +72,8 @@
     "LABEL_1": "Use UP and DOWN keys",
     "LABEL_2": "Stretch or shrink your screen, until the white lines are lined up with the edges"
   },
-  "REBOOT_SCREEN": {
-      "LABEL_1": "Time to reboot",
-      "LABEL_2": "To finish setup, we have to do a quick reboot. Don't worry! Everything is saved."
-  },
   "KEYBOARD_SCREEN": {
     "LABEL_1": "Keyboard",
     "LABEL_2": "Where do you live? So I can set your keyboard layout"
-  },
-  "PROFILE_CREATED": {
-    "IMG_FILENAME" : "/profile_created.png",
-    "LABEL_1": "Profile created!",
-    "LABEL_2": "Now you can share stuff, build your character, and connect with friends! You've earned some rewards..."
-  },
-  "NO_PROFILE": {
-    "IMG_FILENAME" : "/no_profile.png",
-    "LABEL_1": "No online profile – for now",
-    "LABEL_2": "Your profile stores all your rewards, projects, and challenges. But fear not - we'll save everything for when you have internet."
   }
 }

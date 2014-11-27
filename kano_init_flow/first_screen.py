@@ -10,7 +10,7 @@
 
 from template import Template
 from internet_screen import InternetScreen
-from update_screen import UpdateScreen
+from settings_intro_screen import SettingsIntroScreen
 from keyboard_screen import KeyboardScreen
 from kano.network import is_internet
 import kano_init_flow.constants as constants
@@ -46,4 +46,4 @@ class FirstScreen():
             elif not is_internet():
                 InternetScreen(self.win)
             else:
-                UpdateScreen(self.win)
+                SettingsIntroScreen(self.win)

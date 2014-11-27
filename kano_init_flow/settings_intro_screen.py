@@ -12,17 +12,18 @@ from template import Template
 from audio_screen import AudioScreen
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
+from kano.network import is_internet
 
 
 class SettingsIntroScreen():
     data = get_data("SETTINGS_INTRO_SCREEN")
 
-    def __init__(self, win, internet=True):
+    def __init__(self, win):
 
         self.win = win
         self.win.set_resizable(True)
         header = self.data["LABEL_1"]
-        if internet:
+        if is_internet():
             subheader = self.data["LABEL_2"]
         else:
             subheader = self.data["LABEL_3"]

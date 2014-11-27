@@ -10,6 +10,7 @@
 
 import json
 
+
 def get_init_conf():
     """ Loads system boot config. """
     try:

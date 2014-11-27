@@ -8,12 +8,13 @@
 # Screen giving user options for the internet
 #
 
-import sys
+import os
 from template import Template
 from settings_intro_screen import SettingsIntroScreen
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
 from kano_init_flow.common import get_init_conf
+
 
 class InternetScreen():
     data = get_data("INTERNET_SCREEN")
@@ -29,8 +30,7 @@ class InternetScreen():
             flow_type = "normal"
 
         if flow_type == "workshops":
-            self.win.clear_win()
-            SettingsIntroScreen(self.win)
+            self.go_to_next_screen()
             return
 
         header = self.data["LABEL_1"]
@@ -50,13 +50,18 @@ class InternetScreen():
     def activate(self, widget, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
-
-            exit_code = self.template.exit_codes["launch_wifi"]
-            sys.exit(exit_code)
+            # Launch kano-wifi
+            os.system('rxvt -title \'WiFi Setup\' -e sudo /usr/bin/kano-wifi')
+            # Go to Settings
+            self.go_to_next_screen()
 
     def skip(self, widget, event):
         self.win.clear_win()
         NoInternetScreen(self.win)
+
+    def go_to_next_screen(self):
+        self.win.clear_win()
+        SettingsIntroScreen(self.win)
 
 
 class NoInternetScreen():
@@ -83,9 +88,10 @@ class NoInternetScreen():
     def launch_wifi_config(self, widget, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
-
-            exit_code = self.template.exit_codes["launch_wifi"]
-            sys.exit(exit_code)
+            # Launch kano-wifi
+            os.system('rxvt -title \'WiFi Setup\' -e sudo /usr/bin/kano-wifi')
+            # Go to Settings
+            self.go_to_next_screen()
 
     def next_screen(self, widget, event):
         self.win.clear_win()
@@ -114,6 +120,5 @@ class OfflineScreen():
     def skip(self, widget, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
-
             self.win.clear_win()
-            SettingsIntroScreen(self.win, False)
+            SettingsIntroScreen(self.win)
