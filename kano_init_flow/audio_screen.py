@@ -119,6 +119,8 @@ class AudioScreen():
             time.sleep(1)
             self.template.yes_button.set_sensitive(True)
             self.template.no_button.set_sensitive(True)
+            # Make the yes button grab the focus
+            self.template.yes_button.grab_focus()
 
     def go_to_next(self, widget, event):
         # If enter key is pressed or mouse button is clicked
