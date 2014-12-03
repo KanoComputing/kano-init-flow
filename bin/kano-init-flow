@@ -77,7 +77,15 @@ try:
         if len(sys.argv) == 2 and sys.argv[1] == 'audio':
             first_screen = AudioScreen
         else:
-            first_screen = FirstScreen
+            # This is to support backwards compatibility 1.2.5
+            import os.path
+            from kano.utils import get_user_unsudoed
+
+            username = get_user_unsudoed()
+            if os.path.exists("%s/.kano-settings/after_update" % username):
+                first_screen = AudioScreen
+            else:
+                first_screen = FirstScreen
         main(first_screen)
 except:
     import traceback
