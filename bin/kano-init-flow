@@ -28,6 +28,7 @@ try:
     from kano.gtk3.application_window import ApplicationWindow
     from kano.utils import enforce_root
     from kano_init_flow.first_screen import FirstScreen
+    from kano_init_flow.audio_screen import AudioScreen
     from kano_init_flow.paths import css_dir
 
     enforce_root('Please run it as root / sudo user!')
@@ -35,7 +36,7 @@ try:
     # Window class
     class MainWindow(ApplicationWindow):
 
-        def __init__(self):
+        def __init__(self, first_screen):
             apply_common_to_screen()
             specific_css = Gtk.CssProvider()
             css_path = os.path.join(css_dir, "kano-init-flow.css")
@@ -49,8 +50,8 @@ try:
             self.show_all()
             # This is to get position right when the window resizes
             self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
-            # Start on First Screen
-            FirstScreen(self)
+            # Start on first_screen
+            first_screen(self)
 
         def clear_win(self):
             self.remove_main_widget()
@@ -67,12 +68,17 @@ try:
         def shrink(self):
             self.resize(590, 100)
 
-    def main():
-        MainWindow()
+    def main(first_screen):
+        MainWindow(first_screen)
         Gtk.main()
 
     if __name__ == '__main__':
-        main()
+        # Check for possible arguments
+        if len(sys.argv) == 2 and sys.argv[1] == 'audio':
+            first_screen = AudioScreen
+        else:
+            first_screen = FirstScreen
+        main(first_screen)
 except:
     import traceback
     from kano.logging import logger
