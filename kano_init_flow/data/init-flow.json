@@ -75,5 +75,9 @@
   "KEYBOARD_SCREEN": {
     "LABEL_1": "Keyboard",
     "LABEL_2": "Where do you live? So I can set your keyboard layout"
+  },
+    "REBOOT_SCREEN": {
+      "LABEL_1": "Time to reboot",
+      "LABEL_2": "To finish setup, we have to do a quick reboot. Don't worry! Everything is saved."
   }
 }

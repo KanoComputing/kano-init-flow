@@ -34,6 +34,7 @@ class DisplayScreen():
         # check for monitor
         if is_monitor():
             self.win.exit_flow()
+            return
 
         self.win.set_resizable(True)
 
