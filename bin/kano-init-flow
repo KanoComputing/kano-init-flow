@@ -36,7 +36,7 @@ try:
     # Window class
     class MainWindow(ApplicationWindow):
 
-        def __init__(self, first_screen):
+        def __init__(self, first_screen, reboot=False):
             apply_common_to_screen()
             specific_css = Gtk.CssProvider()
             css_path = os.path.join(css_dir, "kano-init-flow.css")
@@ -44,6 +44,8 @@ try:
             screen = Gdk.Screen.get_default()
             styleContext = Gtk.StyleContext()
             styleContext.add_provider_for_screen(screen, specific_css, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+            # We need this for backwards compatibility
+            self.need_reboot = reboot
             # Create main window
             ApplicationWindow.__init__(self, title="Kano", width=2, height=2)
             # This needs to be here to get the resizing correct for the screens
@@ -68,25 +70,30 @@ try:
         def shrink(self):
             self.resize(590, 100)
 
-    def main(first_screen):
-        MainWindow(first_screen)
+        def exit_flow(self):
+            if self.need_reboot:
+                os.system('reboot')
+            else:
+                # Init flow completed
+                sys.exit(0)
+
+    def main(first_screen, reboot=False):
+        MainWindow(first_screen, reboot)
         Gtk.main()
 
     if __name__ == '__main__':
-        # Check for possible arguments
-        if len(sys.argv) == 2 and sys.argv[1] == 'audio':
-            first_screen = AudioScreen
-        else:
-            # This is to support backwards compatibility 1.2.5
-            import os.path
-            from kano.utils import get_user_unsudoed
 
-            username = get_user_unsudoed()
-            if os.path.exists("%s/.kano-settings/after_update" % username):
+        first_screen = FirstScreen
+        reboot_at_end = False
+        # Check for possible arguments
+        if len(sys.argv) == 2:
+            if sys.argv[1] == 'audio':
                 first_screen = AudioScreen
+            # This is to support backwards compatibility < 1.3.1
             else:
-                first_screen = FirstScreen
-        main(first_screen)
+                first_screen = AudioScreen
+                reboot_at_end = True
+        main(first_screen, reboot_at_end)
 except:
     import traceback
     from kano.logging import logger

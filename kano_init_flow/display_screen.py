@@ -29,11 +29,12 @@ class DisplayScreen():
     data = get_data("DISPLAY_SCREEN")
 
     def __init__(self, _win):
+        
+        self.win = _win
         # check for monitor
         if is_monitor():
-            sys.exit(0)
+            self.win.exit_flow()
 
-        self.win = _win
         self.win.set_resizable(True)
 
         # Change background
@@ -63,8 +64,7 @@ class DisplayScreen():
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Restore background
             change_wallpaper(wallpaper_path, "kanux-background")
-            # Init flow completed
-            sys.exit(0)
+            self.win.exit_flow()
 
 
 class DisplayTutorial():
@@ -142,8 +142,7 @@ class DisplayTutorial():
     def go_to_next(self):
         # Restore background
         change_wallpaper(wallpaper_path, "kanux-background")
-        # Init flow completed
-        sys.exit(0)
+        self.win.exit_flow()
 
     def zoom_out(self):
         self.overscan_values['top'] += self.inc
