@@ -2,7 +2,7 @@
 
 # audio_screen.py
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014, 2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Screen for configuring audio
@@ -115,7 +115,7 @@ class AudioScreen():
         # If ready and enter key is pressed or mouse button is clicked
         if ready and (not hasattr(event, 'keyval') or event.keyval == 65293):
             self.time_click = time.time()
-            play_sound('/usr/share/kano-media/sounds/kano_make.wav', background=True)
+            play_sound('/usr/share/kano-media/sounds/kano_level_up.wav', background=True)
             time.sleep(1)
             self.template.yes_button.set_sensitive(True)
             self.template.no_button.set_sensitive(True)
