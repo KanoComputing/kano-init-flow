@@ -115,7 +115,7 @@ class AudioScreen():
         # If ready and enter key is pressed or mouse button is clicked
         if ready and (not hasattr(event, 'keyval') or event.keyval == 65293):
             self.time_click = time.time()
-            play_sound('/usr/share/kano-media/sounds/kano_level_up.wav', background=True)
+            play_sound('/usr/share/kano-media/sounds/kano_test_sound.wav', background=True)
             time.sleep(1)
             self.template.yes_button.set_sensitive(True)
             self.template.no_button.set_sensitive(True)
