@@ -9,6 +9,7 @@
 #
 
 import os
+from gi.repository import Gdk
 from template import Template
 from settings_intro_screen import SettingsIntroScreen
 import kano_init_flow.constants as constants
@@ -39,17 +40,19 @@ class InternetScreen():
 
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)
-        self.template.kano_button.connect("key_release_event", self.activate)
+        # WARNING: If the line below is commented out, the launched window
+        # does not receive any key events
+        # self.template.kano_button.connect("key_release_event", self.activate)
         self.template.get_orange_button().connect("button_release_event", self.skip)
 
-        # Make one of the kano button grab the focus
-        self.template.kano_button.grab_focus()
+        # No need to grab the focus if we can't use the Enter key to "click" it
+        # self.template.kano_button.grab_focus()
 
         self.win.show_all()
 
     def activate(self, widget, event):
         # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Launch kano-wifi
             os.system('rxvt -title \'WiFi Setup\' -e sudo /usr/bin/kano-wifi')
             # Go to Settings
@@ -77,17 +80,20 @@ class NoInternetScreen():
         self.template = Template(image, header, subheader, "TRY AGAIN", orange_button_text="Connect later")
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
-        self.template.kano_button.connect("key_release_event", self.launch_wifi_config)
+
+        # WARNING: If the line below is commented out, the launched window
+        # does not receive any key events
+        # self.template.kano_button.connect("key_release_event", self.launch_wifi_config)
         self.template.orange_button.connect("button_release_event", self.next_screen)
 
-        # Make one of the kano button grab the focus
-        self.template.kano_button.grab_focus()
+        # No need to grab the focus if we can't use the Enter key to "click" it
+        # self.template.kano_button.grab_focus()
 
         self.win.show_all()
 
     def launch_wifi_config(self, widget, event):
         # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Launch kano-wifi
             os.system('rxvt -title \'WiFi Setup\' -e sudo /usr/bin/kano-wifi')
             # Go to Settings
