@@ -52,6 +52,8 @@ try:
     from kano_init_flow.display_screen import DisplayScreen
     from kano_init_flow.display_screen import DisplayTutorial
 
+    from kano_init_flow.test_screen import TestScreen
+    
     screens = {
         'first': FirstScreen,
         'keyb' : KeyboardScreen,
@@ -67,7 +69,8 @@ try:
         'aud_tv'   : TvSpeakersScreen,
         'disp'   : DisplayScreen,
         'disp_tut'   : DisplayTutorial,
-
+        'test'   : TestScreen,
+        
     }
 
     enforce_root('Please run it as root / sudo user!')
