@@ -23,6 +23,7 @@ class SettingsIntroScreen():
         self.win = win
         self.win.set_resizable(True)
         header = self.data["LABEL_1"]
+        # FIXME: now redundant? labels are the same...
         if is_internet():
             subheader = self.data["LABEL_2"]
         else:

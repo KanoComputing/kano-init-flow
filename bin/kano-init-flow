@@ -8,6 +8,8 @@
 # Main window class
 #
 
+
+
 #
 # FIXME: An extremely nasty, but at this point the only effective way of
 # making sure that an exception in this program will not cause the WIFI
@@ -31,6 +33,42 @@ try:
     from kano_init_flow.audio_screen import AudioScreen
     from kano_init_flow.reboot_screen import RebootScreen
     from kano_init_flow.paths import css_dir
+
+
+    # only for test:
+    from kano_init_flow.internet_screen import InternetScreen
+    from kano_init_flow.internet_screen import NoInternetScreen
+    from kano_init_flow.internet_screen import OfflineScreen
+    
+    from kano_init_flow.settings_intro_screen import SettingsIntroScreen
+    from kano_init_flow.keyboard_screen import KeyboardScreen
+
+    from kano_init_flow.audio_screen import SeeTheLightScreen
+    from kano_init_flow.audio_screen import BlueCableScreen
+    from kano_init_flow.audio_screen import CheckTheGPIOScreen
+    from kano_init_flow.audio_screen import AnalogueScreen
+    from kano_init_flow.audio_screen import TvSpeakersScreen
+
+    from kano_init_flow.display_screen import DisplayScreen
+    from kano_init_flow.display_screen import DisplayTutorial
+
+    screens = {
+        'first': FirstScreen,
+        'keyb' : KeyboardScreen,
+        'net'  : InternetScreen,
+        'net_no'   : NoInternetScreen,
+        'net_off'  : OfflineScreen,
+        'si'   : SettingsIntroScreen,
+        'aud'  : AudioScreen,
+        'aud_see'  : SeeTheLightScreen,
+        'aud_blue' : BlueCableScreen,
+        'aud_gpio' : CheckTheGPIOScreen,
+        'aud_ana'  : AnalogueScreen,
+        'aud_tv'   : TvSpeakersScreen,
+        'disp'   : DisplayScreen,
+        'disp_tut'   : DisplayTutorial,
+        
+    }
 
     enforce_root('Please run it as root / sudo user!')
 
@@ -92,6 +130,14 @@ try:
         if len(sys.argv) == 2:
             first_screen = AudioScreen
             reboot_at_end = True
+        elif len(sys.argv) == 3:
+            if sys.argv[2] in screens:
+                first_screen = screens[sys.argv[2]]
+            else:
+                print "usage: sudo kano-init-flow test <screen>"
+                print " <screen> is one of " + str(screens.keys())
+                raise Exception("unknown screen")
+
         main(first_screen, reboot_at_end)
 except:
     import traceback
