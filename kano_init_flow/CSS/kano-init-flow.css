@@ -15,3 +15,18 @@
 .faux_panel {
     background: #ffffff;
 }
+
+.speech-bubble {
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.speech-bubble GtkLabel {
+    font: Bariol 13;
+}
+
+.speech-bubble .heading {
+    font-size: 22;
+    margin-bottom: 10px;
+    font-weight: bold;
+}

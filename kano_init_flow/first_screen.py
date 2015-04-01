@@ -17,6 +17,7 @@ import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
 from kano.utils import detect_kano_keyboard
 
+from .speech_bubble_dialog import SpeechBubbleDialog
 
 class FirstScreen():
     data = get_data("FIRST_SCREEN")
@@ -26,13 +27,16 @@ class FirstScreen():
         self.win = win
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "START SETUP")
-        self.win.set_main_widget(self.template)
-        self.template.kano_button.connect("button_release_event", self.activate)
-        self.template.kano_button.connect("key_release_event", self.activate)
+        #self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "START SETUP")
+        #self.win.set_main_widget(self.template)
+        #self.template.kano_button.connect("button_release_event", self.activate)
+        #self.template.kano_button.connect("key_release_event", self.activate)
 
         # Make one of the kano button grab the focus
-        self.template.kano_button.grab_focus()
+        #self.template.kano_button.grab_focus()
+
+        sbd = SpeechBubbleDialog(self.data['LABEL_1'], self.data['LABEL_2'])
+        self.win.set_main_widget(sbd)
 
         self.win.show_all()
 
