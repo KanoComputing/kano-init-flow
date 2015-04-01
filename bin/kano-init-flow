@@ -32,7 +32,9 @@ try:
     from kano_init_flow.first_screen import FirstScreen
     from kano_init_flow.audio_screen import AudioScreen
     from kano_init_flow.reboot_screen import RebootScreen
+    from kano_init_flow.faux_panel import FauxPanel
     from kano_init_flow.paths import css_dir
+    
 
 
     # only for test:
@@ -100,6 +102,11 @@ try:
             self._bg = self._initialise_background()
             self._bg_overlay = Gtk.Overlay()
             self._bg_overlay.add(self._bg)
+
+            # add fake lxpanel
+            self._fpanel = FauxPanel()
+            self._bg_overlay.add_overlay(self._fpanel)
+            
             self._main_widget = None
             ApplicationWindow.set_main_widget(self, self._bg_overlay)
 

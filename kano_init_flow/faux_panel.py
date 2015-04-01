@@ -8,7 +8,7 @@
 from gi.repository import Gtk
 
 
-class FauxPanel(Gtk.Box):
+class FauxPanel(Gtk.EventBox):
         # hthing
         # K menu image
         # expander
@@ -17,7 +17,14 @@ class FauxPanel(Gtk.Box):
         # speaker image
         # clock (label?)
     def __init__(self):
-        Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+        Gtk.EventBox.__init__(self)        
+
+        self._box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.add(self._box)
+
+        self.set_halign(Gtk.Align.FILL)
+        self.set_valign(Gtk.Align.END)
+        self.get_style_context().add_class("faux_panel")
 
         # FIXME store paths properly
         kbutton = Gtk.Image.new_from_file("/usr/share/kano-desktop/images/startmenu.png")
@@ -27,16 +34,15 @@ class FauxPanel(Gtk.Box):
 
         blank = Gtk.Invisible()
 
-        # FIXME speaker image 
-        speaker_button = Gtk.Image.new_from_file("/usr/share/kano-settings/icon/widget-wifi.png")
+        speaker_button = Gtk.Image.new_from_file("/usr/share/icons/Kano/44x44/status/audio-volume-high.png")
 
-        self.pack_start(kbutton, False, False, 0)
-        self.pack_start(blank, True, False, 0)
-        self.pack_start(settings_button, False, False, 0)
-        self.pack_start(wifi_button, False, False, 0)
-        self.pack_start(speaker_button, False, False, 0)
+        self._box.pack_start(kbutton, False, False, 0)
+        self._box.pack_start(blank, True, False, 0)
+        self._box.pack_start(wifi_button, False, False, 0)
+        self._box.pack_start(settings_button, False, False, 0)
+        self._box.pack_start(speaker_button, False, False, 0)
 
         # Fixme: get time working
         clock = Gtk.Label(" 88:88 ")
 
-        self.pack_start(clock, False, False, 0)
+        self._box.pack_start(clock, False, False, 0)

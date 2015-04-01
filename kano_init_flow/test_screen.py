@@ -21,8 +21,4 @@ class TestScreen():
         # Make one of the kano button grab the focus
         self.template.kano_button.grab_focus()
 
-        fpanel = FauxPanel()
-
-        self.template.pack_start(fpanel, False, False, 0)
-
         self.win.show_all()

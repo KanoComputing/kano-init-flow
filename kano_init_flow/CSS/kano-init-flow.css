@@ -11,3 +11,7 @@
     font: Bariol Bold 14px;
     color: @active_writing;
 }
+
+.faux_panel {
+    background: #ffffff;
+}
