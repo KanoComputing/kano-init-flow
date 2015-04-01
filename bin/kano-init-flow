@@ -100,11 +100,22 @@ try:
             self._main_widget = None
             ApplicationWindow.set_main_widget(self, self._bg_overlay)
 
+            # FIXME: For debugging purposes only
+            self.connect("key-release-event", self._key_event_cb)
+
             #self.fullscreen()
             self.maximize()
 
             # Start on first_screen
             first_screen(self)
+
+        def _key_event_cb(self, widget, event):
+            """ Close then window when the Esc key is pressed.
+
+                FOR DEBUGGING ONLY.
+            """
+            if hasattr(event, 'keyval') and event.keyval == Gdk.KEY_Escape:
+                Gtk.main_quit()
 
         def set_main_widget(self, widget):
             if self._main_widget:
