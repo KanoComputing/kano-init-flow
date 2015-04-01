@@ -39,7 +39,7 @@ try:
     from kano_init_flow.internet_screen import InternetScreen
     from kano_init_flow.internet_screen import NoInternetScreen
     from kano_init_flow.internet_screen import OfflineScreen
-    
+
     from kano_init_flow.settings_intro_screen import SettingsIntroScreen
     from kano_init_flow.keyboard_screen import KeyboardScreen
 
@@ -67,7 +67,7 @@ try:
         'aud_tv'   : TvSpeakersScreen,
         'disp'   : DisplayScreen,
         'disp_tut'   : DisplayTutorial,
-        
+
     }
 
     enforce_root('Please run it as root / sudo user!')
@@ -76,23 +76,76 @@ try:
     class MainWindow(ApplicationWindow):
 
         def __init__(self, first_screen, reboot=False):
+            # Create main window
+            ApplicationWindow.__init__(self, title="Kano", width=2, height=2)
+
             apply_common_to_screen()
             specific_css = Gtk.CssProvider()
             css_path = os.path.join(css_dir, "kano-init-flow.css")
             specific_css.load_from_path(css_path)
             screen = Gdk.Screen.get_default()
             styleContext = Gtk.StyleContext()
-            styleContext.add_provider_for_screen(screen, specific_css, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+            styleContext.add_provider_for_screen(screen, specific_css,
+                                            Gtk.STYLE_PROVIDER_PRIORITY_USER)
             # We need this for backwards compatibility
             self.need_reboot = reboot
-            # Create main window
-            ApplicationWindow.__init__(self, title="Kano", width=2, height=2)
             # This needs to be here to get the resizing correct for the screens
             self.show_all()
             # This is to get position right when the window resizes
             self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
+
+            self._bg = self._initialise_background()
+            self._bg_overlay = Gtk.Overlay()
+            self._bg_overlay.add(self._bg)
+            self._main_widget = None
+            ApplicationWindow.set_main_widget(self, self._bg_overlay)
+
+            # FIXME: For debugging purposes only
+            self.connect("key-release-event", self._key_event_cb)
+
+            #self.fullscreen()
+            self.maximize()
+
             # Start on first_screen
             first_screen(self)
+
+        def _key_event_cb(self, widget, event):
+            """ Close then window when the Esc key is pressed.
+
+                FOR DEBUGGING ONLY.
+            """
+            if hasattr(event, 'keyval') and event.keyval == Gdk.KEY_Escape:
+                Gtk.main_quit()
+
+        def set_main_widget(self, widget):
+            if self._main_widget:
+                msg = "There's a main widget already. Remove it first."
+                raise RuntimeError(msg)
+
+            widget.set_valign(Gtk.Align.CENTER)
+            widget.set_halign(Gtk.Align.CENTER)
+            self._main_widget = widget
+            self._bg_overlay.add_overlay(widget)
+
+        def remove_main_widget(self):
+            self._bg_overlay.remove(self._main_widget)
+            self._main_widget = None
+
+        def _get_aspect_ratio(self):
+            scr = self.get_screen()
+            aspect = float(scr.width()) / scr.height()
+
+            if abs(aspect - 16./9) < abs(aspect - 4./3):
+                return (16, 9)
+
+            return (4, 3)
+
+        def _initialise_background(self):
+            aspect = self._get_aspect_ratio()
+            fname = "kanux-background-{}-{}.png".format(aspect[0], aspect[1])
+            bg_path = "/usr/share/kano-desktop/wallpapers/{}".format(fname)
+
+            return Gtk.Image.new_from_file(bg_path)
 
         def clear_win(self):
             self.remove_main_widget()
@@ -107,7 +160,8 @@ try:
 
         # hacky fix - shrink height of window
         def shrink(self):
-            self.resize(590, 100)
+            if self._main_widget:
+                self._main_widget.set_size_request(590, 100)
 
         def exit_flow(self):
             if self.need_reboot:

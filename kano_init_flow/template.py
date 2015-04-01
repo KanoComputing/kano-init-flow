@@ -11,7 +11,7 @@
 
 import os
 import sys
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 if __name__ == '__main__' and __package__ is None:
     dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -57,14 +57,19 @@ class TwoButtons(Gtk.ButtonBox):
 
 
 # Window class
-class Template(Gtk.Box):
+class Template(Gtk.EventBox):
 
     def __init__(self, img_filename, title, description, button1_text, button2_text="", orange_button_text=""):
-        Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
+        Gtk.EventBox.__init__(self)
+
+        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.add(self._box)
 
         if img_filename is not None:
             self.image = Gtk.Image.new_from_file(img_filename)
-            self.pack_start(self.image, False, False, 0)
+            self._box.pack_start(self.image, False, False, 0)
+
+        self.override_background_color(Gtk.StateType.NORMAL, Gdk.RGBA(1, 1, 1, 1))
 
         self.heading = Heading(title, description)
         self.heading.container.set_size_request(590, -1)
@@ -78,8 +83,8 @@ class Template(Gtk.Box):
         self.button_box.set_margin_bottom(30)
         self.kano_button = self.button_box.kano_button
 
-        self.pack_start(self.heading.container, False, False, 0)
-        self.pack_start(self.button_box, False, False, 0)
+        self._box.pack_start(self.heading.container, False, False, 0)
+        self._box.pack_start(self.button_box, False, False, 0)
 
     def get_orange_button(self):
         return getattr(self.button_box, "orange_button", None)
