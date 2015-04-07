@@ -102,19 +102,21 @@ try:
             # This is to get position right when the window resizes
             self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
 
+            self._callback = None
             self._bg = self._initialise_background()
             self._bg_overlay = Gtk.Overlay()
             self._bg_overlay.add(self._bg)
 
             # add fake lxpanel
-            self._fpanel = FauxPanel()
+            self._fpanel = FauxPanel(self)
             self._bg_overlay.add_overlay(self._fpanel)
 
             self._main_widget = None
             ApplicationWindow.set_main_widget(self, self._bg_overlay)
 
-            # FIXME: For debugging purposes only
+            # callback to provide help in case user misses target
             self.connect("key-release-event", self._key_event_cb)
+            self.connect("button-release-event", self._click_event_cb)
 
             #self.fullscreen()
             self.maximize()
@@ -123,12 +125,33 @@ try:
             first_screen(self)
 
         def _key_event_cb(self, widget, event):
-            """ Close then window when the Esc key is pressed.
+            """ Callback for user misses
 
-                FOR DEBUGGING ONLY.
+                FOR DEBUGGING ONLY: Close then window when the Esc key is pressed.
+
+
             """
-            if hasattr(event, 'keyval') and event.keyval == Gdk.KEY_Escape:
-                Gtk.main_quit()
+            # FIXME: For debugging purposes only
+            if hasattr(event, 'keyval'):
+                if event.keyval == Gdk.KEY_Escape:
+                    Gtk.main_quit()
+                elif event.keyval == Gdk.KEY_Return:
+                    if self._callback:
+                        self._callback()
+
+        def _click_event_cb(self, widget, event):
+            """ Callback for user misses """
+            if self._callback:
+                self._callback()
+
+        def set_bg_callback(self, callback):
+            self._handler = self._callback = callback
+
+        def disconnect_bg_cb(self):
+            self.callback = None
+
+        def get_faux_panel(self):
+            return self._fpanel
 
         def set_main_widget(self, widget):
             if self._main_widget:
@@ -158,7 +181,9 @@ try:
             fname = "kanux-background-{}-{}.png".format(aspect[0], aspect[1])
             bg_path = "/usr/share/kano-desktop/wallpapers/{}".format(fname)
 
-            return Gtk.Image.new_from_file(bg_path)
+            evb = Gtk.EventBox()
+            evb.add(Gtk.Image.new_from_file(bg_path))
+            return evb
 
         def clear_win(self):
             self.remove_main_widget()
