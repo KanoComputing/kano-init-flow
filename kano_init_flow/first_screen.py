@@ -8,8 +8,6 @@
 # Intro screen of the first boot
 #
 
-from gi.repository import Gdk
-
 from template import Template
 from internet_screen import InternetScreen
 from settings_intro_screen import SettingsIntroScreen
@@ -18,8 +16,6 @@ from kano.network import is_internet
 import kano_init_flow.constants as constants
 from kano_init_flow.data import get_data
 from kano.utils import detect_kano_keyboard
-
-from .speech_bubble_dialog import SpeechBubbleDialog
 
 
 class FirstScreen():
@@ -30,23 +26,19 @@ class FirstScreen():
         self.win = win
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-
-        # TODO: Move the copy to the data file
-        header = "You just made a computer!"
-        subheader = "Now let's make the desktop.\nStart by setting the screen size"
-        sbd = SpeechBubbleDialog(header, subheader,
-                                 source=SpeechBubbleDialog.BOTTOM,
-                                 source_align=0.5, has_judoka=True)
-        button = sbd.add_button('START', self.activate)
-        button.grab_focus()
+        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "START SETUP")
+        self.win.set_main_widget(self.template)
+        self.template.kano_button.connect("button_release_event", self.activate)
+        self.template.kano_button.connect("key_release_event", self.activate)
 
         # Make one of the kano button grab the focus
-        self.win.set_main_widget(sbd)
+        self.template.kano_button.grab_focus()
 
         self.win.show_all()
 
     def activate(self, widget, event):
         if not hasattr(event, 'keyval') or event.keyval == 65293:
+
             self.win.clear_win()
 
             if not detect_kano_keyboard():
@@ -55,3 +47,4 @@ class FirstScreen():
                 InternetScreen(self.win)
             else:
                 SettingsIntroScreen(self.win)
+
