@@ -47,3 +47,4 @@ class FirstScreen():
                 InternetScreen(self.win)
             else:
                 SettingsIntroScreen(self.win)
+

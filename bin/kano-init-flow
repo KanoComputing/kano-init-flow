@@ -34,8 +34,6 @@ try:
     from kano_init_flow.reboot_screen import RebootScreen
     from kano_init_flow.faux_panel import FauxPanel
     from kano_init_flow.paths import css_dir
-    
-
 
     # only for test:
     from kano_init_flow.internet_screen import InternetScreen
@@ -55,7 +53,10 @@ try:
     from kano_init_flow.display_screen import DisplayTutorial
 
     from kano_init_flow.test_screen import TestScreen
-    
+
+    # The new screens
+    from kano_init_flow.screens import Screen1
+
     screens = {
         'first': FirstScreen,
         'keyb' : KeyboardScreen,
@@ -72,7 +73,9 @@ try:
         'disp'   : DisplayScreen,
         'disp_tut'   : DisplayTutorial,
         'test'   : TestScreen,
-        
+
+        # The new screens
+        'screen1': Screen1
     }
 
     enforce_root('Please run it as root / sudo user!')
@@ -106,7 +109,7 @@ try:
             # add fake lxpanel
             self._fpanel = FauxPanel()
             self._bg_overlay.add_overlay(self._fpanel)
-            
+
             self._main_widget = None
             ApplicationWindow.set_main_widget(self, self._bg_overlay)
 

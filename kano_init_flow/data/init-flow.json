@@ -76,8 +76,13 @@
     "LABEL_1": "Keyboard",
     "LABEL_2": "Where do you live? So I can set your keyboard layout"
   },
-    "REBOOT_SCREEN": {
+  "REBOOT_SCREEN": {
       "LABEL_1": "Time to reboot",
       "LABEL_2": "To finish setup, we have to do a quick reboot. Don't worry! Everything is saved."
+  },
+
+  "SCREEN1": {
+      "HEADER": "You just made a computer!",
+      "TEXT": "Now let's make the desktop.\nStart by setting the screen size"
   }
 }
