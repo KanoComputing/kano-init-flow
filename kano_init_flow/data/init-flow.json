@@ -81,7 +81,7 @@
       "LABEL_2": "To finish setup, we have to do a quick reboot. Don't worry! Everything is saved."
   },
 
-  "SCREEN1": {
+  "STEP1": {
       "HEADER": "You just made a computer!",
       "TEXT": "Now let's make the desktop.\nStart by setting the screen size"
   }

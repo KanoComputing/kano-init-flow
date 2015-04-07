@@ -54,8 +54,8 @@ try:
 
     from kano_init_flow.test_screen import TestScreen
 
-    # The new screens
-    from kano_init_flow.screens import Screen1
+    # The new steps
+    from kano_init_flow.steps import Step1
 
     screens = {
         'first': FirstScreen,
@@ -74,8 +74,8 @@ try:
         'disp_tut'   : DisplayTutorial,
         'test'   : TestScreen,
 
-        # The new screens
-        'screen1': Screen1
+        # The new steps
+        'step1': Step1
     }
 
     enforce_root('Please run it as root / sudo user!')

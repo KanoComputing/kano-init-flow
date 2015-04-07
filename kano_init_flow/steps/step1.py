@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# screen1.py
+# step1.py
 #
 # Copyright (C) 2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
@@ -20,8 +20,8 @@ from kano_init_flow.settings_intro_screen import SettingsIntroScreen
 from kano_init_flow.keyboard_screen import KeyboardScreen
 
 
-class Screen1:
-    data = get_data("SCREEN1")
+class Step1:
+    data = get_data("STEP1")
 
     def __init__(self, win):
         self.win = win

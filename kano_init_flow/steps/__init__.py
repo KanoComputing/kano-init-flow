@@ -9,4 +9,4 @@
 __author__ = 'Kano Computing Ltd.'
 __email__ = 'dev@kano.me'
 
-from .screen1 import Screen1
+from .step1 import Step1
