@@ -54,7 +54,8 @@ class InternetScreen():
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Launch kano-wifi
-            os.system('rxvt -title \'WiFi Setup\' -e sudo /usr/bin/kano-wifi')
+            #os.system('rxvt -title \'WiFi Setup\' -e sudo /usr/bin/kano-wifi')
+            os.system('sudo /usr/bin/kano-wifi-gui')
             # Go to Settings
             self.go_to_next_screen()
 
