@@ -6,7 +6,7 @@
     "LABEL_2": "Press [tab] to activate the mouse."
   },
   "TUTORIAL_2": {
-    "KEYBOARD_FILENAME": "keyboard-click.gif",
+    "KEYBOARD_FILENAME": "keyboard-left-click.gif",
     "JUDOKA_FILENAME": "mouse-filled.png",
     "LABEL_1": "Nice! You can move the mouse with the touchpad.",
     "LABEL_2": "Left click to continue."
@@ -18,7 +18,7 @@
     "LABEL_2": "Left click the Judoka."
   },
   "TUTORIAL_4": {
-    "KEYBOARD_FILENAME": "keyboard-click.gif",
+    "KEYBOARD_FILENAME": "keyboard-left-click.gif",
     "JUDOKA_FILENAME": "judoka-fixed.png",
     "LABEL_1": "Wow thanks - you flipped me!  Good mouse-work.",
     "LABEL_2": "Left click to continue."
@@ -33,7 +33,7 @@
     "LABEL_2": "Click, hold, and drag me to the color."
   },
   "TUTORIAL_6": {
-    "KEYBOARD_FILENAME": "keyboard-click.gif",
+    "KEYBOARD_FILENAME": "keyboard-left-click.gif",
     "TARGET_FILENAME": "bullseye.png",
     "COLOUR_JUDOKA_FILENAME": "judoka-coloured.png",
     "LABEL_1": "Nice work, keyboard ninja!",
