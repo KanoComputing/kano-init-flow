@@ -62,7 +62,7 @@ def main():
     if len(sys.argv) == 2:
         text = sys.argv[1]
 
-        if not text is None and is_number(text):
+        if text is not None and is_number(text):
             stage_number = int(text)
 
     MainWindow(stage_number)

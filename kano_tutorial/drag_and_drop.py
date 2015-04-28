@@ -147,8 +147,6 @@ class DropArea(Gtk.Button):
         self.fixed.put(self.bullseye, 0, 0)
         self.fixed.put(self.colour_judoka_image, 0, 0)
 
-        #align.set_padding(30, 0, 0, 0)
-
         self.label1 = Gtk.Label(label1_text)
         self.label1.get_style_context().add_class("drag_dest_label")
         self.label2 = Gtk.Label(label2_text)
@@ -186,16 +184,13 @@ class DropArea(Gtk.Button):
             template = win.get_children()[0]
             template.set_from_level(6)
 
-            self.connect("key-release-event", self.close_application)
+            self.connect("button-release-event", self.close_application)
             self.grab_focus()
 
     def close_application(self, widget, event):
 
-        # If ENTER key is pressed
-        if event.keyval == 65293:
-
-            # Currently, exit code has no effect, kano-init-flow is launched regardless
-            sys.exit(0)
+        # Currently, exit code has no effect, kano-init-flow is launched regardless
+        sys.exit(0)
 
 
 class DragAndDrop(TutorialTemplate):
