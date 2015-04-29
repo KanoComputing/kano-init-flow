@@ -8,12 +8,6 @@
 
 from gi.repository import Gtk, Gdk
 import os
-import sys
-
-if __name__ == '__main__' and __package__ is None:
-    dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-    if dir_path != '/usr':
-        sys.path.append(dir_path)
 
 from kano_tutorial.data import get_data
 from kano_tutorial.drag_and_drop import DragAndDrop
@@ -63,6 +57,7 @@ class ButtonTemplate(Gtk.Button):
 
 
 class Screen1(TutorialTemplate):
+
     def __init__(self, win):
         TutorialTemplate.__init__(self, 1)
 
@@ -96,9 +91,13 @@ class Screen2(TutorialTemplate):
         self.win = win
         self.win.add(self)
 
+        self.window_event_handler = self.win.connect(
+            "button-release-event", self.next
+        )
+
         top = ButtonTemplate()
         top.set_level(2)
-        top.connect("key-release-event", self.next)
+
         self.set_cursor_visible()
 
         self.box.add(top)
@@ -109,9 +108,13 @@ class Screen2(TutorialTemplate):
         self.win.get_window().set_cursor(None)
 
     def next(self, widget, event):
-        keyname = Gdk.keyval_name(event.keyval)
-        if keyname == "Return":
+
+        # left click the widget
+        if event.button == 1:
             self.win.clear_win()
+
+            # Disconnect the event listener
+            self.win.disconnect(self.window_event_handler)
             Screen3(self.win)
 
 
@@ -131,8 +134,12 @@ class Screen3(TutorialTemplate):
         self.win.show_all()
 
     def next(self, widget, event):
-        self.win.clear_win()
-        Screen4(self.win)
+
+        # left click the widget
+        if event.button == 1:
+
+            self.win.clear_win()
+            Screen4(self.win)
 
 
 class Screen4(TutorialTemplate):
@@ -144,15 +151,22 @@ class Screen4(TutorialTemplate):
 
         top = ButtonTemplate()
         top.set_level(4)
-        top.connect("key-release-event", self.next)
+
+        self.window_event_handler = self.win.connect(
+            "button-release-event", self.next
+        )
 
         self.box.add(top)
         top.grab_focus()
         self.win.show_all()
 
     def next(self, widget, event):
-        keyname = Gdk.keyval_name(event.keyval)
-        if keyname == "Return":
-            self.win.clear_win()
-            DragAndDrop(self.win)
 
+        # left click the widget
+        if event.button == 1:
+
+            self.win.clear_win()
+
+            # Disconnect the event listener
+            self.win.disconnect(self.window_event_handler)
+            DragAndDrop(self.win)
