@@ -57,6 +57,7 @@ class ButtonTemplate(Gtk.Button):
 
 
 class Screen1(TutorialTemplate):
+
     def __init__(self, win):
         TutorialTemplate.__init__(self, 1)
 
@@ -90,9 +91,13 @@ class Screen2(TutorialTemplate):
         self.win = win
         self.win.add(self)
 
+        self.window_event_handler = self.win.connect(
+            "button-release-event", self.next
+        )
+
         top = ButtonTemplate()
         top.set_level(2)
-        top.connect("button-release-event", self.next)
+
         self.set_cursor_visible()
 
         self.box.add(top)
@@ -103,8 +108,14 @@ class Screen2(TutorialTemplate):
         self.win.get_window().set_cursor(None)
 
     def next(self, widget, event):
-        self.win.clear_win()
-        Screen3(self.win)
+
+        # left click the widget
+        if event.button == 1:
+            self.win.clear_win()
+
+            # Disconnect the event listener
+            self.win.disconnect(self.window_event_handler)
+            Screen3(self.win)
 
 
 class Screen3(TutorialTemplate):
@@ -123,8 +134,12 @@ class Screen3(TutorialTemplate):
         self.win.show_all()
 
     def next(self, widget, event):
-        self.win.clear_win()
-        Screen4(self.win)
+
+        # left click the widget
+        if event.button == 1:
+
+            self.win.clear_win()
+            Screen4(self.win)
 
 
 class Screen4(TutorialTemplate):
@@ -136,12 +151,22 @@ class Screen4(TutorialTemplate):
 
         top = ButtonTemplate()
         top.set_level(4)
-        top.connect("button-release-event", self.next)
+
+        self.window_event_handler = self.win.connect(
+            "button-release-event", self.next
+        )
 
         self.box.add(top)
         top.grab_focus()
         self.win.show_all()
 
     def next(self, widget, event):
-        self.win.clear_win()
-        DragAndDrop(self.win)
+
+        # left click the widget
+        if event.button == 1:
+
+            self.win.clear_win()
+
+            # Disconnect the event listener
+            self.win.disconnect(self.window_event_handler)
+            DragAndDrop(self.win)

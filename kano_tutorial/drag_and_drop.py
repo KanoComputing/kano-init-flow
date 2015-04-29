@@ -184,13 +184,16 @@ class DropArea(Gtk.Button):
             template = win.get_children()[0]
             template.set_from_level(6)
 
-            self.connect("button-release-event", self.close_application)
+            win.connect("button-release-event", self.close_application)
             self.grab_focus()
 
     def close_application(self, widget, event):
 
-        # Currently, exit code has no effect, kano-init-flow is launched regardless
-        sys.exit(0)
+        # left click
+        if event.button == 1:
+
+            # Currently, exit code has no effect, kano-init-flow is launched regardless
+            sys.exit(0)
 
 
 class DragAndDrop(TutorialTemplate):
