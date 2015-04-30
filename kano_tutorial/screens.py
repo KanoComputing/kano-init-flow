@@ -97,6 +97,7 @@ class Screen2(TutorialTemplate):
 
         top = ButtonTemplate()
         top.set_level(2)
+        top.connect('button-release-event', self.next)
 
         self.set_cursor_visible()
 
@@ -151,6 +152,7 @@ class Screen4(TutorialTemplate):
 
         top = ButtonTemplate()
         top.set_level(4)
+        top.connect('button-release-event', self.next)
 
         self.window_event_handler = self.win.connect(
             "button-release-event", self.next

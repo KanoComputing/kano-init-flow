@@ -185,6 +185,7 @@ class DropArea(Gtk.Button):
             template.set_from_level(6)
 
             win.connect("button-release-event", self.close_application)
+            self.connect("button-release-event", self.close_application)
             self.grab_focus()
 
     def close_application(self, widget, event):
