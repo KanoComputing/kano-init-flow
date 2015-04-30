@@ -64,8 +64,8 @@
   },
   "DISPLAY_SCREEN": {
     "IMG_FILENAME": "/display_test.png",
-    "LABEL_1": "Are the lines touching the edges of your screen?",
-    "LABEL_2": "Make sure you can see all four lines"
+    "LABEL_1": "Can you see four white lines?",
+    "LABEL_2": "They should be touching each side of your screen."
   },
     "DISPLAY_TUTORIAL": {
     "IMG_FILENAME": "/display_test2.png",
