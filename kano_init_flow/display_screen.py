@@ -64,7 +64,7 @@ class DisplayScreen():
     def next_screen(self, widget, event):
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Restore background
-            change_wallpaper(wallpaper_path, "kanux-background")
+            change_wallpaper(wallpaper_path, "kanux-default")
             self.win.exit_flow()
 
 
@@ -142,7 +142,7 @@ class DisplayTutorial():
 
     def go_to_next(self):
         # Restore background
-        change_wallpaper(wallpaper_path, "kanux-background")
+        change_wallpaper(wallpaper_path, "kanux-default")
         self.win.exit_flow()
 
     def zoom_out(self):
