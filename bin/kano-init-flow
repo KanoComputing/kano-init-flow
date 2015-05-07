@@ -20,9 +20,10 @@ try:
     from gi.repository import Gtk, Gdk
 
     if __name__ == '__main__' and __package__ is None:
-        dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-        if dir_path != '/usr':
-            sys.path.insert(1, dir_path)
+        DIR_PATH = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), '..'))
+        if DIR_PATH != '/usr':
+            sys.path.insert(1, DIR_PATH)
 
     from kano.gtk3.apply_styles import apply_common_to_screen
     from kano.gtk3.application_window import ApplicationWindow
@@ -30,7 +31,7 @@ try:
     from kano_init_flow.first_screen import FirstScreen
     from kano_init_flow.audio_screen import AudioScreen
     from kano_init_flow.reboot_screen import RebootScreen
-    from kano_init_flow.paths import css_dir
+    from kano_init_flow.paths import CSS_DIR
 
     enforce_root('Please run it as root / sudo user!')
 
@@ -40,7 +41,7 @@ try:
         def __init__(self, first_screen, reboot=False):
             apply_common_to_screen()
             specific_css = Gtk.CssProvider()
-            css_path = os.path.join(css_dir, "kano-init-flow.css")
+            css_path = os.path.join(CSS_DIR, "kano-init-flow.css")
             specific_css.load_from_path(css_path)
             screen = Gdk.Screen.get_default()
             styleContext = Gtk.StyleContext()

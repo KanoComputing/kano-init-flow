@@ -10,11 +10,12 @@
 
 import json
 
+CONF_FILE = '/boot/init.conf'
 
 def get_init_conf():
     """ Loads system boot config. """
     try:
-        with open("/boot/init.conf", "r") as f:
-            return json.load(f)
-    except:
+        with open(CONF_FILE, 'r') as conf_file:
+            return json.load(conf_file)
+    except Exception:
         return {}

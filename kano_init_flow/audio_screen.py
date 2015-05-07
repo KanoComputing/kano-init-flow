@@ -9,17 +9,18 @@
 #
 
 import time
+import os
 from gi.repository import Gtk
 
-import kano_init_flow.constants as constants
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.heading import Heading
 from kano.utils import play_sound
+from kano_settings.system.audio import is_HDMI, set_to_HDMI, hdmi_supported
+
 from kano_init_flow.data import get_data
 from kano_init_flow.display_screen import DisplayScreen
-from kano_init_flow.paths import media_dir
+from kano_init_flow.paths import MEDIA_DIR
 from kano_init_flow.template import Template, TopImageTemplate, HintHeading
-from kano_settings.system.audio import is_HDMI, set_to_HDMI, hdmi_supported
 
 number_tries = 0
 
@@ -34,8 +35,9 @@ class AudioTemplate(Gtk.Box):
             self.pack_start(self.image, False, False, 0)
         self.heading = Heading(title, description)
 
+        icon_path = os.path.join(MEDIA_DIR, "play-sound.png")
         self.kano_button = KanoButton(text="PLAY SOUND", color="blue",
-                                      icon_filename=media_dir + "/play-sound.png")
+                                      icon_filename=icon_path)
         self.kano_button.pack_and_align()
         self.kano_button.set_margin_top(10)
         self.pack_start(self.heading.container, False, False, 0)
@@ -77,7 +79,7 @@ class AudioHintTemplate(TopImageTemplate):
         self.pack_start(self.kano_button.align, False, False, 0)
 
 
-class AudioScreen():
+class AudioScreen(object):
     data = get_data("AUDIO_SCREEN")
 
     def __init__(self, win):
@@ -92,14 +94,23 @@ class AudioScreen():
             header = self.data["LABEL_3"]
             self.win.shrink()
         subheader = self.data["LABEL_2"]
-        self.template = AudioTemplate(constants.media + self.data["IMG_FILENAME"],
-                                      header, subheader)
-        self.template.kano_button.connect("button_release_event", self.play_sound)
-        self.template.kano_button.connect("key_release_event", self.play_sound)
-        self.template.yes_button.connect("button_release_event", self.go_to_next)
-        self.template.yes_button.connect("key_release_event", self.go_to_next)
-        self.template.no_button.connect("button_release_event", self.fix_sound)
-        self.template.no_button.connect("key_release_event", self.fix_sound)
+        self.template = AudioTemplate(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader
+        )
+        self.template.kano_button.connect("button_release_event",
+                                          self.play_sound)
+        self.template.kano_button.connect("key_release_event",
+                                          self.play_sound)
+        self.template.yes_button.connect("button_release_event",
+                                         self.go_to_next)
+        self.template.yes_button.connect("key_release_event",
+                                         self.go_to_next)
+        self.template.no_button.connect("button_release_event",
+                                        self.fix_sound)
+        self.template.no_button.connect("key_release_event",
+                                        self.fix_sound)
         self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
@@ -113,13 +124,17 @@ class AudioScreen():
         # Check if first click or 3 seconds have passed
         ready = (self.time_click is None) or (time.time() - self.time_click > 3)
         # If ready and enter key is pressed or mouse button is clicked
-        if ready and (not hasattr(event, 'keyval') or event.keyval == 65293):
+        if ready and \
+            (not hasattr(event, 'keyval') or event.keyval == 65293):
+
             self.time_click = time.time()
-            play_sound('/usr/share/kano-media/sounds/kano_test_sound.wav', background=True)
+            play_sound('/usr/share/kano-media/sounds/kano_test_sound.wav',
+                       background=True)
             time.sleep(1)
+
             self.template.yes_button.set_sensitive(True)
             self.template.no_button.set_sensitive(True)
-            # Make the yes button grab the focus
+
             self.template.yes_button.grab_focus()
 
     def go_to_next(self, widget, event):
@@ -129,11 +144,16 @@ class AudioScreen():
             DisplayScreen(self.win)
 
     def fix_sound(self, widget, event):
+        """
+        Launches the appropriate screen for resolving the problem
+        of not hearing any sound.
+        """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
-            if number_tries == 1:
 
+            if number_tries == 1:
                 # check if current settings is configured for HDMI or analogue
                 if not is_HDMI():
                     SeeTheLightScreen(self.win)
@@ -146,7 +166,11 @@ class AudioScreen():
                     DisplayScreen(self.win)
 
 
-class SeeTheLightScreen():
+class SeeTheLightScreen(object):
+    """
+    Troubleshooting screen: is the power light on the speaker on?
+    """
+
     data = get_data("AUDIO_TUTORIAL_1")
 
     def __init__(self, win):
@@ -155,13 +179,22 @@ class SeeTheLightScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header,
-                                 subheader, "YES", button2_text="NO")
+        self.template = Template(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "YES",
+            button2_text="NO"
+        )
         self.template.kano_button2.set_color("red")
-        self.template.kano_button.connect("button_release_event", self.end_screen)
-        self.template.kano_button.connect("key_release_event", self.end_screen)
-        self.template.kano_button2.connect("button_release_event", self.next_screen)
-        self.template.kano_button2.connect("key_release_event", self.next_screen)
+        self.template.kano_button.connect("button_release_event",
+                                          self.end_screen)
+        self.template.kano_button.connect("key_release_event",
+                                          self.end_screen)
+        self.template.kano_button2.connect("button_release_event",
+                                           self.next_screen)
+        self.template.kano_button2.connect("key_release_event",
+                                           self.next_screen)
         self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
@@ -184,7 +217,7 @@ class SeeTheLightScreen():
             CheckTheGPIOScreen(self.win)
 
 
-class CheckTheGPIOScreen():
+class CheckTheGPIOScreen(object):
     data = get_data("AUDIO_TUTORIAL_2")
 
     def __init__(self, win):
@@ -194,10 +227,17 @@ class CheckTheGPIOScreen():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"],
-                                          header, subheader, "NEXT", hint_text=hint)
-        self.template.kano_button.connect("button_release_event", self.next_screen)
-        self.template.kano_button.connect("key_release_event", self.next_screen)
+        self.template = AudioHintTemplate(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "NEXT",
+            hint_text=hint
+        )
+        self.template.kano_button.connect("button_release_event",
+                                          self.next_screen)
+        self.template.kano_button.connect("key_release_event",
+                                          self.next_screen)
         self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
@@ -212,7 +252,7 @@ class CheckTheGPIOScreen():
             BlueCableScreen(self.win)
 
 
-class BlueCableScreen():
+class BlueCableScreen(object):
     data = get_data("AUDIO_TUTORIAL_3")
 
     def __init__(self, win):
@@ -222,10 +262,17 @@ class BlueCableScreen():
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
         hint = self.data["LABEL_3"]
-        self.template = AudioHintTemplate(constants.media + self.data["IMG_FILENAME"],
-                                          header, subheader, "FINISH", hint_text=hint)
-        self.template.kano_button.connect("button_release_event", self.next_screen)
-        self.template.kano_button.connect("key_release_event", self.next_screen)
+        self.template = AudioHintTemplate(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "FINISH",
+            hint_text=hint
+        )
+        self.template.kano_button.connect("button_release_event",
+                                          self.next_screen)
+        self.template.kano_button.connect("key_release_event",
+                                          self.next_screen)
         self.win.set_main_widget(self.template)
         self.win.shrink()
 
@@ -242,7 +289,7 @@ class BlueCableScreen():
             AudioScreen(self.win)
 
 
-class TvSpeakersScreen():
+class TvSpeakersScreen(object):
     data = get_data("TV_SPEAKERS_SCREEN")
 
     def __init__(self, win):
@@ -251,12 +298,19 @@ class TvSpeakersScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header,
-                                 subheader, "USE TV SPEAKERS",
-                                 orange_button_text="Setup later")
-        self.template.kano_button.connect("button_release_event", self.setup_hdmi)
-        self.template.orange_button.connect("button_release_event", self.go_to_next)
-        self.template.kano_button.connect("key_release_event", self.setup_hdmi)
+        self.template = Template(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "USE TV SPEAKERS",
+            orange_button_text="Setup later"
+        )
+        self.template.kano_button.connect("button_release_event",
+                                          self.setup_hdmi)
+        self.template.orange_button.connect("button_release_event",
+                                            self.go_to_next)
+        self.template.kano_button.connect("key_release_event",
+                                          self.setup_hdmi)
         self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
@@ -276,7 +330,7 @@ class TvSpeakersScreen():
         DisplayScreen(self.win)
 
 
-class AnalogueScreen():
+class AnalogueScreen(object):
     data = get_data("ANALOGUE_SCREEN")
 
     def __init__(self, win):
@@ -285,12 +339,19 @@ class AnalogueScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"],
-                                 header, subheader, "USE SPEAKERS",
-                                 orange_button_text="Setup later")
-        self.template.kano_button.connect("button_release_event", self.setup_analogue)
-        self.template.kano_button.connect("key_release_event", self.setup_analogue)
-        self.template.orange_button.connect("button_release_event", self.go_to_next)
+        self.template = Template(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "USE SPEAKERS",
+            orange_button_text="Setup later"
+        )
+        self.template.kano_button.connect("button_release_event",
+                                          self.setup_analogue)
+        self.template.kano_button.connect("key_release_event",
+                                          self.setup_analogue)
+        self.template.orange_button.connect("button_release_event",
+                                            self.go_to_next)
         self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus

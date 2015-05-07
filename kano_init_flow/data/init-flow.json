@@ -18,7 +18,7 @@
       "IMG_FILENAME": "/internet_trouble.png",
       "LABEL_1": "Internet trouble? We can help!",
       "LABEL_2": "Visit http://help.kano.me on another device, or email wifi@kano.me. You can play offline in the meantime."
-    },
+  },
   "UPDATE_SCREEN": {
     "IMG_FILENAME": "/update.png",
     "LABEL_2": "Keep your Kano fast and fun. Updating takes about 15 minutes."
@@ -76,7 +76,7 @@
     "LABEL_1": "Keyboard",
     "LABEL_2": "Where do you live? So I can set your keyboard layout"
   },
-    "REBOOT_SCREEN": {
+  "REBOOT_SCREEN": {
       "LABEL_1": "Time to reboot",
       "LABEL_2": "To finish setup, we have to do a quick reboot. Don't worry! Everything is saved."
   }

@@ -9,27 +9,28 @@
 #
 
 import os
-import sys
-from template import Template
-from kano.utils import is_monitor, run_cmd
-from kano_init_flow.data import get_data
-import kano_init_flow.constants as constants
-from kano_settings.system.display import get_overscan_status, write_overscan_values, set_overscan_status
-from kano_settings.set_wallpaper import change_wallpaper
-import kano.gtk3.kano_dialog as kano_dialog
-
 from gi.repository import Gdk
 
-kdeskrc_home = "/home/%s/.kdeskrc"
-wallpaper_path = "/usr/share/kano-desktop/wallpapers/"
-overscan_pipe = "/dev/mailbox"
+import kano.gtk3.kano_dialog as kano_dialog
+from kano_settings.set_wallpaper import change_wallpaper
+from kano.utils import is_monitor, run_cmd
+from kano_settings.system.display import get_overscan_status, \
+    write_overscan_values, set_overscan_status
+
+from kano_init_flow.template import Template
+from kano_init_flow.data import get_data
+from kano_init_flow.paths import MEDIA_DIR
 
 
-class DisplayScreen():
+WALLPAPER_PATH = "/usr/share/kano-desktop/wallpapers/"
+OVERSCAN_PIPE = "/dev/mailbox"
+
+
+class DisplayScreen(object):
     data = get_data("DISPLAY_SCREEN")
 
     def __init__(self, _win):
-        
+
         self.win = _win
         # check for monitor
         if is_monitor():
@@ -39,16 +40,23 @@ class DisplayScreen():
         self.win.set_resizable(True)
 
         # Change background
-        change_wallpaper(constants.media, "/Display-Test")
+        change_wallpaper(MEDIA_DIR, "/Display-Test")
         # Create UI
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "YES", button2_text="NO")
+        template_image_path = os.path.join(MEDIA_DIR,
+                                           self.data["IMG_FILENAME"])
+        self.template = Template(template_image_path, header, subheader,
+                                 "YES", button2_text="NO")
         self.template.kano_button2.set_color("red")
-        self.template.kano_button.connect("button_release_event", self.next_screen)
-        self.template.kano_button.connect("key_release_event", self.next_screen)
-        self.template.kano_button2.connect("button_release_event", self.tutorial_screen)
-        self.template.kano_button2.connect("key_release_event", self.tutorial_screen)
+        self.template.kano_button.connect("button_release_event",
+                                          self.next_screen)
+        self.template.kano_button.connect("key_release_event",
+                                          self.next_screen)
+        self.template.kano_button2.connect("button_release_event",
+                                           self.tutorial_screen)
+        self.template.kano_button2.connect("key_release_event",
+                                           self.tutorial_screen)
         self.win.set_main_widget(self.template)
 
         # Make the kano button grab the focus
@@ -64,11 +72,11 @@ class DisplayScreen():
     def next_screen(self, widget, event):
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Restore background
-            change_wallpaper(wallpaper_path, "kanux-default")
+            change_wallpaper(WALLPAPER_PATH, "kanux-default")
             self.win.exit_flow()
 
 
-class DisplayTutorial():
+class DisplayTutorial(object):
     data = get_data("DISPLAY_TUTORIAL")
     overscan_values = None
     original_overscan = None
@@ -79,8 +87,8 @@ class DisplayTutorial():
         self.win = _win
 
         # Launch pipeline
-        if not os.path.exists(overscan_pipe):
-            run_cmd('mknod {} c 100 0'.format(overscan_pipe))
+        if not os.path.exists(OVERSCAN_PIPE):
+            run_cmd('mknod {} c 100 0'.format(OVERSCAN_PIPE))
         # Get current overscan
         self.original_overscan = get_overscan_status()
         self.overscan_values = get_overscan_status()
@@ -89,10 +97,19 @@ class DisplayTutorial():
         # Create UI
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONTINUE", orange_button_text="Reset")
-        self.template.kano_button.connect("button_release_event", self.apply_changes)
-        self.template.kano_button.connect("key_release_event", self.apply_changes)
-        self.template.orange_button.connect("button_release_event", self.reset)
+        self.template = Template(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "CONTINUE",
+            orange_button_text="Reset"
+        )
+        self.template.kano_button.connect("button_release_event",
+                                          self.apply_changes)
+        self.template.kano_button.connect("key_release_event",
+                                          self.apply_changes)
+        self.template.orange_button.connect("button_release_event",
+                                            self.reset)
         self.win.set_main_widget(self.template)
 
         self.template.kano_button.grab_focus()
@@ -142,21 +159,18 @@ class DisplayTutorial():
 
     def go_to_next(self):
         # Restore background
-        change_wallpaper(wallpaper_path, "kanux-default")
+        change_wallpaper(WALLPAPER_PATH, "kanux-default")
         self.win.exit_flow()
 
-    def zoom_out(self):
-        self.overscan_values['top'] += self.inc
-        self.overscan_values['bottom'] += self.inc
-        self.overscan_values['left'] += self.inc
-        self.overscan_values['right'] += self.inc
+    def _change_overscan(self, change):
+        for side, value in self.overscan_values.iteritems():
+            # Do allow negative values
+            self.overscan_values[side] = max(value + change, 0)
+
         set_overscan_status(self.overscan_values)
 
+    def zoom_out(self):
+        self._change_overscan(self.inc)
+
     def zoom_in(self):
-        # Do not go into negative values
-        if self.overscan_values['top'] > 0:
-            self.overscan_values['top'] -= self.inc
-            self.overscan_values['bottom'] -= self.inc
-            self.overscan_values['left'] -= self.inc
-            self.overscan_values['right'] -= self.inc
-            set_overscan_status(self.overscan_values)
+        self._change_overscan(-self.inc)

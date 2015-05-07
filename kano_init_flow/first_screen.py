@@ -8,17 +8,20 @@
 # Intro screen of the first boot
 #
 
-from template import Template
-from internet_screen import InternetScreen
-from settings_intro_screen import SettingsIntroScreen
-from keyboard_screen import KeyboardScreen
+import os
+
 from kano.network import is_internet
-import kano_init_flow.constants as constants
-from kano_init_flow.data import get_data
 from kano.utils import detect_kano_keyboard
 
+from kano_init_flow.paths import MEDIA_DIR
+from kano_init_flow.data import get_data
+from kano_init_flow.template import Template
+from kano_init_flow.internet_screen import InternetScreen
+from kano_init_flow.settings_intro_screen import SettingsIntroScreen
+from kano_init_flow.keyboard_screen import KeyboardScreen
 
-class FirstScreen():
+
+class FirstScreen(object):
     data = get_data("FIRST_SCREEN")
 
     def __init__(self, win):
@@ -26,10 +29,17 @@ class FirstScreen():
         self.win = win
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "START SETUP")
+        self.template = Template(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "START SETUP"
+        )
         self.win.set_main_widget(self.template)
-        self.template.kano_button.connect("button_release_event", self.activate)
-        self.template.kano_button.connect("key_release_event", self.activate)
+        self.template.kano_button.connect("button_release_event",
+                                          self.activate)
+        self.template.kano_button.connect("key_release_event",
+                                          self.activate)
 
         # Make one of the kano button grab the focus
         self.template.kano_button.grab_focus()

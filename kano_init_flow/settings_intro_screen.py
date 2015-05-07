@@ -8,14 +8,17 @@
 # Tells user they will configure display and audio
 #
 
-from template import Template
-from audio_screen import AudioScreen
-import kano_init_flow.constants as constants
-from kano_init_flow.data import get_data
+import os
+
 from kano.network import is_internet
 
+from kano_init_flow.template import Template
+from kano_init_flow.audio_screen import AudioScreen
+from kano_init_flow.paths import MEDIA_DIR
+from kano_init_flow.data import get_data
 
-class SettingsIntroScreen():
+
+class SettingsIntroScreen(object):
     data = get_data("SETTINGS_INTRO_SCREEN")
 
     def __init__(self, win):
@@ -27,7 +30,12 @@ class SettingsIntroScreen():
             subheader = self.data["LABEL_2"]
         else:
             subheader = self.data["LABEL_3"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "TEST SOUND")
+        self.template = Template(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "TEST SOUND"
+        )
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)
         self.win.set_main_widget(self.template)

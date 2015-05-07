@@ -10,14 +10,15 @@
 
 import os
 from gi.repository import Gdk
-from template import Template
-from settings_intro_screen import SettingsIntroScreen
-import kano_init_flow.constants as constants
+
+from kano_init_flow.paths import MEDIA_DIR
 from kano_init_flow.data import get_data
 from kano_init_flow.common import get_init_conf
+from kano_init_flow.template import Template
+from kano_init_flow.settings_intro_screen import SettingsIntroScreen
 
 
-class InternetScreen():
+class InternetScreen(object):
     data = get_data("INTERNET_SCREEN")
 
     def __init__(self, win):
@@ -36,14 +37,22 @@ class InternetScreen():
 
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        self.template = Template(constants.media + self.data["IMG_FILENAME"], header, subheader, "CONNECT", orange_button_text="No internet")
+        self.template = Template(
+            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            header,
+            subheader,
+            "CONNECT",
+            orange_button_text="No internet"
+        )
 
         self.win.set_main_widget(self.template)
-        self.template.kano_button.connect("button_release_event", self.activate)
+        self.template.kano_button.connect("button_release_event",
+                                          self.activate)
         # WARNING: If the line below is commented out, the launched window
         # does not receive any key events
         # self.template.kano_button.connect("key_release_event", self.activate)
-        self.template.get_orange_button().connect("button_release_event", self.skip)
+        self.template.get_orange_button().connect("button_release_event",
+                                                  self.skip)
 
         # No need to grab the focus if we can't use the Enter key to "click" it
         # self.template.kano_button.grab_focus()
@@ -68,7 +77,7 @@ class InternetScreen():
         SettingsIntroScreen(self.win)
 
 
-class NoInternetScreen():
+class NoInternetScreen(object):
     data = get_data("NO_INTERNET_SCREEN")
 
     def __init__(self, win):
@@ -77,15 +86,19 @@ class NoInternetScreen():
         self.win.set_resizable(True)
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        image = constants.media + self.data["IMG_FILENAME"]
-        self.template = Template(image, header, subheader, "TRY AGAIN", orange_button_text="Connect later")
+        image = os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"])
+        self.template = Template(image, header, subheader, "TRY AGAIN",
+                                 orange_button_text="Connect later")
         self.win.set_main_widget(self.template)
-        self.template.kano_button.connect("button_release_event", self.launch_wifi_config)
+        self.template.kano_button.connect("button_release_event",
+                                          self.launch_wifi_config)
 
         # WARNING: If the line below is commented out, the launched window
         # does not receive any key events
-        # self.template.kano_button.connect("key_release_event", self.launch_wifi_config)
-        self.template.orange_button.connect("button_release_event", self.next_screen)
+        # self.template.kano_button.connect("key_release_event",
+        #                                   self.launch_wifi_config)
+        self.template.orange_button.connect("button_release_event",
+                                            self.go_to_next_screen)
 
         # No need to grab the focus if we can't use the Enter key to "click" it
         # self.template.kano_button.grab_focus()
@@ -100,12 +113,12 @@ class NoInternetScreen():
             # Go to Settings
             self.go_to_next_screen()
 
-    def next_screen(self, widget, event):
+    def go_to_next_screen(self, *_):
         self.win.clear_win()
         OfflineScreen(self.win)
 
 
-class OfflineScreen():
+class OfflineScreen(object):
     data = get_data("OFFLINE_SCREEN")
 
     def __init__(self, win):
@@ -113,7 +126,7 @@ class OfflineScreen():
         self.win = win
         header = self.data["LABEL_1"]
         subheader = self.data["LABEL_2"]
-        image = constants.media + self.data["IMG_FILENAME"]
+        image = os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"])
         self.template = Template(image, header, subheader, "PLAY OFFLINE")
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.skip)
