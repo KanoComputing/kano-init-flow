@@ -10,8 +10,6 @@
 
 import os
 
-from kano.network import is_internet
-
 from kano_init_flow.template import Template
 from kano_init_flow.audio_screen import AudioScreen
 from kano_init_flow.paths import MEDIA_DIR
