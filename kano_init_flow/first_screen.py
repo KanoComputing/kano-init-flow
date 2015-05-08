@@ -42,7 +42,7 @@ class FirstScreen(object):
 
         self.win.show_all()
 
-    def activate(self, widget, event):
+    def activate(self, _, event):
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
             self.win.clear_win()

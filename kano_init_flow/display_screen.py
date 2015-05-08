@@ -63,12 +63,12 @@ class DisplayScreen(object):
 
         self.win.show_all()
 
-    def tutorial_screen(self, widget, event):
+    def tutorial_screen(self, _, event):
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             self.win.clear_win()
             DisplayTutorial(self.win)
 
-    def next_screen(self, widget, event):
+    def next_screen(self, _, event):
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Restore background
             change_wallpaper(WALLPAPER_PATH, "kanux-default")
@@ -113,7 +113,7 @@ class DisplayTutorial(object):
 
         self.win.show_all()
 
-    def on_key_press(self, widget, event):
+    def on_key_press(self, _, event):
         # Up arrow (65362)
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Up:
             self.zoom_out()
@@ -123,7 +123,7 @@ class DisplayTutorial(object):
             self.zoom_in()
             return
 
-    def apply_changes(self, widget, event):
+    def apply_changes(self, _, event):
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             if self.original_overscan != self.overscan_values:
                 # Bring in message dialog box
@@ -148,7 +148,7 @@ class DisplayTutorial(object):
             # Next screen
             self.go_to_next()
 
-    def reset(self, widget, event):
+    def reset(self, *_):
         # Restore overscan if any
         if self.original_overscan != self.overscan_values:
             self.overscan_values = self.original_overscan

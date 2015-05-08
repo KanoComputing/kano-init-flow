@@ -39,7 +39,7 @@ class SettingsIntroScreen(object):
 
         self.win.show_all()
 
-    def activate(self, widget, event):
+    def activate(self, _, event):
          # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 

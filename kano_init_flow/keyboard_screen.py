@@ -161,7 +161,7 @@ class KeyboardScreen(Gtk.Box):
         self.win.show_all()
         self.variants_combo.hide()
 
-    def apply_changes(self, widget, event):
+    def apply_changes(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
@@ -299,7 +299,7 @@ class KeyboardScreen(Gtk.Box):
                     self.selected_variant_index = variant_index
                     self.selected_variant_hr = variant_text
 
-    def on_advance_mode(self, widget):
+    def on_advance_mode(self, _):
 
         if int(self.advance_button.get_active()):
             self.variants_combo.show()

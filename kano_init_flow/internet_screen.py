@@ -54,7 +54,7 @@ class InternetScreen(object):
 
         self.win.show_all()
 
-    def activate(self, widget, event):
+    def activate(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Launch kano-wifi
@@ -63,7 +63,7 @@ class InternetScreen(object):
             # Go to Settings
             self.go_to_next_screen()
 
-    def skip(self, widget, event):
+    def skip(self, *_):
         self.win.clear_win()
         NoInternetScreen(self.win)
 
@@ -102,7 +102,7 @@ class NoInternetScreen(object):
 
         self.win.show_all()
 
-    def launch_wifi_config(self, widget, event):
+    def launch_wifi_config(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Launch kano-wifi
@@ -138,7 +138,7 @@ class OfflineScreen(object):
 
         self.win.show_all()
 
-    def skip(self, widget, event):
+    def skip(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()

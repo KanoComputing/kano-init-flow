@@ -59,7 +59,7 @@ class AudioTemplate(Gtk.Box):
 class AudioHintTemplate(TopImageTemplate):
 
     def __init__(self, img_path, title, description, kano_button_text,
-                 hint_text="", orange_button_text=""):
+                 hint_text=""):
         TopImageTemplate.__init__(self, img_path)
 
         self.heading = HintHeading(title, description, hint_text)
@@ -118,7 +118,7 @@ class AudioScreen(object):
 
         number_tries += 1
 
-    def play_sound(self, widget, event):
+    def play_sound(self, _, event):
         # Check if first click or 3 seconds have passed
         ready = (self.time_click is None) or (time.time() - self.time_click > 3)
         # If ready and enter key is pressed or mouse button is clicked
@@ -135,13 +135,13 @@ class AudioScreen(object):
 
             self.template.yes_button.grab_focus()
 
-    def go_to_next(self, widget, event):
+    def go_to_next(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
             DisplayScreen(self.win)
 
-    def fix_sound(self, widget, event):
+    def fix_sound(self, _, event):
         """
         Launches the appropriate screen for resolving the problem
         of not hearing any sound.
@@ -197,14 +197,14 @@ class SeeTheLightScreen(object):
 
         self.win.show_all()
 
-    def end_screen(self, widget, event):
+    def end_screen(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
             self.win.clear_win()
             BlueCableScreen(self.win)
 
-    def next_screen(self, widget, event):
+    def next_screen(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
@@ -237,7 +237,7 @@ class CheckTheGPIOScreen(object):
 
         self.win.show_all()
 
-    def next_screen(self, widget, event):
+    def next_screen(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
@@ -269,7 +269,7 @@ class BlueCableScreen(object):
 
         self.win.show_all()
 
-    def next_screen(self, widget, event):
+    def next_screen(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
@@ -304,13 +304,13 @@ class TvSpeakersScreen(object):
 
         self.win.show_all()
 
-    def setup_hdmi(self, widget, event):
+    def setup_hdmi(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             set_to_HDMI(True)
             self.go_to_next()
 
-    def go_to_next(self, widget=None, event=None):
+    def go_to_next(self, *_):
 
         self.win.clear_win()
         DisplayScreen(self.win)
@@ -343,13 +343,13 @@ class AnalogueScreen(object):
 
         self.win.show_all()
 
-    def setup_analogue(self, widget, event):
+    def setup_analogue(self, _, event):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             set_to_HDMI(False)
             self.go_to_next()
 
-    def go_to_next(self, widget=None, event=None):
+    def go_to_next(self, *_):
 
         self.win.clear_win()
         DisplayScreen(self.win)
