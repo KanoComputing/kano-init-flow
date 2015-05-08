@@ -21,8 +21,6 @@ from kano_init_flow.display_screen import DisplayScreen
 from kano_init_flow.paths import MEDIA_DIR
 from kano_init_flow.template import Template, TopImageTemplate, HintHeading
 
-number_tries = 0
-
 
 class AudioTemplate(Gtk.Box):
 
@@ -79,14 +77,13 @@ class AudioHintTemplate(TopImageTemplate):
 
 
 class AudioScreen(object):
+    number_tries = 0
 
     def __init__(self, win):
-        global number_tries
-
         self.win = win
         self.time_click = None
 
-        if number_tries == 0:
+        if AudioScreen.number_tries == 0:
             header = "Can you hear me?"
         else:
             header = "Let's try again - can you hear me now?"
@@ -116,7 +113,7 @@ class AudioScreen(object):
 
         self.win.show_all()
 
-        number_tries += 1
+        AudioScreen.number_tries += 1
 
     def play_sound(self, _, event):
         # Check if first click or 3 seconds have passed
@@ -151,7 +148,7 @@ class AudioScreen(object):
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
 
-            if number_tries == 1:
+            if AudioScreen.number_tries == 1:
                 # check if current settings is configured for HDMI or analogue
                 if not is_HDMI():
                     SeeTheLightScreen(self.win)
