@@ -15,26 +15,19 @@ from kano.network import is_internet
 from kano_init_flow.template import Template
 from kano_init_flow.audio_screen import AudioScreen
 from kano_init_flow.paths import MEDIA_DIR
-from kano_init_flow.data import get_data
 
 
 class SettingsIntroScreen(object):
-    data = get_data("SETTINGS_INTRO_SCREEN")
 
     def __init__(self, win):
-
         self.win = win
         self.win.set_resizable(True)
-        header = self.data["LABEL_1"]
-        if is_internet():
-            subheader = self.data["LABEL_2"]
-        else:
-            subheader = self.data["LABEL_3"]
+
         self.template = Template(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "TEST SOUND"
+            img_path=os.path.join(MEDIA_DIR, "update_successful.png"),
+            title="You have the power!",
+            description="Now let's test your computer's sound and screen.",
+            button1_text="TEST SOUND"
         )
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)

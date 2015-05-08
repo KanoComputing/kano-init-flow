@@ -12,17 +12,14 @@ import os
 from gi.repository import Gdk
 
 from kano_init_flow.paths import MEDIA_DIR
-from kano_init_flow.data import get_data
 from kano_init_flow.common import get_init_conf
 from kano_init_flow.template import Template
 from kano_init_flow.settings_intro_screen import SettingsIntroScreen
 
 
 class InternetScreen(object):
-    data = get_data("INTERNET_SCREEN")
 
     def __init__(self, win):
-
         self.win = win
 
         # Skip Internet setup for workshops
@@ -35,13 +32,11 @@ class InternetScreen(object):
             self.go_to_next_screen()
             return
 
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
         self.template = Template(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "CONNECT",
+            img_path=os.path.join(MEDIA_DIR, "connect.png"),
+            title="Connect to the world",
+            description="Let's set up WiFi and bring your Kano to life",
+            button1_text="CONNECT",
             orange_button_text="No internet"
         )
 
@@ -78,17 +73,19 @@ class InternetScreen(object):
 
 
 class NoInternetScreen(object):
-    data = get_data("NO_INTERNET_SCREEN")
 
     def __init__(self, win):
-
         self.win = win
         self.win.set_resizable(True)
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
-        image = os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"])
-        self.template = Template(image, header, subheader, "TRY AGAIN",
-                                 orange_button_text="Connect later")
+
+        self.template = Template(
+            img_path=os.path.join(MEDIA_DIR, "no_internet.png"),
+            title="No internet?",
+            description="Try again, or connect later. You need internet " \
+                        "for most of Kano's coolest powers.",
+            button1_text="TRY AGAIN",
+            orange_button_text="Connect later"
+        )
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event",
                                           self.launch_wifi_config)
@@ -119,15 +116,19 @@ class NoInternetScreen(object):
 
 
 class OfflineScreen(object):
-    data = get_data("OFFLINE_SCREEN")
 
     def __init__(self, win):
-
         self.win = win
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
-        image = os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"])
-        self.template = Template(image, header, subheader, "PLAY OFFLINE")
+
+        self.template = Template(
+            img_path=os.path.join(MEDIA_DIR, "internet_trouble.png"),
+            title="Internet trouble? We can help!",
+            description="Visit http://help.kano.me on another device, " \
+                        "or email wifi@kano.me. You can play offline in " \
+                        "the meantime.",
+            button1_text="PLAY OFFLINE"
+        )
+
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.skip)
         self.template.kano_button.connect("key_release_event", self.skip)

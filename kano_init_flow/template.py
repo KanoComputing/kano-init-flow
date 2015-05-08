@@ -59,12 +59,12 @@ class TwoButtons(Gtk.ButtonBox):
 # Window class
 class Template(Gtk.Box):
 
-    def __init__(self, img_filename, title, description, button1_text,
+    def __init__(self, img_path, title, description, button1_text,
                  button2_text="", orange_button_text=""):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
-        if img_filename is not None:
-            self.image = Gtk.Image.new_from_file(img_filename)
+        if img_path:
+            self.image = Gtk.Image.new_from_file(img_path)
             self.pack_start(self.image, False, False, 0)
 
         self.heading = Heading(title, description)

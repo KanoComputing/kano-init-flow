@@ -12,13 +12,12 @@ import os
 from gi.repository import Gdk
 
 import kano.gtk3.kano_dialog as kano_dialog
-from kano_settings.set_wallpaper import change_wallpaper
+from kano_settings.system.wallpaper import change_wallpaper
 from kano.utils import is_monitor, run_cmd
 from kano_settings.system.display import get_overscan_status, \
     write_overscan_values, set_overscan_status
 
 from kano_init_flow.template import Template
-from kano_init_flow.data import get_data
 from kano_init_flow.paths import MEDIA_DIR
 
 
@@ -27,7 +26,6 @@ OVERSCAN_PIPE = "/dev/mailbox"
 
 
 class DisplayScreen(object):
-    data = get_data("DISPLAY_SCREEN")
 
     def __init__(self, _win):
 
@@ -42,12 +40,13 @@ class DisplayScreen(object):
         # Change background
         change_wallpaper(MEDIA_DIR, "/Display-Test")
         # Create UI
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
-        template_image_path = os.path.join(MEDIA_DIR,
-                                           self.data["IMG_FILENAME"])
-        self.template = Template(template_image_path, header, subheader,
-                                 "YES", button2_text="NO")
+        self.template = Template(
+            img_path=os.path.join(MEDIA_DIR, "display_test.png"),
+            title="Can you see four white lines?",
+            description="They should be touching each side of your screen.",
+            button1_text="YES",
+            button2_text="NO"
+        )
         self.template.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event",
                                           self.next_screen)
@@ -77,7 +76,6 @@ class DisplayScreen(object):
 
 
 class DisplayTutorial(object):
-    data = get_data("DISPLAY_TUTORIAL")
     overscan_values = None
     original_overscan = None
     inc = 1
@@ -95,13 +93,12 @@ class DisplayTutorial(object):
         # Listen for key events
         self.win.connect("key-press-event", self.on_key_press)
         # Create UI
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
         self.template = Template(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "CONTINUE",
+            img_path=os.path.join(MEDIA_DIR, "display_test2.png"),
+            title="Use UP and DOWN keys",
+            description="Stretch or shrink your screen, until the white " \
+                        "lines are lined up with the edges",
+            button1_text="CONTINUE",
             orange_button_text="Reset"
         )
         self.template.kano_button.connect("button_release_event",

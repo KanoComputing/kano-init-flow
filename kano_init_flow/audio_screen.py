@@ -17,7 +17,6 @@ from kano.gtk3.heading import Heading
 from kano.utils import play_sound
 from kano_settings.system.audio import is_HDMI, set_to_HDMI, hdmi_supported
 
-from kano_init_flow.data import get_data
 from kano_init_flow.display_screen import DisplayScreen
 from kano_init_flow.paths import MEDIA_DIR
 from kano_init_flow.template import Template, TopImageTemplate, HintHeading
@@ -27,11 +26,11 @@ number_tries = 0
 
 class AudioTemplate(Gtk.Box):
 
-    def __init__(self, img_filename, title, description):
+    def __init__(self, img_path, title, description):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
-        if img_filename is not None:
-            self.image = Gtk.Image.new_from_file(img_filename)
+        if img_path:
+            self.image = Gtk.Image.new_from_file(img_path)
             self.pack_start(self.image, False, False, 0)
         self.heading = Heading(title, description)
 
@@ -59,9 +58,9 @@ class AudioTemplate(Gtk.Box):
 
 class AudioHintTemplate(TopImageTemplate):
 
-    def __init__(self, img_filename, title, description, kano_button_text,
+    def __init__(self, img_path, title, description, kano_button_text,
                  hint_text="", orange_button_text=""):
-        TopImageTemplate.__init__(self, img_filename)
+        TopImageTemplate.__init__(self, img_path)
 
         self.heading = HintHeading(title, description, hint_text)
         self.pack_start(self.heading.container, False, False, 0)
@@ -80,7 +79,6 @@ class AudioHintTemplate(TopImageTemplate):
 
 
 class AudioScreen(object):
-    data = get_data("AUDIO_SCREEN")
 
     def __init__(self, win):
         global number_tries
@@ -89,13 +87,13 @@ class AudioScreen(object):
         self.time_click = None
 
         if number_tries == 0:
-            header = self.data["LABEL_1"]
+            header = "Can you hear me?"
         else:
-            header = self.data["LABEL_3"]
+            header = "Let's try again - can you hear me now?"
             self.win.shrink()
-        subheader = self.data["LABEL_2"]
+        subheader = ""
         self.template = AudioTemplate(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
+            os.path.join(MEDIA_DIR, 'sound_test.png'),
             header,
             subheader
         )
@@ -171,19 +169,16 @@ class SeeTheLightScreen(object):
     Troubleshooting screen: is the power light on the speaker on?
     """
 
-    data = get_data("AUDIO_TUTORIAL_1")
-
     def __init__(self, win):
 
         self.win = win
 
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
         self.template = Template(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "YES",
+            img_path=os.path.join(MEDIA_DIR, "Audio_See_the_light.png"),
+            title="Can you see the light?",
+            description="If the power plugs are connected correctly, " \
+                        "you should see a blue light.",
+            button1_text="YES",
             button2_text="NO"
         )
         self.template.kano_button2.set_color("red")
@@ -218,21 +213,18 @@ class SeeTheLightScreen(object):
 
 
 class CheckTheGPIOScreen(object):
-    data = get_data("AUDIO_TUTORIAL_2")
 
     def __init__(self, win):
 
         self.win = win
 
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
-        hint = self.data["LABEL_3"]
         self.template = AudioHintTemplate(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "NEXT",
-            hint_text=hint
+            img_path=os.path.join(MEDIA_DIR, "Audio_GPIO.png"),
+            title="No light? Check the GPIO",
+            description="The red and black cables have to be connected to " \
+                        "these two pins - exactly.",
+            kano_button_text="NEXT",
+            hint_text="Make sure the red cable is on top."
         )
         self.template.kano_button.connect("button_release_event",
                                           self.next_screen)
@@ -253,21 +245,17 @@ class CheckTheGPIOScreen(object):
 
 
 class BlueCableScreen(object):
-    data = get_data("AUDIO_TUTORIAL_3")
 
     def __init__(self, win):
 
         self.win = win
 
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
-        hint = self.data["LABEL_3"]
         self.template = AudioHintTemplate(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "FINISH",
-            hint_text=hint
+            img_path=os.path.join(MEDIA_DIR, "Audio_blue-cable.png"),
+            title="Plug in the blue cable",
+            description="If you see the light, it's powered!",
+            kano_button_text="FINISH",
+            hint_text="Now plug the audio."
         )
         self.template.kano_button.connect("button_release_event",
                                           self.next_screen)
@@ -290,19 +278,17 @@ class BlueCableScreen(object):
 
 
 class TvSpeakersScreen(object):
-    data = get_data("TV_SPEAKERS_SCREEN")
 
     def __init__(self, win):
 
         self.win = win
 
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
         self.template = Template(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "USE TV SPEAKERS",
+            img_path=os.path.join(MEDIA_DIR, "/tv-speakers.png"),
+            title="Let's switch to the TV speakers",
+            description="If you're using a TV with speakers, " \
+                        "click the button below",
+            button1_text="USE TV SPEAKERS",
             orange_button_text="Setup later"
         )
         self.template.kano_button.connect("button_release_event",
@@ -331,19 +317,17 @@ class TvSpeakersScreen(object):
 
 
 class AnalogueScreen(object):
-    data = get_data("ANALOGUE_SCREEN")
 
     def __init__(self, win):
 
         self.win = win
 
-        header = self.data["LABEL_1"]
-        subheader = self.data["LABEL_2"]
         self.template = Template(
-            os.path.join(MEDIA_DIR, self.data["IMG_FILENAME"]),
-            header,
-            subheader,
-            "USE SPEAKERS",
+            img_path=os.path.join(MEDIA_DIR, "Audio_Use_Speakers.png"),
+            title="Let's switch your speaker",
+            description="If you want to change from TV sound to analogue " \
+                        "speaker, click the button below",
+            button1_text="USE SPEAKERS",
             orange_button_text="Setup later"
         )
         self.template.kano_button.connect("button_release_event",
