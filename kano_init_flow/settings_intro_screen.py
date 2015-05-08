@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 # settings_intro_screen
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Tells user they will configure display and audio
@@ -16,6 +14,10 @@ from kano_init_flow.paths import MEDIA_DIR
 
 
 class SettingsIntroScreen(object):
+    """
+    Screen to begin the setup of the system. Introduces the settings
+    which will be adjusted
+    """
 
     def __init__(self, win):
         self.win = win
@@ -38,6 +40,8 @@ class SettingsIntroScreen(object):
         self.win.show_all()
 
     def activate(self, _, event):
+        """ Go to the audio screen """
+
          # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 

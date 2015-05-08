@@ -1,12 +1,24 @@
-#!/usr/bin/env python
-
-# Copyright (C) 2014 Kano Computing Ltd.
+# paths.py
+#
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+#
+# Paths to resource files and directories
 #
 
 import os
 
 def get_installed_dir(local_path, system_path, err_msg):
+    """
+    Get the installed directory, prioritising the local_path
+
+    :param local_path: Development path to resource
+    :param system_path: Installed system path to resource
+    :err_msg: Error message to raise on error
+    :returns: Directory which exists
+    :raises Exception: If neither directory exists
+    """
+
     if os.path.exists(local_path):
         return local_path
     elif os.path.exists(system_path):

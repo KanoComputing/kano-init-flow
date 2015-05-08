@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 # audio_screen.py
 #
-# Copyright (C) 2014, 2015 Kano Computing Ltd.
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Screen for configuring audio
@@ -23,6 +21,9 @@ from kano_init_flow.template import Template, TopImageTemplate, HintHeading
 
 
 class AudioTemplate(Gtk.Box):
+    """
+    Template for audio screens
+    """
 
     def __init__(self, img_path, title, description):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
@@ -55,6 +56,9 @@ class AudioTemplate(Gtk.Box):
 
 
 class AudioHintTemplate(TopImageTemplate):
+    """
+    Template for hints for audio setup
+    """
 
     def __init__(self, img_path, title, description, kano_button_text,
                  hint_text=""):
@@ -77,6 +81,10 @@ class AudioHintTemplate(TopImageTemplate):
 
 
 class AudioScreen(object):
+    """
+    Screen for testing audio configuration
+    """
+
     number_tries = 0
 
     def __init__(self, win):
@@ -116,6 +124,8 @@ class AudioScreen(object):
         AudioScreen.number_tries += 1
 
     def play_sound(self, _, event):
+        """ Play a test sound """
+
         # Check if first click or 3 seconds have passed
         ready = (self.time_click is None) or (time.time() - self.time_click > 3)
         # If ready and enter key is pressed or mouse button is clicked
@@ -133,6 +143,8 @@ class AudioScreen(object):
             self.template.yes_button.grab_focus()
 
     def go_to_next(self, _, event):
+        """ Go to the next screen in the flow """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
@@ -195,6 +207,8 @@ class SeeTheLightScreen(object):
         self.win.show_all()
 
     def end_screen(self, _, event):
+        """ Go to the screen to fix the problem """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
@@ -202,6 +216,8 @@ class SeeTheLightScreen(object):
             BlueCableScreen(self.win)
 
     def next_screen(self, _, event):
+        """ Go to the next check """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
@@ -210,6 +226,9 @@ class SeeTheLightScreen(object):
 
 
 class CheckTheGPIOScreen(object):
+    """
+    Troubleshooting screen: are the GPIO connectors connected correctly
+    """
 
     def __init__(self, win):
 
@@ -235,6 +254,8 @@ class CheckTheGPIOScreen(object):
         self.win.show_all()
 
     def next_screen(self, _, event):
+        """ Go to the next check """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
@@ -242,6 +263,9 @@ class CheckTheGPIOScreen(object):
 
 
 class BlueCableScreen(object):
+    """
+    Troubleshooting screen: is audio jack connected properly
+    """
 
     def __init__(self, win):
 
@@ -267,6 +291,8 @@ class BlueCableScreen(object):
         self.win.show_all()
 
     def next_screen(self, _, event):
+        """ Show the screen to test the audio """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
 
@@ -275,6 +301,9 @@ class BlueCableScreen(object):
 
 
 class TvSpeakersScreen(object):
+    """
+    Should the sound go via HDMI
+    """
 
     def __init__(self, win):
 
@@ -302,21 +331,26 @@ class TvSpeakersScreen(object):
         self.win.show_all()
 
     def setup_hdmi(self, _, event):
+        """ Set HDMI mode """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             set_to_HDMI(True)
             self.go_to_next()
 
     def go_to_next(self, *_):
+        """ Move on to the next phase to setup """
 
         self.win.clear_win()
         DisplayScreen(self.win)
 
 
 class AnalogueScreen(object):
+    """
+    Should the sound go via analogue
+    """
 
     def __init__(self, win):
-
         self.win = win
 
         self.template = Template(
@@ -341,12 +375,15 @@ class AnalogueScreen(object):
         self.win.show_all()
 
     def setup_analogue(self, _, event):
+        """ Set analogue mode """
+
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == 65293:
             set_to_HDMI(False)
             self.go_to_next()
 
     def go_to_next(self, *_):
+        """ Move on to the next phase to setup """
 
         self.win.clear_win()
         DisplayScreen(self.win)

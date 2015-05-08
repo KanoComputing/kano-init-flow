@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 # display_screen.py
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Screen for configuring display
@@ -26,6 +24,9 @@ OVERSCAN_PIPE = "/dev/mailbox"
 
 
 class DisplayScreen(object):
+    """
+    Check that the monitor is fully set-up
+    """
 
     def __init__(self, _win):
 
@@ -64,11 +65,13 @@ class DisplayScreen(object):
         self.win.show_all()
 
     def tutorial_screen(self, _, event):
+        """ Open the screen that adjusts the monitor """
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             self.win.clear_win()
             DisplayTutorial(self.win)
 
     def next_screen(self, _, event):
+        """ Move on to the next setting """
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Restore background
             change_wallpaper(WALLPAPER_PATH, "kanux-default")
@@ -76,22 +79,28 @@ class DisplayScreen(object):
 
 
 class DisplayTutorial(object):
+    """
+    Screen to adjust the overscan settings of the monitor
+    """
+
     overscan_values = None
     original_overscan = None
     inc = 1
 
     def __init__(self, _win):
-
         self.win = _win
 
         # Launch pipeline
         if not os.path.exists(OVERSCAN_PIPE):
             run_cmd('mknod {} c 100 0'.format(OVERSCAN_PIPE))
+
         # Get current overscan
         self.original_overscan = get_overscan_status()
         self.overscan_values = get_overscan_status()
+
         # Listen for key events
         self.win.connect("key-press-event", self.on_key_press)
+
         # Create UI
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "display_test2.png"),
@@ -114,6 +123,11 @@ class DisplayTutorial(object):
         self.win.show_all()
 
     def on_key_press(self, _, event):
+        """
+        Handle keypresses to change the overscan
+        settings by pressing up and down
+        """
+
         # Up arrow (65362)
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Up:
             self.zoom_out()
@@ -124,6 +138,8 @@ class DisplayTutorial(object):
             return
 
     def apply_changes(self, _, event):
+        """ Save the changes to the config file """
+
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             if self.original_overscan != self.overscan_values:
                 # Bring in message dialog box
@@ -149,17 +165,25 @@ class DisplayTutorial(object):
             self.go_to_next()
 
     def reset(self, *_):
-        # Restore overscan if any
+        """ Restore overscan, if any """
+
         if self.original_overscan != self.overscan_values:
             self.overscan_values = self.original_overscan
             set_overscan_status(self.original_overscan)
 
     def go_to_next(self):
+        """ Finish display setup """
+
         # Restore background
         change_wallpaper(WALLPAPER_PATH, "kanux-default")
         self.win.exit_flow()
 
     def _change_overscan(self, change):
+        """
+        Increment (or decrement) the overscan setting
+        :param change: Number to add to the overscan setting
+        """
+
         for side, value in self.overscan_values.iteritems():
             # Do allow negative values
             self.overscan_values[side] = max(value + change, 0)
@@ -167,7 +191,11 @@ class DisplayTutorial(object):
         set_overscan_status(self.overscan_values)
 
     def zoom_out(self):
+        """ Increase the overscan setting """
+
         self._change_overscan(self.inc)
 
     def zoom_in(self):
+        """ Decrease the overscan setting """
+
         self._change_overscan(-self.inc)

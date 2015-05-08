@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 # first_screen.py
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Intro screen of the first boot
@@ -21,6 +19,9 @@ from kano_init_flow.keyboard_screen import KeyboardScreen
 
 
 class FirstScreen(object):
+    """
+    Initial screen. Introduces the init flow.
+    """
 
     def __init__(self, win):
 
@@ -43,8 +44,9 @@ class FirstScreen(object):
         self.win.show_all()
 
     def activate(self, _, event):
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        """ Move to the first setup screen """
 
+        if not hasattr(event, 'keyval') or event.keyval == 65293:
             self.win.clear_win()
 
             if not detect_kano_keyboard():
