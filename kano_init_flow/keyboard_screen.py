@@ -2,7 +2,7 @@
 
 # keyboard_screen.py
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014, 2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 
@@ -221,6 +221,10 @@ class KeyboardScreen(Gtk.Box):
 
         self.kano_button.set_sensitive(False)
         self.fill_countries_combo(self.selected_continent_hr)
+
+        # Select the first by default
+        self.countries_combo.set_selected_item_index(0)
+        self.on_country_changed(self.countries_combo)
 
     def on_country_changed(self, combo):
 
