@@ -1,19 +1,16 @@
-#!/usr/bin/env python
-
+# drag_and_drop.py
+#
 # Copyright (C) 2014 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
-# drag_and_drop.py
+# Screen to teach dragging and dropping by moving an image of the Judoka
+# into a specified region
+#
 
 
 from gi.repository import Gtk, Gdk, GdkPixbuf
 import os
 import sys
-
-if __name__ == '__main__' and __package__ is None:
-    dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-    if dir_path != '/usr':
-        sys.path.append(dir_path)
 
 from kano_tutorial.tutorial_template import TutorialTemplate
 from kano_tutorial.paths import MEDIA_DIR
@@ -22,6 +19,9 @@ from kano.gtk3.cursor import attach_cursor_events
 
 
 class Judoka(Gtk.EventBox):
+    """
+    The object which is dragged from the source to the destination.
+    """
 
     def __init__(self):
         Gtk.EventBox.__init__(self)
@@ -80,7 +80,9 @@ class Judoka(Gtk.EventBox):
         self.eventbox.connect("drag-end", self.on_drag_end)
         self.eventbox.connect("drag-data-delete", self.on_drag_delete)
 
-    def on_drag_begin(self, widget, drag_context):
+    def on_drag_begin(self, _, drag_context):
+        """ Triggered when dragging starts """
+
         logger.info("Drag has begun")
 
         # (120, 90) refers to where the cursor relative to the drag icon
@@ -90,20 +92,29 @@ class Judoka(Gtk.EventBox):
         self.eventbox.show_all()
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
+        """ Passes the drag data to the drop area """
+
         logger.info("Data is sent from source")
         data.set_pixbuf(self.pixbuf)
 
-    def on_drag_fail(self, drag_context, drag_result, data):
+    @staticmethod
+    def on_drag_fail(drag_context, drag_result, data):
+        """ Handles when the Judoka isn't dragged to the drop area """
+
         logger.info("Drag failed")
         logger.info(data)
 
-    def on_drag_end(self, widget, event):
+    def on_drag_end(self, *_):
+        """ Triggered when the drag action is terminated """
+
         logger.info("Drag ended")
         self.eventbox.remove(self.bg_image)
         self.eventbox.add(self.image)
         self.eventbox.show_all()
 
-    def on_drag_delete(self, widget, event):
+    def on_drag_delete(self, *_):
+        """ Triggered when the drag action is completed successfully """
+
         logger.info("Drag deleted")
         self.eventbox.destroy()
         self.label1.destroy()
@@ -111,6 +122,9 @@ class Judoka(Gtk.EventBox):
 
 
 class DropArea(Gtk.Button):
+    """
+    Area which the user has to drag the Judoka into
+    """
 
     def __init__(self):
         Gtk.Button.__init__(self)
@@ -159,11 +173,22 @@ class DropArea(Gtk.Button):
         self.add(self.box)
 
     def hide_image_labels(self):
+        """
+        Hide the Judoka image and text. This is until the Judoka
+        has been successfully dragged into this window.
+        """
+
         self.colour_judoka_image.hide()
         self.label1.hide()
         self.instruction.hide()
 
-    def on_drag_data_received(self, widget, drag_context, x, y, data, info, time):
+    def on_drag_data_received(self, widget, drag_context, x, y,
+                              data, info, time):
+        """
+        Triggered whenever new drag data is received. If the Judoka
+        has been successfully dragged then move on to the next stage
+        """
+
         logger.info("Drop area has recieved data")
 
         if info == 2:
@@ -182,15 +207,22 @@ class DropArea(Gtk.Button):
             self.connect("button-release-event", self.close_application)
             self.grab_focus()
 
-    def close_application(self, widget, event):
+    @staticmethod
+    def close_application(_, event):
+        """ Exit """
 
         # left click
         if event.button == 1:
-            # Currently, exit code has no effect, kano-init-flow is launched regardless
+            # Currently, exit code has no effect,
+            # kano-init-flow is launched regardless
             sys.exit(0)
 
 
 class DragAndDrop(TutorialTemplate):
+    """
+    Screen to teach dragging and dropping.
+    Requires the user to click and drag the Judoka into the drop area
+    """
 
     def __init__(self, win):
         img_path = os.path.join(MEDIA_DIR, "keyboard-clickandhold.gif")

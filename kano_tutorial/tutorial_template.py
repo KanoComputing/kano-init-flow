@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 # tutorial_template.py
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Tutorial template, with keyboard at bottom and level specific container at top
@@ -14,6 +12,10 @@ from kano_tutorial.paths import MEDIA_DIR
 
 
 class TutorialTemplate(Gtk.Box):
+    """
+    Base class for the tutorial screens. Displays an image of the keyboard
+    at the bottom and the subclass implements the top half of the screen
+    """
 
     def __init__(self, img_path=None):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
@@ -37,6 +39,7 @@ class TutorialTemplate(Gtk.Box):
         self.set_image(img_path)
 
     def set_image(self, img_path):
+        """ Set the main keyboard image """
 
         extension = os.path.splitext(img_path)[1]
         if extension == '.gif':

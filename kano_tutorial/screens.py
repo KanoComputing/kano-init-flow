@@ -1,9 +1,10 @@
-#!/usr/bin/env python
-
-# Copyright (C) 2014 Kano Computing Ltd.
+# screens.py
+#
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
-# screens.py
+# Screens for the tutorial
+#
 
 
 from gi.repository import Gtk, Gdk
@@ -16,6 +17,10 @@ from kano.gtk3.cursor import attach_cursor_events
 
 
 class ButtonTemplate(Gtk.Button):
+    """
+    Base class for instruction widgets
+    """
+
     def __init__(self):
         Gtk.Button.__init__(self)
 
@@ -45,13 +50,18 @@ class ButtonTemplate(Gtk.Button):
 
         self.add(align)
 
-    def set_level(self, level):
+    def set_content(self, img_path, label, instruction):
+        """ Fill the widget with the desired content """
+
         self.image.set_from_file(img_path)
         self.label.set_text(label)
         self.instruction.set_text(instruction)
 
 
 class Screen1(TutorialTemplate):
+    """
+    Screen to activate the mouse
+    """
 
     def __init__(self, win):
         img_path = os.path.join(MEDIA_DIR, "keyboard-tab.gif")
@@ -76,11 +86,12 @@ class Screen1(TutorialTemplate):
         top.grab_focus()
         self.win.show_all()
 
-    def set_cursor_invisible(self, widget=None, event=None):
+    def set_cursor_invisible(self, *_):
         blank_cursor = Gdk.Cursor(Gdk.CursorType.BLANK_CURSOR)
         self.win.get_window().set_cursor(blank_cursor)
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
         keyname = Gdk.keyval_name(event.keyval)
         if keyname == "Tab":
             self.win.clear_win()
@@ -88,6 +99,10 @@ class Screen1(TutorialTemplate):
 
 
 class Screen2(TutorialTemplate):
+    """
+    Screen to teach left click
+    """
+
     def __init__(self, win):
         img_path = os.path.join(MEDIA_DIR, "keyboard-left-click.gif")
         TutorialTemplate.__init__(self, img_path=img_path)
@@ -116,7 +131,8 @@ class Screen2(TutorialTemplate):
     def set_cursor_visible(self):
         self.win.get_window().set_cursor(None)
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
 
         # left click the widget
         if event.button == 1:
@@ -128,6 +144,10 @@ class Screen2(TutorialTemplate):
 
 
 class Screen3(TutorialTemplate):
+    """
+    Reinforce left click by righting the Judoka
+    """
+
     def __init__(self, win):
         img_path = os.path.join(MEDIA_DIR, "keyboard-click.gif")
         TutorialTemplate.__init__(self, img_path=img_path)
@@ -147,7 +167,8 @@ class Screen3(TutorialTemplate):
         self.box.pack_start(top, False, False, 0)
         self.win.show_all()
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
 
         # left click the widget
         if event.button == 1:
@@ -157,6 +178,10 @@ class Screen3(TutorialTemplate):
 
 
 class Screen4(TutorialTemplate):
+    """
+    Reinforce left click again by requiring clicking
+    """
+
     def __init__(self, win):
         img_path = os.path.join(MEDIA_DIR, "keyboard-left-click.gif")
         TutorialTemplate.__init__(self, img_path=img_path)
@@ -180,7 +205,8 @@ class Screen4(TutorialTemplate):
         top.grab_focus()
         self.win.show_all()
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
 
         # left click the widget
         if event.button == 1:
