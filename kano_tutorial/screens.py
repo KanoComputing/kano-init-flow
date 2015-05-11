@@ -1,22 +1,26 @@
-#!/usr/bin/env python
-
-# Copyright (C) 2014 Kano Computing Ltd.
+# screens.py
+#
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
-# screens.py
+# Screens for the tutorial
+#
 
 
 from gi.repository import Gtk, Gdk
 import os
 
-from kano_tutorial.data import get_data
 from kano_tutorial.drag_and_drop import DragAndDrop
 from kano_tutorial.tutorial_template import TutorialTemplate
-from kano_tutorial.paths import media_dir
+from kano_tutorial.paths import MEDIA_DIR
 from kano.gtk3.cursor import attach_cursor_events
 
 
 class ButtonTemplate(Gtk.Button):
+    """
+    Base class for instruction widgets
+    """
+
     def __init__(self):
         Gtk.Button.__init__(self)
 
@@ -30,15 +34,15 @@ class ButtonTemplate(Gtk.Button):
 
         self.image = Gtk.Image()
 
-        self.label1 = Gtk.Label()
-        self.label1.get_style_context().add_class("drag_source_label")
-        self.label2 = Gtk.Label()
-        self.label2.get_style_context().add_class("drag_source_label_bold")
+        self.label = Gtk.Label()
+        self.label.get_style_context().add_class("drag_source_label")
+        self.instruction = Gtk.Label()
+        self.instruction.get_style_context().add_class("drag_source_label_bold")
 
         self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
         self.box.pack_start(self.image, False, False, 0)
-        self.box.pack_start(self.label1, False, False, 0)
-        self.box.pack_start(self.label2, False, False, 0)
+        self.box.pack_start(self.label, False, False, 0)
+        self.box.pack_start(self.instruction, False, False, 0)
 
         align = Gtk.Alignment(xscale=0, yscale=0, xalign=0.5, yalign=0.5)
         align.add(self.box)
@@ -46,26 +50,35 @@ class ButtonTemplate(Gtk.Button):
 
         self.add(align)
 
-    def set_level(self, level):
-        data = get_data(level)
-        filename = os.path.join(media_dir, data["JUDOKA_FILENAME"])
-        label1_text = data["LABEL_1"]
-        label2_text = data["LABEL_2"]
-        self.image.set_from_file(filename)
-        self.label1.set_text(label1_text)
-        self.label2.set_text(label2_text)
+    def set_content(self, img_path, label, instruction):
+        """ Fill the widget with the desired content """
+
+        self.image.set_from_file(img_path)
+        self.label.set_text(label)
+        self.instruction.set_text(instruction)
 
 
 class Screen1(TutorialTemplate):
+    """
+    Screen to activate the mouse
+    """
 
     def __init__(self, win):
-        TutorialTemplate.__init__(self, 1)
+        img_path = os.path.join(MEDIA_DIR, "keyboard-tab.gif")
+        TutorialTemplate.__init__(self, img_path=img_path)
 
         self.win = win
         self.win.add(self)
 
         top = ButtonTemplate()
-        top.set_level(1)
+
+        top.set_content(
+            img_path=os.path.join(MEDIA_DIR, "mouse-dotted.png"),
+            label="We escaped!  Now let's turn on new powers!  " \
+                   "First - the mouse.",
+            instruction="Press [tab] to activate the mouse."
+        )
+
         top.connect("key-release-event", self.next)
         self.win.connect("map-event", self.set_cursor_invisible)
 
@@ -73,11 +86,12 @@ class Screen1(TutorialTemplate):
         top.grab_focus()
         self.win.show_all()
 
-    def set_cursor_invisible(self, widget=None, event=None):
+    def set_cursor_invisible(self, *_):
         blank_cursor = Gdk.Cursor(Gdk.CursorType.BLANK_CURSOR)
         self.win.get_window().set_cursor(blank_cursor)
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
         keyname = Gdk.keyval_name(event.keyval)
         if keyname == "Tab":
             self.win.clear_win()
@@ -85,8 +99,13 @@ class Screen1(TutorialTemplate):
 
 
 class Screen2(TutorialTemplate):
+    """
+    Screen to teach left click
+    """
+
     def __init__(self, win):
-        TutorialTemplate.__init__(self, 2)
+        img_path = os.path.join(MEDIA_DIR, "keyboard-left-click.gif")
+        TutorialTemplate.__init__(self, img_path=img_path)
 
         self.win = win
         self.win.add(self)
@@ -96,7 +115,11 @@ class Screen2(TutorialTemplate):
         )
 
         top = ButtonTemplate()
-        top.set_level(2)
+        top.set_content(
+            img_path=os.path.join(MEDIA_DIR, "mouse-filled.png"),
+            label="Nice! You can move the mouse with the touchpad.",
+            instruction="Left click to continue."
+        )
         top.connect('button-release-event', self.next)
 
         self.set_cursor_visible()
@@ -108,7 +131,8 @@ class Screen2(TutorialTemplate):
     def set_cursor_visible(self):
         self.win.get_window().set_cursor(None)
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
 
         # left click the widget
         if event.button == 1:
@@ -120,21 +144,31 @@ class Screen2(TutorialTemplate):
 
 
 class Screen3(TutorialTemplate):
+    """
+    Reinforce left click by righting the Judoka
+    """
+
     def __init__(self, win):
-        TutorialTemplate.__init__(self, 3)
+        img_path = os.path.join(MEDIA_DIR, "keyboard-click.gif")
+        TutorialTemplate.__init__(self, img_path=img_path)
 
         self.win = win
         self.win.add(self)
 
         top = ButtonTemplate()
-        top.set_level(3)
+        top.set_content(
+            img_path=os.path.join(MEDIA_DIR, "judoka-hanging.png"),
+            label="But wait, I'm upside down!  Click me to flip me over!",
+            instruction="Left click the Judoka."
+        )
         top.connect("button-release-event", self.next)
         attach_cursor_events(top)
 
         self.box.pack_start(top, False, False, 0)
         self.win.show_all()
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
 
         # left click the widget
         if event.button == 1:
@@ -144,14 +178,23 @@ class Screen3(TutorialTemplate):
 
 
 class Screen4(TutorialTemplate):
+    """
+    Reinforce left click again by requiring clicking
+    """
+
     def __init__(self, win):
-        TutorialTemplate.__init__(self, 4)
+        img_path = os.path.join(MEDIA_DIR, "keyboard-left-click.gif")
+        TutorialTemplate.__init__(self, img_path=img_path)
 
         self.win = win
         self.win.add(self)
 
         top = ButtonTemplate()
-        top.set_level(4)
+        top.set_content(
+            img_path=os.path.join(MEDIA_DIR, "judoka-fixed.png"),
+            label="Wow thanks - you flipped me!  Good mouse-work.",
+            instruction="Left click to continue."
+        )
         top.connect('button-release-event', self.next)
 
         self.window_event_handler = self.win.connect(
@@ -162,7 +205,8 @@ class Screen4(TutorialTemplate):
         top.grab_focus()
         self.win.show_all()
 
-    def next(self, widget, event):
+    def next(self, _, event):
+        """ Go to the next screen """
 
         # left click the widget
         if event.button == 1:

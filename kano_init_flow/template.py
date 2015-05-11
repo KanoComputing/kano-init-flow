@@ -1,9 +1,6 @@
-
-#!/usr/bin/env python
-
 # template.py
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Main template for the stages of the init flow
@@ -59,21 +56,24 @@ class TwoButtons(Gtk.ButtonBox):
 # Window class
 class Template(Gtk.Box):
 
-    def __init__(self, img_filename, title, description, button1_text, button2_text="", orange_button_text=""):
+    def __init__(self, img_path, title, description, button1_text,
+                 button2_text="", orange_button_text=""):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
-        if img_filename is not None:
-            self.image = Gtk.Image.new_from_file(img_filename)
+        if img_path:
+            self.image = Gtk.Image.new_from_file(img_path)
             self.pack_start(self.image, False, False, 0)
 
         self.heading = Heading(title, description)
         self.heading.container.set_size_request(590, -1)
+
         if button2_text:
             self.button_box = TwoButtons(button1_text, button2_text)
             self.kano_button2 = getattr(self.button_box, "button2", None)
         else:
             self.button_box = KanoButtonBox(button1_text, orange_button_text)
             self.orange_button = self.get_orange_button()
+
         self.button_box.set_margin_top(10)
         self.button_box.set_margin_bottom(30)
         self.kano_button = self.button_box.kano_button
