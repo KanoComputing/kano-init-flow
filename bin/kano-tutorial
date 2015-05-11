@@ -2,7 +2,7 @@
 
 # kano-tutorial
 #
-# Copyright (C) 2014 Kano Computing Ltd.
+# Copyright (C) 2014-2015 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
 #
 # Main window class
@@ -13,18 +13,19 @@ import sys
 from gi.repository import Gtk
 
 if __name__ == '__main__' and __package__ is None:
-    dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    if dir_path != '/usr':
-        sys.path.append(dir_path)
+    DIR_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    if DIR_PATH != '/usr':
+        sys.path.append(DIR_PATH)
 
-from kano.gtk3.apply_styles import apply_common_to_screen, apply_styling_to_screen
+from kano.gtk3.apply_styles import apply_common_to_screen, \
+    apply_styling_to_screen
 from kano.utils import is_number
 
 from kano_tutorial.screens import Screen1, Screen2, Screen3, Screen4
 from kano_tutorial.drag_and_drop import DragAndDrop
 from kano_tutorial.paths import CSS_DIR
 
-refs = {
+REFS = {
     0: Screen1,
     1: Screen2,
     2: Screen3,
@@ -49,7 +50,7 @@ class MainWindow(Gtk.Window):
 
     def goto(self, stage):
         self.clear_win()
-        refs[stage](self)
+        REFS[stage](self)
 
     def clear_win(self):
         for i in self.get_children():
