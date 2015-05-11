@@ -22,7 +22,7 @@ from kano.utils import is_number
 
 from kano_tutorial.screens import Screen1, Screen2, Screen3, Screen4
 from kano_tutorial.drag_and_drop import DragAndDrop
-from kano_tutorial.paths import css_dir
+from kano_tutorial.paths import CSS_DIR
 
 refs = {
     0: Screen1,
@@ -34,7 +34,7 @@ refs = {
 
 
 class MainWindow(Gtk.Window):
-    CSS_PATH = os.path.join(css_dir, "kano-tutorial.css")
+    CSS_PATH = os.path.join(CSS_DIR, "kano-tutorial.css")
 
     def __init__(self, stage=0):
 
