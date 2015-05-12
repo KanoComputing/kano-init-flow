@@ -28,7 +28,7 @@ def get_installed_dir(local_path, system_path, err_msg):
 
 # setting up directories
 DIR_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-PYTHON_DIR = '/usr/lib/python2.7/dist-packages/kano-init-flow'
+PYTHON_DIR = '/usr/lib/python2.7/dist-packages/kano_init_flow'
 
 MEDIA_DIR = get_installed_dir(
     local_path=os.path.join(DIR_PATH, 'media', 'kano-init-flow'),
@@ -44,10 +44,3 @@ INIT_DIR = get_installed_dir(
 )
 
 CSS_DIR = os.path.join(INIT_DIR, 'CSS')
-
-DATA_FILE = get_installed_dir(
-    local_path=os.path.join(os.path.dirname(__file__),
-                            'data', 'init-flow.json'),
-    system_path=os.path.join(PYTHON_DIR, 'data/init-flow.json'),
-    err_msg='Neither local nor usr data found!'
-)
