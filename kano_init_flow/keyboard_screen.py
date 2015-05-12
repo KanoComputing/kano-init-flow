@@ -56,7 +56,7 @@ class KeyboardScreen(Gtk.Box):
 
         # Heading
         self.heading = Heading("Keyboard",
-                               "Where do you live? So I can set your keyboard")
+                               "Tell me where you live so I can set your keyboard.")
         self.heading.container.set_size_request(680, -1)
 
         heading_align = Gtk.Alignment()
