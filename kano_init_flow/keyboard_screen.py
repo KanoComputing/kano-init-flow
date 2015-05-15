@@ -14,6 +14,7 @@ from kano_settings.config_file import get_setting, set_setting
 from kano.gtk3.heading import Heading
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.kano_combobox import KanoComboBox
+from kano.gtk3.kano_dialog import KanoDialog
 
 from kano_init_flow.internet_screen import InternetScreen
 from kano_init_flow.settings_intro_screen import SettingsIntroScreen
@@ -231,6 +232,44 @@ class KeyboardScreen(Gtk.Box):
             # Check for changes from default
             if not (self.selected_country.lower() == "us" and \
                     self.selected_variant == "generic"):
+
+                confirmation = KanoDialog(
+                    'Test your new keyboard layout',
+                    'Make sure you can write latin characters with your new ' \
+                    'layout, otherwise you won\'t be able to finish setting ' \
+                    'up your Kano. \n\n Type \'judoka\' into the box below ' \
+                    'or go back to the previous screen to choose a ' \
+                    'different layout:',
+                    [
+                        {
+                            'label': 'OK',
+                            'color': 'green',
+                            'return_value': 1
+                        },
+                        {
+                            'label': 'BACK',
+                            'color': 'red',
+                            'return_value': 0
+                        },
+                    ],
+                    widget=Gtk.Entry(),
+                    has_entry=True
+                )
+                rv = confirmation.run()
+                del confirmation
+
+                if rv != 0:
+                    if rv != 'judoka':
+                        try_again = KanoDialog(
+                            "Try again",
+                            "Please reconfigure your keyboard and try again."
+                        )
+                        try_again.run()
+                        del try_again
+                        return
+                else:
+                    # User clicked on back
+                    return
 
                 # This is a callback called by the main loop, so it's safe to
                 # manipulate GTK objects:
