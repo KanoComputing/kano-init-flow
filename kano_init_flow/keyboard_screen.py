@@ -237,7 +237,7 @@ class KeyboardScreen(Gtk.Box):
                     'Test your new keyboard layout',
                     'Make sure you can write latin characters with your new ' \
                     'layout, otherwise you won\'t be able to finish setting ' \
-                    'up your Kano. \n\n Type \'judoka\' into the box bellow ' \
+                    'up your Kano. \n\n Type \'judoka\' into the box below ' \
                     'or go back to the previous screen to choose a ' \
                     'different layout:',
                     [
