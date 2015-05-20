@@ -233,80 +233,110 @@ class KeyboardScreen(Gtk.Box):
             if not (self.selected_country.lower() == "us" and \
                     self.selected_variant == "generic"):
 
-                confirmation = KanoDialog(
-                    'Test your new keyboard layout',
-                    'Make sure you can write latin characters with your new ' \
-                    'layout, otherwise you won\'t be able to finish setting ' \
-                    'up your Kano. \n\n Type \'judoka\' into the box below ' \
-                    'or go back to the previous screen to choose a ' \
-                    'different layout:',
-                    [
-                        {
-                            'label': 'OK',
-                            'color': 'green',
-                            'return_value': 1
-                        },
-                        {
-                            'label': 'BACK',
-                            'color': 'red',
-                            'return_value': 0
-                        },
-                    ],
-                    widget=Gtk.Entry(),
-                    has_entry=True
-                )
-                rv = confirmation.run()
-                del confirmation
-
-                if rv != 0:
-                    if rv != 'judoka':
-                        try_again = KanoDialog(
-                            "Try again",
-                            "Please reconfigure your keyboard and try again."
-                        )
-                        try_again.run()
-                        del try_again
-                        return
-                else:
-                    # User clicked on back
-                    return
-
-                # This is a callback called by the main loop, so it's safe to
-                # manipulate GTK objects:
-                watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
-                self.kano_button.start_spinner()
-                self.win.get_window().set_cursor(watch_cursor)
-                self.kano_button.set_sensitive(False)
-
-                def save_config():
-                    """
-                    Save the keyboard config. Runs in the background as
-                    the process takes a while so reports back using the
-                    'done' function.
-                    """
-
-                    keyboard_config.set_keyboard(self.selected_country,
-                                                 self.selected_variant)
-
-                    def done():
-                        """ Callback for when saving config is finished """
-
-                        self.win.get_window().set_cursor(None)
-                        self.kano_button.stop_spinner()
-                        self.kano_button.set_sensitive(True)
-                        self.go_to_next_screen()
-
-                    GObject.idle_add(done)
-
-                thread = threading.Thread(target=save_config)
+                # The settings will be applied in the background thread
+                # while the loading cursor is being shown.
+                self.set_busy()
+                thread = threading.Thread(target=self.apply_keyboard_settings,
+                                          args=(True,))
                 thread.start()
-
-                # Save the changes in the config
-                self.update_config()
 
             # keyboard does not need updating
             else:
                 self.go_to_next_screen()
+
+    def apply_keyboard_settings(self, confirm_dialog=False):
+        """
+            This function is meant to be run as a thread in the
+            background.
+
+            It will call self.keyboard_settings_applied_cb() within
+            in the main GObject thread using idle_add when finished.
+        """
+
+        keyboard_config.set_keyboard(self.selected_country,
+                                     self.selected_variant)
+
+        GObject.idle_add(self.keyboard_settings_applied_cb, confirm_dialog)
+
+    def keyboard_settings_applied_cb(self, confirm_dialog):
+        self.set_busy(False)
+
+        if not confirm_dialog or self.confirm_layout():
+            self.update_config()
+            self.go_to_next_screen()
+
+        # This is to remove the callback from the main loop.
+        return False
+
+    def confirm_layout(self):
+        """
+            Shows the confirmation dialog asking the user to type some
+            latin characters to make sure the layout of their choice does
+            support it.
+
+            :return: True if yes, False otherwise
+            :rtype: bool
+        """
+
+        confirmation = KanoDialog(
+            'Test your new keyboard layout',
+            'Make sure you can write latin characters with your new ' \
+            'layout, otherwise you won\'t be able to finish setting ' \
+            'up your Kano. \n\n Type \'judoka\' into the box below ' \
+            'or go back to the previous screen to choose a ' \
+            'different layout:',
+            [
+                {
+                    'label': 'OK',
+                    'color': 'green',
+                    'return_value': 1
+                },
+                {
+                    'label': 'BACK',
+                    'color': 'red',
+                    'return_value': 0
+                },
+            ],
+            widget=Gtk.Entry(),
+            has_entry=True
+        )
+        rv = confirmation.run()
+        del confirmation
+
+        if rv != 0:
+            if rv != 'judoka':
+                try_again = KanoDialog(
+                    "Try again",
+                    "Please reconfigure your keyboard and try again."
+                )
+                try_again.run()
+                del try_again
+                return False
+        else:
+            # User clicked on back
+            return False
+
+        return True
+
+    def set_busy(self, busy=True):
+        """
+            Sets/unsets this window's busy mode. This includes:
+
+                * applying the loading cursor and
+                * making the confirmation button insensitive.
+
+            Not safe to be called from a thread.
+        """
+
+        if busy:
+            watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+            self.kano_button.start_spinner()
+            self.win.get_window().set_cursor(watch_cursor)
+            self.kano_button.set_sensitive(False)
+        else:
+            self.win.get_window().set_cursor(None)
+            self.kano_button.stop_spinner()
+            self.kano_button.set_sensitive(True)
 
     def update_config(self):
         """ Save the keyboard settings to the config file """
