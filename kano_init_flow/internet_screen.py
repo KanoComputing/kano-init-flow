@@ -35,10 +35,10 @@ class InternetScreen(object):
 
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "connect.png"),
-            title="Connect to the world",
-            description="Let's set up WiFi and bring your Kano to life",
-            button1_text="CONNECT",
-            orange_button_text="No internet"
+            title=_("Connect to the world"),
+            description=_("Let's set up WiFi and bring your Kano to life"),
+            button1_text=_("Connect").upper(),
+            orange_button_text=_("No internet")
         )
 
         self.win.set_main_widget(self.template)
@@ -93,11 +93,11 @@ class NoInternetScreen(object):
 
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "no_internet.png"),
-            title="No internet?",
-            description="Try again, or connect later. You need internet " \
-                        "for most of Kano's coolest powers.",
-            button1_text="TRY AGAIN",
-            orange_button_text="Connect later"
+            title=_("No internet?"),
+            description=_("Try again, or connect later. You need internet " \
+                          "for most of Kano's coolest powers."),
+            button1_text=_("TRY AGAIN"),
+            orange_button_text=_("Connect later")
         )
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event",
@@ -145,11 +145,11 @@ class OfflineScreen(object):
 
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "internet_trouble.png"),
-            title="Internet trouble? We can help!",
-            description="Visit http://help.kano.me on another device, " \
-                        "or email wifi@kano.me. You can play offline in " \
-                        "the meantime.",
-            button1_text="PLAY OFFLINE"
+            title=_("Internet trouble? We can help!"),
+            description=_("Visit http://help.kano.me on another device, " \
+                          "or email wifi@kano.me. You can play offline in " \
+                          "the meantime."),
+            button1_text=_("PLAY OFFLINE").upper()
         )
 
         self.win.set_main_widget(self.template)

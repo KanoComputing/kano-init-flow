@@ -34,7 +34,8 @@ class AudioTemplate(Gtk.Box):
         self.heading = Heading(title, description)
 
         icon_path = os.path.join(MEDIA_DIR, "play-sound.png")
-        self.kano_button = KanoButton(text="PLAY SOUND", color="blue",
+        self.kano_button = KanoButton(text=_("Play sound").upper(),
+                                      color="blue",
                                       icon_filename=icon_path)
         self.kano_button.pack_and_align()
         self.kano_button.set_margin_top(10)
@@ -44,9 +45,9 @@ class AudioTemplate(Gtk.Box):
         button_box = Gtk.ButtonBox(spacing=15)
         button_box.set_layout(Gtk.ButtonBoxStyle.CENTER)
 
-        self.yes_button = KanoButton("YES")
+        self.yes_button = KanoButton(_("Yes").upper())
         self.yes_button.set_sensitive(False)
-        self.no_button = KanoButton("NO", color="red")
+        self.no_button = KanoButton(_("No").upper(), color="red")
         self.no_button.set_sensitive(False)
         button_box.pack_start(self.yes_button, False, False, 0)
         button_box.pack_start(self.no_button, False, False, 0)
@@ -92,9 +93,9 @@ class AudioScreen(object):
         self.time_click = None
 
         if AudioScreen.number_tries == 0:
-            header = "Can you hear me?"
+            header = _("Can you hear me?")
         else:
-            header = "Let's try again - can you hear me now?"
+            header = _("Let's try again - can you hear me now?")
             self.win.shrink()
         subheader = ""
         self.template = AudioTemplate(
@@ -184,11 +185,11 @@ class SeeTheLightScreen(object):
 
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "Audio_See_the_light.png"),
-            title="Can you see the light?",
-            description="If the power plugs are connected correctly, " \
-                        "you should see a blue light.",
-            button1_text="YES",
-            button2_text="NO"
+            title=_("Can you see the light?"),
+            description=_("If the power plugs are connected correctly, " \
+                          "you should see a blue light."),
+            button1_text=_("Yes").upper(),
+            button2_text=_("No").upper()
         )
         self.template.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event",
@@ -236,11 +237,11 @@ class CheckTheGPIOScreen(object):
 
         self.template = AudioHintTemplate(
             img_path=os.path.join(MEDIA_DIR, "Audio_GPIO.png"),
-            title="No light? Check the GPIO",
-            description="The red and black cables have to be connected to " \
-                        "these two pins - exactly.",
-            kano_button_text="NEXT",
-            hint_text="Make sure the red cable is on top."
+            title=_("No light? Check the GPIO"),
+            description=_("The red and black cables have to be connected to " \
+                          "these two pins - exactly."),
+            kano_button_text=_("Next").upper(),
+            hint_text=_("Make sure the red cable is on top.")
         )
         self.template.kano_button.connect("button_release_event",
                                           self.next_screen)
@@ -273,10 +274,10 @@ class BlueCableScreen(object):
 
         self.template = AudioHintTemplate(
             img_path=os.path.join(MEDIA_DIR, "Audio_blue-cable.png"),
-            title="Plug in the blue cable",
-            description="If you see the light, it's powered!",
-            kano_button_text="FINISH",
-            hint_text="Now plug the audio."
+            title=_("Plug in the blue cable"),
+            description=_("If you see the light, it's powered!"),
+            kano_button_text=_("Finish").upper(),
+            hint_text=_("Now plug the audio.")
         )
         self.template.kano_button.connect("button_release_event",
                                           self.next_screen)
@@ -311,11 +312,11 @@ class TvSpeakersScreen(object):
 
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "/tv-speakers.png"),
-            title="Let's switch to the TV speakers",
-            description="If you're using a TV with speakers, " \
-                        "click the button below",
-            button1_text="USE TV SPEAKERS",
-            orange_button_text="Setup later"
+            title=_("Let's switch to the TV speakers"),
+            description=_("If you're using a TV with speakers, " \
+                          "click the button below"),
+            button1_text=_("Use TV speakers").upper(),
+            orange_button_text=_("Setup later")
         )
         self.template.kano_button.connect("button_release_event",
                                           self.setup_hdmi)
@@ -355,11 +356,11 @@ class AnalogueScreen(object):
 
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "Audio_Use_Speakers.png"),
-            title="Let's switch your speaker",
-            description="If you want to change from TV sound to analogue " \
-                        "speaker, click the button below",
-            button1_text="USE SPEAKERS",
-            orange_button_text="Setup later"
+            title=_("Let's switch your speaker"),
+            description=_("If you want to change from TV sound to analogue " \
+                          "speaker, click the button below"),
+            button1_text=_("Use speakers").upper(),
+            orange_button_text=_("Setup later")
         )
         self.template.kano_button.connect("button_release_event",
                                           self.setup_analogue)

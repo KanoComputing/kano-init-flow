@@ -28,9 +28,10 @@ class FirstScreen(object):
         self.win = win
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "made_it.png"),
-            title="We made it!",
-            description="You made a computer - now let's give it new powers!",
-            button1_text="START SETUP"
+            title=_("We made it!"),
+            description=_("You made a computer - " \
+                          "now let's give it new powers!"),
+            button1_text=_("Start setup").upper()
         )
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event",
