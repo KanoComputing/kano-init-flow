@@ -137,7 +137,7 @@ class DisplayTutorial(object):
             self.zoom_in()
             return
 
-    def apply_changes(self, _, event):
+    def apply_changes(self, widget, event):
         """ Save the changes to the config file """
 
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
