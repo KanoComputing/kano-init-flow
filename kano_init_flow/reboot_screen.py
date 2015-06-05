@@ -23,7 +23,7 @@ class RebootScreen(object):
         self.template = Template(
             img_path=None,
             title=_("Time to reboot"),
-            description=_("To finish setup, we have to do a quick reboot. " \
+            description=_("To finish setup, we have to do a quick reboot. "
                           "Don't worry! Everything is saved."),
             button1_text=_("Reboot").upper()
         )

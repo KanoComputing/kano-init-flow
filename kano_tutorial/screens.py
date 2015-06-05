@@ -74,7 +74,7 @@ class Screen1(TutorialTemplate):
 
         top.set_content(
             img_path=os.path.join(MEDIA_DIR, "mouse-dotted.png"),
-            label=_("We escaped!  Now let's turn on new powers!  " \
+            label=_("We escaped!  Now let's turn on new powers!  "
                     "First - the mouse."),
             instruction=_("Press [tab] to activate the mouse.")
         )

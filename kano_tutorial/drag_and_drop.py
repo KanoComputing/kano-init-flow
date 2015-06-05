@@ -43,10 +43,10 @@ class Judoka(Gtk.EventBox):
         drag_bg_filename = os.path.join(MEDIA_DIR, "judoka-dragged-BG.png")
         self.bg_image.set_from_file(drag_bg_filename)
 
-        self.label1 = Gtk.Label(_("I can show colors too " \
+        self.label1 = Gtk.Label(_("I can show colors too "
                                   "- 16.7 million of them!")
         self.label1.get_style_context().add_class("drag_source_label")
-        self.instruction = Gtk.Label(_("Click, hold, and drag " \
+        self.instruction = Gtk.Label(_("Click, hold, and drag "
                                        "me to the color.")
         self.instruction.get_style_context().add_class("drag_source_label_bold")
 

@@ -186,7 +186,7 @@ class SeeTheLightScreen(object):
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "Audio_See_the_light.png"),
             title=_("Can you see the light?"),
-            description=_("If the power plugs are connected correctly, " \
+            description=_("If the power plugs are connected correctly, "
                           "you should see a blue light."),
             button1_text=_("Yes").upper(),
             button2_text=_("No").upper()
@@ -238,7 +238,7 @@ class CheckTheGPIOScreen(object):
         self.template = AudioHintTemplate(
             img_path=os.path.join(MEDIA_DIR, "Audio_GPIO.png"),
             title=_("No light? Check the GPIO"),
-            description=_("The red and black cables have to be connected to " \
+            description=_("The red and black cables have to be connected to "
                           "these two pins - exactly."),
             kano_button_text=_("Next").upper(),
             hint_text=_("Make sure the red cable is on top.")
@@ -313,7 +313,7 @@ class TvSpeakersScreen(object):
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "/tv-speakers.png"),
             title=_("Let's switch to the TV speakers"),
-            description=_("If you're using a TV with speakers, " \
+            description=_("If you're using a TV with speakers, "
                           "click the button below"),
             button1_text=_("Use TV speakers").upper(),
             orange_button_text=_("Setup later")
@@ -357,7 +357,7 @@ class AnalogueScreen(object):
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "Audio_Use_Speakers.png"),
             title=_("Let's switch your speaker"),
-            description=_("If you want to change from TV sound to analogue " \
+            description=_("If you want to change from TV sound to analogue "
                           "speaker, click the button below"),
             button1_text=_("Use speakers").upper(),
             orange_button_text=_("Setup later")

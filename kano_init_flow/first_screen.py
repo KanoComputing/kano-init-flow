@@ -29,7 +29,7 @@ class FirstScreen(object):
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "made_it.png"),
             title=_("We made it!"),
-            description=_("You made a computer - " \
+            description=_("You made a computer - "
                           "now let's give it new powers!"),
             button1_text=_("Start setup").upper()
         )

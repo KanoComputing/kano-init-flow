@@ -105,7 +105,7 @@ class DisplayTutorial(object):
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "display_test2.png"),
             title=_("Use UP and DOWN keys"),
-            description=_("Stretch or shrink your screen, until the white " \
+            description=_("Stretch or shrink your screen, until the white "
                           "lines are lined up with the edges"),
             button1_text=_("Continue").upper(),
             orange_button_text=_("Reset")
