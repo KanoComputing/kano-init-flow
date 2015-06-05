@@ -22,10 +22,10 @@ class RebootScreen(object):
 
         self.template = Template(
             img_path=None,
-            title="Time to reboot",
-            description="To finish setup, we have to do a quick reboot. " \
-                        "Don't worry! Everything is saved.",
-            button1_text="REBOOT"
+            title=_("Time to reboot"),
+            description=_("To finish setup, we have to do a quick reboot. "
+                          "Don't worry! Everything is saved."),
+            button1_text=_("Reboot").upper()
         )
         self.win.set_main_widget(self.template)
         self.template.kano_button.connect("button_release_event", self.activate)

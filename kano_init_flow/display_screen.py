@@ -43,10 +43,10 @@ class DisplayScreen(object):
         # Create UI
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "display_test.png"),
-            title="Can you see four white lines?",
-            description="They should be touching each side of your screen.",
-            button1_text="YES",
-            button2_text="NO"
+            title=_("Can you see four white lines?"),
+            description=_("They should be touching each side of your screen."),
+            button1_text=_("Yes").upper(),
+            button2_text=_("No").upper()
         )
         self.template.kano_button2.set_color("red")
         self.template.kano_button.connect("button_release_event",
@@ -104,11 +104,11 @@ class DisplayTutorial(object):
         # Create UI
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "display_test2.png"),
-            title="Use UP and DOWN keys",
-            description="Stretch or shrink your screen, until the white " \
-                        "lines are lined up with the edges",
-            button1_text="CONTINUE",
-            orange_button_text="Reset"
+            title=_("Use UP and DOWN keys"),
+            description=_("Stretch or shrink your screen, until the white "
+                          "lines are lined up with the edges"),
+            button1_text=_("Continue").upper(),
+            orange_button_text=_("Reset")
         )
         self.template.kano_button.connect("button_release_event",
                                           self.apply_changes)
@@ -137,20 +137,20 @@ class DisplayTutorial(object):
             self.zoom_in()
             return
 
-    def apply_changes(self, _, event):
+    def apply_changes(self, widget, event):
         """ Save the changes to the config file """
 
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             if self.original_overscan != self.overscan_values:
                 # Bring in message dialog box
                 kdialog = kano_dialog.KanoDialog(
-                    "Are you sure you want to set this screen size?",
+                    _("Are you sure you want to set this screen size?"),
                     "",
                     {
-                        "OK": {
+                        _("OK"): {
                             "return_value": -1
                         },
-                        "CANCEL": {
+                        _("CANCEL"): {
                             "return_value": 0
                         }
                     },

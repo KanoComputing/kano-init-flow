@@ -74,9 +74,9 @@ class Screen1(TutorialTemplate):
 
         top.set_content(
             img_path=os.path.join(MEDIA_DIR, "mouse-dotted.png"),
-            label="We escaped!  Now let's turn on new powers!  " \
-                   "First - the mouse.",
-            instruction="Press [tab] to activate the mouse."
+            label=_("We escaped!  Now let's turn on new powers!  "
+                    "First - the mouse."),
+            instruction=_("Press [tab] to activate the mouse.")
         )
 
         top.connect("key-release-event", self.next)
@@ -117,8 +117,8 @@ class Screen2(TutorialTemplate):
         top = ButtonTemplate()
         top.set_content(
             img_path=os.path.join(MEDIA_DIR, "mouse-filled.png"),
-            label="Nice! You can move the mouse with the touchpad.",
-            instruction="Left click to continue."
+            label=_("Nice! You can move the mouse with the touchpad."),
+            instruction=_("Left click to continue.")
         )
         top.connect('button-release-event', self.next)
 
@@ -158,8 +158,8 @@ class Screen3(TutorialTemplate):
         top = ButtonTemplate()
         top.set_content(
             img_path=os.path.join(MEDIA_DIR, "judoka-hanging.png"),
-            label="But wait, I'm upside down!  Click me to flip me over!",
-            instruction="Left click the Judoka."
+            label=_("But wait, I'm upside down!  Click me to flip me over!"),
+            instruction=_("Left click the Judoka.")
         )
         top.connect("button-release-event", self.next)
         attach_cursor_events(top)
@@ -192,8 +192,8 @@ class Screen4(TutorialTemplate):
         top = ButtonTemplate()
         top.set_content(
             img_path=os.path.join(MEDIA_DIR, "judoka-fixed.png"),
-            label="Wow thanks - you flipped me!  Good mouse-work.",
-            instruction="Left click to continue."
+            label=_("Wow thanks - you flipped me! Good mouse-work."),
+            instruction=_("Left click to continue.")
         )
         top.connect('button-release-event', self.next)
 

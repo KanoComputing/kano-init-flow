@@ -56,8 +56,9 @@ class KeyboardScreen(Gtk.Box):
         self.win.set_main_widget(self)
 
         # Heading
-        self.heading = Heading("Keyboard",
-                               "Tell me where you live so I can set your keyboard.")
+        self.heading = Heading(_("Keyboard"),
+                               _("Tell me where you live so I "
+                                 "can set your keyboard."))
         self.heading.container.set_size_request(680, -1)
 
         heading_align = Gtk.Alignment()
@@ -67,7 +68,7 @@ class KeyboardScreen(Gtk.Box):
         self.heading_align = Gtk.Alignment(yscale=0, yalign=0.5)
 
         # Button
-        self.kano_button = KanoButton("APPLY CHANGES")
+        self.kano_button = KanoButton(_("Apply changes").upper())
         self.kano_button.set_sensitive(False)  # Ensure continue button is enabled
         self.kano_button.connect("button_release_event", self.apply_changes)
         self.kano_button.connect("key_release_event", self.apply_changes)
@@ -86,7 +87,7 @@ class KeyboardScreen(Gtk.Box):
         self.countries_combo = self._create_combo_box(self.on_country_changed)
 
         # Create Advance mode checkbox
-        self.advance_button = Gtk.CheckButton("Advanced options")
+        self.advance_button = Gtk.CheckButton(_("Advanced options"))
         self.advance_button.set_can_focus(False)
         self.advance_button.props.valign = Gtk.Align.CENTER
         self.advance_button.connect("clicked", self.on_advance_mode)
@@ -276,23 +277,26 @@ class KeyboardScreen(Gtk.Box):
 
             :return: True if yes, False otherwise
             :rtype: bool
+
+            TODO: Ensure that this test makes sense and works as intended
+                  for other languages
         """
 
         confirmation = KanoDialog(
-            'Test your new keyboard layout',
-            'Make sure you can write latin characters with your new ' \
-            'layout, otherwise you won\'t be able to finish setting ' \
-            'up your Kano. \n\n Type \'judoka\' into the box below ' \
-            'or go back to the previous screen to choose a ' \
-            'different layout:',
+            _('Test your new keyboard layout'),
+            _('Make sure you can write latin characters with your new ' \
+              'layout, otherwise you won\'t be able to finish setting ' \
+              'up your Kano. \n\n Type \'judoka\' into the box below ' \
+              'or go back to the previous screen to choose a ' \
+              'different layout:'),
             [
                 {
-                    'label': 'OK',
+                    'label': _('OK').upper(),
                     'color': 'green',
                     'return_value': 1
                 },
                 {
-                    'label': 'BACK',
+                    'label': _('Back').upper(),
                     'color': 'red',
                     'return_value': 0
                 },
@@ -304,10 +308,10 @@ class KeyboardScreen(Gtk.Box):
         del confirmation
 
         if rv != 0:
-            if rv != 'judoka':
+            if rv != _('judoka'):
                 try_again = KanoDialog(
-                    "Try again",
-                    "Please reconfigure your keyboard and try again."
+                    _("Try again"),
+                    _("Please reconfigure your keyboard and try again.")
                 )
                 try_again.run()
                 del try_again

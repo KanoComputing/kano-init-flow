@@ -25,9 +25,9 @@ class SettingsIntroScreen(object):
 
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "update_successful.png"),
-            title="You have the power!",
-            description="Now let's test your computer's sound and screen.",
-            button1_text="TEST SOUND"
+            title=_("You have the power!"),
+            description=_("Now let's test your computer's sound and screen."),
+            button1_text=_("Test sound").upper()
         )
         self.template.kano_button.connect("button_release_event", self.activate)
         self.template.kano_button.connect("key_release_event", self.activate)

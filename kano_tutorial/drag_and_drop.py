@@ -43,9 +43,11 @@ class Judoka(Gtk.EventBox):
         drag_bg_filename = os.path.join(MEDIA_DIR, "judoka-dragged-BG.png")
         self.bg_image.set_from_file(drag_bg_filename)
 
-        self.label1 = Gtk.Label("I can show colors too - 16.7 million of them!")
+        self.label1 = Gtk.Label(_("I can show colors too "
+                                  "- 16.7 million of them!")
         self.label1.get_style_context().add_class("drag_source_label")
-        self.instruction = Gtk.Label("Click, hold, and drag me to the color.")
+        self.instruction = Gtk.Label(_("Click, hold, and drag "
+                                       "me to the color.")
         self.instruction.get_style_context().add_class("drag_source_label_bold")
 
         # Mimic dimensions of the image so when the image is hidden,
@@ -154,9 +156,9 @@ class DropArea(Gtk.Button):
         self.fixed.put(self.bullseye, 0, 0)
         self.fixed.put(self.colour_judoka_image, 0, 0)
 
-        self.label1 = Gtk.Label("Nice work, keyboard ninja!")
+        self.label1 = Gtk.Label(_("Nice work, keyboard ninja!"))
         self.label1.get_style_context().add_class("drag_dest_label")
-        self.instruction = Gtk.Label("Left click to continue.")
+        self.instruction = Gtk.Label(_("Left click to continue."))
         self.instruction.get_style_context().add_class("drag_dest_label_bold")
 
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
