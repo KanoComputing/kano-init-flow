@@ -39,7 +39,7 @@ class DisplayScreen(object):
         self.win.set_resizable(True)
 
         # Change background
-        change_wallpaper(MEDIA_DIR, "/Display-Test")
+        change_wallpaper(MEDIA_DIR, "Display-Test")
         # Create UI
         self.template = Template(
             img_path=os.path.join(MEDIA_DIR, "display_test.png"),
