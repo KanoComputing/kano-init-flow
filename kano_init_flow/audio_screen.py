@@ -311,7 +311,7 @@ class TvSpeakersScreen(object):
         self.win = win
 
         self.template = Template(
-            img_path=os.path.join(MEDIA_DIR, "/tv-speakers.png"),
+            img_path=os.path.join(MEDIA_DIR, "tv-speakers.png"),
             title=_("Let's switch to the TV speakers"),
             description=_("If you're using a TV with speakers, "
                           "click the button below"),
