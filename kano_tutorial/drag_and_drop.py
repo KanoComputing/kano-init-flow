@@ -44,10 +44,10 @@ class Judoka(Gtk.EventBox):
         self.bg_image.set_from_file(drag_bg_filename)
 
         self.label1 = Gtk.Label(_("I can show colors too "
-                                  "- 16.7 million of them!")
+                                  "- 16.7 million of them!"))
         self.label1.get_style_context().add_class("drag_source_label")
         self.instruction = Gtk.Label(_("Click, hold, and drag "
-                                       "me to the color.")
+                                       "me to the color."))
         self.instruction.get_style_context().add_class("drag_source_label_bold")
 
         # Mimic dimensions of the image so when the image is hidden,
