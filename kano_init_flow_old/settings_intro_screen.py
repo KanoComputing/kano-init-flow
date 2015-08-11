@@ -8,9 +8,9 @@
 
 import os
 
-from kano_init_flow.template import Template
-from kano_init_flow.audio_screen import AudioScreen
-from kano_init_flow.paths import MEDIA_DIR
+from .template import Template
+from .audio_screen import AudioScreen
+from .paths import MEDIA_DIR
 
 
 class SettingsIntroScreen(object):

@@ -13,8 +13,8 @@ import sys
 from kano.gtk3.apply_styles import apply_common_to_screen
 from kano.gtk3.application_window import ApplicationWindow
 
-from kano_init_flow.reboot_screen import RebootScreen
-from kano_init_flow.paths import CSS_DIR
+from .reboot_screen import RebootScreen
+from .paths import CSS_DIR
 
 # Window class
 class MainWindow(ApplicationWindow):

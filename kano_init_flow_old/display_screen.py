@@ -15,8 +15,8 @@ from kano.utils import is_monitor, run_cmd
 from kano_settings.system.display import get_overscan_status, \
     write_overscan_values, set_overscan_status
 
-from kano_init_flow.template import Template
-from kano_init_flow.paths import MEDIA_DIR
+from .template import Template
+from .paths import MEDIA_DIR
 
 
 WALLPAPER_PATH = "/usr/share/kano-desktop/wallpapers/"

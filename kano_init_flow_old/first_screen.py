@@ -11,11 +11,11 @@ import os
 from kano.network import is_internet
 from kano.utils import detect_kano_keyboard
 
-from kano_init_flow.paths import MEDIA_DIR
-from kano_init_flow.template import Template
-from kano_init_flow.internet_screen import InternetScreen
-from kano_init_flow.settings_intro_screen import SettingsIntroScreen
-from kano_init_flow.keyboard_screen import KeyboardScreen
+from .paths import MEDIA_DIR
+from .template import Template
+from .internet_screen import InternetScreen
+from .settings_intro_screen import SettingsIntroScreen
+from .keyboard_screen import KeyboardScreen
 
 
 class FirstScreen(object):

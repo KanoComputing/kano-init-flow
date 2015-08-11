@@ -33,9 +33,9 @@ try:
 
     from kano.utils import enforce_root
 
-    from kano_init_flow.main_window import MainWindow
-    from kano_init_flow.first_screen import FirstScreen
-    from kano_init_flow.audio_screen import AudioScreen
+    from kano_init_flow_old.main_window import MainWindow
+    from kano_init_flow_old.first_screen import FirstScreen
+    from kano_init_flow_old.audio_screen import AudioScreen
 
     enforce_root(_('Please run it as root / sudo user!'))
 

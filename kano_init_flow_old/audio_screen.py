@@ -15,9 +15,9 @@ from kano.gtk3.heading import Heading
 from kano.utils import play_sound
 from kano_settings.system.audio import is_HDMI, set_to_HDMI, hdmi_supported
 
-from kano_init_flow.display_screen import DisplayScreen
-from kano_init_flow.paths import MEDIA_DIR
-from kano_init_flow.template import Template, TopImageTemplate, HintHeading
+from .display_screen import DisplayScreen
+from .paths import MEDIA_DIR
+from .template import Template, TopImageTemplate, HintHeading
 
 
 class AudioTemplate(Gtk.Box):

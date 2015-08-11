@@ -8,7 +8,7 @@
 
 import sys
 import os
-from kano_init_flow.template import Template
+from .template import Template
 
 
 class RebootScreen(object):

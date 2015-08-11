@@ -11,10 +11,10 @@
 import os
 from gi.repository import Gdk
 
-from kano_init_flow.paths import MEDIA_DIR
-from kano_init_flow.common import get_init_conf
-from kano_init_flow.template import Template
-from kano_init_flow.settings_intro_screen import SettingsIntroScreen
+from .paths import MEDIA_DIR
+from .common import get_init_conf
+from .template import Template
+from .settings_intro_screen import SettingsIntroScreen
 
 
 class InternetScreen(object):

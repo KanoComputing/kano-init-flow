@@ -16,8 +16,8 @@ from kano.gtk3.buttons import KanoButton
 from kano.gtk3.kano_combobox import KanoComboBox
 from kano.gtk3.kano_dialog import KanoDialog
 
-from kano_init_flow.internet_screen import InternetScreen
-from kano_init_flow.settings_intro_screen import SettingsIntroScreen
+from .internet_screen import InternetScreen
+from .settings_intro_screen import SettingsIntroScreen
 
 GObject.threads_init()
 
