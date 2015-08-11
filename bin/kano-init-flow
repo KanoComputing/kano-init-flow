@@ -27,5 +27,6 @@ import docopt
 args = docopt.docopt(__doc__)
 print args
 
-mw = MainWindow(args['--debug'])
+start_from = args['--debug'] if args['--debug'] != 'none' else None
+mw = MainWindow(start_from)
 #Gtk.main()

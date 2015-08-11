@@ -23,4 +23,8 @@ class MainWindow(Gtk.Window):
             :type start_from: str
         """
 
-        self._controller = Controller(start_from)
+        self._ctl = Controller(self, start_from)
+
+    def show(self):
+        self._ctl.first_stage()
+        super(MainWindow, self).show()
