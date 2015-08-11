@@ -15,13 +15,17 @@ class BugsWorld(Stage):
         The keyboard tutorial stage
     """
 
-    def __init__(self):
-        super(BugsWorld, self).__init__()
+    self._id = 'bugs-world'
 
-        self._id = 'bugs-world'
+    def __init__(self, ctl):
+        super(BugsWorld, self).__init__(ctl)
 
-    def get_widget(self):
-        return BugsWorldMainWidget()
+    def first_step(self):
+        main = BugsWorldMainWidget()
+        self._ctl.main_window.push(main)
+
+    def next_step(self):
+        pass
 
 
 class BugsWorldMainWidget(Gtk.EventBox):

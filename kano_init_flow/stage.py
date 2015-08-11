@@ -9,13 +9,22 @@ from .paths import get_asset_path
 
 
 class Stage(object):
-    def __init__(self):
+    _id = None
+
+    @classmethod
+    def id(cls):
+        return cls._id
+
+    def __init__(self, ctl):
         super(Stage, self).__init__()
 
-        self._id = None
         self._root = None
+        self._ctl = ctl
 
-    def get_widget(self):
+    def first_step(self):
+        pass
+
+    def next_step(self):
         pass
 
     def media_path(self, filename):
