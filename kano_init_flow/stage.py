@@ -20,6 +20,7 @@ class Stage(object):
 
         self._root = None
         self._ctl = ctl
+        self._steps = []
 
     def first_step(self):
         pass

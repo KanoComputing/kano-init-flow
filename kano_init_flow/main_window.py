@@ -28,3 +28,8 @@ class MainWindow(Gtk.Window):
     def show(self):
         self._ctl.first_stage()
         super(MainWindow, self).show()
+
+    def push(self, child):
+        # TODO: This should be wrapped in add_idle
+        # destroy current child
+        # put a new one in

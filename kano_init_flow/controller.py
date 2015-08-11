@@ -49,7 +49,7 @@ class Controller(object):
         if len(self._stages):
             index = self._get_stage_index(self._status.location)
             stage_ctl = self._stages[index](self)
-            stage_ctl.first_stage()
+            stage_ctl.first_step()
         else:
             raise RuntimeError('No flow stages available')
 

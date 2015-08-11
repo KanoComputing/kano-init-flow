@@ -16,18 +16,22 @@ class BugsWorld(Stage):
     """
 
     self._id = 'bugs-world'
+    self._root = __file__
 
     def __init__(self, ctl):
         super(BugsWorld, self).__init__(ctl)
 
     def first_step(self):
-        main = BugsWorldMainWidget()
+        main = BugsWorldMainWidget(self)
         self._ctl.main_window.push(main)
 
     def next_step(self):
-        pass
+        self._stage.ctl.next_stage()
 
 
 class BugsWorldMainWidget(Gtk.EventBox):
-    def __init__(self):
-        pass
+    def __init__(self, stage):
+        self._stage = stage
+
+    def _last_bug_clicked(self):
+        self._stage.next_step()
