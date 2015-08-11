@@ -8,10 +8,24 @@
 # Main entry point to the application
 #
 
-from gi.repository import Gtk
+"""
+kano-init-flow onboards users to Kano OS.
 
-from kano_init_flow import MainWindow
+Usage:
+  kano-init-flow [-d <stage-id>]
 
+Options:
+  -h, --help        Show this message.
+  -d, --debug=<id>  Launch in debug mode [default: none].
+"""
 
-mw = MainWindow()
-Gtk.main()
+import docopt
+#from gi.repository import Gtk
+
+#from kano_init_flow import MainWindow
+
+args = docopt.docopt(__doc__)
+print args
+
+mw = MainWindow(args['--debug'])
+#Gtk.main()

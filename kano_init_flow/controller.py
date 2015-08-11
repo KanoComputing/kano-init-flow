@@ -8,6 +8,7 @@
 
 from .status import Status
 
+from .stages.bugs_world import BugsWorld
 
 class Controller(object):
     """
@@ -16,5 +17,12 @@ class Controller(object):
         The MainWindow class uses it to determine what comes next.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, start_from=None):
+        """
+            :param start_from: Overrides the status and makes the init flow
+                               start from this stage.
+            :type start_from: str
+        """
+
+        self._status = Status.get_instsance()
+        self._status.debug_mode(start_from)

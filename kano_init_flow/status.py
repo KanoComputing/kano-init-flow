@@ -58,6 +58,9 @@ class Status(object):
             self._location = data['location']
 
     def save(self):
+        if not self._saving_enabled:
+            return
+
         data = {
             'location': self._location
         }
@@ -73,3 +76,7 @@ class Status(object):
     @location.setter
     def location(self, value):
         self._location = value
+
+    def debug_mode(start_from):
+        self._saving_enabled = False
+        self._location = start_from

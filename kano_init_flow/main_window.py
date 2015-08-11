@@ -6,7 +6,7 @@
 # Keeps user's progression through the init flow
 #
 
-import Gtk
+from gi.repository import Gtk
 
 from .controller import Controller
 
@@ -16,5 +16,11 @@ class MainWindow(Gtk.Window):
         Manages the full-screen top level window of the application.
     """
 
-    def __init__(self):
-        self._controller = Controller()
+    def __init__(self, start_from=None):
+        """
+            :param start_from: Overrides the status and makes the init flow
+                               start from this stage.
+            :type start_from: str
+        """
+
+        self._controller = Controller(start_from)
