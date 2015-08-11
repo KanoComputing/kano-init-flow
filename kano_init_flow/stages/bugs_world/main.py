@@ -21,7 +21,11 @@ class BugsWorld(Stage):
         super(BugsWorld, self).__init__(ctl)
 
     def first_step(self):
-        return BugsWorldMainWidget()
+        main = BugsWorldMainWidget()
+        self._ctl.main_window.push(main)
+
+    def next_step(self):
+        pass
 
 
 class BugsWorldMainWidget(Gtk.EventBox):

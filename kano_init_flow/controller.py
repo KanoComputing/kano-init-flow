@@ -62,7 +62,7 @@ class Controller(object):
         index = self._get_stage_index(self._status.location)
         if index is not None and index < len(self._stages) - 1:
             stage_ctl = self._stages[index + 1](self)
-            stage_ctl.first_stage()
+            stage_ctl.first_step()
         else:
             # TODO: Exit the application, there are no more stages to do.
             pass
