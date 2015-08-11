@@ -11,3 +11,31 @@ from kano.utils import get_home
 
 
 STATUS_FILE_PATH = os.path.join(get_home(), '.init-flow.json')
+
+
+def get_asset_path(stage_path, directory, filename):
+    '''
+        :params stage_path: the path of the current stage
+        :type stage_path: str
+
+        :params directory: the directory name we're interested in
+        :type directory: str
+
+        :params filename: the name of the file
+        :type filename: str
+    '''
+    stage_dir = os.path.dirname(os.path.abspath(stage_path))
+    path = os.path.join(stage_dir, directory, filename)
+
+    if not os.path.exists(path):
+        raise OSError("Path {} doesn't exist".format(path))
+
+    return path
+
+
+def get_common_css_path(filename):
+    '''
+        :params filename: the name of the file
+        :type filename: str
+    '''
+    return get_asset_path(__file__, "css", filename)
