@@ -4,22 +4,21 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf, Gdk
 
 from kano.gtk3.cursor import attach_cursor_events
 
-class PositionScale(object):
-    def __init__(self, pos_x=0, pos_y=0, scale=1.0):
+class Position(object):
+    def __init__(self, x=0, y=0, scale=1.0):
         if x <= 1:
-            self._x = int(x * Gtk.Screen.width())
+            self._x = int(x * Gdk.Screen.width())
         else:
             self._x = x
 
         if y <= 1:
-            self._y = int(y * Gtk.Screen.height())
+            self._y = int(y * Gdk.Screen.height())
         else:
             self._y = y
-        self._y = y
 
         self._scale = scale
 
@@ -56,14 +55,14 @@ class Scene(object):
         self._overlay.add_overlay(self._fixed)
 
     def _get_screen_ratio(self):
-        w = Gtk.Screen.width()
-        h = Gtk.Screen.height()
+        w = Gdk.Screen.width()
+        h = Gdk.Screen.height()
 
         ratio = (w * 1.0) / h
         dist_43 = abs(self.RATIO_4_3 - ratio)
         dist_169 = abs(self.RATIO_16_9 - ratio)
 
-        if dist_43 < dist169:
+        if dist_43 < dist_169:
             return self.RATIO_4_3
 
         return self.RATIO_16_9
@@ -79,15 +78,15 @@ class Scene(object):
             :type ver_169: str
         """
 
-        w = Gtk.Screen.width()
-        h = Gtk.Screen.height()
+        w = Gdk.Screen.width()
+        h = Gdk.Screen.height()
 
-        bg_path = ver_43 if self._screen_ratio == self.RATIO_4_3 else ver_163
+        bg_path = ver_43 if self._screen_ratio == self.RATIO_4_3 else ver_169
         bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, w, h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_widget(self, widget, pos_43, pos_169, clicked_cb):
-        pos = pos_43 if self._ratio == self.RATIO_4_3 else pos_169
+    def add_widget(self, widget, pos_43, pos_169, clicked_cb=None):
+        pos = pos_43 if self._screen_ratio == self.RATIO_4_3 else pos_169
 
         # If the widget is an image, scale it using GdkPixbuf
         if pos.scale != 1:
@@ -114,3 +113,7 @@ class Scene(object):
             root_widget = button_wrapper
 
         self._fixed.put(root_widget, pos.x, pos.y)
+
+    @property
+    def widget(self):
+        return self._overlay

@@ -38,7 +38,8 @@ class MainWindow(Gtk.Window):
             debug_button.set_valign(Gtk.Align.START)
             debug_button.connect('clicked', Gtk.main_quit)
 
-            debug_overlay.add(Gtk.EventBox())
+            self._child = Gtk.EventBox()
+            debug_overlay.add(self._child)
             debug_overlay.add_overlay(debug_button)
             self.add(debug_overlay)
             self._container = debug_overlay

@@ -10,11 +10,11 @@ from .paths import get_asset_path
 
 class Stage(object):
     id = None
+    _root = None
 
     def __init__(self, ctl):
         super(Stage, self).__init__()
 
-        self._root = None
         self._ctl = ctl
         self._steps = []
 
@@ -34,7 +34,7 @@ class Stage(object):
         '''
 
         if not self._root:
-            raise RuntimeError("Please define self._root == __file__")
+            raise RuntimeError("Please define self._root = __file__")
         return get_asset_path(self._root, "media", filename)
 
     def css_path(self, filename):
@@ -47,5 +47,5 @@ class Stage(object):
         '''
 
         if not self._root:
-            raise RuntimeError("Please define self._root == __file__")
+            raise RuntimeError("Please define self._root = __file__")
         return get_asset_path(self._root, "CSS", filename)
