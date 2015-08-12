@@ -108,11 +108,15 @@ class Scene(object):
             # TODO: Add custom styling to this.
             button_wrapper = Gtk.Button()
             button_wrapper.add(widget)
-            button_wrapper.connect('clicked', clicked_cb)
+            button_wrapper.connect('clicked', self._clicked_cb_wrapper, clicked_cb)
             attach_cursor_events(button_wrapper)
             root_widget = button_wrapper
 
         self._fixed.put(root_widget, pos.x, pos.y)
+
+    def _clicked_cb_wrapper(self, button, clicked_cb):
+        clicked_cb()
+        return True
 
     @property
     def widget(self):

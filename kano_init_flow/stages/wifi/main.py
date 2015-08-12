@@ -9,6 +9,7 @@ from gi.repository import Gtk
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Position
+from kano_init_flow.paths import common_media_path
 
 
 class Wifi(Stage):
@@ -26,6 +27,10 @@ class Wifi(Stage):
         s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1.widget)
 
+    def second_step(self):
+        s2 = self._setup_second_scene()
+        self._ctl.main_window.push(s2.widget)
+
     def next_step(self):
         self._stage.ctl.next_stage()
 
@@ -42,13 +47,26 @@ class Wifi(Stage):
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('console.gif')),
             Position(0.5, 0.5),
-            Position(0.31, 0.46)
+            Position(0.31, 0.46),
+            self.second_step
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('spaceman.svg')),
             Position(0.5, 0.5),
             Position(0.82, 0.55, 1.5)
+        )
+
+        return scene
+
+    def _setup_second_scene(self):
+        scene = Scene()
+        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
+                             common_media_path('blueprint-bg-16-9.png'))
+        scene.add_widget(
+            Gtk.Image.new_from_file(common_media_path('console-large.png')),
+            Position(0.5, 0.5),
+            Position(0.3, 0.1)
         )
 
         return scene
