@@ -10,6 +10,7 @@ from .status import Status
 
 from .stages.bugs_world import BugsWorld
 
+
 class Controller(object):
     """
         Controls the flow through the setup procedure.
@@ -26,7 +27,7 @@ class Controller(object):
 
         self._main_window = main_window
 
-        self._status = Status.get_instsance()
+        self._status = Status.get_instance()
         if start_from:
             self._status.debug_mode(start_from)
 

@@ -15,8 +15,8 @@ class BugsWorld(Stage):
         The keyboard tutorial stage
     """
 
-    self._id = 'bugs-world'
-    self._root = __file__
+    _id = 'bugs-world'
+    _root = __file__
 
     def __init__(self, ctl):
         super(BugsWorld, self).__init__(ctl)

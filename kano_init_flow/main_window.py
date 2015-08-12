@@ -23,7 +23,9 @@ class MainWindow(Gtk.Window):
             :type start_from: str
         """
 
+        Gtk.Window.__init__(self)
         self._ctl = Controller(self, start_from)
+        self.connect("delete-event", Gtk.main_quit)
 
     def show(self):
         self._ctl.first_stage()
@@ -33,3 +35,4 @@ class MainWindow(Gtk.Window):
         # TODO: This should be wrapped in add_idle
         # destroy current child
         # put a new one in
+        pass

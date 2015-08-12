@@ -39,6 +39,9 @@ class Status(object):
 
         self._location = None
 
+        # Initialise as True, and change if debug mode is set
+        self._saving_enabled = True
+
         ensure_dir(os.path.dirname(self._status_file))
         if not os.path.exists(self._status_file):
             self.save()
@@ -77,6 +80,6 @@ class Status(object):
     def location(self, value):
         self._location = value
 
-    def debug_mode(start_from):
+    def debug_mode(self, start_from):
         self._saving_enabled = False
         self._location = start_from

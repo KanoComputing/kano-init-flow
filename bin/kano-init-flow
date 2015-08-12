@@ -19,14 +19,25 @@ Options:
   -d, --debug=<id>  Launch in debug mode [default: none].
 """
 
-import docopt
-#from gi.repository import Gtk
+import os
+import sys
 
-#from kano_init_flow import MainWindow
+# Add the parent directory in the python path
+# TODO: move this elsewhere?
+if __name__ == '__main__' and __package__ is None:
+    dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    if dir_path != '/usr':
+        sys.path.insert(1, dir_path)
+
+
+import docopt
+from gi.repository import Gtk
+
+from kano_init_flow.main_window import MainWindow
 
 args = docopt.docopt(__doc__)
-print args
 
 start_from = args['--debug'] if args['--debug'] != 'none' else None
 mw = MainWindow(start_from)
-#Gtk.main()
+mw.show_all()
+Gtk.main()
