@@ -9,11 +9,7 @@ from .paths import get_asset_path
 
 
 class Stage(object):
-    _id = None
-
-    @classmethod
-    def id(cls):
-        return cls._id
+    id = None
 
     def __init__(self, ctl):
         super(Stage, self).__init__()

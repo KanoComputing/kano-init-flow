@@ -6,7 +6,7 @@
 # Keeps user's progression through the init flow
 #
 
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 
 from .controller import Controller
 
@@ -23,16 +23,41 @@ class MainWindow(Gtk.Window):
             :type start_from: str
         """
 
-        Gtk.Window.__init__(self)
+        super(MainWindow, self).__init__()
         self._ctl = Controller(self, start_from)
         self.connect("delete-event", Gtk.main_quit)
+        self._child = None
 
-    def show(self):
+        self.set_decorated(False)
+        self.fullscreen()
+
+        if start_from:
+            debug_overlay = Gtk.Overlay()
+            debug_button = Gtk.Button('Close')
+            debug_button.set_halign(Gtk.Align.END)
+            debug_button.set_valign(Gtk.Align.START)
+            debug_button.connect('clicked', Gtk.main_quit)
+
+            debug_overlay.add(Gtk.EventBox())
+            debug_overlay.add_overlay(debug_button)
+            self.add(debug_overlay)
+            self._container = debug_overlay
+        else:
+            self._container = self
+
+    def show_all(self):
         self._ctl.first_stage()
-        super(MainWindow, self).show()
+        super(MainWindow, self).show_all()
 
     def push(self, child):
-        # TODO: This should be wrapped in add_idle
-        # destroy current child
-        # put a new one in
-        pass
+        GLib.idle_add(self._do_push, child)
+
+    def _do_push(self, child):
+        if self._child:
+            self._container.remove(self._child)
+            self._child.destroy()
+
+        self._child = child
+        self._container.add(child)
+        child.show_all()
+        return False

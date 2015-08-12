@@ -8,7 +8,7 @@
 
 from .status import Status
 
-from .stages.bugs_world import BugsWorld
+from .stages.wifi import Wifi
 
 
 class Controller(object):
@@ -32,7 +32,7 @@ class Controller(object):
             self._status.debug_mode(start_from)
 
         self._stages = [
-            BugsWorld
+            Wifi
         ]
 
     @property
@@ -68,10 +68,10 @@ class Controller(object):
             # TODO: Exit the application, there are no more stages to do.
             pass
 
-    def _get_stage_index(self):
+    def _get_stage_index(self, stage_id):
         index = None
         for i, s in enumerate(self._stages):
-            if s.id == loc:
+            if s.id == stage_id:
                 index = i
                 break
 
