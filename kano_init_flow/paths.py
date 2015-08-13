@@ -33,9 +33,18 @@ def get_asset_path(stage_path, directory, filename):
     return path
 
 
-def get_common_css_path(filename):
+def common_css_path(filename):
     '''
         :params filename: the name of the file
         :type filename: str
     '''
-    return get_asset_path(__file__, "css", filename)
+    return get_asset_path(__file__, "ui/css", filename)
+
+
+def common_media_path(filename):
+    '''
+        :params filename: the name of the file
+        :type filename: str
+    '''
+
+    return get_asset_path(__file__, "ui/media", filename)

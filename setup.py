@@ -10,7 +10,7 @@ import os
 from distutils.core import setup
 
 
-files = ["media/*", "CSS/*"]
+files = ["ui/media/*", "ui/css/*"]
 
 
 def get_stages():
