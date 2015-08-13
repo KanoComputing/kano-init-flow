@@ -8,7 +8,10 @@
 
 from gi.repository import Gtk, GLib
 
+from kano.gtk3.apply_styles import apply_common_to_screen
 from .controller import Controller
+from kano_init_flow.ui.css import apply_styling_to_screen
+from kano_init_flow.paths import common_media_path, common_css_path
 
 
 class MainWindow(Gtk.Window):
@@ -27,6 +30,10 @@ class MainWindow(Gtk.Window):
         self._ctl = Controller(self, start_from)
         self.connect("delete-event", Gtk.main_quit)
         self._child = None
+
+        apply_common_to_screen()
+        apply_styling_to_screen(common_css_path('scene.css'))
+        apply_styling_to_screen(common_css_path('speech_bubble.css'))
 
         self.set_decorated(False)
         self.fullscreen()

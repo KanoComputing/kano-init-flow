@@ -9,6 +9,7 @@ from gi.repository import Gtk
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Position
+from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 
 
@@ -55,6 +56,12 @@ class Wifi(Stage):
             Gtk.Image.new_from_file(self.media_path('spaceman.svg')),
             Position(0.5, 0.5),
             Position(0.82, 0.55, 1.5)
+        )
+
+        scene.add_widget(
+            SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
+            Position(0.5, 0.5),
+            Position(0.74, 0.55)
         )
 
         return scene

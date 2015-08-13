@@ -48,4 +48,4 @@ class Stage(object):
 
         if not self._root:
             raise RuntimeError("Please define self._root = __file__")
-        return get_asset_path(self._root, "CSS", filename)
+        return get_asset_path(self._root, "css", filename)
