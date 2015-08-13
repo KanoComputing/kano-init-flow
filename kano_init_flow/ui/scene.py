@@ -89,12 +89,13 @@ class Scene(object):
     def add_widget(self, widget, pos_43, pos_169, clicked_cb=None):
         pos = pos_43 if self._screen_ratio == self.RATIO_4_3 else pos_169
 
-        # If the widget is an image, scale it using GdkPixbuf
         if pos.scale != 1:
             if widget.__class__.__name__ == "Image":
-                widget = self._scale_image(widget, pos.scale)
-            elif widget.__class__.__name__ == "gtk.gdk.PixbufGifAnim":
-                widget = self._scale_gif(widget, pos.scale)
+                if widget.get_animation():
+                    widget = self._scale_gif(widget, pos.scale)
+                else:
+                    widget = self._scale_image(widget, pos.scale)
+
             else:
                 raise RuntimeError('Can\'t scale regular widgets!')
 
@@ -136,8 +137,9 @@ class Scene(object):
         return widget
 
     @staticmethod
-    def _scale_gif(anim, scale):
+    def _scale_gif(widget, scale):
 
+        anim = widget.get_animation()
         timestamp = GLib.TimeVal()
         pixbuf_iter = anim.get_iter(timestamp)
 

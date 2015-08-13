@@ -4,7 +4,7 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk
 
 
 from kano_init_flow.stage import Stage
@@ -47,9 +47,7 @@ class Wifi(Stage):
         )
 
         scene.add_widget(
-            GdkPixbuf.PixbufAnimation.new_from_file(
-                self.media_path('console.gif')
-            ),
+            Gtk.Image.new_from_file(self.media_path('console.gif')),
             Position(0.315, 0.58, 0.55),
             Position(0.31, 0.46),
             self.second_step
