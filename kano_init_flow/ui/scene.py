@@ -4,9 +4,10 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk, GdkPixbuf, Gdk
+from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
 
 from kano.gtk3.cursor import attach_cursor_events
+
 
 class Position(object):
     def __init__(self, x=0, y=0, scale=1.0):
@@ -40,8 +41,8 @@ class Scene(object):
         The base class for implementing scenes.
     """
 
-    RATIO_4_3 = 4.0/3
-    RATIO_16_9 = 16.0/9
+    RATIO_4_3 = 4.0 / 3
+    RATIO_16_9 = 16.0 / 9
 
     def __init__(self):
         self._screen_ratio = self._get_screen_ratio()
@@ -90,16 +91,10 @@ class Scene(object):
 
         # If the widget is an image, scale it using GdkPixbuf
         if pos.scale != 1:
-            if widget.__class__ == Gtk.Image:
-                pixbuf = widget.get_pixbuf()
-                w = pixbuf.get_width()
-                h = pixbuf.get_height()
-
-                w_scaled = int(w * pos.scale)
-                h_scaled = int(h * pos.scale)
-                new_pixbuf = pixbuf.scale_simple(w_scaled, h_scaled,
-                                                 GdkPixbuf.InterpType.BILINEAR)
-                widget.set_from_pixbuf(new_pixbuf)
+            if widget.__class__.__name__ == "Image":
+                widget = self._scale_image(widget, pos.scale)
+            elif widget.__class__.__name__ == "gtk.gdk.PixbufGifAnim":
+                widget = self._scale_gif(widget, pos.scale, 100000)
             else:
                 raise RuntimeError('Can\'t scale regular widgets!')
 
@@ -107,13 +102,72 @@ class Scene(object):
         if clicked_cb:
             # TODO: Add custom styling to this.
             button_wrapper = Gtk.Button()
-            button_wrapper.add(widget)
-            button_wrapper.connect('clicked', clicked_cb)
+            button_wrapper.add(root_widget)
+            button_wrapper.connect('clicked', self._clicked_cb_wrapper, clicked_cb)
             attach_cursor_events(button_wrapper)
             root_widget = button_wrapper
 
         self._fixed.put(root_widget, pos.x, pos.y)
 
+    def _clicked_cb_wrapper(self, button, clicked_cb):
+        clicked_cb()
+        return True
+
     @property
     def widget(self):
         return self._overlay
+
+    @staticmethod
+    def _scale_pixbuf(pixbuf, scale):
+        w = pixbuf.get_width()
+        h = pixbuf.get_height()
+
+        w_scaled = int(w * scale)
+        h_scaled = int(h * scale)
+        new_pixbuf = pixbuf.scale_simple(w_scaled, h_scaled,
+                                         GdkPixbuf.InterpType.BILINEAR)
+        return new_pixbuf, w_scaled, h_scaled
+
+    @staticmethod
+    def _scale_image(widget, scale):
+        pixbuf = widget.get_pixbuf()
+        pixbuf, _, _ = Scene._scale_pixbuf(pixbuf, scale)
+        widget.set_from_pixbuf(pixbuf)
+        return widget
+
+    @staticmethod
+    def _scale_gif(anim, scale, time_between_frames):
+
+        timestamp = GLib.TimeVal()
+        pixbuf_iter = anim.get_iter(timestamp)
+
+        max_height = 0
+        max_width = 0
+
+        pixbufs = []
+
+        for i in range(4):
+            pixbuf = pixbuf_iter.get_pixbuf()
+            pixbuf, width, height = Scene._scale_pixbuf(pixbuf, scale)
+            pixbufs.append(pixbuf)
+
+            if width > max_width:
+                max_width = width
+
+            if height > max_height:
+                max_height = height
+
+            timestamp.add(time_between_frames)
+            pixbuf_iter.advance(timestamp)
+
+        # This is the animation we want to fill up
+        simpleanim = GdkPixbuf.PixbufSimpleAnim.new(max_width, max_height, 10)
+        # Set it so it runs in a loop forever
+        simpleanim.set_loop(True)
+
+        for pixbuf in pixbufs:
+            simpleanim.add_frame(pixbuf)
+
+        image = Gtk.Image()
+        image.set_from_animation(simpleanim)
+        return image
