@@ -5,7 +5,8 @@
 }
 
 .speech-bubble GtkLabel {
-    font: Bariol 13px;
+    font: Bariol 20px;
+    font-weight: bold;
     color: #777;
 }
 

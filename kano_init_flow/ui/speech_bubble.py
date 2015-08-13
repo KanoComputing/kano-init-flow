@@ -20,8 +20,7 @@ class SpeechBubble(Gtk.Grid):
     LEFT = 'left'
     RIGHT = 'right'
 
-    def __init__(self, heading=None, text=None, buttons=None,
-                 has_judoka=False, source=BOTTOM, source_align=0.5):
+    def __init__(self, text=None, buttons=None, source=BOTTOM, source_align=0.5):
         self._source = source
         self._source_align = source_align
         self._button_box = None
@@ -42,67 +41,41 @@ class SpeechBubble(Gtk.Grid):
         img_align = Gtk.Alignment()
         img_align.add(img)
 
-        judoka_align = None
-        #if has_judoka:
-        #    judoka_img_path = media_path('/judoka-face.png')
-        #    judoka_img = Gtk.Image.new_from_file(judoka_img_path)
-
-        #    judoka_align = Gtk.Alignment()
-        #    judoka_align.add(judoka_img)
-
-        #    self.attach(judoka_align, 0, 0, 1, 1)
-
         if self._source in [self.TOP, self.BOTTOM]:
             img_align.set(self._source_align, 0, 0, 0)
-            if judoka_align:
-                judoka_align.set_padding(20, 20, 0, 0)
-                judoka_align.set(self._source_align, 0, 0, 0)
         else:
             img_align.set(0, self._source_align, 0, 0)
-            if judoka_align:
-                judoka_align.set_padding(0, 0, 20, 20)
-                judoka_align.set(0, self._source_align, 0, 0)
 
         # The background of the bubble
         self._bubble = Gtk.EventBox()
         self._bubble.get_style_context().add_class('speech-bubble')
 
+        self.attach(self._bubble, 0, 0, 1, 1)
+
         if self._source == self.TOP:
-            self.attach_next_to(img_align, judoka_align,
-                                Gtk.PositionType.BOTTOM, 1, 1)
-            self.attach_next_to(self._bubble, img_align,
-                                Gtk.PositionType.BOTTOM, 1, 1)
+            self.attach_next_to(img_align, self._bubble,
+                                Gtk.PositionType.TOP, 1, 1)
         elif self._source == self.BOTTOM:
-            self.attach_next_to(img_align, judoka_align,
-                                Gtk.PositionType.TOP, 1, 1)
-            self.attach_next_to(self._bubble, img_align,
-                                Gtk.PositionType.TOP, 1, 1)
+            self.attach_next_to(img_align, self._bubble,
+                                Gtk.PositionType.BOTTOM, 1, 1)
         elif self._source == self.LEFT:
-            self.attach_next_to(img_align, judoka_align,
-                                Gtk.PositionType.RIGHT, 1, 1)
-            self.attach_next_to(self._bubble, img_align,
-                                Gtk.PositionType.RIGHT, 1, 1)
+            self.attach_next_to(img_align, self._bubble,
+                                Gtk.PositionType.LEFT, 1, 1)
         elif self._source == self.RIGHT:
-            self.attach_next_to(img_align, judoka_align,
-                                Gtk.PositionType.LEFT, 1, 1)
-            self.attach_next_to(self._bubble, img_align,
-                                Gtk.PositionType.LEFT, 1, 1)
+            self.attach_next_to(img_align, self._bubble,
+                                Gtk.PositionType.RIGHT, 1, 1)
 
         # Padding in of the bubble
         self._padded_bubble = Gtk.Alignment()
         self._padded_bubble.set_padding(40, 20, 40, 40)
         self._bubble.add(self._padded_bubble)
 
-        self._init_content(heading, text)
+        self._init_content(text)
 
         self.show_all()
 
-    def _init_content(self, heading_copy, text_copy):
+    def _init_content(self, text_copy):
         self._content = box = Gtk.VBox(hexpand=True, vexpand=True)
-
-        self._heading = heading = Gtk.Label(heading_copy)
-        heading.get_style_context().add_class('heading')
-        box.pack_start(heading, False, False, 0)
 
         self._text = text = Gtk.Label(text_copy)
         text.set_justify(Gtk.Justification.CENTER)
