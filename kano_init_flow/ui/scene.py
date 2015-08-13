@@ -94,7 +94,7 @@ class Scene(object):
             if widget.__class__.__name__ == "Image":
                 widget = self._scale_image(widget, pos.scale)
             elif widget.__class__.__name__ == "gtk.gdk.PixbufGifAnim":
-                widget = self._scale_gif(widget, pos.scale, 100000)
+                widget = self._scale_gif(widget, pos.scale)
             else:
                 raise RuntimeError('Can\'t scale regular widgets!')
 
@@ -136,7 +136,7 @@ class Scene(object):
         return widget
 
     @staticmethod
-    def _scale_gif(anim, scale, time_between_frames):
+    def _scale_gif(anim, scale):
 
         timestamp = GLib.TimeVal()
         pixbuf_iter = anim.get_iter(timestamp)
@@ -157,7 +157,10 @@ class Scene(object):
             if height > max_height:
                 max_height = height
 
-            timestamp.add(time_between_frames)
+            # the factor of 1000 is due to conveting from milliseconds to
+            # microseconds
+            time_to_next_frame = pixbuf_iter.get_delay_time() * 1000
+            timestamp.add(time_to_next_frame)
             pixbuf_iter.advance(timestamp)
 
         # This is the animation we want to fill up
