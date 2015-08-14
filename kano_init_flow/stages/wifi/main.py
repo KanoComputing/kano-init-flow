@@ -42,15 +42,8 @@ class Wifi(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('character.png')),
-            Position(0.07, 0.6, 0.35),
+            Position(0.07, 0.7, 0.35),
             Position(0.15, 0.6, 0.5)
-        )
-
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('console.gif')),
-            Position(0.315, 0.58, 0.55),
-            Position(0.31, 0.46),
-            self.second_step
         )
 
         scene.add_widget(
@@ -65,6 +58,13 @@ class Wifi(Stage):
             Position(0.74, 0.55)
         )
 
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('console.gif')),
+            Position(0.37, 0.92, 0.8),
+            Position(0.31, 0.46),
+            self.second_step
+        )
+
         return scene
 
     def _setup_second_scene(self):
@@ -73,7 +73,7 @@ class Wifi(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
         scene.add_widget(
             Gtk.Image.new_from_file(common_media_path('console-large.png')),
-            Position(0.5, 0.5),
+            Position(0.05, 0.2),
             Position(0.3, 0.1)
         )
 

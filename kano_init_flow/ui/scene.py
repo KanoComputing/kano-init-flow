@@ -8,20 +8,25 @@ from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
 
 from kano.gtk3.cursor import attach_cursor_events
 
+# TODO: for debuging of different screen ratios
+SCREEN_WIDTH = 1280#1024 #Gdk.Screen.width()
+SCREEN_HEIGHT = 1024#768 #Gdk.Screen.height()
 
 class Position(object):
     def __init__(self, x=0, y=0, scale=1.0):
-        if x <= 1:
-            self._x = int(x * Gdk.Screen.width())
+        if x >= 0 and x <= 1:
+            self._x = x#int(x * SCREEN_WIDTH)
         else:
             self._x = x
 
-        if y <= 1:
-            self._y = int(y * Gdk.Screen.height())
+        if y >= 0 and y <= 1:
+            self._y = y#int(y * SCREEN_HEIGHT)
         else:
             self._y = y
 
         self._scale = scale
+
+        print self._x, self._y, self._scale
 
     @property
     def x(self):
@@ -46,18 +51,23 @@ class Scene(object):
 
     def __init__(self):
         self._screen_ratio = self._get_screen_ratio()
+        self._scale_factor = self._get_screen_scale()
+
+        self._positions = {}
 
         self._overlay = Gtk.Overlay()
 
         self._background = Gtk.Image()
+        self._background.set_halign(Gtk.Align.START)
+        self._background.set_valign(Gtk.Align.START)
         self._overlay.add(self._background)
 
         self._fixed = Gtk.Fixed()
         self._overlay.add_overlay(self._fixed)
 
     def _get_screen_ratio(self):
-        w = Gdk.Screen.width()
-        h = Gdk.Screen.height()
+        w = SCREEN_WIDTH
+        h = SCREEN_HEIGHT
 
         ratio = (w * 1.0) / h
         dist_43 = abs(self.RATIO_4_3 - ratio)
@@ -67,6 +77,11 @@ class Scene(object):
             return self.RATIO_4_3
 
         return self.RATIO_16_9
+
+    def _get_screen_scale(self):
+        if self._screen_ratio == self.RATIO_4_3:
+            return SCREEN_WIDTH / 1600.0
+        return SCREEN_WIDTH / 1920.0
 
     def set_background(self, ver_43, ver_169):
         """
@@ -79,8 +94,8 @@ class Scene(object):
             :type ver_169: str
         """
 
-        w = Gdk.Screen.width()
-        h = Gdk.Screen.height()
+        w = SCREEN_WIDTH
+        h = SCREEN_HEIGHT
 
         bg_path = ver_43 if self._screen_ratio == self.RATIO_4_3 else ver_169
         bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, w, h)
@@ -89,15 +104,16 @@ class Scene(object):
     def add_widget(self, widget, pos_43, pos_169, clicked_cb=None):
         pos = pos_43 if self._screen_ratio == self.RATIO_4_3 else pos_169
 
-        if pos.scale != 1:
+        if pos.scale * self._scale_factor != 1:
             if widget.__class__.__name__ == "Image":
                 if widget.get_animation():
-                    widget = self._scale_gif(widget, pos.scale)
+                    widget = self._scale_gif(widget, pos.scale * self._scale_factor)
                 else:
-                    widget = self._scale_image(widget, pos.scale)
+                    widget = self._scale_image(widget, pos.scale * self._scale_factor)
 
             else:
-                raise RuntimeError('Can\'t scale regular widgets!')
+                if pos.scale != 1.0:
+                    raise RuntimeError('Can\'t scale regular widgets!')
 
         root_widget = widget
         if clicked_cb:
@@ -108,7 +124,35 @@ class Scene(object):
             attach_cursor_events(button_wrapper)
             root_widget = button_wrapper
 
-        self._fixed.put(root_widget, pos.x, pos.y)
+        #root_widget.connect('size-allocate', self._sprite_allocated)
+        #root_widget.set_visible(False)
+        self._positions[root_widget] = pos
+        align = Gtk.Alignment.new(pos.x, pos.y, 0, 0)
+        align.connect('enter-notify-event', self._propagate_signal)
+        align.connect('leave-notify-event', self._propagate_signal)
+        align.connect('button-press-event', self._propagate_signal)
+        eb = Gtk.EventBox()
+        eb.add(root_widget)
+        eb.connect('button-press-event', self._propagate_signal)
+        align.add(eb)
+        #self._fixed.put(root_widget, 0, 0)
+        self._overlay.add_overlay(align)
+
+    def _propagate_signal(self, widget=None, event=None, data=None):
+        print widget
+        return False
+
+    def _sprite_allocated(self, widget, alloc):
+        pos = self._positions[widget]
+        print alloc.width, alloc.height
+        #GLib.idle_add(self._move_widget, widget, pos)
+        self._fixed.move(widget, pos.x, pos.y)
+        self._fixed.queue_draw()
+        widget.queue_draw()
+        return True
+
+    def _move_widget(self, widget, pos):
+        return False
 
     def _clicked_cb_wrapper(self, button, clicked_cb):
         clicked_cb()
