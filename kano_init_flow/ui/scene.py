@@ -4,29 +4,23 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
+import copy
+
 from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
 
 from kano.gtk3.cursor import attach_cursor_events
 
 # TODO: for debuging of different screen ratios
-SCREEN_WIDTH = 1280#1024 #Gdk.Screen.width()
-SCREEN_HEIGHT = 1024#768 #Gdk.Screen.height()
+SCREEN_WIDTH = Gdk.Screen.width()
+SCREEN_HEIGHT = Gdk.Screen.height()
 
-class Position(object):
+class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
-        if x >= 0 and x <= 1:
-            self._x = x#int(x * SCREEN_WIDTH)
-        else:
-            self._x = x
+        self._x = x
+        self._y = y
 
-        if y >= 0 and y <= 1:
-            self._y = y#int(y * SCREEN_HEIGHT)
-        else:
-            self._y = y
-
+        # scale = 0.0 means fixed size
         self._scale = scale
-
-        print self._x, self._y, self._scale
 
     @property
     def x(self):
@@ -53,7 +47,7 @@ class Scene(object):
         self._screen_ratio = self._get_screen_ratio()
         self._scale_factor = self._get_screen_scale()
 
-        self._positions = {}
+        self._children = []
 
         self._overlay = Gtk.Overlay()
 
@@ -64,6 +58,10 @@ class Scene(object):
 
         self._fixed = Gtk.Fixed()
         self._overlay.add_overlay(self._fixed)
+
+        self._eb = Gtk.EventBox()
+        self._eb.add(self._overlay)
+        self._eb.connect('button-release-event', self._propagate_signal)
 
     def _get_screen_ratio(self):
         w = SCREEN_WIDTH
@@ -80,8 +78,8 @@ class Scene(object):
 
     def _get_screen_scale(self):
         if self._screen_ratio == self.RATIO_4_3:
-            return SCREEN_WIDTH / 1600.0
-        return SCREEN_WIDTH / 1920.0
+            return SCREEN_HEIGHT / 1200.0
+        return SCREEN_HEIGHT / 1080.0
 
     def set_background(self, ver_43, ver_169):
         """
@@ -104,7 +102,7 @@ class Scene(object):
     def add_widget(self, widget, pos_43, pos_169, clicked_cb=None):
         pos = pos_43 if self._screen_ratio == self.RATIO_4_3 else pos_169
 
-        if pos.scale * self._scale_factor != 1:
+        if pos.scale * self._scale_factor != 1 and pos.scale != 0:
             if widget.__class__.__name__ == "Image":
                 if widget.get_animation():
                     widget = self._scale_gif(widget, pos.scale * self._scale_factor)
@@ -120,47 +118,38 @@ class Scene(object):
             # TODO: Add custom styling to this.
             button_wrapper = Gtk.Button()
             button_wrapper.add(root_widget)
-            button_wrapper.connect('clicked', self._clicked_cb_wrapper, clicked_cb)
-            attach_cursor_events(button_wrapper)
+            button_wrapper.connect('button-release-event', self._clicked_cb_wrapper, clicked_cb)
+            #attach_cursor_events(button_wrapper)
             root_widget = button_wrapper
 
         #root_widget.connect('size-allocate', self._sprite_allocated)
-        #root_widget.set_visible(False)
-        self._positions[root_widget] = pos
         align = Gtk.Alignment.new(pos.x, pos.y, 0, 0)
-        align.connect('enter-notify-event', self._propagate_signal)
-        align.connect('leave-notify-event', self._propagate_signal)
-        align.connect('button-press-event', self._propagate_signal)
-        eb = Gtk.EventBox()
-        eb.add(root_widget)
-        eb.connect('button-press-event', self._propagate_signal)
-        align.add(eb)
-        #self._fixed.put(root_widget, 0, 0)
+        align.add(root_widget)
+        self._children.append(root_widget)
         self._overlay.add_overlay(align)
 
     def _propagate_signal(self, widget=None, event=None, data=None):
-        print widget
-        return False
-
-    def _sprite_allocated(self, widget, alloc):
-        pos = self._positions[widget]
-        print alloc.width, alloc.height
-        #GLib.idle_add(self._move_widget, widget, pos)
-        self._fixed.move(widget, pos.x, pos.y)
-        self._fixed.queue_draw()
-        widget.queue_draw()
+        for child in self._children:
+            alloc = child.get_allocation()
+            if event.x >= alloc.x and event.x <= (alloc.x + alloc.width) and \
+               event.y >= alloc.y and event.y <= (alloc.y + alloc.height):
+                ev = Gdk.Event.new(Gdk.EventType.BUTTON_RELEASE)
+                ev.send_event = True
+                ev.window = widget.get_window()
+                child.emit('button-release-event', ev)
+                break
         return True
 
     def _move_widget(self, widget, pos):
         return False
 
-    def _clicked_cb_wrapper(self, button, clicked_cb):
+    def _clicked_cb_wrapper(self, widget, event, clicked_cb):
         clicked_cb()
         return True
 
     @property
     def widget(self):
-        return self._overlay
+        return self._eb #self._overlay
 
     @staticmethod
     def _scale_pixbuf(pixbuf, scale):

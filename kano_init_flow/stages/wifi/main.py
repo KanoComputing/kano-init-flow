@@ -8,7 +8,7 @@ from gi.repository import Gtk
 
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Position
+from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 
@@ -32,6 +32,10 @@ class Wifi(Stage):
         s2 = self._setup_second_scene()
         self._ctl.main_window.push(s2.widget)
 
+    def third_step(self):
+        s3 = self._setup_third_scene()
+        self._ctl.main_window.push(s3.widget)
+
     def next_step(self):
         self._stage.ctl.next_stage()
 
@@ -42,26 +46,26 @@ class Wifi(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('character.png')),
-            Position(0.07, 0.7, 0.35),
-            Position(0.15, 0.6, 0.5)
+            Placement(0.08, 0.9, 0.45),
+            Placement(0.12, 0.9, 0.5)
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('spaceman.svg')),
-            Position(0.7, 0.55, 1.0),
-            Position(0.82, 0.55, 1.5)
+            Gtk.Image.new_from_file(self.media_path('spaceman.png')),
+            Placement(0.9, 0.9, 0.65),
+            Placement(0.9, 0.9, 0.75)
         )
 
         scene.add_widget(
             SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
-            Position(0.5, 0.5),
-            Position(0.74, 0.55)
+            Placement(0.78, 0.72),
+            Placement(0.79, 0.68)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('console.gif')),
-            Position(0.37, 0.92, 0.8),
-            Position(0.31, 0.46),
+            Placement(0.35, 0.925, 0.8),
+            Placement(0.367, 0.888),
             self.second_step
         )
 
@@ -72,9 +76,54 @@ class Wifi(Stage):
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path('console-large.png')),
-            Position(0.05, 0.2),
-            Position(0.3, 0.1)
+            Gtk.Image.new_from_file(self.media_path('console-large.png')),
+            Placement(0.5, 0.5, 0.0),
+            Placement(0.5, 0.5, 0.0),
+            self.third_step
+        )
+
+        """
+        x, y = img.get_size()
+        # the widget will be fixed
+        wifi_flow = WifiFlow(x, y)
+        scene.add_widget(
+            wifi_flow,
+            Placement(0.5, 0.5, 0.0),
+            Placement(0.5, 0.5, 0.0),
+            self.third_step
+        )
+        """
+
+        return scene
+
+    def _setup_third_scene(self):
+        scene = Scene()
+        scene.set_background(self.media_path('space-2-bg-4-3.png'),
+                             self.media_path('space-2-bg-16-9.png'))
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('character.png')),
+            Placement(0.08, 0.9, 0.45),
+            Placement(0.12, 0.9, 0.5)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('spaceman.png')),
+            Placement(0.9, 0.9, 0.65),
+            Placement(0.9, 0.9, 0.75)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('rocket.gif')),
+            Placement(0.697, 0.597, 0.8),
+            Placement(0.695, 0.275),
+            self.first_step
+        )
+
+        scene.add_widget(
+            SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
+            Placement(0.78, 0.72),
+            Placement(0.79, 0.68)
         )
 
         return scene
