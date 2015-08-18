@@ -29,7 +29,8 @@ class Wifi(Stage):
         apply_styling_to_screen(self.css_path('console.css'))
 
     def first_step(self):
-        s1 = self._setup_first_scene()
+        s1 = self._setup_first_scene() # TODO FIXME WTF
+        s1 = self._setup_second_scene() # TODO FIXME WTF
         self._ctl.main_window.push(s1.widget)
 
     def second_step(self):
@@ -152,7 +153,8 @@ class WifiConsole(Gtk.Overlay):
 
         self._eb.set_border_width(10)
 
-        self.parental_question_screen()
+        #self.parental_question_screen()
+        self.parental_screen()
 
     def parental_question_screen(self):
         self._clear()
