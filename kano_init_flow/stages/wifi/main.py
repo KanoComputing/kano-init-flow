@@ -152,11 +152,29 @@ class WifiConsole(Gtk.Overlay):
 
         self._eb.set_border_width(10)
 
-        self.parental_screen()
+        self.parental_question_screen()
+
+    def parental_question_screen(self):
+        self._clear()
+        screen = ParentalScreen(self._stage, self.parental_screen, self.wifi_screen)
+        self._eb.add(screen)
+        self._eb.show_all()
 
     def parental_screen(self):
         self._clear()
-        screen = ParentalScreen(self._stage, self.troubleshoot_ethernet, self.troubleshoot_ethernet)
+        # TODO: Caroline: if you need to pass any agruments do it here
+        socket = ParentalControlGUI()
+        screen = ExternalApp(socket)
+
+        self._eb.add(screen)
+        self._eb.show_all()
+
+    def wifi_screen(self):
+        self._clear()
+        # TODO: Caroline: if you need to pass any agruments do it here
+        socket = WifiGUI()
+        screen = ExternalApp(socket)
+
         self._eb.add(screen)
         self._eb.show_all()
 
@@ -167,7 +185,7 @@ class WifiConsole(Gtk.Overlay):
             self._stage,
             self._stage.media_path('ethernet-cable.png'),
             0.0, 0.3, copy, 280,
-            self.parental_screen,
+            self.parental_question_screen,
             self.troubleshoot_router
         )
 
@@ -182,7 +200,7 @@ class WifiConsole(Gtk.Overlay):
             self._stage.media_path('router.png'),
             1.0, 0.25, copy, 330,
             self.troubleshoot_ethernet,
-            self.parental_screen
+            self.parental_question_screen
         )
         self._eb.add(screen)
         self._eb.show_all()
@@ -276,8 +294,19 @@ class SlideScreen(Gtk.Overlay):
         cb()
         return True
 
-"""
-class ExternalApp(Gtk.Socket):
-    def __init__(self):
+class ExternalApp(Gtk.Overlay):
+    def __init__(self, socket_widget):
         super(ExternalApp, self).__init__()
-"""
+
+        # TODO: Needs changing
+        loading_label = Gtk.Label("LOADING {}".format(socket_widget.__class__.__name__))
+        add_class(loading_label, 'console-screen-loading')
+        self.add(loading_label)
+        socket = socket_widget
+        self.add_overlay(socket)
+
+class ParentalControlGUI(Gtk.EventBox): # TODO: To be changed to socket?
+    pass
+
+class WifiGUI(Gtk.EventBox): # TODO: To be changed to socket?
+    pass

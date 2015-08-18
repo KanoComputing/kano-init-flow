@@ -11,8 +11,8 @@ from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
 # TODO: for debuging of different screen ratios
-SCREEN_WIDTH = 1280#Gdk.Screen.width()
-SCREEN_HEIGHT = 1024#Gdk.Screen.height()
+SCREEN_WIDTH = Gdk.Screen.width()
+SCREEN_HEIGHT = Gdk.Screen.height()
 
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
