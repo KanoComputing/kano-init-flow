@@ -6,12 +6,14 @@
 
 from gi.repository import Gtk
 
+from kano.gtk3.buttons import KanoButton
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
-
+from kano_init_flow.ui.utils import add_class
+from kano_init_flow.ui.css import apply_styling_to_screen
 
 class Wifi(Stage):
     """
@@ -23,6 +25,8 @@ class Wifi(Stage):
 
     def __init__(self, ctl):
         super(Wifi, self).__init__(ctl)
+
+        apply_styling_to_screen(self.css_path('console.css'))
 
     def first_step(self):
         s1 = self._setup_first_scene()
@@ -75,11 +79,11 @@ class Wifi(Stage):
         scene = Scene()
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
+
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('console-large.png')),
+            WifiConsole(self, self.third_step),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.5, 0.5, 0.0),
-            self.third_step
+            Placement(0.5, 0.5, 0.0)
         )
 
         """
@@ -127,3 +131,153 @@ class Wifi(Stage):
         )
 
         return scene
+
+class WifiConsole(Gtk.Overlay):
+
+    def __init__(self, stage, next_cb):
+        super(WifiConsole, self).__init__()
+
+        self._stage = stage
+
+        bg = Gtk.Image.new_from_file(self._stage.media_path('console-large.png'))
+        fixed = Gtk.Fixed()
+
+        self._eb = Gtk.EventBox()
+        add_class(self._eb, 'console-content-area')
+        self._eb.set_size_request(719, 543)
+
+        self.add(bg)
+        self.add_overlay(fixed)
+        fixed.put(self._eb, 146, 157)
+
+        self._eb.set_border_width(10)
+
+        self.parental_screen()
+
+    def parental_screen(self):
+        self._clear()
+        screen = ParentalScreen(self._stage, self.troubleshoot_ethernet, self.troubleshoot_ethernet)
+        self._eb.add(screen)
+        self._eb.show_all()
+
+    def troubleshoot_ethernet(self):
+        self._clear()
+        copy = """If you have access to an ethernet cable, try using that instead."""
+        screen = SlideScreen(
+            self._stage,
+            self._stage.media_path('ethernet-cable.png'),
+            0.0, 0.3, copy, 280,
+            self.parental_screen,
+            self.troubleshoot_router
+        )
+
+        self._eb.add(screen)
+        self._eb.show_all()
+
+    def troubleshoot_router(self):
+        self._clear()
+        copy = """Try moveng your Kano closer to the internet wireless router."""
+        screen = SlideScreen(
+            self._stage,
+            self._stage.media_path('router.png'),
+            1.0, 0.25, copy, 330,
+            self.troubleshoot_ethernet,
+            self.parental_screen
+        )
+        self._eb.add(screen)
+        self._eb.show_all()
+
+    def _clear(self):
+        for child in self._eb.get_children():
+            self._eb.remove(child)
+
+
+class ParentalScreen(Gtk.VBox):
+    def __init__(self, stage, now_cb, later_cb):
+        super(ParentalScreen, self).__init__(False, 0)
+
+        self.set_hexpand(False)
+        self.set_vexpand(False)
+        self.set_margin_left(40)
+        self.set_margin_right(40)
+
+        heading = Gtk.Label('Parental controls')
+        add_class(heading, 'console-screen-heading')
+
+        desc = Gtk.Label("""Kano Wifi is a safe place for kids, and you can set specific safety guidelines yourself.""")
+        desc.set_line_wrap(True)
+        add_class(desc, 'console-screen-desc')
+
+        # TODO: Add image
+        padlock = Gtk.Image.new_from_file(stage.media_path('padlock.png'))
+
+        now = KanoButton('SET NOW')
+        now.connect('clicked', self._cb_wrapper, now_cb)
+
+        later = KanoButton('LATER')
+        later.connect('clicked', self._cb_wrapper, later_cb)
+
+        buttons = Gtk.HBox(False, 0)
+        buttons.pack_start(now, True, True, 20)
+        buttons.pack_start(later, True, True, 0)
+
+        self.pack_start(heading, False, False, 30)
+        self.pack_start(desc, False, False, 20)
+        self.pack_start(padlock, False, False, 10)
+        self.pack_start(buttons, False, False, 30)
+
+    def _cb_wrapper(self, widget, cb):
+        cb()
+        return True
+
+class SlideScreen(Gtk.Overlay):
+    def __init__(self, stage, bg_path, bg_x_align, bg_y_align, text, text_margin, back_cb, fwd_cb):
+        super(SlideScreen, self).__init__()
+
+        self._stage = stage
+        bg = Gtk.Image.new_from_file(bg_path)
+        align = Gtk.Alignment.new(bg_x_align, bg_y_align, 0, 0)
+        align.add(bg)
+
+        self.add(align)
+
+        back = Gtk.Button()
+        back.add(Gtk.Image.new_from_file(stage.media_path('navigation-arrow-left.png')))
+        back.set_halign(Gtk.Align.CENTER)
+        back.set_valign(Gtk.Align.CENTER)
+        back.set_margin_left(25)
+        back.connect('clicked', self._cb_wrapper, back_cb)
+
+        fwd = Gtk.Button()
+        fwd.add(Gtk.Image.new_from_file(stage.media_path('navigation-arrow-right.png')))
+        fwd.set_halign(Gtk.Align.CENTER)
+        fwd.set_valign(Gtk.Align.CENTER)
+        fwd.set_margin_right(25)
+        fwd.connect('clicked', self._cb_wrapper, fwd_cb)
+
+        help_text = Gtk.Label(text)
+        add_class(help_text, 'console-screen-help-text')
+        help_text.set_line_wrap(True)
+        help_text.set_justify(Gtk.Justification.CENTER)
+        help_text.set_valign(Gtk.Align.CENTER)
+        help_text.set_halign(Gtk.Align.CENTER)
+        help_text.set_margin_left(20)
+        help_text.set_margin_right(20)
+        help_text.set_margin_top(text_margin)
+
+        hbox = Gtk.HBox(False, 0)
+        hbox.pack_start(back, False, False, 0)
+        hbox.pack_start(help_text, True, False, 0)
+        hbox.pack_start(fwd, False, False, 0)
+
+        self.add_overlay(hbox)
+
+    def _cb_wrapper(self, widget, cb):
+        cb()
+        return True
+
+"""
+class ExternalApp(Gtk.Socket):
+    def __init__(self):
+        super(ExternalApp, self).__init__()
+"""
