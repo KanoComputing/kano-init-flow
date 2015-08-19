@@ -4,8 +4,9 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
+import os
+import subprocess
 from gi.repository import Gtk
-
 from kano.gtk3.buttons import KanoButton
 
 from kano_init_flow.stage import Stage
@@ -14,6 +15,7 @@ from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
+
 
 class Wifi(Stage):
     """
@@ -28,8 +30,8 @@ class Wifi(Stage):
 
         apply_styling_to_screen(self.css_path('console.css'))
 
-    def first_scene(self):
-        s1 = self._setup_first_scene() # TODO FIXME WTF
+    def first_step(self):
+        s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1.widget)
 
     def second_scene(self):
@@ -140,8 +142,7 @@ class WifiConsole(Gtk.Overlay):
 
         self._eb.set_border_width(10)
 
-        #self.parental_question_screen()
-        self.parental_screen()
+        self.parental_question_screen()
 
     def parental_question_screen(self):
         self._clear()
@@ -155,7 +156,14 @@ class WifiConsole(Gtk.Overlay):
         socket = ParentalControlGUI()
         screen = ExternalApp(socket)
 
-        self._eb.add(screen)
+        eb = Gtk.EventBox()
+        eb.add(screen)
+        eb.set_margin_top(40)
+        eb.set_margin_left(10)
+        eb.set_margin_right(10)
+        eb.set_margin_bottom(40)
+
+        self._eb.add(eb)
         self._eb.show_all()
 
     def wifi_screen(self):
@@ -164,7 +172,14 @@ class WifiConsole(Gtk.Overlay):
         socket = WifiGUI()
         screen = ExternalApp(socket)
 
-        self._eb.add(screen)
+        eb = Gtk.EventBox()
+        eb.add(screen)
+        eb.set_margin_top(30)
+        eb.set_margin_left(100)
+        eb.set_margin_right(100)
+        eb.set_margin_bottom(20)
+
+        self._eb.add(eb)
         self._eb.show_all()
 
     def troubleshoot_ethernet(self):
@@ -294,8 +309,38 @@ class ExternalApp(Gtk.Overlay):
         socket = socket_widget
         self.add_overlay(socket)
 
-class ParentalControlGUI(Gtk.EventBox): # TODO: To be changed to socket?
-    pass
+class ConsoleSocket(Gtk.Socket):
+    def __init__(self):
+        super(ConsoleSocket, self).__init__()
+        self.connect("plug-removed", self.return_true)
+        self.get_style_context().add_class("console_socket")
 
-class WifiGUI(Gtk.EventBox): # TODO: To be changed to socket?
-    pass
+    # This stops the socket being killed when the plug is removed
+    def return_true(self, widget):
+        return True
+
+class ParentalControlGUI(ConsoleSocket):
+    # For now, make the kano-settings path local while it's not installed
+    # by default on the system
+    def __init__(self):
+        super(ParentalControlGUI, self).__init__()
+        self.connect("map-event", self.launch_parental_control)
+
+    def launch_parental_control(self, widget, event):
+        script_path = os.path.join("/usr/bin/kano-settings")
+        socket_id = self.get_id()
+        cmd = "sudo {} --plug={} --onescreen --label=advanced".format(
+            script_path, socket_id
+        )
+        subprocess.Popen(cmd, shell=True)
+
+class WifiGUI(ConsoleSocket):
+    def __init__(self):
+        super(WifiGUI, self).__init__()
+        self.connect("map-event", self.launch_wifi_gui)
+
+    def launch_wifi_gui(self, widget, event):
+        script_path = os.path.join("/usr/bin/kano-wifi-gui")
+        socket_id = self.get_id()
+        cmd = "sudo {} --plug={}".format(script_path, socket_id)
+        subprocess.Popen(cmd, shell=True)
