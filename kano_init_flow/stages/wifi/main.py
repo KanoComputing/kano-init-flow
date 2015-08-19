@@ -16,6 +16,8 @@ from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 
+from kano.network import is_internet
+
 
 class Wifi(Stage):
     """
@@ -140,6 +142,7 @@ class WifiConsole(Gtk.Overlay):
         super(WifiConsole, self).__init__()
 
         self._stage = stage
+        self._next_cb = next_cb
 
         bg = Gtk.Image.new_from_file(self._stage.media_path('console-large.png'))
         fixed = Gtk.Fixed()
@@ -164,8 +167,7 @@ class WifiConsole(Gtk.Overlay):
 
     def parental_screen(self):
         self._clear()
-        # TODO: Caroline: if you need to pass any agruments do it here
-        socket = ParentalControlGUI()
+        socket = ParentalControlGUI(self.wifi_screen)
         screen = ExternalApp(socket)
 
         eb = Gtk.EventBox()
@@ -180,8 +182,7 @@ class WifiConsole(Gtk.Overlay):
 
     def wifi_screen(self):
         self._clear()
-        # TODO: Caroline: if you need to pass any agruments do it here
-        socket = WifiGUI()
+        socket = WifiGUI(self._next_cb, self.troubleshoot_ethernet)
         screen = ExternalApp(socket)
 
         eb = Gtk.EventBox()
@@ -210,7 +211,7 @@ class WifiConsole(Gtk.Overlay):
 
     def troubleshoot_router(self):
         self._clear()
-        copy = """Try moveng your Kano closer to the internet wireless router."""
+        copy = """Try moving your Kano closer to the internet wireless router."""
         screen = SlideScreen(
             self._stage,
             self._stage.media_path('router.png'),
@@ -264,6 +265,7 @@ class ParentalScreen(Gtk.VBox):
         cb()
         return True
 
+
 class SlideScreen(Gtk.Overlay):
     def __init__(self, stage, bg_path, bg_x_align, bg_y_align, text, text_margin, back_cb, fwd_cb):
         super(SlideScreen, self).__init__()
@@ -310,6 +312,7 @@ class SlideScreen(Gtk.Overlay):
         cb()
         return True
 
+
 class ExternalApp(Gtk.Overlay):
     def __init__(self, socket_widget):
         super(ExternalApp, self).__init__()
@@ -321,22 +324,24 @@ class ExternalApp(Gtk.Overlay):
         socket = socket_widget
         self.add_overlay(socket)
 
+
 class ConsoleSocket(Gtk.Socket):
     def __init__(self):
         super(ConsoleSocket, self).__init__()
-        self.connect("plug-removed", self.return_true)
         self.get_style_context().add_class("console_socket")
 
-    # This stops the socket being killed when the plug is removed
-    def return_true(self, widget):
-        return True
 
 class ParentalControlGUI(ConsoleSocket):
     # For now, make the kano-settings path local while it's not installed
     # by default on the system
-    def __init__(self):
+    def __init__(self, wifi_cb):
         super(ParentalControlGUI, self).__init__()
         self.connect("map-event", self.launch_parental_control)
+        self.connect("plug-removed", self._cb_wrapper, wifi_cb)
+
+    def _cb_wrapper(self, widget, wifi_cb):
+        wifi_cb()
+        return True
 
     def launch_parental_control(self, widget, event):
         script_path = os.path.join("/usr/bin/kano-settings")
@@ -346,10 +351,19 @@ class ParentalControlGUI(ConsoleSocket):
         )
         subprocess.Popen(cmd, shell=True)
 
+
 class WifiGUI(ConsoleSocket):
-    def __init__(self):
+    def __init__(self, success_cb, fail_cb):
         super(WifiGUI, self).__init__()
         self.connect("map-event", self.launch_wifi_gui)
+        self.connect("plug-removed", self._cb_wrapper, success_cb, fail_cb)
+
+    def _cb_wrapper(self, widget, success_cb, fail_cb):
+        # if there is internet, then the user suceeded with connecting
+        if is_internet():
+            success_cb()
+        else:
+            fail_cb()
 
     def launch_wifi_gui(self, widget, event):
         script_path = os.path.join("/usr/bin/kano-wifi-gui")
