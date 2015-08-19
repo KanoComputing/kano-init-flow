@@ -185,6 +185,8 @@ class Scene(object):
         root_win.set_cursor(Gdk.Cursor.new(Gdk.CursorType.ARROW))
 
         clicked_cb()
+
+        self._hand_cursor_blocked = False
         return True
 
     @property
