@@ -7,6 +7,10 @@
 from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
+from kano.utils import is_monitor
+from kano_settings.system.display import get_overscan_status, \
+    write_overscan_values, set_overscan_status, launch_pipe
+
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
@@ -175,3 +179,40 @@ class Notebook(Gtk.Overlay):
         vbox.pack_start(button, False, False, 0)
 
         self._eb.add(vbox)
+
+class OverscanControl(object):
+    def __init__(self):
+        launch_pipe()
+
+        self._step = 1
+        self._original = get_overscan_status()
+        self._current = get_overscan_status()
+
+    def zoom_in(self):
+        pass
+
+    def zoom_out(self):
+        pass
+
+    def reset(self, *_):
+        """ Restore overscan if any changes were made """
+
+        if self._original != self._current:
+            self._current = self._original
+            set_overscan_status(self._original)
+
+    def save_changes(self):
+        pass
+
+
+    def _change_overscan(self, change):
+        """
+        Increment (or decrement) the overscan setting
+        :param change: Number to add to the overscan setting
+        """
+
+        for side, value in self.overscan_values.iteritems():
+            # Do allow negative values
+            self.overscan_values[side] = max(value + change, 0)
+
+        set_overscan_status(self.overscan_values)

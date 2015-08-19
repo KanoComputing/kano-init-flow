@@ -30,7 +30,7 @@ class Wifi(Stage):
 
         apply_styling_to_screen(self.css_path('console.css'))
 
-    def first_step(self):
+    def first_scene(self):
         s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1.widget)
 
