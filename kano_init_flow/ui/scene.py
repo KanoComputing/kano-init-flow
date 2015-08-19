@@ -4,7 +4,7 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-import copy
+import time
 
 from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
 
@@ -48,6 +48,9 @@ class Scene(object):
         self._scale_factor = self._get_screen_scale()
 
         self._children = []
+        self._hand_cursor = []
+        self._hand_set_flag = False
+        self._hand_cursor_blocked = False
 
         self._overlay = Gtk.Overlay()
 
@@ -56,12 +59,16 @@ class Scene(object):
         self._background.set_valign(Gtk.Align.START)
         self._overlay.add(self._background)
 
+        self._last_motion = time.time()
+
         self._fixed = Gtk.Fixed()
         self._overlay.add_overlay(self._fixed)
 
         self._eb = Gtk.EventBox()
         self._eb.add(self._overlay)
         self._eb.connect('button-release-event', self._propagate_signal)
+        self._eb.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
+        self._eb.connect('motion-notify-event', self._motion_cb)
 
     def _get_screen_ratio(self):
         w = SCREEN_WIDTH
@@ -122,6 +129,9 @@ class Scene(object):
             #attach_cursor_events(button_wrapper)
             root_widget = button_wrapper
 
+            # TODO: This is extremely hacky
+            self._hand_cursor.append(root_widget)
+
         #root_widget.connect('size-allocate', self._sprite_allocated)
         align = Gtk.Alignment.new(pos.x, pos.y, 0, 0)
         align.add(root_widget)
@@ -137,15 +147,49 @@ class Scene(object):
                 ev.send_event = True
                 ev.window = widget.get_window()
                 child.emit('button-release-event', ev)
-                break
+                #break
         return True
 
-    def _move_widget(self, widget, pos):
-        return False
+    def _motion_cb(self, widget, event):
+        dt = time.time() - self._last_motion
+        if not self._hand_cursor_blocked and dt > 0.2:
+            root_win = widget.get_root_window()
+            cursor = root_win.get_cursor()
+
+            new_cursor = Gdk.CursorType.ARROW
+            for child in self._children:
+                alloc = child.get_allocation()
+                if event.x >= alloc.x and event.x <= (alloc.x + alloc.width) and \
+                   event.y >= alloc.y and event.y <= (alloc.y + alloc.height) and \
+                   child in self._hand_cursor: # FIXME
+                    new_cursor = Gdk.CursorType.HAND1
+                    break
+
+            if cursor != new_cursor:
+                if new_cursor == Gdk.CursorType.HAND1:
+                    self._hand_set_flag = True
+                else:
+                    # The hand wasn't set by the event box, don't remove it
+                    if not self._hand_set_flag:
+                        return True
+                    self._hand_set_flag = False
+
+
+                root_win.set_cursor(Gdk.Cursor.new(new_cursor))
+
+        return True
 
     def _clicked_cb_wrapper(self, widget, event, clicked_cb):
+        self._hand_cursor_blocked = True
+        root_win = widget.get_root_window()
+        root_win.set_cursor(Gdk.Cursor.new(Gdk.CursorType.ARROW))
+
         clicked_cb()
         return True
+
+    @property
+    def ratio(self):
+        return self._screen_ratio
 
     @property
     def widget(self):

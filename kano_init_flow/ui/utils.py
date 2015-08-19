@@ -7,3 +7,12 @@
 
 def add_class(widget, class_name):
     widget.get_style_context().add_class(class_name)
+
+
+def cb_wrapper(widget, cb1=None, cb2=None):
+    if cb2 is not None:
+        cb2()
+    else:
+        cb1()
+
+    return True
