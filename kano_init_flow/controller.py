@@ -9,6 +9,7 @@
 from .status import Status
 
 from .stages.wifi import Wifi
+from .stages.overscan import Overscan
 
 
 class Controller(object):
@@ -32,6 +33,7 @@ class Controller(object):
             self._status.debug_mode(start_from)
 
         self._stages = [
+            Overscan,
             Wifi
         ]
 
@@ -50,7 +52,7 @@ class Controller(object):
         if len(self._stages):
             index = self._get_stage_index(self._status.location)
             stage_ctl = self._stages[index](self)
-            stage_ctl.first_step()
+            stage_ctl.first_scene()
         else:
             raise RuntimeError('No flow stages available')
 
@@ -63,7 +65,7 @@ class Controller(object):
         index = self._get_stage_index(self._status.location)
         if index is not None and index < len(self._stages) - 1:
             stage_ctl = self._stages[index + 1](self)
-            stage_ctl.first_step()
+            stage_ctl.first_scene()
         else:
             # TODO: Exit the application, there are no more stages to do.
             pass

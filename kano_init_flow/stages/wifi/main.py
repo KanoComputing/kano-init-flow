@@ -36,15 +36,15 @@ class Wifi(Stage):
         s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1.widget)
 
-    def second_step(self):
+    def second_scene(self):
         s2 = self._setup_second_scene()
         self._ctl.main_window.push(s2.widget)
 
-    def third_step(self):
+    def third_scene(self):
         s3 = self._setup_third_scene()
         self._ctl.main_window.push(s3.widget)
 
-    def next_step(self):
+    def next_stage(self):
         self._stage.ctl.next_stage()
 
     def _setup_first_scene(self):
@@ -74,7 +74,7 @@ class Wifi(Stage):
             Gtk.Image.new_from_file(self.media_path('console.gif')),
             Placement(0.35, 0.925, 0.8),
             Placement(0.367, 0.888),
-            self.second_step
+            self.second_scene
         )
 
         return scene
@@ -85,22 +85,10 @@ class Wifi(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         scene.add_widget(
-            WifiConsole(self, self.third_step),
+            WifiConsole(self, self.third_scene),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0)
         )
-
-        """
-        x, y = img.get_size()
-        # the widget will be fixed
-        wifi_flow = WifiFlow(x, y)
-        scene.add_widget(
-            wifi_flow,
-            Placement(0.5, 0.5, 0.0),
-            Placement(0.5, 0.5, 0.0),
-            self.third_step
-        )
-        """
 
         return scene
 
@@ -125,7 +113,7 @@ class Wifi(Stage):
             Gtk.Image.new_from_file(self.media_path('rocket.gif')),
             Placement(0.697, 0.597, 0.8),
             Placement(0.695, 0.275),
-            self.first_step
+            self.first_scene
         )
 
         scene.add_widget(

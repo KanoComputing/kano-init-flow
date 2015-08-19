@@ -16,12 +16,12 @@ class Stage(object):
         super(Stage, self).__init__()
 
         self._ctl = ctl
-        self._steps = []
+        self._scenes = []
 
-    def first_step(self):
+    def first_scene(self):
         pass
 
-    def next_step(self):
+    def next_scene(self):
         pass
 
     def media_path(self, filename):
