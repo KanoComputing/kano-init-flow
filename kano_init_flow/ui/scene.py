@@ -65,7 +65,7 @@ class Scene(object):
         self._overlay.add_overlay(self._fixed)
 
         self._eb = Gtk.EventBox()
-        self._eb.add(self._overlay)
+        #self._eb.add(self._overlay)
         self._eb.connect('button-release-event', self._propagate_signal)
         self._eb.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
         self._eb.connect('motion-notify-event', self._motion_cb)
@@ -135,8 +135,10 @@ class Scene(object):
         #root_widget.connect('size-allocate', self._sprite_allocated)
         align = Gtk.Alignment.new(pos.x, pos.y, 0, 0)
         align.add(root_widget)
+        align.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
         self._children.append(root_widget)
-        self._overlay.add_overlay(align)
+        #self._overlay.add_overlay(align)
+        self._fixed.put(align, 0, 0)
 
     def _propagate_signal(self, widget=None, event=None, data=None):
         for child in self._children:
@@ -195,7 +197,7 @@ class Scene(object):
 
     @property
     def widget(self):
-        return self._eb #self._overlay
+        return self._overlay #self._eb #self._overlay
 
     @staticmethod
     def _scale_pixbuf(pixbuf, scale):
