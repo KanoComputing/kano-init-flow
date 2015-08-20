@@ -31,6 +31,8 @@ class Overscan(Stage):
     def __init__(self, ctl):
         super(Overscan, self).__init__(ctl)
 
+        self._overscan_ctl = OverscanControl()
+
         apply_styling_to_screen(self.css_path('overscan.css'))
 
     def first_scene(self):
@@ -56,6 +58,11 @@ class Overscan(Stage):
 
         return scene
 
+    def save_and_exit(self):
+        self._overscan_ctl.reset() # TODO remove
+        self._overscan_ctl.save_changes()
+        self._ctl.next_stage()
+
     def _setup_second_scene(self):
         scene = Scene()
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
@@ -78,7 +85,7 @@ class Overscan(Stage):
             Gtk.Image.new_from_file(self.media_path('ok-button.png')),
             Placement(0.7, 0, 1),
             Placement(0.7, 0, 1),
-            self._ctl.next_stage
+            self.save_and_exit
         )
 
         scene.add_widget(
@@ -91,13 +98,15 @@ class Overscan(Stage):
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('up-button.png')),
             Placement(0.5, 0.435, 1),
-            Placement(0.51, 0.436, 1)
+            Placement(0.51, 0.436, 1),
+            self._overscan_ctl.zoom_out
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('down-button.png')),
             Placement(0.5, 0.535, 1),
-            Placement(0.51, 0.536, 1)
+            Placement(0.51, 0.536, 1),
+            self._overscan_ctl.zoom_in
         )
 
         return scene
@@ -184,15 +193,15 @@ class OverscanControl(object):
     def __init__(self):
         launch_pipe()
 
-        self._step = 1
+        self._step = 10
         self._original = get_overscan_status()
         self._current = get_overscan_status()
 
     def zoom_in(self):
-        pass
+        self._change_overscan(self._step)
 
     def zoom_out(self):
-        pass
+        self._change_overscan(-self._step)
 
     def reset(self, *_):
         """ Restore overscan if any changes were made """
@@ -202,8 +211,8 @@ class OverscanControl(object):
             set_overscan_status(self._original)
 
     def save_changes(self):
-        pass
-
+        if self._original != self._current:
+            write_overscan_values(self._current)
 
     def _change_overscan(self, change):
         """
@@ -211,8 +220,9 @@ class OverscanControl(object):
         :param change: Number to add to the overscan setting
         """
 
-        for side, value in self.overscan_values.iteritems():
+        for side, value in self._current.iteritems():
             # Do allow negative values
-            self.overscan_values[side] = max(value + change, 0)
+            self._current[side] = max(value + change, 0)
 
-        set_overscan_status(self.overscan_values)
+        print self._current
+        set_overscan_status(self._current)

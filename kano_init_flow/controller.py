@@ -6,11 +6,14 @@
 # Controls the progression through the flow
 #
 
+from gi.repository import Gtk
+
 from .status import Status
 
 from .stages.wifi import Wifi
 from .stages.overscan import Overscan
 from .stages.drag_and_drop import DragAndDrop
+from .stages.quests import Quests
 
 
 class Controller(object):
@@ -36,7 +39,8 @@ class Controller(object):
         self._stages = [
             Overscan,
             Wifi,
-            DragAndDrop
+            DragAndDrop,
+            Quests
         ]
 
     @property
@@ -70,7 +74,7 @@ class Controller(object):
             stage_ctl.first_scene()
         else:
             # TODO: Exit the application, there are no more stages to do.
-            pass
+            Gtk.main_quit()
 
     def _get_stage_index(self, stage_id):
         index = None
