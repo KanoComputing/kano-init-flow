@@ -28,6 +28,7 @@ class DragAndDrop(Stage):
 
     def __init__(self, ctl):
         super(DragAndDrop, self).__init__(ctl)
+        apply_styling_to_screen(self.css_path("drag-and-drop.css"))
 
     def first_scene(self):
         s1 = self._setup_first_scene()
@@ -38,34 +39,52 @@ class DragAndDrop(Stage):
         self._ctl.main_window.push(s2.widget)
 
     def next_stage(self):
-        self._stage.ctl.next_stage()
+        self._ctl.next_stage()
 
     def _setup_first_scene(self):
         scene = Scene()
         scene.set_background(self.media_path('cliff-file-1600x1200.png'),
                              self.media_path('cliff-file-1920x1080.png'))
 
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file(self.media_path('cliff-judoka.png'))
-        pixbuf = Scene.scale_pixbuf_to_scene(pixbuf, 0.45, 0.5)
-        image = Gtk.Image.new_from_pixbuf(pixbuf)
-        image2 = Gtk.Image.new_from_pixbuf(pixbuf)
+        char_pixbuf = GdkPixbuf.Pixbuf.new_from_file(self.media_path('character.png'))
+        char_pixbuf = Scene.scale_pixbuf_to_scene(char_pixbuf, 0.22, 0.22)
+        char_image = Gtk.Image.new_from_pixbuf(char_pixbuf)
+        drag_source = DragSource(char_image, char_pixbuf)
 
-        drag_source = DragSource(image, pixbuf)
-        drop_area = DropArea(image2)
+        # Send the second cb to the scene
+        drop_area = DropArea(self.second_scene)
         drop_area.set_size_request(
-            0.5 * Gdk.Screen.width(), 0.5 * Gdk.Screen.height()
+            0.4 * Gdk.Screen.width(), 0.5 * Gdk.Screen.height()
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('keyboard.png')),
+            Placement(0.5, 0.9),
+            Placement(0.5, 0.9)
+        )
+
+        scene.add_widget(
+            SpeechBubble(text='Jump Willy!', source=SpeechBubble.BOTTOM),
+            Placement(0.84, 0.06),
+            Placement(0.84, 0.06)
         )
 
         scene.add_widget(
             drag_source,
-            Placement(0.25, 0.23),
-            Placement(0.25, 0.23)
+            Placement(0.25, 0.25),
+            Placement(0.25, 0.25)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('cliff-judoka.png')),
+            Placement(0.8, 0.3, 0.9),
+            Placement(0.8, 0.3, 0.9)
         )
 
         scene.add_widget(
             drop_area,
-            Placement(1, 0.23),
-            Placement(1, 0.23)
+            Placement(1, 0),
+            Placement(1, 0)
         )
 
         return scene
@@ -76,12 +95,40 @@ class DragAndDrop(Stage):
                              self.media_path('cliff-file-1920x1080.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('cliff-judoka.png')),
-            Placement(0.9, 0.9, 0.45),
-            Placement(0.9, 0.9, 0.5)
+            Gtk.Image.new_from_file(self.media_path('keyboard.png')),
+            Placement(0.5, 0.9),
+            Placement(0.5, 0.9)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('character.png')),
+            Placement(0.7, 0.3, 0.45),
+            Placement(0.7, 0.3, 0.5)
+        )
+
+        scene.add_widget(
+            SpeechBubble(text='Well done!', source=SpeechBubble.BOTTOM),
+            Placement(0.84, 0.06),
+            Placement(0.84, 0.06)
+        )
+
+        judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
+        judoka = Scene.scale_image_to_scene(judoka, 0.405, 0.405)
+        _eb = Gtk.EventBox()
+        _eb.add(judoka)
+        _eb.connect("button-release-event", self._next_stage_wrapper)
+        attach_cursor_events(_eb)
+
+        scene.add_widget(
+            _eb,
+            Placement(0.8, 0.3),
+            Placement(0.8, 0.3)
         )
 
         return scene
+
+    def _next_stage_wrapper(self, widget, event):
+        self.next_stage()
 
 
 class DragSource(Gtk.EventBox):
@@ -95,17 +142,15 @@ class DragSource(Gtk.EventBox):
         attach_cursor_events(self)
 
         self.image = image
-        # This follows the cursor when the item is being dragged
-        self.pixbuf = pixbuf
-
         self.add(image)
 
+        # This follows the cursor when the item is being dragged
+        self.pixbuf = pixbuf
         self.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [],
                              Gdk.DragAction.ASK)
 
         # To send image data
         self.drag_source_add_image_targets()
-
         self.connect("drag-begin", self.on_drag_begin)
         self.connect("drag-data-get", self.on_drag_data_get)
         self.connect("drag-failed", self.on_drag_fail)
@@ -154,15 +199,21 @@ class DropArea(Gtk.EventBox):
     Area which the user has to drag the Judoka into
     """
 
-    def __init__(self, image):
+    def __init__(self, next_cb):
         super(DropArea, self).__init__()
-        self.image = image
+        self.next_cb = next_cb
         self.get_style_context().add_class("drag_dest")
 
-        self.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.ASK)
+        self.drag_dest_set(
+            Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP,
+            [],
+            Gdk.DragAction.ASK
+        )
+
         targets = Gtk.TargetList.new([])
         targets.add_image_targets(2, True)
         self.drag_dest_set_target_list(targets)
+
         self.connect("drag-data-received", self.on_drag_data_received)
 
     def on_drag_data_received(self, widget, drag_context, x, y,
@@ -173,8 +224,6 @@ class DropArea(Gtk.EventBox):
         """
 
         logger.info("Drop area has received data")
-
         if info == 2:
-            self.add(self.image)
-            self.show_all()
             drag_context.finish(True, True, time)
+            self.next_cb()

@@ -14,6 +14,7 @@ from kano.gtk3.cursor import attach_cursor_events
 SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
 
+
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
         self._x = x
@@ -125,8 +126,8 @@ class Scene(object):
     @staticmethod
     def scale_image_to_scene(img_widget, scale_4_3, scale_16_9):
         pixbuf = img_widget.get_pixbuf()
-        pixbuf = Scene._scale_image(pixbuf, scale_4_3, scale_16_9)
-        return Gtk.Image.new_from_pixbuf(pixbuf)[0]
+        pixbuf = Scene.scale_pixbuf_to_scene(pixbuf, scale_4_3, scale_16_9)
+        return Gtk.Image.new_from_pixbuf(pixbuf)
 
     @property
     def ratio(self):
