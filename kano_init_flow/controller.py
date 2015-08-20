@@ -10,6 +10,7 @@ from .status import Status
 
 from .stages.wifi import Wifi
 from .stages.overscan import Overscan
+from .stages.drag_and_drop import DragAndDrop
 
 
 class Controller(object):
@@ -34,7 +35,8 @@ class Controller(object):
 
         self._stages = [
             Overscan,
-            Wifi
+            Wifi,
+            DragAndDrop
         ]
 
     @property

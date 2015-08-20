@@ -70,19 +70,6 @@ class Scene(object):
         self._eb.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
         self._eb.connect('motion-notify-event', self._motion_cb)
 
-    def _get_screen_ratio(self):
-        w = SCREEN_WIDTH
-        h = SCREEN_HEIGHT
-
-        ratio = (w * 1.0) / h
-        dist_43 = abs(self.RATIO_4_3 - ratio)
-        dist_169 = abs(self.RATIO_16_9 - ratio)
-
-        if dist_43 < dist_169:
-            return self.RATIO_4_3
-
-        return self.RATIO_16_9
-
     def _get_screen_scale(self):
         if self._screen_ratio == self.RATIO_4_3:
             return SCREEN_HEIGHT / 1200.0
@@ -174,7 +161,6 @@ class Scene(object):
                         return True
                     self._hand_set_flag = False
 
-
                 root_win.set_cursor(Gdk.Cursor.new(new_cursor))
 
         return True
@@ -187,13 +173,41 @@ class Scene(object):
         clicked_cb()
         return True
 
+    @staticmethod
+    def scale_pixbuf_to_scene(pixbuf, scale_4_3, scale_16_9):
+        if Scene._get_screen_ratio() == Scene.RATIO_4_3:
+            base_scale = scale_4_3
+        elif Scene._get_screen_ratio() == Scene.RATIO_16_9:
+            base_scale = scale_16_9
+        return Scene._scale_pixbuf(pixbuf, Scene._get_screen_ratio() * base_scale)[0]
+
+    @staticmethod
+    def scale_image_to_scene(img_widget, scale_4_3, scale_16_9):
+        pixbuf = img_widget.get_pixbuf()
+        pixbuf = Scene._scale_image(pixbuf, scale_4_3, scale_16_9)
+        return Gtk.Image.new_from_pixbuf(pixbuf)[0]
+
     @property
     def ratio(self):
         return self._screen_ratio
 
     @property
     def widget(self):
-        return self._eb #self._overlay
+        return self._eb  # self._overlay
+
+    @staticmethod
+    def _get_screen_ratio():
+        w = SCREEN_WIDTH
+        h = SCREEN_HEIGHT
+
+        ratio = (w * 1.0) / h
+        dist_43 = abs(Scene.RATIO_4_3 - ratio)
+        dist_169 = abs(Scene.RATIO_16_9 - ratio)
+
+        if dist_43 < dist_169:
+            return Scene.RATIO_4_3
+
+        return Scene.RATIO_16_9
 
     @staticmethod
     def _scale_pixbuf(pixbuf, scale):
