@@ -31,13 +31,14 @@ if __name__ == '__main__' and __package__ is None:
 
 
 import docopt
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 
 from kano_init_flow.main_window import MainWindow
 
 args = docopt.docopt(__doc__)
 
 start_from = args['--debug'] if args['--debug'] != 'none' else None
+GObject.threads_init()
 mw = MainWindow(start_from)
 mw.show_all()
 Gtk.main()

@@ -6,7 +6,9 @@
 
 import os
 import subprocess
-from gi.repository import Gtk
+import threading
+
+from gi.repository import Gtk, GLib
 from kano.gtk3.buttons import KanoButton
 
 from kano_init_flow.stage import Stage
@@ -45,7 +47,7 @@ class Wifi(Stage):
         self._ctl.main_window.push(s3.widget)
 
     def next_stage(self):
-        self._stage.ctl.next_stage()
+        self._ctl.next_stage()
 
     def _setup_first_scene(self):
         scene = Scene()
@@ -113,7 +115,7 @@ class Wifi(Stage):
             Gtk.Image.new_from_file(self.media_path('rocket.gif')),
             Placement(0.697, 0.597, 0.8),
             Placement(0.695, 0.275),
-            self.first_scene
+            self.next_stage
         )
 
         scene.add_widget(
@@ -316,7 +318,21 @@ class ExternalApp(Gtk.Overlay):
 class ConsoleSocket(Gtk.Socket):
     def __init__(self):
         super(ConsoleSocket, self).__init__()
+        self.connect("map-event", self.launch_plug_process)
         self.get_style_context().add_class("console_socket")
+
+        self._unplug_called = False
+
+    def launch_plug_process(self, widget, event):
+        thread = threading.Thread(target=self._do_launch_plug_process)
+        thread.daemon = True
+        thread.start()
+
+    def _do_launch_plug_process(self):
+        pass
+
+    def _emit_plug_removed(self):
+        self.emit('plug_removed')
 
 
 class ParentalControlGUI(ConsoleSocket):
@@ -324,26 +340,29 @@ class ParentalControlGUI(ConsoleSocket):
     # by default on the system
     def __init__(self, wifi_cb):
         super(ParentalControlGUI, self).__init__()
-        self.connect("map-event", self.launch_parental_control)
         self.connect("plug-removed", self._cb_wrapper, wifi_cb)
 
     def _cb_wrapper(self, widget, wifi_cb):
-        wifi_cb()
+        if not self._unplug_called:
+            self._unplug_called = True
+            wifi_cb()
         return True
 
-    def launch_parental_control(self, widget, event):
+    def _do_launch_plug_process(self):
         script_path = os.path.join("/usr/bin/kano-settings")
         socket_id = self.get_id()
         cmd = "sudo {} --plug={} --onescreen --label=advanced".format(
             script_path, socket_id
         )
-        subprocess.Popen(cmd, shell=True)
+
+        p = subprocess.Popen(cmd, shell=True)
+        p.wait()
+        GLib.idle_add(self._emit_plug_removed)
 
 
 class WifiGUI(ConsoleSocket):
     def __init__(self, success_cb, fail_cb):
         super(WifiGUI, self).__init__()
-        self.connect("map-event", self.launch_wifi_gui)
         self.connect("plug-removed", self._cb_wrapper, success_cb, fail_cb)
 
     def _cb_wrapper(self, widget, success_cb, fail_cb):
@@ -353,8 +372,11 @@ class WifiGUI(ConsoleSocket):
         else:
             fail_cb()
 
-    def launch_wifi_gui(self, widget, event):
+    def _do_launch_plug_process(self):
         script_path = os.path.join("/usr/bin/kano-wifi-gui")
         socket_id = self.get_id()
         cmd = "sudo {} --plug={}".format(script_path, socket_id)
-        subprocess.Popen(cmd, shell=True)
+
+        p = subprocess.Popen(cmd, shell=True)
+        p.wait()
+        GLib.idle_add(self._emit_plug_removed)
