@@ -39,7 +39,7 @@ class Controller(object):
 
         self._status = Status.get_instance()
         if start_from:
-            self._status.debug_mode(start_from)
+            self._status.set_debug_mode(start_from)
 
         # 0 means that this was the first complete boot
         # 1 means that the init flow was completed before
@@ -66,20 +66,22 @@ class Controller(object):
 
         if self._status.completed:
             self._return_value = 1
-            Gtk.main_quit()
+            return False
 
-        if self._should_skip_init_flow():
-            Gtk.main_quit()
+        if not self._status.debug_mode and self._should_skip_init_flow():
+            return False
 
         if len(self._stages):
             index = 0
             if self._status.location is not None:
-                index = self._get_stage_index()
+                index = self._get_stage_index(self._status.location)
 
             stage_ctl = self._stages[index](self)
             stage_ctl.first_scene()
         else:
             raise RuntimeError('No flow stages available')
+
+        return True
 
     def next_stage(self):
         """
@@ -92,13 +94,15 @@ class Controller(object):
             index = 0
         else:
             index = self._get_stage_index(self._status.location)
-            self._status.location = self._stages[index].id
 
         if index is not None and index < len(self._stages) - 1:
             stage_ctl = self._stages[index + 1](self)
+            self._status.location = self._stages[index + 1].id
+            self._status.save()
             stage_ctl.first_scene()
         else:
-            # TODO: Exit the application, there are no more stages to do.
+            self._status.completed = True
+            self._status.save()
             Gtk.main_quit()
 
     @property

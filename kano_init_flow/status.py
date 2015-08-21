@@ -59,14 +59,19 @@ class Status(object):
                 self.save()
                 return
 
-            self._location = data['location']
+            if 'location' in data:
+                self._location = data['location']
+
+            if 'completed' in data:
+                self._completed = data['completed']
 
     def save(self):
         if not self._saving_enabled:
             return
 
         data = {
-            'location': self._location
+            'location': self._location,
+            'completed': self._completed
         }
 
         with open(self._status_file, 'w') as status_file:
@@ -88,6 +93,10 @@ class Status(object):
     def location(self, value):
         self._location = value
 
-    def debug_mode(self, start_from):
+    @property
+    def debug_mode(self):
+        return not self._saving_enabled
+
+    def set_debug_mode(self, start_from):
         self._saving_enabled = False
         self._location = start_from

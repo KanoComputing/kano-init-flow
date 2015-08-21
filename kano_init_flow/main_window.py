@@ -57,9 +57,8 @@ class MainWindow(Gtk.Window):
     def return_value(self):
         return self._ctl.return_value
 
-    def show_all(self):
-        self._ctl.first_stage()
-        super(MainWindow, self).show_all()
+    def prepare_first_stage(self):
+        return self._ctl.first_stage()
 
     def push(self, child):
         GLib.idle_add(self._do_push, child)
