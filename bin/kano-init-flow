@@ -40,5 +40,8 @@ args = docopt.docopt(__doc__)
 start_from = args['--debug'] if args['--debug'] != 'none' else None
 GObject.threads_init()
 mw = MainWindow(start_from)
+if not mw.prepare_first_stage():
+    sys.exit(mw.return_value)
 mw.show_all()
 Gtk.main()
+sys.exit(mw.return_value)

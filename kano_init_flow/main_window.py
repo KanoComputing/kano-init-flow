@@ -11,7 +11,7 @@ from gi.repository import Gtk, GLib
 from kano.gtk3.apply_styles import apply_common_to_screen
 from .controller import Controller
 from kano_init_flow.ui.css import apply_styling_to_screen
-from kano_init_flow.paths import common_media_path, common_css_path
+from kano_init_flow.paths import common_css_path
 
 
 class MainWindow(Gtk.Window):
@@ -53,9 +53,12 @@ class MainWindow(Gtk.Window):
         else:
             self._container = self
 
-    def show_all(self):
-        self._ctl.first_stage()
-        super(MainWindow, self).show_all()
+    @property
+    def return_value(self):
+        return self._ctl.return_value
+
+    def prepare_first_stage(self):
+        return self._ctl.first_stage()
 
     def push(self, child):
         GLib.idle_add(self._do_push, child)
