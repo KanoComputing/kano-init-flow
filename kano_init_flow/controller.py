@@ -72,7 +72,10 @@ class Controller(object):
             Gtk.main_quit()
 
         if len(self._stages):
-            index = self._get_stage_index(self._status.location)
+            index = 0
+            if self._status.location is not None:
+                index = self._get_stage_index()
+
             stage_ctl = self._stages[index](self)
             stage_ctl.first_scene()
         else:
@@ -84,7 +87,13 @@ class Controller(object):
             it's over and the control should be handed to the subsequent one.
         """
 
-        index = self._get_stage_index(self._status.location)
+        if self._status.location is None:
+            self._status.location = self._stages[0].id
+            index = 0
+        else:
+            index = self._get_stage_index(self._status.location)
+            self._status.location = self._stages[index].id
+
         if index is not None and index < len(self._stages) - 1:
             stage_ctl = self._stages[index + 1](self)
             stage_ctl.first_scene()

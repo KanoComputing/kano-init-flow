@@ -72,7 +72,14 @@ class Status(object):
         with open(self._status_file, 'w') as status_file:
             json.dump(data, status_file)
 
-    # -- state
+    @property
+    def completed(self):
+        return self._completed
+
+    @completed.setter
+    def completed(self, c):
+        self._completed = c
+
     @property
     def location(self):
         return self._location
