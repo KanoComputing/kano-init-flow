@@ -11,7 +11,7 @@ from gi.repository import Gtk, GLib
 from kano.gtk3.apply_styles import apply_common_to_screen
 from .controller import Controller
 from kano_init_flow.ui.css import apply_styling_to_screen
-from kano_init_flow.paths import common_media_path, common_css_path
+from kano_init_flow.paths import common_css_path
 
 
 class MainWindow(Gtk.Window):
@@ -52,6 +52,10 @@ class MainWindow(Gtk.Window):
             self._container = debug_overlay
         else:
             self._container = self
+
+    @property
+    def return_value(self):
+        return self._ctl.return_value
 
     def show_all(self):
         self._ctl.first_stage()

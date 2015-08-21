@@ -38,6 +38,7 @@ class Status(object):
             Status._singleton_instance = self
 
         self._location = None
+        self._completed = False
 
         # Initialise as True, and change if debug mode is set
         self._saving_enabled = True

@@ -4,7 +4,6 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk
 from .paths import get_asset_path
 
 

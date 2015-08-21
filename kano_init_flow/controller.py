@@ -6,7 +6,10 @@
 # Controls the progression through the flow
 #
 
+import os
+import json
 from gi.repository import Gtk
+from kano.logging import logger
 
 from .status import Status
 
@@ -23,6 +26,8 @@ class Controller(object):
         The MainWindow class uses it to determine what comes next.
     """
 
+    INIT_CONF = '/boot/init.conf'
+
     def __init__(self, main_window, start_from=None):
         """
             :param start_from: Overrides the status and makes the init flow
@@ -36,10 +41,14 @@ class Controller(object):
         if start_from:
             self._status.debug_mode(start_from)
 
+        # 0 means that this was the first complete boot
+        # 1 means that the init flow was completed before
+        self._return_value = 0
+
         self._stages = [
             Overscan,
-            Wifi,
             DragAndDrop,
+            Wifi,
             Quests
         ]
 
@@ -54,6 +63,13 @@ class Controller(object):
             Note: The first stage is determined by the location variable from
             the status file, not necessarily the very first stage.
         """
+
+        if self._status.completed:
+            self._return_value = 1
+            Gtk.main_quit()
+
+        if self._should_skip_init_flow():
+            Gtk.main_quit()
 
         if len(self._stages):
             index = self._get_stage_index(self._status.location)
@@ -76,6 +92,10 @@ class Controller(object):
             # TODO: Exit the application, there are no more stages to do.
             Gtk.main_quit()
 
+    @property
+    def return_value(self):
+        return self._return_value
+
     def _get_stage_index(self, stage_id):
         index = None
         for i, s in enumerate(self._stages):
@@ -88,3 +108,16 @@ class Controller(object):
     def _get_stage_class_by_id(self, stage_id):
         index = self._get_stage_index(stage_id)
         return self._stages[index] if index else None
+
+    def _should_skip_init_flow(self):
+        if os.path.exists(self.INIT_CONF):
+            with open(self.INIT_CONF, 'r') as f:
+                try:
+                    init_conf = json.load(f)
+                    return ('kano_init_flow' in init_conf and
+                            'skip' in init_conf['kano_init_flow'] and
+                            init_conf['kano_init_flow']['skip'])
+                except:
+                    logger.warn('Failed to parse init.conf')
+
+        return False
