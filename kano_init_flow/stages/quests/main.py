@@ -48,7 +48,7 @@ class Quests(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('shine.gif')),
-            Placement(0.45, 0.5, 1.0),
+            Placement(0.39, 0.4, 1.0),
             Placement(0.553, 0.2, 1.0)
         )
 
@@ -61,7 +61,7 @@ class Quests(Stage):
 
         scene.add_widget(
             SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
-            Placement(0.78, 0.72),
+            Placement(0.23, 0.4),
             Placement(0.45, 0.18)
         )
 
