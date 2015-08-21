@@ -10,6 +10,7 @@ import threading
 
 from gi.repository import Gtk, GLib
 from kano.gtk3.buttons import KanoButton
+from kano.logging import logger
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
@@ -349,14 +350,19 @@ class ParentalControlGUI(ConsoleSocket):
         return True
 
     def _do_launch_plug_process(self):
-        script_path = os.path.join("/usr/bin/kano-settings")
-        socket_id = self.get_id()
-        cmd = "sudo {} --plug={} --onescreen --label=advanced".format(
-            script_path, socket_id
-        )
+        try:
+            script_path = os.path.join("/usr/bin/kano-settings")
+            socket_id = self.get_id()
+            cmd = "sudo {} --plug={} --onescreen --label=advanced".format(
+                script_path, socket_id
+            )
 
-        p = subprocess.Popen(cmd, shell=True)
-        p.wait()
+            p = subprocess.Popen(cmd, shell=True)
+            p.wait()
+        except Exception:
+            # We need to make sure this doesn't kill the init flow
+            logger.warn('kano-settings failed during the init flow')
+
         GLib.idle_add(self._emit_plug_removed)
 
 
@@ -373,10 +379,15 @@ class WifiGUI(ConsoleSocket):
             fail_cb()
 
     def _do_launch_plug_process(self):
-        script_path = os.path.join("/usr/bin/kano-wifi-gui")
-        socket_id = self.get_id()
-        cmd = "sudo {} --plug={}".format(script_path, socket_id)
+        try:
+            script_path = os.path.join("/usr/bin/kano-wifi-gui")
+            socket_id = self.get_id()
+            cmd = "sudo {} --plug={}".format(script_path, socket_id)
 
-        p = subprocess.Popen(cmd, shell=True)
-        p.wait()
+            p = subprocess.Popen(cmd, shell=True)
+            p.wait()
+        except Exception:
+            # We need to make sure this doesn't kill the init flow
+            logger.warn('kano-wifi-gui failed during the init flow')
+
         GLib.idle_add(self._emit_plug_removed)
