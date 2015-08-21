@@ -117,11 +117,12 @@ class Scene(object):
 
     @staticmethod
     def scale_pixbuf_to_scene(pixbuf, scale_4_3, scale_16_9):
-        if Scene._get_screen_ratio() == Scene.RATIO_4_3:
+        screen_ratio = Scene._get_screen_ratio()
+        if screen_ratio == Scene.RATIO_4_3:
             base_scale = scale_4_3
-        elif Scene._get_screen_ratio() == Scene.RATIO_16_9:
+        elif screen_ratio == Scene.RATIO_16_9:
             base_scale = scale_16_9
-        return Scene._scale_pixbuf(pixbuf, Scene._get_screen_ratio() * base_scale)[0]
+        return Scene._scale_pixbuf(pixbuf, base_scale)[0]
 
     @staticmethod
     def scale_image_to_scene(img_widget, scale_4_3, scale_16_9):

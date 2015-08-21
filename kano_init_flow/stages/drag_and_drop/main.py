@@ -5,13 +5,10 @@
 #
 
 from gi.repository import Gtk, Gdk, GdkPixbuf
-from kano.gtk3.buttons import KanoButton
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.ui.speech_bubble import SpeechBubble
-from kano_init_flow.paths import common_media_path
-from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano.gtk3.cursor import attach_cursor_events
 
@@ -46,10 +43,14 @@ class DragAndDrop(Stage):
         scene.set_background(self.media_path('cliff-file-1600x1200.png'),
                              self.media_path('cliff-file-1920x1080.png'))
 
-        char_pixbuf = GdkPixbuf.Pixbuf.new_from_file(self.media_path('character.png'))
-        char_pixbuf = Scene.scale_pixbuf_to_scene(char_pixbuf, 0.22, 0.22)
-        char_image = Gtk.Image.new_from_pixbuf(char_pixbuf)
-        drag_source = DragSource(char_image, char_pixbuf)
+        char_pixbuf = GdkPixbuf.Pixbuf.new_from_file(
+            self.media_path('judoka-clicked.png')
+        )
+        char_pixbuf = Scene.scale_pixbuf_to_scene(char_pixbuf, 0.6, 0.6)
+        judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
+        judoka = Scene.scale_image_to_scene(judoka, 0.6, 0.6)
+        speechbubble = SpeechBubble(text='Jump Willy!', source=SpeechBubble.BOTTOM)
+        drag_source = DragSource(judoka, char_pixbuf, speechbubble)
 
         # Send the second cb to the scene
         drop_area = DropArea(self.second_scene)
@@ -64,21 +65,15 @@ class DragAndDrop(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble(text='Jump Willy!', source=SpeechBubble.BOTTOM),
-            Placement(0.84, 0.06),
-            Placement(0.84, 0.06)
+            speechbubble,
+            Placement(0.22, 0.0),
+            Placement(0.22, 0.0)
         )
 
         scene.add_widget(
             drag_source,
             Placement(0.25, 0.25),
             Placement(0.25, 0.25)
-        )
-
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('cliff-judoka.png')),
-            Placement(0.8, 0.3, 0.9),
-            Placement(0.8, 0.3, 0.9)
         )
 
         scene.add_widget(
@@ -101,28 +96,27 @@ class DragAndDrop(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('character.png')),
-            Placement(0.7, 0.3, 0.45),
-            Placement(0.7, 0.3, 0.5)
-        )
-
-        scene.add_widget(
             SpeechBubble(text='Well done!', source=SpeechBubble.BOTTOM),
             Placement(0.84, 0.06),
             Placement(0.84, 0.06)
         )
 
-        judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
-        judoka = Scene.scale_image_to_scene(judoka, 0.405, 0.405)
-        _eb = Gtk.EventBox()
-        _eb.add(judoka)
-        _eb.connect("button-release-event", self._next_stage_wrapper)
-        attach_cursor_events(_eb)
-
         scene.add_widget(
-            _eb,
-            Placement(0.8, 0.3),
-            Placement(0.8, 0.3)
+            Gtk.Image.new_from_file(self.media_path('cliff-judoka.png')),
+            Placement(0.8, 0.3, 0.92),
+            Placement(0.8, 0.3, 0.92)
+        )
+
+        next_button = Gtk.Button()
+        next_button.set_image(Gtk.Image.new_from_file(
+            self.media_path("next-button.png"))
+        )
+        next_button.connect("button-release-event", self._next_stage_wrapper)
+        attach_cursor_events(next_button)
+        scene.add_widget(
+            next_button,
+            Placement(0.9, 0.6),
+            Placement(0.9, 0.6)
         )
 
         return scene
@@ -137,10 +131,11 @@ class DragSource(Gtk.EventBox):
     """
 
     # Pass the scaled images into the class
-    def __init__(self, image, pixbuf):
+    def __init__(self, image, pixbuf, speechbubble):
         Gtk.EventBox.__init__(self)
         attach_cursor_events(self)
 
+        self.speechbubble = speechbubble
         self.image = image
         self.add(image)
 
@@ -163,8 +158,9 @@ class DragSource(Gtk.EventBox):
         logger.info("Drag has begun")
 
         # (120, 90) refers to where the cursor relative to the drag icon
-        Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 100, 20)
+        Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 50, 50)
         self.remove(self.image)
+        self.speechbubble.hide()
         self.show_all()
 
     def on_drag_data_get(self, widget, drag_context, data, info, time):
@@ -185,6 +181,7 @@ class DragSource(Gtk.EventBox):
 
         logger.info("Drag ended")
         self.add(self.image)
+        self.speechbubble.show()
         self.show_all()
 
     def on_drag_delete(self, *_):
