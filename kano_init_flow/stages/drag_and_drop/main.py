@@ -46,10 +46,13 @@ class DragAndDrop(Stage):
         char_pixbuf = GdkPixbuf.Pixbuf.new_from_file(
             self.media_path('judoka-clicked.png')
         )
-        char_pixbuf = Scene.scale_pixbuf_to_scene(char_pixbuf, 0.6, 0.6)
+        char_pixbuf = Scene.scale_pixbuf_to_scene(char_pixbuf, 0.6, 0.8)
         judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
-        judoka = Scene.scale_image_to_scene(judoka, 0.6, 0.6)
-        speechbubble = SpeechBubble(text='Jump Willy!', source=SpeechBubble.BOTTOM)
+        judoka = Scene.scale_image_to_scene(judoka, 0.6, 0.8)
+        speechbubble = SpeechBubble(
+            text='Jump Willy!',
+            source=SpeechBubble.BOTTOM
+        )
         drag_source = DragSource(judoka, char_pixbuf, speechbubble)
 
         # Send the second cb to the scene
@@ -59,15 +62,15 @@ class DragAndDrop(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('keyboard.png')),
-            Placement(0.5, 0.9),
-            Placement(0.5, 0.9)
+            Gtk.Image.new_from_file(self.media_path('keyboard.gif')),
+            Placement(0.5, 0.9, 0),
+            Placement(0.5, 0.9, 0)
         )
 
         scene.add_widget(
             speechbubble,
-            Placement(0.22, 0.0),
-            Placement(0.22, 0.0)
+            Placement(0.22, 0.05),
+            Placement(0.24, 0.03)
         )
 
         scene.add_widget(
@@ -90,21 +93,15 @@ class DragAndDrop(Stage):
                              self.media_path('cliff-file-1920x1080.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('keyboard.png')),
-            Placement(0.5, 0.9),
-            Placement(0.5, 0.9)
-        )
-
-        scene.add_widget(
             SpeechBubble(text='Well done!', source=SpeechBubble.BOTTOM),
-            Placement(0.84, 0.06),
-            Placement(0.84, 0.06)
+            Placement(0.86, 0.06),
+            Placement(0.91, 0.1)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('cliff-judoka.png')),
-            Placement(0.8, 0.3, 0.92),
-            Placement(0.8, 0.3, 0.92)
+            Placement(0.85, 0.3, 0.92),
+            Placement(0.9, 0.35, 0.96)
         )
 
         next_button = Gtk.Button()
@@ -115,8 +112,8 @@ class DragAndDrop(Stage):
         attach_cursor_events(next_button)
         scene.add_widget(
             next_button,
-            Placement(0.9, 0.6),
-            Placement(0.9, 0.6)
+            Placement(0.85, 0.8),
+            Placement(0.9, 0.85)
         )
 
         return scene
