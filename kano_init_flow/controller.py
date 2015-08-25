@@ -17,6 +17,7 @@ from .stages.wifi import Wifi
 from .stages.overscan import Overscan
 from .stages.drag_and_drop import DragAndDrop
 from .stages.quests import Quests
+from .stages.intro import Intro
 
 
 class Controller(object):
@@ -46,6 +47,7 @@ class Controller(object):
         self._return_value = 0
 
         self._stages = [
+            Intro,
             Overscan,
             DragAndDrop,
             Wifi,

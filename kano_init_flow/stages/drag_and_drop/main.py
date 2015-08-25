@@ -17,7 +17,7 @@ from kano.logging import logger
 
 class DragAndDrop(Stage):
     """
-        The internet connection stage
+        The tutorial for drag and drop
     """
 
     id = 'drag-and-drop'
