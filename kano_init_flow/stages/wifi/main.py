@@ -176,10 +176,10 @@ class WifiConsole(Gtk.Overlay):
 
         eb = Gtk.EventBox()
         eb.add(screen)
-        eb.set_margin_top(40)
+        eb.set_margin_top(20)
         eb.set_margin_left(10)
         eb.set_margin_right(10)
-        eb.set_margin_bottom(40)
+        eb.set_margin_bottom(20)
 
         self._eb.add(eb)
         self._eb.show_all()
@@ -326,18 +326,20 @@ class ExternalApp(Gtk.Overlay):
         )
         self.add(self.loading_bar)
 
-        socket = socket_widget
-        self.add_overlay(socket)
+        # Pack the socket in a box so the socket doesn't stretch to
+        # fill the overlay
+        box = Gtk.Box()
+        box.pack_start(socket_widget, False, False, 0)
+        self.add_overlay(box)
 
 
 class ConsoleContainer(Gtk.Fixed):
-    width = 719
+    width = 690
     height = 543
 
     def __init__(self):
         super(ConsoleContainer, self).__init__()
 
-        self.fixed = Gtk.Fixed()
         self.socket = Gtk.Socket()
         self.socket.connect("map-event", self.launch_plug_process)
         self.get_style_context().add_class("console_socket")
@@ -361,6 +363,8 @@ class ConsoleContainer(Gtk.Fixed):
 
 
 class ParentalControlGUI(ConsoleContainer):
+    height = 500
+
     # For now, make the kano-settings path local while it's not installed
     # by default on the system
     def __init__(self, wifi_cb):
