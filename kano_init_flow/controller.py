@@ -19,7 +19,8 @@ from .stages.drag_and_drop import DragAndDrop
 from .stages.quests import Quests
 from .stages.audio_lab import AudioLab
 from .stages.bugs import Bugs
-
+from .stages.intro import Intro
+from .stages.wardrobe import Wardrobe
 
 class Controller(object):
     """
@@ -48,10 +49,12 @@ class Controller(object):
         self._return_value = 0
 
         self._stages = [
+            Intro,
             Overscan,
             DragAndDrop,
             Bugs,
             AudioLab,
+            Wardrobe,
             Wifi,
             Quests
         ]

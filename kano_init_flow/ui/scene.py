@@ -6,8 +6,7 @@
 
 import time
 
-from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
-
+from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
 from kano_init_flow.ui.utils import scale_image, scale_pixbuf
@@ -198,3 +197,6 @@ class Scene(object):
         image = Gtk.Image()
         image.set_from_animation(simpleanim)
         return image
+
+    def show_all(self):
+        self._overlay.show_all()
