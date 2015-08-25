@@ -17,6 +17,7 @@ from .stages.wifi import Wifi
 from .stages.overscan import Overscan
 from .stages.drag_and_drop import DragAndDrop
 from .stages.quests import Quests
+from .stages.audio_lab import AudioLab
 
 
 class Controller(object):
@@ -48,6 +49,7 @@ class Controller(object):
         self._stages = [
             Overscan,
             DragAndDrop,
+            AudioLab,
             Wifi,
             Quests
         ]

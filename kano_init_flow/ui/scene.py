@@ -10,6 +10,8 @@ from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
 
 from kano.gtk3.cursor import attach_cursor_events
 
+from kano_init_flow.ui.utils import scale_image, scale_pixbuf
+
 # TODO: for debuging of different screen ratios
 SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
@@ -46,7 +48,7 @@ class Scene(object):
 
     def __init__(self):
         self._screen_ratio = self._get_screen_ratio()
-        self._scale_factor = self._get_screen_scale()
+        self._scale_factor = self._get_scale_factor()
 
         self._overlay = Gtk.Overlay()
 
@@ -60,7 +62,7 @@ class Scene(object):
         self._fixed = Gtk.Fixed()
         self._overlay.add_overlay(self._fixed)
 
-    def _get_screen_scale(self):
+    def _get_scale_factor(self):
         if self._screen_ratio == self.RATIO_4_3:
             return SCREEN_HEIGHT / 1200.0
         return SCREEN_HEIGHT / 1080.0
@@ -91,7 +93,7 @@ class Scene(object):
                 if widget.get_animation():
                     widget = self._scale_gif(widget, pos.scale * self._scale_factor)
                 else:
-                    widget = self._scale_image(widget, pos.scale * self._scale_factor)
+                    widget = scale_image(widget, pos.scale * self._scale_factor)
 
             else:
                 if pos.scale != 1.0:
@@ -122,7 +124,7 @@ class Scene(object):
             base_scale = scale_4_3
         elif screen_ratio == Scene.RATIO_16_9:
             base_scale = scale_16_9
-        return Scene._scale_pixbuf(pixbuf, base_scale)[0]
+        return scale_pixbuf(pixbuf, base_scale)[0]
 
     @staticmethod
     def scale_image_to_scene(img_widget, scale_4_3, scale_16_9):
@@ -133,6 +135,10 @@ class Scene(object):
     @property
     def ratio(self):
         return self._screen_ratio
+
+    @property
+    def scale_factor(self):
+        return self._scale_factor
 
     @property
     def widget(self):
@@ -153,24 +159,6 @@ class Scene(object):
         return Scene.RATIO_16_9
 
     @staticmethod
-    def _scale_pixbuf(pixbuf, scale):
-        w = pixbuf.get_width()
-        h = pixbuf.get_height()
-
-        w_scaled = int(w * scale)
-        h_scaled = int(h * scale)
-        new_pixbuf = pixbuf.scale_simple(w_scaled, h_scaled,
-                                         GdkPixbuf.InterpType.BILINEAR)
-        return new_pixbuf, w_scaled, h_scaled
-
-    @staticmethod
-    def _scale_image(widget, scale):
-        pixbuf = widget.get_pixbuf()
-        pixbuf, _, _ = Scene._scale_pixbuf(pixbuf, scale)
-        widget.set_from_pixbuf(pixbuf)
-        return widget
-
-    @staticmethod
     def _scale_gif(widget, scale):
 
         anim = widget.get_animation()
@@ -184,7 +172,7 @@ class Scene(object):
 
         for i in range(4):
             pixbuf = pixbuf_iter.get_pixbuf()
-            pixbuf, width, height = Scene._scale_pixbuf(pixbuf, scale)
+            pixbuf, width, height = scale_pixbuf(pixbuf, scale)
             pixbufs.append(pixbuf)
 
             if width > max_width:
