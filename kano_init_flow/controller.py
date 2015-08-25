@@ -18,6 +18,7 @@ from .stages.overscan import Overscan
 from .stages.drag_and_drop import DragAndDrop
 from .stages.quests import Quests
 from .stages.intro import Intro
+from .stages.wardrobe import Wardrobe
 
 
 class Controller(object):
@@ -50,6 +51,7 @@ class Controller(object):
             Intro,
             Overscan,
             DragAndDrop,
+            Wardrobe,
             Wifi,
             Quests
         ]

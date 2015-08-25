@@ -11,6 +11,7 @@ from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano.gtk3.cursor import attach_cursor_events
+from kano_init_flow.paths import common_media_path
 
 from kano.logging import logger
 
@@ -106,7 +107,7 @@ class DragAndDrop(Stage):
 
         next_button = Gtk.Button()
         next_button.set_image(Gtk.Image.new_from_file(
-            self.media_path("next-button.png"))
+            common_media_path("next-button.png"))
         )
         next_button.connect("button-release-event", self._next_stage_wrapper)
         attach_cursor_events(next_button)

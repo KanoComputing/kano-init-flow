@@ -55,8 +55,14 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
+        # Character path in the home directory
+        character_path = os.path.join(
+            os.path.expanduser("~"),
+            ".character-content/character.png"
+        )
+
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('character.png')),
+            Gtk.Image.new_from_file(character_path),
             Placement(0.08, 0.9, 0.45),
             Placement(0.12, 0.9, 0.5)
         )
@@ -100,8 +106,14 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-2-bg-4-3.png'),
                              self.media_path('space-2-bg-16-9.png'))
 
+        # Character path in the home directory
+        character_path = os.path.join(
+            os.path.expanduser("~"),
+            ".character-content/character.png"
+        )
+
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('character.png')),
+            Gtk.Image.new_from_file(character_path),
             Placement(0.08, 0.9, 0.45),
             Placement(0.12, 0.9, 0.5)
         )
