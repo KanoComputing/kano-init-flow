@@ -46,12 +46,7 @@ class Wardrobe(Stage):
         scene.set_background(self.media_path('scene-1600x1200.png'),
                              self.media_path('scene-1920x1080.png'))
 
-        self._blur = self._create_blur()
-        scene.add_widget(
-            self._blur,
-            Placement(0, 0),
-            Placement(0, 0)
-        )
+        self._first_scene = scene
 
         scene.add_widget(
             SpeechBubble(
@@ -69,8 +64,6 @@ class Wardrobe(Stage):
             self._char_creator_dialog
         )
 
-        self._first_scene = scene
-
         return scene
 
     def _create_blur(self):
@@ -84,7 +77,14 @@ class Wardrobe(Stage):
         return blur
 
     def _char_creator_dialog(self):
+        self._blur = self._create_blur()
+        self._first_scene.add_widget(
+            self._blur,
+            Placement(0, 0),
+            Placement(0, 0)
+        )
         self._blur.get_style_context().add_class("blur")
+        self._first_scene.show_all()
 
         while Gtk.events_pending():
             Gtk.main_iteration()
