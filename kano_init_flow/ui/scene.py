@@ -86,7 +86,7 @@ class Scene(object):
         bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, w, h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_widget(self, widget, pos_43, pos_169, clicked_cb=None, wid=None):
+    def add_widget(self, widget, pos_43, pos_169, clicked_cb=None, name=None):
         pos = pos_43 if self._screen_ratio == self.RATIO_4_3 else pos_169
 
         if pos.scale * self._scale_factor != 1 and pos.scale != 0:
@@ -118,10 +118,11 @@ class Scene(object):
         align = Gtk.Alignment.new(pos.x, pos.y, 0, 0)
         align.add(root_widget)
         align.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
+        align.show_all()
         self._fixed.put(align, 0, 0)
 
-        if wid is not None:
-            self._widgets[wid] = align
+        if name is not None:
+            self._widgets[name] = align
 
     def remove_widget(self, wid):
         """

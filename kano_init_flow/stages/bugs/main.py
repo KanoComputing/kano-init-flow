@@ -54,7 +54,7 @@ class Bugs(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('middle-bug.png')),
+            Gtk.Image.new_from_file(self.media_path('middle-bug.gif')),
             Placement(0.45, 0.5),
             Placement(0.47, 0.49),
             [self._bug_zapped, scene, 'middle-bug'],
@@ -69,23 +69,41 @@ class Bugs(Stage):
             'right-bug'
         )
 
+        self._place_judoka_into_scene(scene)
+
+        return scene
+
+    def _place_judoka_into_scene(self, scene, happy=False):
+        image = 'judoka-scared.png'
+        if happy:
+            image = 'judoka.png'
+
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('judoka.png')),
+            Gtk.Image.new_from_file(self.media_path(image)),
             Placement(0.45, 0.5),
             Placement(0.9, 0.9),
+            name='judoka'
         )
 
         scene.add_widget(
             SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
             Placement(0.23, 0.4),
-            Placement(0.77, 0.63)
+            Placement(0.77, 0.63),
+            name='speech-bubble'
         )
-
-        return scene
 
     def _bug_zapped(self, scene, wid):
         self._zapped += 1
         scene.remove_widget(wid)
 
         if self._zapped >= self._total_bugs:
-            self._ctl.next_stage()
+            scene.remove_widget('judoka')
+            scene.remove_widget('speech-bubble')
+            self._place_judoka_into_scene(scene, True)
+
+            scene.add_widget(
+                Gtk.Image.new_from_file(common_media_path('next-button.png')),
+                Placement(0.5, 0.9),
+                Placement(0.5, 0.9),
+                self._ctl.next_stage
+            )
