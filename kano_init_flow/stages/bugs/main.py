@@ -94,8 +94,6 @@ class Bugs(Stage):
             SpeechBubble(text=copy, source=SpeechBubble.RIGHT),
             Placement(0.8, 0.6),
             Placement(0.74, 0.63),
-            SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
-            Placement(0.77, 0.63),
             name='speech-bubble'
         )
 
