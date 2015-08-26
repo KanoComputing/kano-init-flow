@@ -4,9 +4,10 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
+from kano.utils import play_sound
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
@@ -45,7 +46,7 @@ class AudioLab(Stage):
         self._ctl.main_window.push(s.widget)
 
     def _setup_first_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('audio-lab-bg-4-3.png'),
                              self.media_path('audio-lab-bg-16-9.png'))
 
@@ -53,21 +54,24 @@ class AudioLab(Stage):
             Gtk.Image.new_from_file(self.media_path('button.png')),
             Placement(0.23, 0.4),
             Placement(0.387, 0.567),
-            self._a_clicked
+            self._a_clicked,
+            key=Gdk.KEY_a
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('button.png')),
             Placement(0.23, 0.4),
             Placement(0.549, 0.567),
-            self._s_clicked
+            self._s_clicked,
+            key=Gdk.KEY_s
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('button.png')),
             Placement(0.23, 0.4),
             Placement(0.7215, 0.567),
-            self._d_clicked
+            self._d_clicked,
+            key=Gdk.KEY_d
         )
 
         scene.add_widget(
@@ -88,22 +92,23 @@ class AudioLab(Stage):
             Placement(0.95, 0.9)
         )
 
+        copy = 'Welcome to the sound lab!\nPress the keys to play sounds.'
         scene.add_widget(
-            SpeechBubble(text='Wicked', source=SpeechBubble.BOTTOM),
+            SpeechBubble(text=copy, source=SpeechBubble.BOTTOM, source_align=0.8),
             Placement(0.23, 0.4),
-            Placement(0.94, 0.47)
+            Placement(0.95, 0.45)
         )
 
         return scene
 
     def _a_clicked(self):
-        pass
+        play_sound('/usr/share/kano-media/sounds/kano_error.wav', True)
 
     def _s_clicked(self):
-        pass
+        play_sound('/usr/share/kano-media/sounds/kano_achievement_unlock.wav', True)
 
     def _d_clicked(self):
-        pass
+        play_sound('/usr/share/kano-media/sounds/kano_init.wav', True)
 
     def _setup_help_leds(self):
         scene = Scene()

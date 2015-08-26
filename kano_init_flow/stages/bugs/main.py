@@ -50,7 +50,7 @@ class Bugs(Stage):
             Placement(0.39, 0.4),
             Placement(0.05, 0.2),
             [self._bug_zapped, scene, 'left-bug'],
-            'left-bug'
+            name='left-bug'
         )
 
         scene.add_widget(
@@ -58,7 +58,7 @@ class Bugs(Stage):
             Placement(0.45, 0.5),
             Placement(0.47, 0.49),
             [self._bug_zapped, scene, 'middle-bug'],
-            'middle-bug'
+            name='middle-bug'
         )
 
         scene.add_widget(
@@ -66,7 +66,7 @@ class Bugs(Stage):
             Placement(0.45, 0.5),
             Placement(0.955, 0.04),
             [self._bug_zapped, scene, 'right-bug'],
-            'right-bug'
+            name='right-bug'
         )
 
         self._place_judoka_into_scene(scene)
@@ -75,8 +75,13 @@ class Bugs(Stage):
 
     def _place_judoka_into_scene(self, scene, happy=False):
         image = 'judoka-scared.png'
+        copy = 'Arrgh!\nLook at the size of those pesky bugs.\n\n' + \
+               'I can\'t reach them from here,\n' + \
+               'help me get rid of them, quick!'
         if happy:
             image = 'judoka.png'
+            copy = 'Great work!\n\nThere\'s nothing worse than\n' + \
+                   'a computer full of bugs.'
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path(image)),
@@ -86,9 +91,9 @@ class Bugs(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
+            SpeechBubble(text=copy, source=SpeechBubble.RIGHT),
             Placement(0.23, 0.4),
-            Placement(0.77, 0.63),
+            Placement(0.74, 0.63),
             name='speech-bubble'
         )
 
