@@ -4,6 +4,7 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
+import os
 from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
@@ -50,6 +51,18 @@ class AudioLab(Stage):
         scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('audio-lab-bg-4-3.png'),
                              self.media_path('audio-lab-bg-16-9.png'))
+
+        # Character path in the home directory
+        character_path = os.path.join(
+            os.path.expanduser("~"),
+            ".character-content/character.png"
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(character_path),
+            Placement(0.08, 0.9, 0.62),
+            Placement(0.12, 0.9, 0.62)
+        )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('button.png')),

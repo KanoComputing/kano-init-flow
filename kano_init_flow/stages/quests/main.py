@@ -20,6 +20,7 @@ from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.ui.utils import cb_wrapper
 
+
 class Quests(Stage):
     """
         The overscan setting window
@@ -41,28 +42,64 @@ class Quests(Stage):
         s = self._setup_second_scene()
         self._ctl.main_window.push(s.widget)
 
+    def third_scene(self):
+        s = self._setup_third_scene()
+        self._ctl.main_window.push(s.widget)
+
     def _setup_first_scene(self):
         scene = Scene()
         scene.set_background(self.media_path('quests-4-3.png'),
                              self.media_path('quests-16-9.png'))
 
         scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('judoka.png')),
+            Placement(0.6, 0.4, 1.0),
+            Placement(0.62, 0.2, 1.0)
+        )
+
+        scene.add_widget(
+            SpeechBubble(
+                text="You did it! Now you know how\nto control your computer.\nThis was the first of many\nquests you'll find in the\nWorld of Kano",
+                source=SpeechBubble.RIGHT
+            ),
+            Placement(0.22, 0.27),
+            Placement(0.35, 0.18)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
+            Placement(0.3, 0.5, 0),
+            Placement(0.37, 0.43, 0),
+            self.second_scene
+        )
+
+        return scene
+
+    def _setup_second_scene(self):
+        scene = Scene()
+        scene.set_background(self.media_path('quests-4-3.png'),
+                             self.media_path('quests-16-9.png'))
+
+        scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('shine.gif')),
-            Placement(0.39, 0.4, 1.0),
+            Placement(0.52, 0.31, 1.0),
             Placement(0.553, 0.2, 1.0)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('judoka.png')),
-            Placement(0.45, 0.5, 1.0),
+            Placement(0.6, 0.4, 1.0),
             Placement(0.62, 0.2, 1.0),
-            self.second_scene
+            self.third_scene
         )
 
         scene.add_widget(
-            SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
-            Placement(0.23, 0.4),
-            Placement(0.45, 0.18)
+            SpeechBubble(
+                text="Click on my scroll to find\nout more and start the\nnext adventure...",
+                source=SpeechBubble.RIGHT
+            ),
+            Placement(0.22, 0.27),
+            Placement(0.35, 0.18)
         )
 
         '''scene.add_widget(
@@ -73,7 +110,7 @@ class Quests(Stage):
 
         return scene
 
-    def _setup_second_scene(self):
+    def _setup_third_scene(self):
         scene = Scene()
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
@@ -85,6 +122,7 @@ class Quests(Stage):
         )
 
         return scene
+
 
 class Scroll(Gtk.Overlay):
     def __init__(self, stage):
