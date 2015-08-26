@@ -51,8 +51,10 @@ class DragAndDrop(Stage):
         judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
         judoka = Scene.scale_image_to_scene(judoka, 0.6, 0.8)
         speechbubble = SpeechBubble(
-            text='Jump Willy!',
-            source=SpeechBubble.BOTTOM
+            text='This wasn\'t here before!\n\nClick and drag me to\n' +
+                 'the other side.',
+            source=SpeechBubble.LEFT,
+            source_align=0.0
         )
         drag_source = DragSource(judoka, char_pixbuf, speechbubble)
 
@@ -70,8 +72,8 @@ class DragAndDrop(Stage):
 
         scene.add_widget(
             speechbubble,
-            Placement(0.22, 0.05),
-            Placement(0.24, 0.03)
+            Placement(0.46, 0.25),
+            Placement(0.44, 0.25)
         )
 
         scene.add_widget(
