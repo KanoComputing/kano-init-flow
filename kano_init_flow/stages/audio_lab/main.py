@@ -15,6 +15,7 @@ from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class, cb_wrapper, scale_image
 from kano_init_flow.ui.css import apply_styling_to_screen
 
+
 class AudioLab(Stage):
     """
         The overscan setting window
@@ -51,28 +52,28 @@ class AudioLab(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('button.png')),
-            Placement(0.23, 0.4),
+            Placement(0.4, 0.55),
             Placement(0.387, 0.567),
             self._a_clicked
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('button.png')),
-            Placement(0.23, 0.4),
+            Placement(0.55, 0.55),
             Placement(0.549, 0.567),
             self._s_clicked
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('button.png')),
-            Placement(0.23, 0.4),
+            Placement(0.7, 0.55),
             Placement(0.7215, 0.567),
             self._d_clicked
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('console.png')),
-            Placement(0.23, 0.4),
+            Placement(0.5, 1.0),
             Placement(0.5, 1.0)
         )
 
@@ -84,13 +85,13 @@ class AudioLab(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('judoka.png')),
-            Placement(0.23, 0.4),
+            Placement(0.95, 0.9),
             Placement(0.95, 0.9)
         )
 
         scene.add_widget(
             SpeechBubble(text='Wicked', source=SpeechBubble.BOTTOM),
-            Placement(0.23, 0.4),
+            Placement(0.95, 0.5),
             Placement(0.94, 0.47)
         )
 
