@@ -70,7 +70,7 @@ class Intro(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('next-button.gif')),
+            Gtk.Image.new_from_file(common_media_path('next-button.gif')),
             Placement(0.5, 0.75, 0),
             Placement(0.5, 0.75, 0),
             self.second_scene
@@ -124,7 +124,7 @@ class Intro(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("next-button.gif")),
+            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
             Placement(0.5, 0.78, 0),
             Placement(0.5, 0.8, 0),
             self.third_scene
@@ -153,7 +153,7 @@ class Intro(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("next-button.gif")),
+            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
             Placement(0.5, 0.78, 0),
             Placement(0.5, 0.8, 0),
             self.fourth_scene
@@ -182,7 +182,7 @@ class Intro(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("next-button.gif")),
+            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
             Placement(0.5, 0.78, 0),
             Placement(0.5, 0.8, 0),
             self.next_stage
