@@ -53,8 +53,8 @@ class Controller(object):
             Overscan,
             DragAndDrop,
             Bugs,
-            AudioLab,
             Wardrobe,
+            AudioLab,
             Wifi,
             Quests
         ]
