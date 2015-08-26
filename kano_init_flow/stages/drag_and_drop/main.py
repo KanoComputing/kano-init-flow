@@ -7,7 +7,7 @@
 from gi.repository import Gtk, Gdk, GdkPixbuf
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, SCREEN_WIDTH, SCREEN_HEIGHT
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano.gtk3.cursor import attach_cursor_events
@@ -59,7 +59,7 @@ class DragAndDrop(Stage):
         # Send the second cb to the scene
         drop_area = DropArea(self.second_scene)
         drop_area.set_size_request(
-            0.4 * Gdk.Screen.width(), 0.5 * Gdk.Screen.height()
+            0.35 * SCREEN_WIDTH, 0.5 * SCREEN_HEIGHT
         )
 
         scene.add_widget(

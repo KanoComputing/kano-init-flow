@@ -60,7 +60,13 @@ class Wardrobe(Stage):
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("tailor-judoka.png")),
             Placement(0.85, 0.8, 0.85),
-            Placement(0.8, 0.9, 0.85),
+            Placement(0.8, 0.9, 0.85)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path("outline.gif")),
+            Placement(0.5, 0.7, 0.95),
+            Placement(0.45, 0.72, 0.95),
             self._char_creator_dialog
         )
 
@@ -107,8 +113,8 @@ class Wardrobe(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(char_path),
-            Placement(0.5, 0.65, 0.7),
-            Placement(0.45, 0.65, 0.7)
+            Placement(0.5, 0.65, 0.69),
+            Placement(0.45, 0.65, 0.69)
         )
 
         scene.add_widget(
