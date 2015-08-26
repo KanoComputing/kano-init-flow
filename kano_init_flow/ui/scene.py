@@ -49,6 +49,8 @@ class Scene(object):
         self._screen_ratio = self._get_screen_ratio()
         self._scale_factor = self._get_scale_factor()
 
+        self._widgets = {}
+
         self._overlay = Gtk.Overlay()
 
         self._background = Gtk.Image()
@@ -84,7 +86,7 @@ class Scene(object):
         bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, w, h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_widget(self, widget, pos_43, pos_169, clicked_cb=None):
+    def add_widget(self, widget, pos_43, pos_169, clicked_cb=None, wid=None):
         pos = pos_43 if self._screen_ratio == self.RATIO_4_3 else pos_169
 
         if pos.scale * self._scale_factor != 1 and pos.scale != 0:
@@ -103,17 +105,38 @@ class Scene(object):
             # TODO: Add custom styling to this.
             button_wrapper = Gtk.Button()
             button_wrapper.add(root_widget)
-            button_wrapper.connect('clicked', self._clicked_cb_wrapper, clicked_cb)
             attach_cursor_events(button_wrapper)
             root_widget = button_wrapper
+
+            if isinstance(clicked_cb, (list, tuple)):
+                button_wrapper.connect('clicked', self._clicked_cb_wrapper,
+                                       clicked_cb[0], *clicked_cb[1:])
+            else:
+                button_wrapper.connect('clicked', self._clicked_cb_wrapper,
+                                       clicked_cb)
 
         align = Gtk.Alignment.new(pos.x, pos.y, 0, 0)
         align.add(root_widget)
         align.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
         self._fixed.put(align, 0, 0)
 
-    def _clicked_cb_wrapper(self, widget, clicked_cb):
-        clicked_cb()
+        if wid is not None:
+            self._widgets[wid] = align
+
+    def remove_widget(self, wid):
+        """
+            :param wid: The id assigned to the widget when it was added to
+                        the scene.
+            :type wid: str
+        """
+
+        if wid in self._widgets:
+            w = self._widgets[wid]
+            del self._widgets[wid]
+            self._fixed.remove(w)
+
+    def _clicked_cb_wrapper(self, widget, clicked_cb, *args):
+        clicked_cb(*args)
         return True
 
     @staticmethod

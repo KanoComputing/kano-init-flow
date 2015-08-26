@@ -49,21 +49,24 @@ class Bugs(Stage):
             Gtk.Image.new_from_file(self.media_path('left-bug.png')),
             Placement(0.39, 0.4),
             Placement(0.05, 0.2),
-            self._bug_zapped
+            [self._bug_zapped, scene, 'left-bug'],
+            'left-bug'
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('middle-bug.png')),
             Placement(0.45, 0.5),
             Placement(0.47, 0.49),
-            self._bug_zapped
+            [self._bug_zapped, scene, 'middle-bug'],
+            'middle-bug'
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('right-bug.png')),
             Placement(0.45, 0.5),
             Placement(0.955, 0.04),
-            self._bug_zapped
+            [self._bug_zapped, scene, 'right-bug'],
+            'right-bug'
         )
 
         scene.add_widget(
@@ -80,8 +83,9 @@ class Bugs(Stage):
 
         return scene
 
-    def _bug_zapped(self):
+    def _bug_zapped(self, scene, wid):
         self._zapped += 1
+        scene.remove_widget(wid)
 
         if self._zapped >= self._total_bugs:
             self._ctl.next_stage()
