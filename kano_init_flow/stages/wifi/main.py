@@ -73,10 +73,15 @@ class Wifi(Stage):
             Placement(0.9, 0.9, 0.75)
         )
 
+        copy = 'We lost contact with the\n' + \
+               'control room. We won\'t be able\n' + \
+               'launch on time!\n\n' + \
+               'Take look at the WiFi console\n' + \
+               'to see whether you can fix it.'
         scene.add_widget(
-            SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
+            SpeechBubble(text=copy, source=SpeechBubble.RIGHT),
             Placement(0.78, 0.72),
-            Placement(0.79, 0.68)
+            Placement(0.74, 0.68)
         )
 
         scene.add_widget(
@@ -131,10 +136,12 @@ class Wifi(Stage):
             self.next_stage
         )
 
+        copy = 'Connection established. Well done!\n\n' + \
+               'All aboard!\nWe can still make it on time!'
         scene.add_widget(
-            SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
+            SpeechBubble(text=copy, source=SpeechBubble.RIGHT),
             Placement(0.78, 0.72),
-            Placement(0.79, 0.68)
+            Placement(0.74, 0.68)
         )
 
         return scene

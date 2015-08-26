@@ -133,7 +133,7 @@ class Notebook(Gtk.Overlay):
         vbox.set_margin_left(10)
         vbox.set_margin_right(10)
 
-        heading = Gtk.Label('Adjusting the screen')
+        heading = Gtk.Label('Screen machine')
         add_class(heading, 'heading')
         add_class(heading, 'notebook-heading')
 
@@ -170,7 +170,7 @@ class Notebook(Gtk.Overlay):
 
             legend_widgets.append(legend)
 
-        button = KanoButton('START')
+        button = KanoButton('GO')
         button.connect('clicked', cb_wrapper, next_cb)
 
         # Pack heading
