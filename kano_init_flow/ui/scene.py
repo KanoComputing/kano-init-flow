@@ -45,11 +45,15 @@ class Scene(object):
     RATIO_4_3 = 4.0 / 3
     RATIO_16_9 = 16.0 / 9
 
-    def __init__(self):
+    def __init__(self, main_window=None):
         self._screen_ratio = self._get_screen_ratio()
         self._scale_factor = self._get_scale_factor()
 
         self._widgets = {}
+
+        if main_window:
+            self._keys = {}
+            main_window.connect('key-release-event', self._keypress_cb_wrapper)
 
         self._overlay = Gtk.Overlay()
 
@@ -86,18 +90,20 @@ class Scene(object):
         bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, w, h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_widget(self, widget, pos_43, pos_169, clicked_cb=None, name=None):
-        pos = pos_43 if self._screen_ratio == self.RATIO_4_3 else pos_169
+    def add_widget(self, widget, p43, p169, clicked_cb=None, key=None, name=None):
+        placement = p43 if self._screen_ratio == self.RATIO_4_3 else p169
 
-        if pos.scale * self._scale_factor != 1 and pos.scale != 0:
+        if placement.scale * self._scale_factor != 1 and placement.scale != 0:
             if widget.__class__.__name__ == "Image":
                 if widget.get_animation():
-                    widget = self._scale_gif(widget, pos.scale * self._scale_factor)
+                    widget = self._scale_gif(widget,
+                                    placement.scale * self._scale_factor)
                 else:
-                    widget = scale_image(widget, pos.scale * self._scale_factor)
+                    widget = scale_image(widget,
+                                    placement.scale * self._scale_factor)
 
             else:
-                if pos.scale != 1.0:
+                if placement.scale != 1.0:
                     raise RuntimeError('Can\'t scale regular widgets!')
 
         root_widget = widget
@@ -115,7 +121,12 @@ class Scene(object):
                 button_wrapper.connect('clicked', self._clicked_cb_wrapper,
                                        clicked_cb)
 
-        align = Gtk.Alignment.new(pos.x, pos.y, 0, 0)
+            if key is not None:
+                if not hasattr(self, '_keys'):
+                    raise RuntimeError('Scene must be initialised with main_window to be able to receive key events.')
+                self._keys[key] = clicked_cb
+
+        align = Gtk.Alignment.new(placement.x, placement.y, 0, 0)
         align.add(root_widget)
         align.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
         align.show_all()
@@ -139,6 +150,17 @@ class Scene(object):
     def _clicked_cb_wrapper(self, widget, clicked_cb, *args):
         clicked_cb(*args)
         return True
+
+    def _keypress_cb_wrapper(self, widget, event):
+        if hasattr(event, 'keyval'):
+            for key, cb in self._keys.iteritems():
+                if event.keyval == key:
+                    if isinstance(cb, (list, tuple)):
+                        cb[0](*cb[1:])
+                    else:
+                        cb()
+                    return True
+        return False
 
     @staticmethod
     def scale_pixbuf_to_scene(pixbuf, scale_4_3, scale_16_9):

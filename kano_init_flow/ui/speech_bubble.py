@@ -66,8 +66,9 @@ class SpeechBubble(Gtk.Grid):
                                 Gtk.PositionType.RIGHT, 1, 1)
 
         # Padding in of the bubble
-        self._padded_bubble = Gtk.Alignment()
-        self._padded_bubble.set_padding(40, 20, 40, 40)
+        self._padded_bubble = Gtk.Alignment(hexpand=True, vexpand=True)
+        self._padded_bubble.set(0.5, 0.5, 0, 0)
+        self._padded_bubble.set_padding(30, 30, 40, 40)
         self._bubble.add(self._padded_bubble)
 
         self._init_content(text)
