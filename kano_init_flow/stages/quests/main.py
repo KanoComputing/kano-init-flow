@@ -4,6 +4,7 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
+import os
 from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
@@ -51,6 +52,18 @@ class Quests(Stage):
         scene.set_background(self.media_path('quests-4-3.png'),
                              self.media_path('quests-16-9.png'))
 
+        # Character path in the home directory
+        character_path = os.path.join(
+            os.path.expanduser("~"),
+            ".character-content/character.png"
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(character_path),
+            Placement(0.08, 0.9, 0.7),
+            Placement(0.12, 0.9, 0.7)
+        )
+
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('judoka.png')),
             Placement(0.6, 0.4, 1.0),
@@ -79,6 +92,18 @@ class Quests(Stage):
         scene = Scene()
         scene.set_background(self.media_path('quests-4-3.png'),
                              self.media_path('quests-16-9.png'))
+
+        # Character path in the home directory
+        character_path = os.path.join(
+            os.path.expanduser("~"),
+            ".character-content/character.png"
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(character_path),
+            Placement(0.08, 0.9, 0.7),
+            Placement(0.12, 0.9, 0.7)
+        )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('shine.gif')),
