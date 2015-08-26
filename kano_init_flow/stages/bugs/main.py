@@ -47,7 +47,7 @@ class Bugs(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('left-bug.png')),
-            Placement(0.39, 0.4),
+            Placement(0.03, 0.1),
             Placement(0.05, 0.2),
             [self._bug_zapped, scene, 'left-bug'],
             'left-bug'
@@ -55,7 +55,7 @@ class Bugs(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('middle-bug.gif')),
-            Placement(0.45, 0.5),
+            Placement(0.47, 0.45),
             Placement(0.47, 0.49),
             [self._bug_zapped, scene, 'middle-bug'],
             'middle-bug'
@@ -63,7 +63,7 @@ class Bugs(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('right-bug.png')),
-            Placement(0.45, 0.5),
+            Placement(0.9, 0.05),
             Placement(0.955, 0.04),
             [self._bug_zapped, scene, 'right-bug'],
             'right-bug'
@@ -80,14 +80,14 @@ class Bugs(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path(image)),
-            Placement(0.45, 0.5),
+            Placement(0.9, 0.9),
             Placement(0.9, 0.9),
             name='judoka'
         )
 
         scene.add_widget(
             SpeechBubble(text='Wicked', source=SpeechBubble.RIGHT),
-            Placement(0.23, 0.4),
+            Placement(0.8, 0.6),
             Placement(0.77, 0.63),
             name='speech-bubble'
         )
