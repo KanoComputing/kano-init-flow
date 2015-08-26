@@ -110,23 +110,23 @@ class Intro(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="Hi, I'm the Judoka!",
+                text="Well done! You brought your\nKano to life! I'm Judoka and I\nwill be your guide through the\nworld of Kano.",
                 source=SpeechBubble.LEFT
             ),
-            Placement(0.68, 0.35),
-            Placement(0.65, 0.35)
+            Placement(0.72, 0.35),
+            Placement(0.68, 0.3)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('intro-gif-1.gif')),
-            Placement(0.35, 0.4, 0),
+            Placement(0.33, 0.4, 0),
             Placement(0.4, 0.4, 0),
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.png")),
-            Placement(0.5, 0.75, 0),
-            Placement(0.5, 0.75, 0),
+            Gtk.Image.new_from_file(self.media_path("next-button.gif")),
+            Placement(0.5, 0.78, 0),
+            Placement(0.5, 0.8, 0),
             self.third_scene
         )
 
@@ -139,23 +139,23 @@ class Intro(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="I can show you a world\nof code and creations.",
+                text="Kano is a world where anything\nis possible!\nJudokas can make and play\nusing code powers.",
                 source=SpeechBubble.RIGHT
             ),
-            Placement(0.39, 0.4, 0),
-            Placement(0.425, 0.4, 0),
+            Placement(0.36, 0.4, 0),
+            Placement(0.4, 0.3, 0),
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('intro-gif-2.gif')),
-            Placement(0.68, 0.35),
-            Placement(0.65, 0.35),
+            Placement(0.71, 0.4, 0),
+            Placement(0.63, 0.4, 0),
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.png")),
-            Placement(0.5, 0.75, 0),
-            Placement(0.5, 0.75, 0),
+            Gtk.Image.new_from_file(self.media_path("next-button.gif")),
+            Placement(0.5, 0.78, 0),
+            Placement(0.5, 0.8, 0),
             self.fourth_scene
         )
 
@@ -171,20 +171,20 @@ class Intro(Stage):
                 text='Ready to go? Jump on in!',
                 source=SpeechBubble.LEFT
             ),
-            Placement(0.65, 0.35),
-            Placement(0.65, 0.35)
+            Placement(0.7, 0.35),
+            Placement(0.65, 0.3)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('intro-gif-3.gif')),
-            Placement(0.37, 0.42, 0),
-            Placement(0.42, 0.42, 0)
+            Placement(0.33, 0.3, 0),
+            Placement(0.42, 0.27, 0)
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.png")),
-            Placement(0.5, 0.75, 0),
-            Placement(0.5, 0.75, 0),
+            Gtk.Image.new_from_file(self.media_path("next-button.gif")),
+            Placement(0.5, 0.78, 0),
+            Placement(0.5, 0.8, 0),
             self.next_stage
         )
 
