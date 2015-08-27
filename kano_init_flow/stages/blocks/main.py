@@ -53,19 +53,19 @@ class Blocks(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("boulder.png")),
-            Placement(0.4, 0.2),
+            Placement(0.65, 0.47),
             Placement(0.63, 0.44)
         )
 
         scene.add_widget(
             scene.get_user_character_image(),
-            Placement(0.2, 0.2),
+            Placement(0.22, 0.6, 0.52),
             Placement(0.22, 0.6, 0.52)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("mage-doka.png")),
-            Placement(0.46, 0.25),
+            Placement(0.8, 0.6),
             Placement(0.8, 0.6)
         )
 
@@ -81,13 +81,13 @@ class Blocks(Stage):
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5
             ),
-            Placement(0.4, 0.2, 0),
-            Placement(0.85, 0.25, 0)
+            Placement(0.85, 0.23),
+            Placement(0.85, 0.23)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(common_media_path("next-button.gif")),
-            Placement(0.5, 0.7, 0),
+            Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
             self.second_scene
         )
@@ -108,14 +108,14 @@ class Blocks(Stage):
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5
             ),
-            Placement(0.46, 0.25, 0),
+            Placement(0.88, 0.15, 0),
             Placement(0.88, 0.15, 0)
         )
 
         # Add moving image of altar. For now use next button.
         scene.add_widget(
             Gtk.Image.new_from_file(common_media_path("next-button.gif")),
-            Placement(0.5, 0.7, 0),
+            Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
             self.third_scene
         )
@@ -145,7 +145,7 @@ class Blocks(Stage):
         # Make into drag source
         scene.add_widget(
             block_drag_source,
-            Placement(0.46, 0.25),
+            Placement(0.46, 0.15),
             Placement(0.44, 0.15)
         )
 
@@ -153,13 +153,15 @@ class Blocks(Stage):
 
         # Make this a percentage of the screen size
         screen = Gdk.Screen.get_default()
+
+        # This is not super accurate for the different screen resolutions
         drop_area_width = screen.get_width() * 0.2
         drop_area_height = screen.get_height() * 0.07
         drop_area.set_size_request(drop_area_width, drop_area_height)
 
         scene.add_widget(
             drop_area,
-            Placement(0.46, 0.25, 0),
+            Placement(0.54, 0.475, 0),
             Placement(0.54, 0.48, 0)
         )
 
@@ -172,7 +174,7 @@ class Blocks(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(common_media_path("next-button.gif")),
-            Placement(0.5, 0.75, 0),
+            Placement(0.55, 0.9, 0),
             Placement(0.55, 0.9, 0),
             self.fifth_scene
         )
@@ -187,13 +189,13 @@ class Blocks(Stage):
         # Move boulder
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("boulder.png")),
-            Placement(0.46, 0.25),
+            Placement(0.8, 0.44),
             Placement(0.8, 0.44)
         )
 
         scene.add_widget(
             scene.get_user_character_image(),
-            Placement(0.2, 0.2),
+            Placement(0.22, 0.6, 0.52),
             Placement(0.22, 0.6, 0.52)
         )
 
@@ -203,20 +205,20 @@ class Blocks(Stage):
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5
             ),
-            Placement(0.46, 0.25, 0),
+            Placement(0.85, 0.25, 0),
             Placement(0.85, 0.25, 0)
         )
 
         # Change mage face?
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("mage-doka.png")),
-            Placement(0.46, 0.25),
+            Placement(0.8, 0.6),
             Placement(0.8, 0.6)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(common_media_path("next-button.gif")),
-            Placement(0.5, 0.7, 0),
+            Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
             self.next_stage
         )
