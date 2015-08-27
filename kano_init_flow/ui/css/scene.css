@@ -2,6 +2,10 @@ GtkButton {
   background-color: transparent;
 }
 
+GtkWindow {
+    background: #6baadd;
+}
+
 .heading {
   font-size: 32px;
   font-weight: bold;

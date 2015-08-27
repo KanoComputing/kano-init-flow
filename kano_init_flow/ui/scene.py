@@ -257,4 +257,4 @@ class Scene(object):
 
     @staticmethod
     def get_user_character_image():
-        return Gtk.Image.new_from_file(Scene._get_user_character_path())
+        return Gtk.Image.new_from_file(Scene.get_user_character_path())

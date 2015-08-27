@@ -4,16 +4,14 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk, Gdk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement, SCREEN_WIDTH, SCREEN_HEIGHT
 from kano_init_flow.ui.speech_bubble import SpeechBubble
-from kano_init_flow.ui.css import apply_styling_to_screen
 from kano.gtk3.cursor import attach_cursor_events
 from kano_init_flow.paths import common_media_path
-
-from kano.logging import logger
+from kano_init_flow.ui.drag_classes import DragSource, DropArea
 
 
 class DragAndDrop(Stage):
@@ -26,7 +24,6 @@ class DragAndDrop(Stage):
 
     def __init__(self, ctl):
         super(DragAndDrop, self).__init__(ctl)
-        apply_styling_to_screen(self.css_path("drag-and-drop.css"))
 
     def first_scene(self):
         s1 = self._setup_first_scene()
@@ -123,104 +120,3 @@ class DragAndDrop(Stage):
 
     def _next_stage_wrapper(self, widget, event):
         self.next_stage()
-
-
-class DragSource(Gtk.EventBox):
-    """
-    The object which is dragged from the source to the destination.
-    """
-
-    # Pass the scaled images into the class
-    def __init__(self, image, pixbuf, speechbubble):
-        Gtk.EventBox.__init__(self)
-        attach_cursor_events(self)
-
-        self.speechbubble = speechbubble
-        self.image = image
-        self.add(image)
-
-        # This follows the cursor when the item is being dragged
-        self.pixbuf = pixbuf
-        self.drag_source_set(Gdk.ModifierType.BUTTON1_MASK, [],
-                             Gdk.DragAction.ASK)
-
-        # To send image data
-        self.drag_source_add_image_targets()
-        self.connect("drag-begin", self.on_drag_begin)
-        self.connect("drag-data-get", self.on_drag_data_get)
-        self.connect("drag-failed", self.on_drag_fail)
-        self.connect("drag-end", self.on_drag_end)
-        self.connect("drag-data-delete", self.on_drag_delete)
-
-    def on_drag_begin(self, _, drag_context):
-        """ Triggered when dragging starts """
-
-        logger.info("Drag has begun")
-
-        # (120, 90) refers to where the cursor relative to the drag icon
-        Gtk.drag_set_icon_pixbuf(drag_context, self.pixbuf, 50, 50)
-        self.remove(self.image)
-        self.speechbubble.hide()
-        self.show_all()
-
-    def on_drag_data_get(self, widget, drag_context, data, info, time):
-        """ Passes the drag data to the drop area """
-
-        logger.info("Data is sent from source")
-        data.set_pixbuf(self.pixbuf)
-
-    @staticmethod
-    def on_drag_fail(drag_context, drag_result, data):
-        """ Handles when the Judoka isn't dragged to the drop area """
-
-        logger.info("Drag failed")
-        logger.info(data)
-
-    def on_drag_end(self, *_):
-        """ Triggered when the drag action is terminated """
-
-        logger.info("Drag ended")
-        self.add(self.image)
-        self.speechbubble.show()
-        self.show_all()
-
-    def on_drag_delete(self, *_):
-        """ Triggered when the drag action is completed successfully """
-
-        logger.info("Drag deleted")
-        self.destroy()
-
-
-class DropArea(Gtk.EventBox):
-    """
-    Area which the user has to drag the Judoka into
-    """
-
-    def __init__(self, next_cb):
-        super(DropArea, self).__init__()
-        self.next_cb = next_cb
-        self.get_style_context().add_class("drag_dest")
-
-        self.drag_dest_set(
-            Gtk.DestDefaults.MOTION | Gtk.DestDefaults.DROP,
-            [],
-            Gdk.DragAction.ASK
-        )
-
-        targets = Gtk.TargetList.new([])
-        targets.add_image_targets(2, True)
-        self.drag_dest_set_target_list(targets)
-
-        self.connect("drag-data-received", self.on_drag_data_received)
-
-    def on_drag_data_received(self, widget, drag_context, x, y,
-                              data, info, time):
-        """
-        Triggered whenever new drag data is received. If the Judoka
-        has been successfully dragged then move on to the next stage
-        """
-
-        logger.info("Drop area has received data")
-        if info == 2:
-            drag_context.finish(True, True, time)
-            self.next_cb()
