@@ -4,12 +4,16 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
+import os
 import time
 
 from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
 from kano_init_flow.ui.utils import scale_image, scale_pixbuf
+
+from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
+
 
 # TODO: for debuging of different screen ratios
 SCREEN_WIDTH = Gdk.Screen.width()
@@ -246,3 +250,11 @@ class Scene(object):
 
     def show_all(self):
         self._overlay.show_all()
+
+    @staticmethod
+    def get_user_character_path():
+        return os.path.join(AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME)
+
+    @staticmethod
+    def get_user_character_image():
+        return Gtk.Image.new_from_file(Scene._get_user_character_path())

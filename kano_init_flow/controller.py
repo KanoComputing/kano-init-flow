@@ -21,6 +21,8 @@ from .stages.audio_lab import AudioLab
 from .stages.bugs import Bugs
 from .stages.intro import Intro
 from .stages.wardrobe import Wardrobe
+from .stages.blocks import Blocks
+
 
 class Controller(object):
     """
@@ -55,6 +57,7 @@ class Controller(object):
             Bugs,
             Wardrobe,
             AudioLab,
+            Blocks,
             Wifi,
             Quests
         ]
