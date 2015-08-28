@@ -42,7 +42,6 @@ class Wardrobe(Stage):
     def _setup_first_scene(self):
         scene = Scene()
 
-        # TODO: replace with wardrobe background
         scene.set_background(self.media_path('scene-1600x1200.png'),
                              self.media_path('scene-1920x1080.png'))
 
@@ -84,6 +83,11 @@ class Wardrobe(Stage):
 
     def _char_creator_dialog(self):
         self._blur = self._create_blur()
+
+        # Add watch cursor
+        watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+        self._ctl.main_window.get_window().set_cursor(watch_cursor)
+
         self._first_scene.add_widget(
             self._blur,
             Placement(0, 0),
@@ -102,6 +106,7 @@ class Wardrobe(Stage):
         self.second_scene()
 
     def _setup_second_scene(self):
+        self._ctl.main_window.get_window().set_cursor(None)
         scene = Scene()
         scene.set_background(self.media_path('scene-1600x1200.png'),
                              self.media_path('scene-1920x1080.png'))
@@ -133,7 +138,7 @@ class Wardrobe(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.png")),
+            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
             Placement(0.5, 0.95, 0),
             Placement(0.45, 0.95, 0),
             self.next_stage
