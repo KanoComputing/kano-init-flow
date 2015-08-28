@@ -53,7 +53,9 @@ class DragAndDrop(Stage):
             source=SpeechBubble.LEFT,
             source_align=0.0
         )
-        drag_source = DragSource(judoka, char_pixbuf, speechbubble)
+        keyboard = Gtk.Image.new_from_file(self.media_path('keyboard.gif'))
+
+        drag_source = DragSource(judoka, char_pixbuf, speechbubble, keyboard)
 
         # Send the second cb to the scene
         drop_area = DropArea(self.second_scene)
@@ -62,7 +64,7 @@ class DragAndDrop(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('keyboard.gif')),
+            keyboard,
             Placement(0.5, 0.9, 0),
             Placement(0.5, 0.9, 0)
         )
@@ -106,14 +108,14 @@ class DragAndDrop(Stage):
 
         next_button = Gtk.Button()
         next_button.set_image(Gtk.Image.new_from_file(
-            common_media_path("next-button.png"))
+            common_media_path("next-button.gif"))
         )
         next_button.connect("button-release-event", self._next_stage_wrapper)
         attach_cursor_events(next_button)
         scene.add_widget(
             next_button,
-            Placement(0.85, 0.8),
-            Placement(0.9, 0.85)
+            Placement(0.5, 0.7, 0),
+            Placement(0.5, 0.7, 0)
         )
 
         return scene
