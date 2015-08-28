@@ -18,6 +18,7 @@ from .stages.overscan import Overscan
 from .stages.drag_and_drop import DragAndDrop
 from .stages.quests import Quests
 from .stages.audio_lab import AudioLab
+from .stages.light_lab import LightLab
 from .stages.bugs import Bugs
 from .stages.intro import Intro
 from .stages.wardrobe import Wardrobe
@@ -57,6 +58,7 @@ class Controller(object):
             Bugs,
             Wardrobe,
             AudioLab,
+            LightLab,
             Blocks,
             Wifi,
             Quests

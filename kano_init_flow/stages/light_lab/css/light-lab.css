@@ -1,0 +1,28 @@
+.console-screen {
+}
+
+.console-screen-question {
+  color: #fff;
+  font-weight: bold;
+}
+
+.font-large {
+  font-size: 20px;
+}
+
+.font-small {
+}
+
+.notebook-content-area {
+}
+
+.notebook-heading {
+  color: #44423d;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.notebook-text {
+  font-size: 18px;
+  color: #44423d;
+}
