@@ -20,6 +20,7 @@ from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.ui.utils import cb_wrapper
 
+
 class Bugs(Stage):
     """
         The overscan setting window
@@ -91,9 +92,13 @@ class Bugs(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.RIGHT),
-            Placement(0.8, 0.6),
-            Placement(0.74, 0.63),
+            SpeechBubble(
+                text=copy,
+                source=SpeechBubble.RIGHT,
+                source_align=0.0
+            ),
+            Placement(0.65, 0.76),
+            Placement(0.74, 0.74),
             name='speech-bubble'
         )
 
@@ -107,8 +112,8 @@ class Bugs(Stage):
             self._place_judoka_into_scene(scene, True)
 
             scene.add_widget(
-                Gtk.Image.new_from_file(common_media_path('next-button.png')),
-                Placement(0.5, 0.9),
-                Placement(0.5, 0.9),
+                Gtk.Image.new_from_file(common_media_path('next-button.gif')),
+                Placement(0.5, 0.9, 0),
+                Placement(0.5, 0.9, 0),
                 self._ctl.next_stage
             )
