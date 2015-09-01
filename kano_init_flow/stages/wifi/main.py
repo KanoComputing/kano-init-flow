@@ -10,6 +10,7 @@ import threading
 
 from gi.repository import Gtk, GLib
 from kano.gtk3.buttons import KanoButton
+from kano.gtk3.cursor import attach_cursor_events
 from kano.logging import logger
 
 from kano_init_flow.stage import Stage
@@ -172,7 +173,9 @@ class WifiConsole(Gtk.Overlay):
 
     def parental_question_screen(self):
         self._clear()
-        screen = ParentalScreen(self._stage, self.parental_screen, self.wifi_screen)
+        screen = ParentalScreen(self._stage,
+                                self.parental_screen,
+                                self.wifi_screen)
         self._eb.add(screen)
         self._eb.show_all()
 
@@ -295,6 +298,7 @@ class SlideScreen(Gtk.Overlay):
         back.set_valign(Gtk.Align.CENTER)
         back.set_margin_left(25)
         back.connect('clicked', self._cb_wrapper, back_cb)
+        attach_cursor_events(back)
 
         fwd = Gtk.Button()
         fwd.add(Gtk.Image.new_from_file(stage.media_path('navigation-arrow-right.png')))
@@ -302,6 +306,7 @@ class SlideScreen(Gtk.Overlay):
         fwd.set_valign(Gtk.Align.CENTER)
         fwd.set_margin_right(25)
         fwd.connect('clicked', self._cb_wrapper, fwd_cb)
+        attach_cursor_events(fwd)
 
         help_text = Gtk.Label(text)
         add_class(help_text, 'console-screen-help-text')
