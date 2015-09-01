@@ -19,6 +19,8 @@ class MainWindow(Gtk.Window):
         Manages the full-screen top level window of the application.
     """
 
+    EMERGENCY_EXIT_CLICKS = 5
+
     def __init__(self, start_from=None):
         """
             :param start_from: Overrides the status and makes the init flow
@@ -32,6 +34,7 @@ class MainWindow(Gtk.Window):
         self._child = None
 
         self._keypress_signal_id = None
+        self._emergency_counter = 0
 
         apply_common_to_screen()
         apply_styling_to_screen(common_css_path('scene.css'))
@@ -40,20 +43,31 @@ class MainWindow(Gtk.Window):
         self.set_decorated(False)
         self.fullscreen()
 
+        overlay = Gtk.Overlay()
+        self._child = Gtk.EventBox()
+        overlay.add(self._child)
+        self.add(overlay)
+        self._container = overlay
+
+        emergency_exit = Gtk.Button()
+        emergency_exit.set_halign(Gtk.Align.START)
+        emergency_exit.set_valign(Gtk.Align.START)
+        emergency_exit.set_size_request(20, 20)
+        emergency_exit.connect('clicked', self._emergency_exit_cb)
+        overlay.add_overlay(emergency_exit)
+
         if start_from:
-            debug_overlay = Gtk.Overlay()
             debug_button = Gtk.Button('Close')
             debug_button.set_halign(Gtk.Align.END)
             debug_button.set_valign(Gtk.Align.START)
             debug_button.connect('clicked', Gtk.main_quit)
+            overlay.add_overlay(debug_button)
 
-            self._child = Gtk.EventBox()
-            debug_overlay.add(self._child)
-            debug_overlay.add_overlay(debug_button)
-            self.add(debug_overlay)
-            self._container = debug_overlay
-        else:
-            self._container = self
+    def _emergency_exit_cb(self, widget, data=None):
+        print 'emergency'
+        self._emergency_counter += 1
+        if self._emergency_counter >= self.EMERGENCY_EXIT_CLICKS:
+            Gtk.main_quit()
 
     @property
     def return_value(self):
