@@ -67,6 +67,7 @@ class MainWindow(Gtk.Window):
         print 'emergency'
         self._emergency_counter += 1
         if self._emergency_counter >= self.EMERGENCY_EXIT_CLICKS:
+            self._ctl.complete()
             Gtk.main_quit()
 
     @property

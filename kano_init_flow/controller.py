@@ -117,6 +117,11 @@ class Controller(object):
             self._status.save()
             Gtk.main_quit()
 
+    def complete(self):
+        self._status.location = self._stages[-1]
+        self._status.completed = True
+        self._status.save()
+
     @property
     def return_value(self):
         return self._return_value
