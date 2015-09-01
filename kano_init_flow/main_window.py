@@ -6,7 +6,7 @@
 # Keeps user's progression through the init flow
 #
 
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, GObject
 
 from kano.gtk3.apply_styles import apply_common_to_screen
 from .controller import Controller
@@ -30,6 +30,8 @@ class MainWindow(Gtk.Window):
         self._ctl = Controller(self, start_from)
         self.connect("delete-event", Gtk.main_quit)
         self._child = None
+
+        self._keypress_signal_id = None
 
         apply_common_to_screen()
         apply_styling_to_screen(common_css_path('scene.css'))
@@ -62,6 +64,13 @@ class MainWindow(Gtk.Window):
 
     def push(self, child):
         GLib.idle_add(self._do_push, child)
+
+    def set_key_events_handler(self, handler=None):
+        if self._keypress_signal_id:
+            GObject.signal_handler_disconnect(self, self._keypress_signal_id)
+
+        if handler:
+            self._keypress_signal_id = self.connect('key-release-event', handler)
 
     def _do_push(self, child):
         if self._child:

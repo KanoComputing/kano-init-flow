@@ -57,7 +57,7 @@ class Scene(object):
 
         if main_window:
             self._keys = {}
-            main_window.connect('key-release-event', self._keypress_cb_wrapper)
+            main_window.set_key_events_handler(self._keypress_cb_wrapper)
 
         self._overlay = Gtk.Overlay()
 

@@ -48,6 +48,8 @@ class AudioLab(Stage):
         self._ctl.main_window.push(s.widget)
 
     def _setup_first_scene(self):
+        self._console_on = False
+
         scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('audio-lab-bg-4-3.png'),
                              self.media_path('audio-lab-bg-16-9.png'))
@@ -68,7 +70,7 @@ class AudioLab(Stage):
             Gtk.Image.new_from_file(self.media_path('button.png')),
             Placement(0.4, 0.55),
             Placement(0.387, 0.567),
-            self._a_clicked,
+            [self._a_clicked, scene],
             key=Gdk.KEY_a
         )
 
@@ -76,7 +78,7 @@ class AudioLab(Stage):
             Gtk.Image.new_from_file(self.media_path('button.png')),
             Placement(0.55, 0.55),
             Placement(0.549, 0.567),
-            self._s_clicked,
+            [self._s_clicked, scene],
             key=Gdk.KEY_s
         )
 
@@ -84,20 +86,8 @@ class AudioLab(Stage):
             Gtk.Image.new_from_file(self.media_path('button.png')),
             Placement(0.7, 0.55),
             Placement(0.7215, 0.567),
-            self._d_clicked,
+            [self._d_clicked, scene],
             key=Gdk.KEY_d
-        )
-
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('console.png')),
-            Placement(0.5, 1.0),
-            Placement(0.5, 1.0)
-        )
-
-        scene.add_widget(
-            ConsoleScreen(self, scene, self._ctl.next_stage, self.help_leds),
-            Placement(0.5155, 0.918),
-            Placement(0.5155, 0.918)
         )
 
         scene.add_widget(
@@ -115,14 +105,34 @@ class AudioLab(Stage):
 
         return scene
 
-    def _a_clicked(self):
+    def _show_console(self, scene):
+        if self._console_on:
+            return
+        self._console_on = True
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('console.png')),
+            Placement(0.5, 1.0),
+            Placement(0.5, 1.0)
+        )
+
+        scene.add_widget(
+            ConsoleScreen(self, scene, self._ctl.next_stage, self.help_leds),
+            Placement(0.5155, 0.918),
+            Placement(0.5155, 0.918)
+        )
+
+    def _a_clicked(self, scene):
         play_sound('/usr/share/kano-media/sounds/kano_error.wav', True)
+        self._show_console(scene)
 
-    def _s_clicked(self):
+    def _s_clicked(self, scene):
         play_sound('/usr/share/kano-media/sounds/kano_achievement_unlock.wav', True)
+        self._show_console(scene)
 
-    def _d_clicked(self):
+    def _d_clicked(self, scene):
         play_sound('/usr/share/kano-media/sounds/kano_init.wav', True)
+        self._show_console(scene)
 
     def _setup_help_leds(self):
         scene = Scene()
