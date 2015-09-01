@@ -36,21 +36,25 @@ class AudioLab(Stage):
         self._ctl.main_window.push(s.widget)
 
     def help_leds(self):
-        s = self._setup_help_leds()
-        self._ctl.main_window.push(s.widget)
+        self.remove_overlays()
+        self._setup_help_leds(self._scene)
 
     def help_power(self):
-        s = self._setup_help_power()
-        self._ctl.main_window.push(s.widget)
+        self.remove_overlays()
+        self._setup_help_power(self._scene)
 
     def help_jack(self):
-        s = self._setup_help_jack()
-        self._ctl.main_window.push(s.widget)
+        self.remove_overlays()
+        self._setup_help_jack(self._scene)
+
+    def remove_overlays(self):
+        for o in ['help-power', 'help-jack', 'help-leds']:
+            self._scene.remove_widget(o)
 
     def _setup_first_scene(self):
         self._console_on = False
 
-        scene = Scene(self._ctl.main_window)
+        self._scene = scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('audio-lab-bg-4-3.png'),
                              self.media_path('audio-lab-bg-16-9.png'))
 
@@ -134,11 +138,7 @@ class AudioLab(Stage):
         play_sound('/usr/share/kano-media/sounds/kano_init.wav', True)
         self._show_console(scene)
 
-    def _setup_help_leds(self):
-        scene = Scene()
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
-
+    def _setup_help_leds(self, scene):
         scene.add_widget(
             Notebook(
                 self,
@@ -150,16 +150,12 @@ class AudioLab(Stage):
                  {'label': 'NO', 'callback': self.help_power, 'color': 'red'}]
             ),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0)
+            Placement(0.45, 0.5, 0.0),
+            modal=True,
+            name='help-leds'
         )
 
-        return scene
-
-    def _setup_help_power(self):
-        scene = Scene()
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
-
+    def _setup_help_power(self, scene):
         scene.add_widget(
             Notebook(
                 self,
@@ -170,16 +166,12 @@ class AudioLab(Stage):
                 [{'label': 'NEXT', 'callback': self.help_jack, 'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0)
+            Placement(0.45, 0.5, 0.0),
+            modal=True,
+            name='help-power'
         )
 
-        return scene
-
-    def _setup_help_jack(self):
-        scene = Scene()
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
-
+    def _setup_help_jack(self, scene):
         scene.add_widget(
             Notebook(
                 self,
@@ -187,13 +179,13 @@ class AudioLab(Stage):
                 'Plug in the blue cable',
                 ['If you see the light, it\'s powered!',
                  'Now plug the audio.'],
-                [{'label': 'FINISHED', 'callback': self.first_scene, 'color': 'green'}]
+                [{'label': 'FINISHED', 'callback': self.remove_overlays, 'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0)
+            Placement(0.45, 0.5, 0.0),
+            modal=True,
+            name='help-jack'
         )
-
-        return scene
 
 class ConsoleScreen(Gtk.EventBox):
     def __init__(self, stage, scene, yes_cb, no_cb):

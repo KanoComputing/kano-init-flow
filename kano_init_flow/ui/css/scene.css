@@ -11,3 +11,7 @@ GtkWindow {
   font-weight: bold;
   font-family: 'Bariol';
 }
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.7);
+}

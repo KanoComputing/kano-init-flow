@@ -10,7 +10,7 @@ import time
 from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
-from kano_init_flow.ui.utils import scale_image, scale_pixbuf
+from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class
 
 from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 
@@ -94,18 +94,16 @@ class Scene(object):
         bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, w, h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_widget(self, widget, p43, p169, clicked_cb=None, key=None, name=None):
+    def add_widget(self, widget, p43, p169, clicked_cb=None, key=None, name=None, modal=False):
         placement = p43 if self._screen_ratio == self.RATIO_4_3 else p169
 
-        if placement.scale * self._scale_factor != 1 and placement.scale != 0:
+        final_scale = placement.scale * self._scale_factor
+        if final_scale != 1 and placement.scale != 0:
             if widget.__class__.__name__ == "Image":
                 if widget.get_animation():
-                    widget = self._scale_gif(widget,
-                                    placement.scale * self._scale_factor)
+                    widget = self._scale_gif(widget, final_scale)
                 else:
-                    widget = scale_image(widget,
-                                    placement.scale * self._scale_factor)
-
+                    widget = scale_image(widget, final_scale)
             else:
                 if placement.scale != 1.0:
                     raise RuntimeError('Can\'t scale regular widgets!')
@@ -133,11 +131,18 @@ class Scene(object):
         align = Gtk.Alignment.new(placement.x, placement.y, 0, 0)
         align.add(root_widget)
         align.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
-        align.show_all()
-        self._fixed.put(align, 0, 0)
+
+        wrapper = align
+        if modal:
+            wrapper = Gtk.EventBox()
+            add_class(wrapper, 'modal')
+            wrapper.add(align)
+
+        wrapper.show_all()
+        self._fixed.put(wrapper, 0, 0)
 
         if name is not None:
-            self._widgets[name] = align
+            self._widgets[name] = wrapper
 
     def remove_widget(self, wid):
         """
