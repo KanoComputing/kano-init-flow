@@ -64,8 +64,8 @@ class Wifi(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(character_path),
-            Placement(0.08, 0.9, 0.45),
-            Placement(0.12, 0.9, 0.5)
+            Placement(0.08, 0.9, 0.5),
+            Placement(0.12, 0.9, 0.6)
         )
 
         scene.add_widget(
@@ -120,8 +120,8 @@ class Wifi(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(character_path),
-            Placement(0.08, 0.9, 0.45),
-            Placement(0.12, 0.9, 0.5)
+            Placement(0.08, 0.9, 0.5),
+            Placement(0.12, 0.9, 0.6)
         )
 
         scene.add_widget(
