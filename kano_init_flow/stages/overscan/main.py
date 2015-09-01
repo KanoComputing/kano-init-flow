@@ -39,32 +39,13 @@ class Overscan(Stage):
         s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1.widget)
 
-    def second_scene(self):
-        print 'over-setup_second'
-        s2 = self._setup_second_scene()
-        print 'over-setup_second-2'
-        self._ctl.main_window.push(s2.widget)
-
-    def _setup_first_scene(self):
-        scene = Scene()
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
-
-        scene.add_widget(
-            Notebook(self, self.second_scene),
-            Placement(0.45, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0)
-        )
-
-        return scene
-
     def save_and_exit(self):
         self._overscan_ctl.reset() # TODO remove
         self._overscan_ctl.save_changes()
         self._ctl.next_stage()
 
-    def _setup_second_scene(self):
-        scene = Scene()
+    def _setup_first_scene(self):
+        self._scene = scene = Scene()
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
@@ -109,7 +90,21 @@ class Overscan(Stage):
             self._overscan_ctl.zoom_in
         )
 
+        self.show_notebook()
+
         return scene
+
+    def show_notebook(self):
+        self._scene.add_widget(
+            Notebook(self, self.hide_notebook),
+            Placement(0.45, 0.5, 0.0),
+            Placement(0.45, 0.5, 0.0),
+            modal=True,
+            name='notebook'
+        )
+
+    def hide_notebook(self):
+        self._scene.remove_widget('notebook')
 
 
 class Notebook(Gtk.Overlay):
