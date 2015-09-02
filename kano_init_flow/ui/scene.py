@@ -19,6 +19,8 @@ from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
 
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
 
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):

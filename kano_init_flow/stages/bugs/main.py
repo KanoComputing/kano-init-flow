@@ -91,11 +91,13 @@ class Bugs(Stage):
             name='judoka'
         )
 
+        print scene.scale_factor
         scene.add_widget(
             SpeechBubble(
                 text=copy,
                 source=SpeechBubble.RIGHT,
-                source_align=0.0
+                source_align=0.0,
+                scale=scene.scale_factor
             ),
             Placement(0.65, 0.76),
             Placement(0.74, 0.74),

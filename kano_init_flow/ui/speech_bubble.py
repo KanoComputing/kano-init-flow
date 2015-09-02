@@ -7,9 +7,10 @@
 #
 
 
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, Pango
 
 from kano_init_flow.paths import common_media_path
+from kano_init_flow.ui.utils import scale_image
 from kano.gtk3.buttons import OrangeButton
 
 
@@ -20,10 +21,12 @@ class SpeechBubble(Gtk.Grid):
     LEFT = 'left'
     RIGHT = 'right'
 
-    def __init__(self, text=None, buttons=None, source=BOTTOM, source_align=0.5):
+    def __init__(self, text=None, buttons=None, source=BOTTOM,
+                 source_align=0.5, scale=1.0):
         self._source = source
         self._source_align = source_align
         self._button_box = None
+        self._scale = scale
         if buttons:
             for button in buttons:
                 self.add_button(button[0], button[1])
@@ -35,6 +38,7 @@ class SpeechBubble(Gtk.Grid):
         # The speech bubble triangle
         img_path = common_media_path("sb-{}.png".format(self._source))
         img = Gtk.Image.new_from_file(img_path)
+        img = scale_image(img, scale)
         img.set_hexpand(False)
         img.set_vexpand(False)
 
@@ -68,7 +72,9 @@ class SpeechBubble(Gtk.Grid):
         # Padding in of the bubble
         self._padded_bubble = Gtk.Alignment(hexpand=True, vexpand=True)
         self._padded_bubble.set(0.5, 0.5, 0, 0)
-        self._padded_bubble.set_padding(30, 30, 40, 40)
+        vert = int(self._scale*25)
+        horz = int(self._scale*35)
+        self._padded_bubble.set_padding(vert, vert, horz, horz)
         self._bubble.add(self._padded_bubble)
 
         self._init_content(text)
@@ -81,6 +87,11 @@ class SpeechBubble(Gtk.Grid):
         self._text = text = Gtk.Label(text_copy)
         text.set_justify(Gtk.Justification.CENTER)
         box.pack_start(text, False, False, 0)
+
+        base_size = 20
+        font_spec = 'Bariol bold {}px'.format(int(base_size * self._scale))
+        fd = Pango.font_description_from_string(font_spec)
+        self._text.modify_font(fd)
 
         self._padded_bubble.add(box)
 
