@@ -9,6 +9,8 @@
 from gi.repository import Gtk, GLib, GObject
 
 from kano.gtk3.apply_styles import apply_common_to_screen
+from kano.logging import logger
+
 from .controller import Controller
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.paths import common_css_path
@@ -64,9 +66,11 @@ class MainWindow(Gtk.Window):
             overlay.add_overlay(debug_button)
 
     def _emergency_exit_cb(self, widget, data=None):
-        print 'emergency'
         self._emergency_counter += 1
+        msg = "Emergency button pressed {}x".format(self._emergency_counter)
+        logger.warn(msg)
         if self._emergency_counter >= self.EMERGENCY_EXIT_CLICKS:
+            logger.warn("Emergency exiting the init flow")
             self._ctl.complete()
             Gtk.main_quit()
 
