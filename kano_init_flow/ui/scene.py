@@ -19,10 +19,6 @@ from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 800
-
-
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
         self._x = x
@@ -75,20 +71,22 @@ class Scene(object):
         self._overlay.add_overlay(self._fixed)
 
     def _determine_screen_ratio(self):
-        w = SCREEN_WIDTH
-        h = SCREEN_HEIGHT
+        self._w = w = SCREEN_WIDTH
+        self._h = h = SCREEN_HEIGHT
 
         ratio = (w * 1.0) / h
         dist_43 = abs(Scene.RATIO_4_3 - ratio)
         dist_169 = abs(Scene.RATIO_16_9 - ratio)
 
-        self._w = w
         if dist_43 < dist_169:
             self._screen_ratio = Scene.RATIO_4_3
-            self._h = h * ratio * (1 / Scene.RATIO_4_3)
         else:
             self._screen_ratio = Scene.RATIO_16_9
-            self._h = h * ratio * (1 / Scene.RATIO_16_9)
+
+        if ratio > 1:
+            self._h *= ratio * (1.0 / self._screen_ratio)
+        else:
+            self._w *= (1.0 / ratio) * self._screen_ratio
 
     def _get_scale_factor(self):
         if self._screen_ratio == self.RATIO_4_3:
