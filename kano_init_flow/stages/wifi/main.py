@@ -80,7 +80,8 @@ class Wifi(Stage):
                'Take look at the WiFi console\n' + \
                'to see whether you can fix it.'
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.RIGHT),
+            SpeechBubble(text=copy, source=SpeechBubble.RIGHT,
+                         scale=scene.scale_factor),
             Placement(0.78, 0.72),
             Placement(0.74, 0.68)
         )
@@ -140,7 +141,8 @@ class Wifi(Stage):
         copy = 'Connection established. Well done!\n\n' + \
                'All aboard!\nWe can still make it on time!'
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.RIGHT),
+            SpeechBubble(text=copy, source=SpeechBubble.RIGHT,
+                         scale=scene.scale_factor),
             Placement(0.78, 0.72),
             Placement(0.74, 0.68)
         )

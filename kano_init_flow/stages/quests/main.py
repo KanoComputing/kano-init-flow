@@ -73,7 +73,8 @@ class Quests(Stage):
         scene.add_widget(
             SpeechBubble(
                 text="You did it! Now you know how\nto control your computer.\nThis was the first of many\nquests you'll find in the\nWorld of Kano",
-                source=SpeechBubble.RIGHT
+                source=SpeechBubble.RIGHT,
+                scale=scene.scale_factor
             ),
             Placement(0.22, 0.27),
             Placement(0.35, 0.18)
@@ -121,17 +122,12 @@ class Quests(Stage):
         scene.add_widget(
             SpeechBubble(
                 text="Click on my scroll to find\nout more and start the\nnext adventure...",
-                source=SpeechBubble.RIGHT
+                source=SpeechBubble.RIGHT,
+                scale=scene.scale_factor
             ),
             Placement(0.22, 0.27),
             Placement(0.35, 0.18)
         )
-
-        '''scene.add_widget(
-            Notebook(self, self.second_scene),
-            Placement(0.45, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0)
-        )'''
 
         return scene
 

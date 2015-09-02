@@ -102,7 +102,8 @@ class AudioLab(Stage):
 
         copy = 'Welcome to the sound lab!\nPress the keys to play sounds.'
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.BOTTOM, source_align=0.8),
+            SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
+                         source_align=0.8, scale=scene.scale_factor),
             Placement(0.95, 0.5),
             Placement(0.95, 0.45)
         )

@@ -50,7 +50,8 @@ class Wardrobe(Stage):
         scene.add_widget(
             SpeechBubble(
                 text="Let's dress up your\ncharacter!",
-                source=SpeechBubble.BOTTOM
+                source=SpeechBubble.BOTTOM,
+                scale=scene.scale_factor
             ),
             Placement(0.9, 0.4),
             Placement(0.85, 0.45)
@@ -131,7 +132,8 @@ class Wardrobe(Stage):
         scene.add_widget(
             SpeechBubble(
                 text="You look amazing!",
-                source=SpeechBubble.BOTTOM
+                source=SpeechBubble.BOTTOM,
+                scale=scene.scale_factor
             ),
             Placement(0.9, 0.4),
             Placement(0.9, 0.4)

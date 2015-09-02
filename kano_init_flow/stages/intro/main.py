@@ -111,7 +111,8 @@ class Intro(Stage):
         scene.add_widget(
             SpeechBubble(
                 text="Well done! You brought your\nKano to life! I'm Judoka and I\nwill be your guide through the\nworld of Kano.",
-                source=SpeechBubble.LEFT
+                source=SpeechBubble.LEFT,
+                scale=scene.scale_factor
             ),
             Placement(0.72, 0.35),
             Placement(0.68, 0.3)
@@ -140,7 +141,8 @@ class Intro(Stage):
         scene.add_widget(
             SpeechBubble(
                 text="Kano is a world where anything\nis possible!\nJudokas can make and play\nusing code powers.",
-                source=SpeechBubble.RIGHT
+                source=SpeechBubble.RIGHT,
+                scale=scene.scale_factor
             ),
             Placement(0.36, 0.4, 0),
             Placement(0.4, 0.3, 0),
@@ -169,7 +171,8 @@ class Intro(Stage):
         scene.add_widget(
             SpeechBubble(
                 text='Ready to go? Jump on in!',
-                source=SpeechBubble.LEFT
+                source=SpeechBubble.LEFT,
+                scale=scene.scale_factor
             ),
             Placement(0.7, 0.35),
             Placement(0.65, 0.3)

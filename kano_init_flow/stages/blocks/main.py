@@ -79,7 +79,8 @@ class Blocks(Stage):
                 text="Oh no, there's a boulder" +
                      "\nblocking our exit!",
                 source=SpeechBubble.BOTTOM,
-                source_align=0.5
+                source_align=0.5,
+                scale=scene.scale_factor
             ),
             Placement(0.85, 0.23),
             Placement(0.85, 0.23)
@@ -106,7 +107,8 @@ class Blocks(Stage):
                      "\nto change the world around them." +
                      "\n\nLooks like there is one over there.",
                 source=SpeechBubble.BOTTOM,
-                source_align=0.5
+                source_align=0.5,
+                scale=scene.scale_factor
             ),
             Placement(0.88, 0.15, 0),
             Placement(0.88, 0.15, 0)
@@ -203,7 +205,8 @@ class Blocks(Stage):
             SpeechBubble(
                 text="Well done, now you can escape!",
                 source=SpeechBubble.BOTTOM,
-                source_align=0.5
+                source_align=0.5,
+                scale=scene.scale_factor
             ),
             Placement(0.85, 0.25, 0),
             Placement(0.85, 0.25, 0)

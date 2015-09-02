@@ -51,7 +51,8 @@ class DragAndDrop(Stage):
             text='This wasn\'t here before!\n\nClick and drag me to\n' +
                  'the other side.',
             source=SpeechBubble.LEFT,
-            source_align=0.0
+            source_align=0.0,
+            scale=scene.scale_factor
         )
         keyboard = Gtk.Image.new_from_file(self.media_path('keyboard.gif'))
 
@@ -95,7 +96,8 @@ class DragAndDrop(Stage):
                              self.media_path('cliff-file-1920x1080.png'))
 
         scene.add_widget(
-            SpeechBubble(text='Well done!', source=SpeechBubble.BOTTOM),
+            SpeechBubble(text='Well done!', source=SpeechBubble.BOTTOM,
+                         scale=scene.scale_factor),
             Placement(0.86, 0.06),
             Placement(0.91, 0.1)
         )

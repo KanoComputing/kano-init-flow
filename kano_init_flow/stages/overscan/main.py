@@ -14,7 +14,6 @@ from kano_settings.system.display import get_overscan_status, \
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
-from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
