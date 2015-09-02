@@ -50,6 +50,8 @@ class MainWindow(Gtk.Window):
         overlay.add(self._child)
         self.add(overlay)
         self._container = overlay
+        self._container.set_halign(Gtk.Align.CENTER)
+        self._container.set_valign(Gtk.Align.CENTER)
 
         emergency_exit = Gtk.Button()
         emergency_exit.set_halign(Gtk.Align.START)

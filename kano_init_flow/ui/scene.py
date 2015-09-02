@@ -20,7 +20,8 @@ SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
 
 SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_HEIGHT = 800
+
 
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
@@ -52,7 +53,7 @@ class Scene(object):
     RATIO_16_9 = 16.0 / 9
 
     def __init__(self, main_window=None):
-        self._screen_ratio = self._get_screen_ratio()
+        self._determine_screen_ratio()
         self._scale_factor = self._get_scale_factor()
 
         self._widgets = {}
@@ -73,10 +74,26 @@ class Scene(object):
         self._fixed = Gtk.Fixed()
         self._overlay.add_overlay(self._fixed)
 
+    def _determine_screen_ratio(self):
+        w = SCREEN_WIDTH
+        h = SCREEN_HEIGHT
+
+        ratio = (w * 1.0) / h
+        dist_43 = abs(Scene.RATIO_4_3 - ratio)
+        dist_169 = abs(Scene.RATIO_16_9 - ratio)
+
+        self._w = w
+        if dist_43 < dist_169:
+            self._screen_ratio = Scene.RATIO_4_3
+            self._h = h * ratio * (1 / Scene.RATIO_4_3)
+        else:
+            self._screen_ratio = Scene.RATIO_16_9
+            self._h = h * ratio * (1 / Scene.RATIO_16_9)
+
     def _get_scale_factor(self):
         if self._screen_ratio == self.RATIO_4_3:
-            return SCREEN_HEIGHT / 1200.0
-        return SCREEN_HEIGHT / 1080.0
+            return self._h / 1200.0
+        return self._h / 1080.0
 
     def set_background(self, ver_43, ver_169):
         """
@@ -89,14 +106,13 @@ class Scene(object):
             :type ver_169: str
         """
 
-        w = SCREEN_WIDTH
-        h = SCREEN_HEIGHT
-
         bg_path = ver_43 if self._screen_ratio == self.RATIO_4_3 else ver_169
-        bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, w, h)
+        bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, self._w,
+                                                           self._h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_widget(self, widget, p43, p169, clicked_cb=None, key=None, name=None, modal=False):
+    def add_widget(self, widget, p43, p169, clicked_cb=None, key=None,
+                   name=None, modal=False):
         placement = p43 if self._screen_ratio == self.RATIO_4_3 else p169
 
         final_scale = placement.scale * self._scale_factor
@@ -127,12 +143,14 @@ class Scene(object):
 
             if key is not None:
                 if not hasattr(self, '_keys'):
-                    raise RuntimeError('Scene must be initialised with main_window to be able to receive key events.')
+                    msg = 'Scene must be initialised with main_window to ' + \
+                          'be able to receive key events.'
+                    raise RuntimeError(msg)
                 self._keys[key] = clicked_cb
 
         align = Gtk.Alignment.new(placement.x, placement.y, 0, 0)
         align.add(root_widget)
-        align.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
+        align.set_size_request(self._w, self._h)
 
         wrapper = align
         if modal:
@@ -199,20 +217,6 @@ class Scene(object):
     @property
     def widget(self):
         return self._overlay
-
-    @staticmethod
-    def _get_screen_ratio():
-        w = SCREEN_WIDTH
-        h = SCREEN_HEIGHT
-
-        ratio = (w * 1.0) / h
-        dist_43 = abs(Scene.RATIO_4_3 - ratio)
-        dist_169 = abs(Scene.RATIO_16_9 - ratio)
-
-        if dist_43 < dist_169:
-            return Scene.RATIO_4_3
-
-        return Scene.RATIO_16_9
 
     @staticmethod
     def _scale_gif(widget, scale):

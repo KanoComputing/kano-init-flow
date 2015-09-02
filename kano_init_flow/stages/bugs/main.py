@@ -91,7 +91,6 @@ class Bugs(Stage):
             name='judoka'
         )
 
-        print scene.scale_factor
         scene.add_widget(
             SpeechBubble(
                 text=copy,
