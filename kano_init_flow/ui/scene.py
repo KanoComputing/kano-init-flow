@@ -190,19 +190,17 @@ class Scene(object):
                     return True
         return False
 
-    @staticmethod
-    def scale_pixbuf_to_scene(pixbuf, scale_4_3, scale_16_9):
-        screen_ratio = Scene._get_screen_ratio()
+    def scale_pixbuf_to_scene(self, pixbuf, scale_4_3, scale_16_9):
+        screen_ratio = self._screen_ratio
         if screen_ratio == Scene.RATIO_4_3:
             base_scale = scale_4_3
         elif screen_ratio == Scene.RATIO_16_9:
             base_scale = scale_16_9
         return scale_pixbuf(pixbuf, base_scale)[0]
 
-    @staticmethod
-    def scale_image_to_scene(img_widget, scale_4_3, scale_16_9):
+    def scale_image_to_scene(self, img_widget, scale_4_3, scale_16_9):
         pixbuf = img_widget.get_pixbuf()
-        pixbuf = Scene.scale_pixbuf_to_scene(pixbuf, scale_4_3, scale_16_9)
+        pixbuf = self.scale_pixbuf_to_scene(pixbuf, scale_4_3, scale_16_9)
         return Gtk.Image.new_from_pixbuf(pixbuf)
 
     @property
