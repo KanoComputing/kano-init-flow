@@ -36,14 +36,16 @@ class LightLab(Stage):
         self._ctl.main_window.push(s.widget)
 
     def help_power(self):
-        s = self._setup_help_power()
-        self._ctl.main_window.push(s.widget)
+        self._setup_help_power()
+
+    def remove_overlay(self):
+        self._scene.remove_widget('help-power')
 
     def _setup_first_scene(self):
         self._is_on = False
         self._console_shown = False
 
-        scene = Scene(self._ctl.main_window)
+        self._scene = scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('off-4-3.png'),
                              self.media_path('off-16-9.png'))
 
@@ -117,24 +119,20 @@ class LightLab(Stage):
             self._console_shown = True
 
     def _setup_help_power(self):
-        scene = Scene()
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
-
-        scene.add_widget(
+        self._scene.add_widget(
             Notebook(
                 self,
                 self.media_path('power.png'), 0.8, 0.5,
                 'No light? Check the GPIO',
                 ['The cable has to be connected to these',
                  'pins exactly.'],
-                [{'label': 'GOT IT', 'callback': self.first_scene, 'color': 'green'}]
+                [{'label': 'GOT IT', 'callback': self.remove_overlay, 'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0)
+            Placement(0.45, 0.5, 0.0),
+            modal=True,
+            name='help-power'
         )
-
-        return scene
 
 class ConsoleScreen(Gtk.EventBox):
     def __init__(self, stage, scene, yes_cb, no_cb):
