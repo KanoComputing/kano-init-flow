@@ -4,7 +4,7 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
 from kano.utils import is_monitor, run_cmd
@@ -35,6 +35,10 @@ class Overscan(Stage):
         apply_styling_to_screen(self.css_path('overscan.css'))
 
     def first_scene(self):
+        # TODO: Uncomment
+        #if is_monitor():
+        #    self._ctl.next_stage()
+
         s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1.widget)
 
@@ -44,7 +48,7 @@ class Overscan(Stage):
         self._ctl.next_stage()
 
     def _setup_first_scene(self):
-        self._scene = scene = Scene()
+        self._scene = scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
@@ -81,14 +85,16 @@ class Overscan(Stage):
                         self.media_path('up-button-down.png')),
             Placement(0.5, 0.435, 1),
             Placement(0.51, 0.436, 1),
-            self._overscan_ctl.zoom_out
+            self._overscan_ctl.zoom_out,
+            key=Gdk.KEY_Up
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('down-button.png')),
             Placement(0.5, 0.535, 1),
             Placement(0.51, 0.536, 1),
-            self._overscan_ctl.zoom_in
+            self._overscan_ctl.zoom_in,
+            key=Gdk.KEY_Down
         )
 
         self.show_notebook()
