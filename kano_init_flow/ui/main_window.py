@@ -11,7 +11,7 @@ from gi.repository import Gtk, GLib, GObject
 from kano.gtk3.apply_styles import apply_common_to_screen
 from kano.logging import logger
 
-from .controller import Controller
+from kano_init_flow.controller import Controller
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.paths import common_css_path
 

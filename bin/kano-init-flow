@@ -33,7 +33,7 @@ if __name__ == '__main__' and __package__ is None:
 import docopt
 from gi.repository import Gtk, GObject
 
-from kano_init_flow.main_window import MainWindow
+from kano_init_flow.ui.main_window import MainWindow
 
 args = docopt.docopt(__doc__)
 

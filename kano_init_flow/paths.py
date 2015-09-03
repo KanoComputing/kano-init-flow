@@ -10,6 +10,7 @@ import os
 from kano.utils import get_home
 
 
+OLD_FIRST_BOOT_FILE = os.path.join(get_home(), '.kano-settings/first_boot')
 STATUS_FILE_PATH = os.path.join(get_home(), '.init-flow.json')
 
 

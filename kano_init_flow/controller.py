@@ -12,6 +12,7 @@ from gi.repository import Gtk
 from kano.logging import logger
 
 from .status import Status
+from .paths import OLD_FIRST_BOOT_FILE
 
 from .stages.wifi import Wifi
 from .stages.overscan import Overscan
@@ -34,6 +35,9 @@ class Controller(object):
 
     INIT_CONF = '/boot/init.conf'
 
+    FINISHED_FIRST_BOOT = 0  # 0 means that this was the first complete boot
+    NOT_FIRST_BOOT = 1       # 1 means that the init flow was completed before
+
     def __init__(self, main_window, start_from=None):
         """
             :param start_from: Overrides the status and makes the init flow
@@ -47,9 +51,7 @@ class Controller(object):
         if start_from:
             self._status.set_debug_mode(start_from)
 
-        # 0 means that this was the first complete boot
-        # 1 means that the init flow was completed before
-        self._return_value = 0
+        self._return_value = self.FINISHED_FIRST_BOOT
 
         self._stages = [
             Intro,
@@ -76,12 +78,19 @@ class Controller(object):
             the status file, not necessarily the very first stage.
         """
 
-        if self._status.completed:
-            self._return_value = 1
-            return False
+        if not self._status.debug_mode:
+            if self._status.completed:
+                self._return_value = self.NOT_FIRST_BOOT
+                return False
 
-        if not self._status.debug_mode and self._should_skip_init_flow():
-            return False
+            if os.path.exists(OLD_FIRST_BOOT_FILE):
+                self._return_value = self.NOT_FIRST_BOOT
+                self.complete()
+                return False
+
+            if self._should_skip_init_flow():
+                self.complete()
+                return False
 
         if len(self._stages):
             index = 0
