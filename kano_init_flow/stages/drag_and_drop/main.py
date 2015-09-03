@@ -44,9 +44,9 @@ class DragAndDrop(Stage):
         char_pixbuf = GdkPixbuf.Pixbuf.new_from_file(
             self.media_path('judoka-clicked.png')
         )
-        char_pixbuf = Scene.scale_pixbuf_to_scene(char_pixbuf, 0.6, 0.8)
+        char_pixbuf = scene.scale_pixbuf_to_scene(char_pixbuf, 0.6, 0.8)
         judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
-        judoka = Scene.scale_image_to_scene(judoka, 0.6, 0.8)
+        judoka = scene.scale_image_to_scene(judoka, 0.6, 0.8)
         speechbubble = SpeechBubble(
             text='This wasn\'t here before!\n\nClick and drag me to\n' +
                  'the other side.',

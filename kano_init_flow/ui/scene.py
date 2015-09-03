@@ -10,7 +10,8 @@ import time
 from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
-from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class
+from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, \
+                                    scale_gif
 
 from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 
@@ -19,6 +20,8 @@ from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
 
+#SCREEN_WIDTH = 1280
+#SCREEN_HEIGHT = 720
 
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
@@ -116,29 +119,36 @@ class Scene(object):
 
         final_scale = placement.scale * self._scale_factor
         if final_scale != 1 and placement.scale != 0:
-            if widget.__class__.__name__ == "Image":
+            if widget.__class__.__name__ == 'Image':
                 if widget.get_animation():
-                    widget = self._scale_gif(widget, final_scale)
+                    widget = scale_gif(widget, final_scale)
                 else:
                     widget = scale_image(widget, final_scale)
+            elif widget.__class__.__name__ == 'ActiveImage':
+                widget.scale(final_scale)
             else:
                 if placement.scale != 1.0:
                     raise RuntimeError('Can\'t scale regular widgets!')
 
-        root_widget = widget
-        if clicked_cb:
-            # TODO: Add custom styling to this.
-            button_wrapper = Gtk.Button()
-            button_wrapper.add(root_widget)
-            attach_cursor_events(button_wrapper)
-            root_widget = button_wrapper
+        if widget.__class__.__name__ == 'ActiveImage':
+            root_widget = widget.get_widget()
+        else:
+            root_widget = widget
 
+        if clicked_cb:
+            # ActiveImage already comes in a button wrapper
+            if widget.__class__.__name__ != 'ActiveImage':
+                button_wrapper = Gtk.Button()
+                button_wrapper.add(root_widget)
+                root_widget = button_wrapper
+
+            attach_cursor_events(root_widget)
             if isinstance(clicked_cb, (list, tuple)):
-                button_wrapper.connect('clicked', self._clicked_cb_wrapper,
-                                       clicked_cb[0], *clicked_cb[1:])
+                root_widget.connect('clicked', self._clicked_cb_wrapper,
+                                    clicked_cb[0], *clicked_cb[1:])
             else:
-                button_wrapper.connect('clicked', self._clicked_cb_wrapper,
-                                       clicked_cb)
+                root_widget.connect('clicked', self._clicked_cb_wrapper,
+                                    clicked_cb)
 
             if key is not None:
                 if not hasattr(self, '_keys'):
@@ -215,47 +225,6 @@ class Scene(object):
     def widget(self):
         return self._overlay
 
-    @staticmethod
-    def _scale_gif(widget, scale):
-
-        anim = widget.get_animation()
-        timestamp = GLib.TimeVal()
-        pixbuf_iter = anim.get_iter(timestamp)
-
-        max_height = 0
-        max_width = 0
-
-        pixbufs = []
-
-        for i in range(4):
-            pixbuf = pixbuf_iter.get_pixbuf()
-            pixbuf, width, height = scale_pixbuf(pixbuf, scale)
-            pixbufs.append(pixbuf)
-
-            if width > max_width:
-                max_width = width
-
-            if height > max_height:
-                max_height = height
-
-            # the factor of 1000 is due to conveting from milliseconds to
-            # microseconds
-            time_to_next_frame = pixbuf_iter.get_delay_time() * 1000
-            timestamp.add(time_to_next_frame)
-            pixbuf_iter.advance(timestamp)
-
-        # This is the animation we want to fill up
-        simpleanim = GdkPixbuf.PixbufSimpleAnim.new(max_width, max_height, 10)
-        # Set it so it runs in a loop forever
-        simpleanim.set_loop(True)
-
-        for pixbuf in pixbufs:
-            simpleanim.add_frame(pixbuf)
-
-        image = Gtk.Image()
-        image.set_from_animation(simpleanim)
-        return image
-
     def show_all(self):
         self._overlay.show_all()
 
@@ -266,3 +235,58 @@ class Scene(object):
     @staticmethod
     def get_user_character_image():
         return Gtk.Image.new_from_file(Scene.get_user_character_path())
+
+
+class ActiveImage(object):
+    def __init__(self, img, hover=None, down=None):
+        self._img = Gtk.Image.new_from_file(img)
+        self._hover = Gtk.Image.new_from_file(hover)
+        self._down = Gtk.Image.new_from_file(down)
+
+    def scale(self, factor):
+        scaled = []
+        for w in [self._img, self._hover, self._down]:
+            if w.get_animation():
+                w = scale_gif(w, factor)
+            else:
+                w = scale_image(w, factor)
+            scaled.push(w)
+
+        self._img, self._hover, self._down = scaled
+
+    def get_widget(self):
+        self._w = Gtk.Image.new_from_pixbuf(self._img.get_pixbuf())
+        self._button = Gtk.Button()
+        self._button.add(self._w)
+
+        if self._hover:
+            self._button.connect('enter-notify-event', self._enter_cb)
+            self._button.connect('leave-notify-event', self._leave_cb)
+
+        if self._down:
+            self._button.connect('button-press-event', self._down_cb)
+            self._button.connect('button-release-event', self._up_cb)
+
+        return self._button
+
+    def set(self, img):
+        if img.get_animation():
+            self._w.set_from_animation(img.get_animation())
+        else:
+            self._w.set_from_pixbuf(img.get_pixbuf())
+
+    def _down_cb(self, widget, event, user=None):
+        self.set(self._down)
+        print 'down'
+
+    def _up_cb(self, widget, event, user=None):
+        self.set(self._img)
+        print 'up'
+
+    def _enter_cb(self, widget, event, user=None):
+        self.set(self._hover)
+        print 'enter'
+
+    def _leave_cb(self, widget, event, user=None):
+        self.set(self._img)
+        print 'leave'

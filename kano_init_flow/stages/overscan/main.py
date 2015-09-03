@@ -13,7 +13,7 @@ from kano_settings.system.display import get_overscan_status, \
 
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
@@ -76,7 +76,9 @@ class Overscan(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('up-button.png')),
+            ActiveImage(self.media_path('up-button.png'),
+                        self.media_path('up-button-hover.png'),
+                        self.media_path('up-button-down.png')),
             Placement(0.5, 0.435, 1),
             Placement(0.51, 0.436, 1),
             self._overscan_ctl.zoom_out

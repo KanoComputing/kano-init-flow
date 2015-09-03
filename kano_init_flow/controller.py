@@ -60,8 +60,8 @@ class Controller(object):
             AudioLab,
             LightLab,
             Blocks,
-            Wifi,
-            Quests
+            Wifi
+            #Quests
         ]
 
     @property
