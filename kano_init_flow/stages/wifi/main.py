@@ -41,6 +41,7 @@ class Wifi(Stage):
         self._ctl.main_window.push(s1.widget)
 
     def second_scene(self):
+        # TODO: uncomment before release
         # Jump directly at the end if we have internet
         #if is_internet():
         #    self.third_scene()
