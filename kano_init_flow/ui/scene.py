@@ -21,7 +21,7 @@ SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
 
 #SCREEN_WIDTH = 1280
-#SCREEN_HEIGHT = 720
+#SCREEN_HEIGHT = 800
 
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
@@ -73,6 +73,11 @@ class Scene(object):
 
         self._fixed = Gtk.Fixed()
         self._overlay.add_overlay(self._fixed)
+
+        self._eb = Gtk.EventBox()
+        self._eb.set_size_request(self._w, self._h)
+        self._eb.add(self._overlay)
+        add_class(self._eb, 'scene-backdrop')
 
     def _determine_screen_ratio(self):
         self._w = w = SCREEN_WIDTH
@@ -223,7 +228,7 @@ class Scene(object):
 
     @property
     def widget(self):
-        return self._overlay
+        return self._eb
 
     def show_all(self):
         self._overlay.show_all()
@@ -255,7 +260,8 @@ class ActiveImage(object):
         self._img, self._hover, self._down = scaled
 
     def get_widget(self):
-        self._w = Gtk.Image.new_from_pixbuf(self._img.get_pixbuf())
+        self._w = Gtk.Image()
+        self.set(self._img)
         self._button = Gtk.Button()
         self._button.add(self._w)
 
@@ -277,16 +283,12 @@ class ActiveImage(object):
 
     def _down_cb(self, widget, event, user=None):
         self.set(self._down)
-        print 'down'
 
     def _up_cb(self, widget, event, user=None):
         self.set(self._img)
-        print 'up'
 
     def _enter_cb(self, widget, event, user=None):
         self.set(self._hover)
-        print 'enter'
 
     def _leave_cb(self, widget, event, user=None):
         self.set(self._img)
-        print 'leave'

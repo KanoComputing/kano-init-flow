@@ -3,7 +3,11 @@ GtkButton {
 }
 
 GtkWindow {
-    background: #6baadd;
+    background: #000;/*#6baadd;*/
+}
+
+.scene-backdrop {
+    background-color: #6baadd;
 }
 
 .heading {

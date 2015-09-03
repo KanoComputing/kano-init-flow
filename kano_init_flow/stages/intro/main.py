@@ -7,7 +7,7 @@
 from gi.repository import Gtk, Gdk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.paths import common_media_path
@@ -70,7 +70,11 @@ class Intro(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path('next-button.gif')),
+            ActiveImage(
+                common_media_path('next-button.gif'),
+                common_media_path('next-button-hover.png'),
+                common_media_path('next-button-down.png')
+            ),
             Placement(0.5, 0.75, 0),
             Placement(0.5, 0.75, 0),
             self.second_scene
