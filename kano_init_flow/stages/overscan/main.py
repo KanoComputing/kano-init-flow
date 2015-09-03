@@ -7,7 +7,7 @@
 from gi.repository import Gtk
 
 from kano.gtk3.buttons import KanoButton
-from kano.utils import is_monitor
+from kano.utils import is_monitor, run_cmd
 from kano_settings.system.display import get_overscan_status, \
     write_overscan_values, set_overscan_status, launch_pipe
 
@@ -187,7 +187,10 @@ class Notebook(Gtk.Overlay):
 
 class OverscanControl(object):
     def __init__(self):
-        launch_pipe()
+        # launch_pipe()
+        # The command below initialises the overscan pipe as root
+        # TODO: This would be nice to refactor.
+        run_cmd('sudo kano-init-flow-mknod')
 
         self._step = 10
         self._original = get_overscan_status()
