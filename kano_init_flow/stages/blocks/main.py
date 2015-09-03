@@ -10,6 +10,7 @@ from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.drag_classes import DragSource, DropArea
+from kano_init_flow.ui.components import NextButton
 
 
 class Blocks(Stage):
@@ -87,7 +88,7 @@ class Blocks(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
+            NextButton(),
             Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
             self.second_scene
@@ -116,7 +117,7 @@ class Blocks(Stage):
 
         # Add moving image of altar. For now use next button.
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
+            NextButton(),
             Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
             self.third_scene
@@ -175,7 +176,7 @@ class Blocks(Stage):
                              self.media_path('altar-screen-complete.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
+            NextButton(),
             Placement(0.55, 0.9, 0),
             Placement(0.55, 0.9, 0),
             self.fifth_scene
@@ -220,7 +221,7 @@ class Blocks(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
+            NextButton(),
             Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
             self.next_stage

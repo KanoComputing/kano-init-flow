@@ -14,6 +14,7 @@ from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.paths import common_media_path
 from kano_avatar_gui.CharacterCreator import CharacterCreator
 from kano.gtk3.kano_dialog import KanoDialog
+from kano_init_flow.ui.components import NextButton
 
 
 class Wardrobe(Stage):
@@ -140,7 +141,7 @@ class Wardrobe(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
+            NextButton(),
             Placement(0.5, 0.95, 0),
             Placement(0.45, 0.95, 0),
             self.next_stage

@@ -129,20 +129,20 @@ class Scene(object):
                     widget = scale_gif(widget, final_scale)
                 else:
                     widget = scale_image(widget, final_scale)
-            elif widget.__class__.__name__ == 'ActiveImage':
+            elif issubclass(widget.__class__, ActiveImage):
                 widget.scale(final_scale)
             else:
                 if placement.scale != 1.0:
                     raise RuntimeError('Can\'t scale regular widgets!')
 
-        if widget.__class__.__name__ == 'ActiveImage':
+        if issubclass(widget.__class__, ActiveImage):
             root_widget = widget.get_widget()
         else:
             root_widget = widget
 
         if clicked_cb:
             # ActiveImage already comes in a button wrapper
-            if widget.__class__.__name__ != 'ActiveImage':
+            if not issubclass(widget.__class__, ActiveImage):
                 button_wrapper = Gtk.Button()
                 button_wrapper.add(root_widget)
                 root_widget = button_wrapper

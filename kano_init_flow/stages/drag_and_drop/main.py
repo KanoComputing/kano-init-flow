@@ -12,6 +12,7 @@ from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano.gtk3.cursor import attach_cursor_events
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.drag_classes import DragSource, DropArea
+from kano_init_flow.ui.components import NextButton
 
 
 class DragAndDrop(Stage):
@@ -108,16 +109,11 @@ class DragAndDrop(Stage):
             Placement(0.9, 0.35, 0.96)
         )
 
-        next_button = Gtk.Button()
-        next_button.set_image(Gtk.Image.new_from_file(
-            common_media_path("next-button.gif"))
-        )
-        next_button.connect("button-release-event", self._next_stage_wrapper)
-        attach_cursor_events(next_button)
         scene.add_widget(
-            next_button,
+            NextButton(),
             Placement(0.5, 0.7, 0),
-            Placement(0.5, 0.7, 0)
+            Placement(0.5, 0.7, 0),
+            self._next_stage_wrapper
         )
 
         return scene

@@ -19,6 +19,7 @@ from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.ui.utils import cb_wrapper
+from kano_init_flow.ui.components import NextButton
 
 
 class Bugs(Stage):
@@ -113,7 +114,7 @@ class Bugs(Stage):
             self._place_judoka_into_scene(scene, True)
 
             scene.add_widget(
-                Gtk.Image.new_from_file(common_media_path('next-button.gif')),
+                NextButton(),
                 Placement(0.5, 0.9, 0),
                 Placement(0.5, 0.9, 0),
                 self._ctl.next_stage

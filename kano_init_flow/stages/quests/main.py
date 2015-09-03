@@ -20,6 +20,7 @@ from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.ui.utils import cb_wrapper
+from kano_init_flow.ui.components import NextButton
 
 
 class Quests(Stage):
@@ -81,7 +82,7 @@ class Quests(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path("next-button.gif")),
+            NextButton(),
             Placement(0.3, 0.5, 0),
             Placement(0.37, 0.43, 0),
             self.second_scene
