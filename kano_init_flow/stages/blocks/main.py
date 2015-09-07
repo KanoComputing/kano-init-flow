@@ -162,12 +162,6 @@ class Blocks(Stage):
             Placement(0.5, 0.68, 0)
         )
 
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("kano-block.png")),
-            Placement(0.5, 0.88, 1),
-            Placement(0.5, 0.88, 1)
-        )
-
         # Block drop area
         drop_area = DropArea(self.fourth_scene)
         drop_area_width = scene.get_width() * 0.24
