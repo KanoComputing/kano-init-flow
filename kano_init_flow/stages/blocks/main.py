@@ -49,8 +49,8 @@ class Blocks(Stage):
 
     def _setup_base_temple_scene(self):
         scene = Scene()
-        scene.set_background(self.media_path('scene-1600x1200.png'),
-                             self.media_path('scene-1920x1080.png'))
+        scene.set_background(self.media_path('blocks-scene-incomplete-1600x1200.png'),
+                             self.media_path('blocks-scene-incomplete-1920x1080.png'))
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("boulder.png")),
@@ -60,13 +60,13 @@ class Blocks(Stage):
 
         scene.add_widget(
             scene.get_user_character_image(),
-            Placement(0.22, 0.6, 0.52),
+            Placement(0.22, 0.55, 0.52),
             Placement(0.22, 0.6, 0.52)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("mage-doka.png")),
-            Placement(0.8, 0.6),
+            Placement(0.8, 0.55),
             Placement(0.8, 0.6)
         )
 
@@ -75,10 +75,12 @@ class Blocks(Stage):
     def _setup_first_scene(self):
         scene = self._setup_base_temple_scene()
 
+        copy = "Oh no, there's a boulder" + \
+               "\nblocking our exit!"
+
         scene.add_widget(
             SpeechBubble(
-                text="Oh no, there's a boulder" +
-                     "\nblocking our exit!",
+                text=copy,
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5,
                 scale=scene.scale_factor
@@ -88,13 +90,17 @@ class Blocks(Stage):
         )
 
         scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path("altar-still.png")),
+            Placement(0.41, 0.55, 1),
+            Placement(0.41, 0.65, 1)
+        )
+
+        scene.add_widget(
             NextButton(),
             Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
             self.second_scene
         )
-
-        # Add static image of altar
 
         return scene
 
@@ -115,11 +121,10 @@ class Blocks(Stage):
             Placement(0.88, 0.15, 0)
         )
 
-        # Add moving image of altar. For now use next button.
         scene.add_widget(
-            NextButton(),
-            Placement(0.5, 0.87, 0),
-            Placement(0.5, 0.87, 0),
+            Gtk.Image.new_from_file(self.media_path("altar.gif")),
+            Placement(0.41, 0.55, 1),
+            Placement(0.41, 0.65, 1),
             self.third_scene
         )
 
@@ -127,58 +132,71 @@ class Blocks(Stage):
 
     def _setup_third_scene(self):
         scene = Scene()
-        scene.set_background(self.media_path('altar-screen-incomplete-1600x1200.png'),
-                             self.media_path('altar-screen-incomplete.png'))
 
+        scene.set_background(common_media_path("blueprint-bg-4-3.png"),
+                             common_media_path("blueprint-bg-16-9.png"))
+
+        # Altar
+        scene.add_widget(Gtk.Image.new_from_file(self.media_path('altar-incomplete.png')),
+                         Placement(0.5, 0.5, 1),
+                         Placement(0.5, 0.5, 1))
+
+        # Block image for drag source
         block_image = scene.scale_image_to_scene(
             Gtk.Image.new_from_file(self.media_path("kano-block.png")),
-            0.7,
-            0.9
+            1,
+            1
         )
 
         block_pixbuf = scene.scale_pixbuf_to_scene(
             GdkPixbuf.Pixbuf.new_from_file(self.media_path("kano-block.png")),
-            0.7,
-            0.9
+            1,
+            1
         )
 
-        # TODO: Add drop area
         block_drag_source = DragSource(block_image, block_pixbuf)
 
-        # Make into drag source
         scene.add_widget(
             block_drag_source,
-            Placement(0.46, 0.15),
-            Placement(0.44, 0.15)
+            Placement(0.5, 0.68, 0),
+            Placement(0.5, 0.68, 0)
         )
 
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path("kano-block.png")),
+            Placement(0.5, 0.88, 1),
+            Placement(0.5, 0.88, 1)
+        )
+
+        # Block drop area
         drop_area = DropArea(self.fourth_scene)
-
-        # Make this a percentage of the screen size
-        screen = Gdk.Screen.get_default()
-
-        # This is not super accurate for the different screen resolutions
-        drop_area_width = screen.get_width() * 0.2
-        drop_area_height = screen.get_height() * 0.07
+        drop_area_width = scene.get_width() * 0.24
+        drop_area_height = scene.get_height() * 0.08
         drop_area.set_size_request(drop_area_width, drop_area_height)
 
         scene.add_widget(
             drop_area,
-            Placement(0.54, 0.475, 0),
-            Placement(0.54, 0.48, 0)
+            Placement(0.505, 0.47, 0),
+            Placement(0.505, 0.47, 0)
         )
 
         return scene
 
     def _setup_fourth_scene(self):
         scene = Scene()
-        scene.set_background(self.media_path('altar-screen-complete-1600x1200.png'),
-                             self.media_path('altar-screen-complete.png'))
+        scene.set_background(common_media_path("blueprint-bg-4-3.png"),
+                             common_media_path("blueprint-bg-16-9.png"))
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path("altar-complete.png")),
+            Placement(0.5, 0.5, 1),
+            Placement(0.5, 0.5, 1),
+        )
 
         scene.add_widget(
             NextButton(),
-            Placement(0.55, 0.9, 0),
-            Placement(0.55, 0.9, 0),
+            Placement(0.5, 0.9, 0),
+            Placement(0.5, 0.9, 0),
             self.fifth_scene
         )
 
@@ -186,8 +204,8 @@ class Blocks(Stage):
 
     def _setup_fifth_scene(self):
         scene = Scene()
-        scene.set_background(self.media_path('scene-1600x1200.png'),
-                             self.media_path('scene-1920x1080.png'))
+        scene.set_background(self.media_path('blocks-scene-complete-1600x1200.png'),
+                             self.media_path('blocks-scene-complete-1920x1080.png'))
 
         # Move boulder
         scene.add_widget(
@@ -198,7 +216,7 @@ class Blocks(Stage):
 
         scene.add_widget(
             scene.get_user_character_image(),
-            Placement(0.22, 0.6, 0.52),
+            Placement(0.22, 0.55, 0.52),
             Placement(0.22, 0.6, 0.52)
         )
 
@@ -216,13 +234,13 @@ class Blocks(Stage):
         # Change mage face?
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("mage-doka.png")),
-            Placement(0.8, 0.6),
+            Placement(0.8, 0.55),
             Placement(0.8, 0.6)
         )
 
         scene.add_widget(
             NextButton(),
-            Placement(0.5, 0.87, 0),
+            Placement(0.5, 0.8, 0),
             Placement(0.5, 0.87, 0),
             self.next_stage
         )
