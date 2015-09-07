@@ -19,6 +19,7 @@ from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
+from kano_init_flow.ui.components import NextButton
 
 from kano.network import is_internet
 
@@ -50,9 +51,13 @@ class Wifi(Stage):
         s2 = self._setup_second_scene()
         self._ctl.main_window.push(s2.widget)
 
-    def third_scene(self):
-        s3 = self._setup_third_scene()
+    def connected_scene(self):
+        s3 = self._setup_connected_scene()
         self._ctl.main_window.push(s3.widget)
+
+    def disconnected_scene(self):
+        s4 = self._setup_disconnected_scene()
+        self._ctl.main_window.push(s4.widget)
 
     def next_stage(self):
         self._ctl.next_stage()
@@ -62,14 +67,7 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
-        # Character path in the home directory
-        character_path = os.path.join(
-            os.path.expanduser("~"),
-            ".character-content/character.png"
-        )
-
-        scene.add_widget(
-            Gtk.Image.new_from_file(character_path),
+        scene.add_character(
             Placement(0.08, 0.9, 0.5),
             Placement(0.12, 0.9, 0.6)
         )
@@ -107,26 +105,19 @@ class Wifi(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         scene.add_widget(
-            WifiConsole(self, self.third_scene),
+            WifiConsole(self, self.connected_scene, self.disconnected_scene),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0)
         )
 
         return scene
 
-    def _setup_third_scene(self):
+    def _setup_connected_scene(self):
         scene = Scene()
         scene.set_background(self.media_path('space-2-bg-4-3.png'),
                              self.media_path('space-2-bg-16-9.png'))
 
-        # Character path in the home directory
-        character_path = os.path.join(
-            os.path.expanduser("~"),
-            ".character-content/character.png"
-        )
-
-        scene.add_widget(
-            Gtk.Image.new_from_file(character_path),
+        scene.add_character(
             Placement(0.08, 0.9, 0.5),
             Placement(0.12, 0.9, 0.6)
         )
@@ -155,14 +146,56 @@ class Wifi(Stage):
 
         return scene
 
+    def _setup_disconnected_scene(self):
+        scene = Scene()
+        scene.set_background(self.media_path('space-1-bg-4-3.png'),
+                             self.media_path('space-1-bg-16-9.png'))
+
+        scene.add_character(
+            Placement(0.08, 0.9, 0.5),
+            Placement(0.12, 0.9, 0.6)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('spaceman.png')),
+            Placement(0.9, 0.9, 0.65),
+            Placement(0.9, 0.9, 0.75)
+        )
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path('console.gif')),
+            Placement(0.35, 0.925, 0.8),
+            Placement(0.367, 0.888),
+            self.second_scene
+        )
+
+        copy = 'Oh no, connection failed!\nWe won\'t be able to make it\nto Kano World.\n\n' + \
+               'To try again, click the console.'
+        scene.add_widget(
+            SpeechBubble(text=copy, source=SpeechBubble.RIGHT,
+                         scale=scene.scale_factor),
+            Placement(0.78, 0.72),
+            Placement(0.74, 0.68)
+        )
+
+        scene.add_widget(
+            NextButton(),
+            Placement(0.5, 0.99, 0),
+            Placement(0.45, 0.99, 0),
+            self.next_stage
+        )
+
+        return scene
+
 
 class WifiConsole(Gtk.Overlay):
 
-    def __init__(self, stage, next_cb):
+    def __init__(self, stage, connected_cb, disconnected_cb):
         super(WifiConsole, self).__init__()
 
         self._stage = stage
-        self._next_cb = next_cb
+        self._connected_cb = connected_cb
+        self._disconnected_cb = disconnected_cb
 
         bg = Gtk.Image.new_from_file(self._stage.media_path('console-large.png'))
         fixed = Gtk.Fixed()
@@ -204,7 +237,7 @@ class WifiConsole(Gtk.Overlay):
 
     def wifi_screen(self):
         self._clear()
-        socket = WifiGUI(self._next_cb, self.troubleshoot_ethernet)
+        socket = WifiGUI(self._connected_cb, self.troubleshoot_option)
         screen = ExternalApp(self._stage, socket)
 
         eb = Gtk.EventBox()
@@ -218,6 +251,16 @@ class WifiConsole(Gtk.Overlay):
         self._eb.add(eb)
         self._eb.show_all()
 
+    def troubleshoot_option(self):
+        self._clear()
+        screen = TroubleshootOrDisconnect(
+            self._stage,
+            self.troubleshoot_ethernet,
+            self.are_you_sure
+        )
+        self._eb.add(screen)
+        self._eb.show_all()
+
     def troubleshoot_ethernet(self):
         self._clear()
         copy = """If you have access to an ethernet cable, try using that instead."""
@@ -225,7 +268,7 @@ class WifiConsole(Gtk.Overlay):
             self._stage,
             self._stage.media_path('ethernet-cable.png'),
             0.0, 0.3, copy, 280,
-            self.parental_question_screen,
+            self.wifi_screen,
             self.troubleshoot_router
         )
 
@@ -240,14 +283,108 @@ class WifiConsole(Gtk.Overlay):
             self._stage.media_path('router.png'),
             1.0, 0.25, copy, 330,
             self.troubleshoot_ethernet,
-            self.parental_question_screen
+            self.wifi_screen
         )
+        self._eb.add(screen)
+        self._eb.show_all()
+
+    def are_you_sure(self):
+        self._clear()
+        screen = AreYouSure(self._stage,
+                            self.wifi_screen,
+                            self._disconnected_cb)
+
         self._eb.add(screen)
         self._eb.show_all()
 
     def _clear(self):
         for child in self._eb.get_children():
             self._eb.remove(child)
+
+
+class TroubleshootOrDisconnect(Gtk.Box):
+    def __init__(self, stage, troubleshoot_cb, skip_cb):
+        super(TroubleshootOrDisconnect, self).__init__(orientation=Gtk.Orientation.VERTICAL)
+
+        self._stage = stage
+
+        self.set_hexpand(False)
+        self.set_vexpand(False)
+        self.set_margin_left(40)
+        self.set_margin_right(40)
+
+        heading = Gtk.Label('Troubleshoot')
+        add_class(heading, 'console-screen-heading')
+
+        desc = Gtk.Label("""Oops there was a problem connecting to internet.""")
+        desc.set_line_wrap(True)
+        add_class(desc, 'console-screen-desc')
+
+        image = Gtk.Image.new_from_file(self._stage.media_path("troubleshooting.png"))
+
+        troubleshoot = KanoButton('TROUBLESHOOT')
+        troubleshoot.connect('clicked', self._cb_wrapper, troubleshoot_cb)
+
+        skip = KanoButton('SKIP', color="orange")
+        skip.connect('clicked', self._cb_wrapper, skip_cb)
+
+        buttons = Gtk.HBox(False, 0)
+        buttons.pack_start(troubleshoot, True, True, 20)
+        buttons.pack_start(skip, True, True, 0)
+
+        self.pack_start(heading, False, False, 30)
+        self.pack_start(image, False, False, 10)
+        self.pack_start(desc, False, False, 10)
+        self.pack_start(buttons, False, False, 30)
+
+    def _cb_wrapper(self, widget, cb):
+        cb()
+        return True
+
+
+class AreYouSure(Gtk.Box):
+    def __init__(self, stage, try_again_cb, skip_cb):
+        super(AreYouSure, self).__init__(orientation=Gtk.Orientation.VERTICAL)
+
+        self._stage = stage
+
+        self.set_hexpand(False)
+        self.set_vexpand(False)
+        self.set_margin_left(40)
+        self.set_margin_right(40)
+
+        heading = Gtk.Label('Are You Sure?')
+        heading.set_margin_top(20)
+        add_class(heading, 'console-screen-heading')
+
+        desc = Gtk.Label(
+            "Kano uses WiFi to stay up to date" +
+            "\nwith all new software updates, apps" +
+            "\nand features." +
+            "\n\nDon't worry, you can connect to WiFi" +
+            "\nlater from the desktop"
+        )
+        desc.set_justify(Gtk.Justification.CENTER)
+        desc.set_line_wrap(True)
+        add_class(desc, 'console-screen-desc')
+
+        try_again = KanoButton('TRY AGAIN')
+        try_again.connect('clicked', self._cb_wrapper, try_again_cb)
+
+        skip = KanoButton('YES I WANT TO SKIP', color="orange")
+        skip.connect('clicked', self._cb_wrapper, skip_cb)
+
+        buttons = Gtk.HBox(False, 0)
+        buttons.pack_start(try_again, True, True, 20)
+        buttons.pack_start(skip, True, True, 0)
+
+        self.pack_start(heading, False, False, 30)
+        self.pack_start(desc, False, False, 40)
+        self.pack_start(buttons, False, False, 40)
+
+    def _cb_wrapper(self, widget, cb):
+        cb()
+        return True
 
 
 class ParentalScreen(Gtk.VBox):
@@ -269,15 +406,15 @@ class ParentalScreen(Gtk.VBox):
         # TODO: Add image
         padlock = Gtk.Image.new_from_file(stage.media_path('padlock.png'))
 
-        now = KanoButton('SET NOW')
-        now.connect('clicked', self._cb_wrapper, now_cb)
-
         later = KanoButton('LATER')
         later.connect('clicked', self._cb_wrapper, later_cb)
 
+        now = KanoButton('SET NOW', color="orange")
+        now.connect('clicked', self._cb_wrapper, now_cb)
+
         buttons = Gtk.HBox(False, 0)
-        buttons.pack_start(now, True, True, 20)
-        buttons.pack_start(later, True, True, 0)
+        buttons.pack_start(later, True, True, 20)
+        buttons.pack_start(now, True, True, 0)
 
         self.pack_start(heading, False, False, 30)
         self.pack_start(desc, False, False, 20)
@@ -415,14 +552,24 @@ class ParentalControlGUI(ConsoleContainer):
 
 class WifiGUI(ConsoleContainer):
 
-    def __init__(self, success_cb, fail_cb):
+    # There are two callbacks passed.
+    # The first is the space landscape shown when the user successfully
+    # connects to the internet.
+    # The second is the space landscape where you are prompted to connect
+    # to the internet again.
+    def __init__(self, connected_cb, fail_cb):
         super(WifiGUI, self).__init__()
-        self.socket.connect("plug-removed", self._cb_wrapper, success_cb, fail_cb)
+        self.socket.connect(
+            "plug-removed",
+            self._cb_wrapper,
+            connected_cb,
+            fail_cb
+        )
 
-    def _cb_wrapper(self, widget, success_cb, fail_cb):
+    def _cb_wrapper(self, widget, connected_cb, fail_cb):
         # if there is internet, then the user suceeded with connecting
         if is_internet():
-            success_cb()
+            connected_cb()
         else:
             fail_cb()
 
@@ -434,6 +581,9 @@ class WifiGUI(ConsoleContainer):
 
             p = subprocess.Popen(cmd, shell=True)
             p.wait()
+            # To get the returncode (which is 100 if the user clicks SKIP, use
+            # p.returncode
+
         except Exception:
             # We need to make sure this doesn't kill the init flow
             logger.warn('kano-wifi-gui failed during the init flow')

@@ -7,7 +7,7 @@
 import os
 import time
 
-from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
+from gi.repository import Gtk, Gdk, GdkPixbuf
 from kano.gtk3.cursor import attach_cursor_events
 
 from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, \
@@ -20,8 +20,19 @@ from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 SCREEN_WIDTH = Gdk.Screen.width()
 SCREEN_HEIGHT = Gdk.Screen.height()
 
-#SCREEN_WIDTH = 1280
-#SCREEN_HEIGHT = 800
+# SCREEN_WIDTH = 1280
+# SCREEN_HEIGHT = 800
+
+# 16 by 9
+
+# SCREEN_WIDTH = 1600
+# SCREEN_HEIGHT = 900
+
+# 4 by 3
+
+# SCREEN_WIDTH = 1200
+# SCREEN_HEIGHT = 800
+
 
 class Placement(object):
     def __init__(self, x=0, y=0, scale=1.0):
@@ -96,6 +107,12 @@ class Scene(object):
             self._h *= ratio * (1.0 / self._screen_ratio)
         else:
             self._w *= (1.0 / ratio) * self._screen_ratio
+
+    def get_width(self):
+        return self._w
+
+    def get_height(self):
+        return self._h
 
     def _get_scale_factor(self):
         if self._screen_ratio == self.RATIO_4_3:
@@ -225,9 +242,9 @@ class Scene(object):
     def scale_pixbuf_to_scene(self, pixbuf, scale_4_3, scale_16_9):
         screen_ratio = self._screen_ratio
         if screen_ratio == Scene.RATIO_4_3:
-            base_scale = scale_4_3
+            base_scale = scale_4_3 * self._scale_factor
         elif screen_ratio == Scene.RATIO_16_9:
-            base_scale = scale_16_9
+            base_scale = scale_16_9 * self._scale_factor
         return scale_pixbuf(pixbuf, base_scale)[0]
 
     def scale_image_to_scene(self, img_widget, scale_4_3, scale_16_9):
