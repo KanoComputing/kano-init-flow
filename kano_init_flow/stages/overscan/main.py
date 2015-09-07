@@ -81,8 +81,8 @@ class Overscan(Stage):
 
         scene.add_widget(
             ActiveImage(self.media_path('up-button.png'),
-                        self.media_path('up-button-hover.png'),
-                        self.media_path('up-button-down.png')),
+                        self.media_path('up-button.png'),
+                        self.media_path('up-button.png')),
             Placement(0.5, 0.435, 1),
             Placement(0.51, 0.436, 1),
             self._overscan_ctl.zoom_out,
@@ -90,7 +90,9 @@ class Overscan(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('down-button.png')),
+            ActiveImage(self.media_path('down-button.png'),
+                        self.media_path('down-button.png'),
+                        self.media_path('down-button.png')),
             Placement(0.5, 0.535, 1),
             Placement(0.51, 0.536, 1),
             self._overscan_ctl.zoom_in,

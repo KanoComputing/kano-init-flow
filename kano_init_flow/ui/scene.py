@@ -118,6 +118,23 @@ class Scene(object):
                                                            self._h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
+    def add_character(self, p43, p169, clicked_cb=None, key=None, name=None, modal=False):
+        # Character path in the home directory
+        character_path = os.path.join(
+            os.path.expanduser("~"),
+            ".character-content/character.png"
+        )
+
+        self.add_widget(
+            Gtk.Image.new_from_file(character_path),
+            p43,
+            p169,
+            clicked_cb,
+            key,
+            name,
+            modal
+        )
+
     def add_widget(self, widget, p43, p169, clicked_cb=None, key=None,
                    name=None, modal=False):
         placement = p43 if self._screen_ratio == self.RATIO_4_3 else p169
@@ -255,7 +272,7 @@ class ActiveImage(object):
                 w = scale_gif(w, factor)
             else:
                 w = scale_image(w, factor)
-            scaled.push(w)
+            scaled.append(w)
 
         self._img, self._hover, self._down = scaled
 

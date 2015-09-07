@@ -113,10 +113,7 @@ class DragAndDrop(Stage):
             NextButton(),
             Placement(0.5, 0.7, 0),
             Placement(0.5, 0.7, 0),
-            self._next_stage_wrapper
+            self.next_stage
         )
 
         return scene
-
-    def _next_stage_wrapper(self, widget, event):
-        self.next_stage()
