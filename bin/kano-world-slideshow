@@ -5,6 +5,7 @@
 #
 
 from kano_init_flow.kw_slideshow import MainWindow
+from gi.repository import Gtk
 
 
 if __name__ == "__main__":
