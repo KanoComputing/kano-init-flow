@@ -55,15 +55,15 @@ class Controller(object):
 
         self._stages = [
             Intro,
-            Overscan,
+            # Overscan,
             DragAndDrop,
             Bugs,
             Wardrobe,
             AudioLab,
-            LightLab,
+            # LightLab,
             Blocks,
             Wifi
-            #Quests
+            # Quests
         ]
 
     @property

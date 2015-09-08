@@ -105,7 +105,7 @@ class Wifi(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         scene.add_widget(
-            WifiConsole(self, self.connected_scene, self.disconnected_scene),
+            WifiConsole(self, self.connected_scene, self.next_stage),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0)
         )
