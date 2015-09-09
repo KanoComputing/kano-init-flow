@@ -6,7 +6,7 @@
 # Keeps user's progression through the init flow
 #
 
-from gi.repository import Gtk, GLib, GObject
+from gi.repository import Gtk, GLib, GObject, Gdk
 
 from kano.gtk3.apply_styles import apply_common_to_screen
 from kano.logging import logger
@@ -43,7 +43,15 @@ class MainWindow(Gtk.Window):
         apply_styling_to_screen(common_css_path('speech_bubble.css'))
 
         self.set_decorated(False)
-        self.fullscreen()
+
+        # self.fullscreen()
+        # self.set_keep_below(True)
+
+        screen = Gdk.Screen.get_default()
+        width = screen.get_width()
+        height = screen.get_height()
+        self.set_size_request(width, height)
+        self.set_position(Gtk.WindowPosition.CENTER)
 
         overlay = Gtk.Overlay()
         self._child = Gtk.EventBox()
