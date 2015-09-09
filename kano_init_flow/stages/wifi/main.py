@@ -147,7 +147,7 @@ class Wifi(Stage):
         return scene
 
     def _setup_disconnected_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
@@ -182,7 +182,8 @@ class Wifi(Stage):
             NextButton(),
             Placement(0.5, 0.99, 0),
             Placement(0.45, 0.99, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene

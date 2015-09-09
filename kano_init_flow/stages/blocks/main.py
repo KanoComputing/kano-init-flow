@@ -48,7 +48,7 @@ class Blocks(Stage):
         self._ctl.next_stage()
 
     def _setup_base_temple_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('blocks-scene-incomplete-1600x1200.png'),
                              self.media_path('blocks-scene-incomplete-1920x1080.png'))
 
@@ -100,7 +100,8 @@ class Blocks(Stage):
             NextButton(),
             Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
-            self.second_scene
+            self.second_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
@@ -181,7 +182,7 @@ class Blocks(Stage):
         return scene
 
     def _setup_fourth_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path("blueprint-bg-4-3.png"),
                              common_media_path("blueprint-bg-16-9.png"))
 
@@ -195,13 +196,14 @@ class Blocks(Stage):
             NextButton(),
             Placement(0.5, 0.9, 0),
             Placement(0.5, 0.9, 0),
-            self.fifth_scene
+            self.fifth_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
 
     def _setup_fifth_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('blocks-scene-complete-1600x1200.png'),
                              self.media_path('blocks-scene-complete-1920x1080.png'))
 
@@ -240,7 +242,8 @@ class Blocks(Stage):
             NextButton(),
             Placement(0.5, 0.8, 0),
             Placement(0.5, 0.87, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene

@@ -49,7 +49,7 @@ class Quests(Stage):
         self._ctl.main_window.push(s.widget)
 
     def _setup_first_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('quests-4-3.png'),
                              self.media_path('quests-16-9.png'))
 
@@ -85,7 +85,8 @@ class Quests(Stage):
             NextButton(),
             Placement(0.3, 0.5, 0),
             Placement(0.37, 0.43, 0),
-            self.second_scene
+            self.second_scene,
+            key=Gdk.KEY_space
         )
 
         return scene

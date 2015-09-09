@@ -109,7 +109,7 @@ class Wardrobe(Stage):
 
     def _setup_second_scene(self):
         self._ctl.main_window.get_window().set_cursor(None)
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('scene-1600x1200.png'),
                              self.media_path('scene-1920x1080.png'))
 
@@ -144,7 +144,8 @@ class Wardrobe(Stage):
             NextButton(),
             Placement(0.5, 0.95, 0),
             Placement(0.45, 0.95, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene

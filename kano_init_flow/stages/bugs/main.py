@@ -43,7 +43,7 @@ class Bugs(Stage):
         self._ctl.main_window.push(s.widget)
 
     def _setup_first_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('forest-4-3.png'),
                              self.media_path('forest-16-9.png'))
 
@@ -64,7 +64,7 @@ class Bugs(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('right-bug.png')),
+            Gtk.Image.new_from_file(self.media_path('right-bug.gif')),
             Placement(0.9, 0.05),
             Placement(0.955, 0.04),
             [self._bug_zapped, scene, 'right-bug'],
@@ -114,5 +114,6 @@ class Bugs(Stage):
                 NextButton(),
                 Placement(0.5, 0.9, 0),
                 Placement(0.5, 0.9, 0),
-                self._ctl.next_stage
+                self._ctl.next_stage,
+                key=Gdk.KEY_space
             )

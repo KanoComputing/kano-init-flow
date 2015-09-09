@@ -92,7 +92,7 @@ class DragAndDrop(Stage):
         return scene
 
     def _setup_second_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('cliff-file-1600x1200.png'),
                              self.media_path('cliff-file-1920x1080.png'))
 
@@ -113,7 +113,8 @@ class DragAndDrop(Stage):
             NextButton(),
             Placement(0.5, 0.7, 0),
             Placement(0.5, 0.7, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene
