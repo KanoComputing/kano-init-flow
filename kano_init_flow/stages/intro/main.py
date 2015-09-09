@@ -46,7 +46,7 @@ class Intro(Stage):
         self._ctl.next_stage()
 
     def _setup_first_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
@@ -74,7 +74,8 @@ class Intro(Stage):
             NextButton(),
             Placement(0.5, 0.75, 0),
             Placement(0.5, 0.75, 0),
-            self.second_scene
+            self.second_scene,
+            key=Gdk.KEY_space
         )
 
         grab_label = Gtk.Label("GRAB YOUR KEYBOARD")
@@ -105,7 +106,7 @@ class Intro(Stage):
         return scene
 
     def _setup_second_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
@@ -135,13 +136,14 @@ class Intro(Stage):
             NextButton(),
             Placement(0.5, 0.85, 0),
             Placement(0.5, 0.8, 0),
-            self.third_scene
+            self.third_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
 
     def _setup_third_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
@@ -180,13 +182,14 @@ class Intro(Stage):
             NextButton(),
             Placement(0.5, 0.92, 0),
             Placement(0.5, 0.92, 0),
-            self.fourth_scene
+            self.fourth_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
 
     def _setup_fourth_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
@@ -222,7 +225,8 @@ class Intro(Stage):
             NextButton(),
             Placement(0.5, 0.92, 0),
             Placement(0.5, 0.92, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene
