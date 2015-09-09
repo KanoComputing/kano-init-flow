@@ -4,18 +4,13 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-import os
+import threading
 import subprocess
-from gi.repository import Gtk, Gdk
-
-from kano.gtk3.buttons import KanoButton
-from kano.utils import play_sound
+from gi.repository import Gtk, GLib
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
-from kano_init_flow.paths import common_media_path
-from kano_init_flow.ui.utils import add_class, cb_wrapper, scale_image
-from kano_init_flow.ui.css import apply_styling_to_screen
+from kano.logging import logger
 
 
 class KanoWorld(Stage):
@@ -28,12 +23,14 @@ class KanoWorld(Stage):
 
     def __init__(self, ctl):
         super(KanoWorld, self).__init__(ctl)
-        # This doesn't exist yet
-        # apply_styling_to_screen(self.css_path('kano-world.css'))
+        self._ctl = ctl
 
     def first_scene(self):
         s = self._setup_first_scene()
         self._ctl.main_window.push(s.widget)
+
+    def next_stage(self):
+        self._ctl.next_stage()
 
     def _setup_first_scene(self):
         self._is_on = False
@@ -57,6 +54,17 @@ class KanoWorld(Stage):
         )
 
         # Launch the settings on top
-        subprocess.Popen(['/usr/bin/kano-login', '-r'])
+        thread = threading.Thread(target=self.launch_registration)
+        thread.daemon = True
+        thread.start()
 
         return scene
+
+    def launch_registration(self):
+        try:
+            p = subprocess.Popen(['/usr/bin/kano-login', '-r'])
+            p.wait()
+        except Exception:
+            logger.debug("kano-login failed to launch")
+
+        GLib.idle_add(self.next_stage)
