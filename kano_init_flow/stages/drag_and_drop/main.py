@@ -4,10 +4,11 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf, Gdk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement, SCREEN_WIDTH, SCREEN_HEIGHT
+from kano_init_flow.ui.scene import Scene, Placement, SCREEN_WIDTH, \
+    SCREEN_HEIGHT
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano.gtk3.cursor import attach_cursor_events
 from kano_init_flow.paths import common_media_path
@@ -49,7 +50,7 @@ class DragAndDrop(Stage):
         judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
         judoka = scene.scale_image_to_scene(judoka, 0.6, 0.8)
         speechbubble = SpeechBubble(
-            text='This wasn\'t here before!\n\nClick and drag me to\n' +
+            text='I need to cross this!\n\nClick and drag me to\n' +
                  'the other side.',
             source=SpeechBubble.LEFT,
             source_align=0.0,
@@ -92,12 +93,12 @@ class DragAndDrop(Stage):
         return scene
 
     def _setup_second_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('cliff-file-1600x1200.png'),
                              self.media_path('cliff-file-1920x1080.png'))
 
         scene.add_widget(
-            SpeechBubble(text='Well done!', source=SpeechBubble.BOTTOM,
+            SpeechBubble(text='Thanks!', source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
             Placement(0.86, 0.06),
             Placement(0.91, 0.1)
@@ -113,7 +114,8 @@ class DragAndDrop(Stage):
             NextButton(),
             Placement(0.5, 0.7, 0),
             Placement(0.5, 0.7, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene

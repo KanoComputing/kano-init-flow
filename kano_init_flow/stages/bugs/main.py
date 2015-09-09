@@ -4,7 +4,7 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
 from kano.utils import is_monitor
@@ -43,7 +43,7 @@ class Bugs(Stage):
         self._ctl.main_window.push(s.widget)
 
     def _setup_first_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('forest-4-3.png'),
                              self.media_path('forest-16-9.png'))
 
@@ -64,7 +64,7 @@ class Bugs(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('right-bug.png')),
+            Gtk.Image.new_from_file(self.media_path('right-bug.gif')),
             Placement(0.9, 0.05),
             Placement(0.955, 0.04),
             [self._bug_zapped, scene, 'right-bug'],
@@ -77,13 +77,10 @@ class Bugs(Stage):
 
     def _place_judoka_into_scene(self, scene, happy=False):
         image = 'judoka-scared.png'
-        copy = 'Arrgh!\nLook at the size of those pesky bugs.\n\n' + \
-               'I can\'t reach them from here,\n' + \
-               'help me get rid of them, quick!'
+        copy = 'Oh no, bugs!\n\nClick on them to debug the computer.'
         if happy:
             image = 'judoka.png'
-            copy = 'Great work!\n\nThere\'s nothing worse than\n' + \
-                   'a computer full of bugs.'
+            copy = 'Phew, thanks for cleaning up!'
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path(image)),
@@ -117,5 +114,6 @@ class Bugs(Stage):
                 NextButton(),
                 Placement(0.5, 0.9, 0),
                 Placement(0.5, 0.9, 0),
-                self._ctl.next_stage
+                self._ctl.next_stage,
+                key=Gdk.KEY_space
             )

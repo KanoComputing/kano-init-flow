@@ -48,7 +48,7 @@ class Blocks(Stage):
         self._ctl.next_stage()
 
     def _setup_base_temple_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('blocks-scene-incomplete-1600x1200.png'),
                              self.media_path('blocks-scene-incomplete-1920x1080.png'))
 
@@ -75,12 +75,13 @@ class Blocks(Stage):
     def _setup_first_scene(self):
         scene = self._setup_base_temple_scene()
 
-        copy = "Oh no, there's a boulder" + \
-               "\nblocking our exit!"
-
+        copy = [
+            'Oh no, there\'s a boulder',
+            'in the way!'
+        ]
         scene.add_widget(
             SpeechBubble(
-                text=copy,
+                text='\n'.join(copy),
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5,
                 scale=scene.scale_factor
@@ -99,7 +100,8 @@ class Blocks(Stage):
             NextButton(),
             Placement(0.5, 0.87, 0),
             Placement(0.5, 0.87, 0),
-            self.second_scene
+            self.second_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
@@ -107,12 +109,15 @@ class Blocks(Stage):
     def _setup_second_scene(self):
         scene = self._setup_base_temple_scene()
 
+        copy = [
+            'But don\'t worry, you can',
+            'use Kano blocks to create code',
+            'to change what\'s around you.\n',
+            'Looks like there\'s one over there!'
+        ]
         scene.add_widget(
             SpeechBubble(
-                text="But don\'t worry,"
-                     "\nJudokas can use code blocks" +
-                     "\nto change the world around them." +
-                     "\n\nLooks like there is one over there.",
+                text='\n'.join(copy),
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5,
                 scale=scene.scale_factor
@@ -177,7 +182,7 @@ class Blocks(Stage):
         return scene
 
     def _setup_fourth_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path("blueprint-bg-4-3.png"),
                              common_media_path("blueprint-bg-16-9.png"))
 
@@ -191,13 +196,14 @@ class Blocks(Stage):
             NextButton(),
             Placement(0.5, 0.9, 0),
             Placement(0.5, 0.9, 0),
-            self.fifth_scene
+            self.fifth_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
 
     def _setup_fifth_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('blocks-scene-complete-1600x1200.png'),
                              self.media_path('blocks-scene-complete-1920x1080.png'))
 
@@ -216,7 +222,7 @@ class Blocks(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="Well done, now you can escape!",
+                text="Awesome, now we can escape!",
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5,
                 scale=scene.scale_factor
@@ -236,7 +242,8 @@ class Blocks(Stage):
             NextButton(),
             Placement(0.5, 0.8, 0),
             Placement(0.5, 0.87, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene

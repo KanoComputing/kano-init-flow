@@ -8,7 +8,7 @@ import os
 import subprocess
 import threading
 
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, Gdk
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.cursor import attach_cursor_events
 from kano.logging import logger
@@ -78,13 +78,15 @@ class Wifi(Stage):
             Placement(0.9, 0.9, 0.75)
         )
 
-        copy = 'We lost contact with the\n' + \
-               'control room. We won\'t be able\n' + \
-               'launch on time!\n\n' + \
-               'Take look at the WiFi console\n' + \
-               'to see whether you can fix it.'
+        copy = [
+            'Did you know setting up Wifi',
+            'can get you to Kano World?',
+            '',
+            'Get started by clicking',
+            'the Wifi console!'
+        ]
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.RIGHT,
+            SpeechBubble(text='\n'.join(copy), source=SpeechBubble.RIGHT,
                          scale=scene.scale_factor),
             Placement(0.78, 0.72),
             Placement(0.74, 0.68)
@@ -147,7 +149,7 @@ class Wifi(Stage):
         return scene
 
     def _setup_disconnected_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
@@ -169,10 +171,15 @@ class Wifi(Stage):
             self.second_scene
         )
 
-        copy = 'Oh no, connection failed!\nWe won\'t be able to make it\nto Kano World.\n\n' + \
-               'To try again, click the console.'
+        copy = [
+            'Oh no, connection failed!',
+            'We won\'t be able to make it',
+            'to Kano World.',
+            '',
+            'To try again, click the console.'
+        ]
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.RIGHT,
+            SpeechBubble(text='\n'.join(copy), source=SpeechBubble.RIGHT,
                          scale=scene.scale_factor),
             Placement(0.78, 0.72),
             Placement(0.74, 0.68)
@@ -182,7 +189,8 @@ class Wifi(Stage):
             NextButton(),
             Placement(0.5, 0.99, 0),
             Placement(0.45, 0.99, 0),
-            self.next_stage
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene
@@ -197,7 +205,8 @@ class WifiConsole(Gtk.Overlay):
         self._connected_cb = connected_cb
         self._disconnected_cb = disconnected_cb
 
-        bg = Gtk.Image.new_from_file(self._stage.media_path('console-large.png'))
+        console_img_path = self._stage.media_path('console-large.png')
+        bg = Gtk.Image.new_from_file(console_img_path)
         fixed = Gtk.Fixed()
 
         self._eb = Gtk.EventBox()
@@ -263,7 +272,8 @@ class WifiConsole(Gtk.Overlay):
 
     def troubleshoot_ethernet(self):
         self._clear()
-        copy = """If you have access to an ethernet cable, try using that instead."""
+        copy = 'If you have access to an ethernet cable, ' +\
+               'try using that instead.'
         screen = SlideScreen(
             self._stage,
             self._stage.media_path('ethernet-cable.png'),
@@ -277,7 +287,7 @@ class WifiConsole(Gtk.Overlay):
 
     def troubleshoot_router(self):
         self._clear()
-        copy = """Try moving your Kano closer to the internet wireless router."""
+        copy = 'Try moving your Kano closer to the internet wireless router.'
         screen = SlideScreen(
             self._stage,
             self._stage.media_path('router.png'),
@@ -304,7 +314,9 @@ class WifiConsole(Gtk.Overlay):
 
 class TroubleshootOrDisconnect(Gtk.Box):
     def __init__(self, stage, troubleshoot_cb, skip_cb):
-        super(TroubleshootOrDisconnect, self).__init__(orientation=Gtk.Orientation.VERTICAL)
+        super(TroubleshootOrDisconnect, self).__init__(
+            orientation=Gtk.Orientation.VERTICAL
+        )
 
         self._stage = stage
 
@@ -316,11 +328,12 @@ class TroubleshootOrDisconnect(Gtk.Box):
         heading = Gtk.Label('Troubleshoot')
         add_class(heading, 'console-screen-heading')
 
-        desc = Gtk.Label("""Oops there was a problem connecting to internet.""")
+        desc = Gtk.Label('Oops there was a problem connecting to internet.')
         desc.set_line_wrap(True)
         add_class(desc, 'console-screen-desc')
 
-        image = Gtk.Image.new_from_file(self._stage.media_path("troubleshooting.png"))
+        img_path = self._stage.media_path("troubleshooting.png")
+        image = Gtk.Image.new_from_file(img_path)
 
         troubleshoot = KanoButton('TROUBLESHOOT')
         troubleshoot.connect('clicked', self._cb_wrapper, troubleshoot_cb)
@@ -399,7 +412,9 @@ class ParentalScreen(Gtk.VBox):
         heading = Gtk.Label('Parental controls')
         add_class(heading, 'console-screen-heading')
 
-        desc = Gtk.Label("""Kano Wifi is a safe place for kids, and you can set specific safety guidelines yourself.""")
+        copy = 'Kano Wifi is a safe place for kids, ' + \
+               'and you can set specific safety guidelines yourself.'
+        desc = Gtk.Label(copy)
         desc.set_line_wrap(True)
         add_class(desc, 'console-screen-desc')
 
@@ -427,7 +442,8 @@ class ParentalScreen(Gtk.VBox):
 
 
 class SlideScreen(Gtk.Overlay):
-    def __init__(self, stage, bg_path, bg_x_align, bg_y_align, text, text_margin, back_cb, fwd_cb):
+    def __init__(self, stage, bg_path, bg_x_align, bg_y_align, text,
+                 text_margin, back_cb, fwd_cb):
         super(SlideScreen, self).__init__()
 
         self._stage = stage
@@ -438,7 +454,8 @@ class SlideScreen(Gtk.Overlay):
         self.add(align)
 
         back = Gtk.Button()
-        back.add(Gtk.Image.new_from_file(stage.media_path('navigation-arrow-left.png')))
+        back_arr = stage.media_path('navigation-arrow-left.png')
+        back.add(Gtk.Image.new_from_file(back_arr))
         back.set_halign(Gtk.Align.CENTER)
         back.set_valign(Gtk.Align.CENTER)
         back.set_margin_left(25)
@@ -446,7 +463,8 @@ class SlideScreen(Gtk.Overlay):
         attach_cursor_events(back)
 
         fwd = Gtk.Button()
-        fwd.add(Gtk.Image.new_from_file(stage.media_path('navigation-arrow-right.png')))
+        fwd_arr = stage.media_path('navigation-arrow-right.png')
+        fwd.add(Gtk.Image.new_from_file(fwd_arr))
         fwd.set_halign(Gtk.Align.CENTER)
         fwd.set_valign(Gtk.Align.CENTER)
         fwd.set_margin_right(25)

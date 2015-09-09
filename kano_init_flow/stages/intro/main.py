@@ -46,7 +46,7 @@ class Intro(Stage):
         self._ctl.next_stage()
 
     def _setup_first_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
@@ -74,7 +74,8 @@ class Intro(Stage):
             NextButton(),
             Placement(0.5, 0.75, 0),
             Placement(0.5, 0.75, 0),
-            self.second_scene
+            self.second_scene,
+            key=Gdk.KEY_space
         )
 
         grab_label = Gtk.Label("GRAB YOUR KEYBOARD")
@@ -105,91 +106,127 @@ class Intro(Stage):
         return scene
 
     def _setup_second_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
+        copy = [
+            'Well done! You brought your',
+            'Kano to life! I\'m Judoka and I',
+            'will be your guide through the',
+            'world of Kano.'
+        ]
         scene.add_widget(
             SpeechBubble(
-                text="Well done! You brought your\nKano to life! I'm Judoka and I\nwill be your guide through the\nworld of Kano.",
+                text='\n'.join(copy),
                 source=SpeechBubble.LEFT,
                 scale=scene.scale_factor
             ),
             Placement(0.72, 0.35),
-            Placement(0.68, 0.3)
+            Placement(0.655, 0.3)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('intro-gif-1.gif')),
             Placement(0.33, 0.4, 0),
-            Placement(0.4, 0.4, 0),
+            Placement(0.405, 0.4, 0),
         )
 
         scene.add_widget(
             NextButton(),
-            Placement(0.5, 0.78, 0),
+            Placement(0.5, 0.85, 0),
             Placement(0.5, 0.8, 0),
-            self.third_scene
+            self.third_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
 
     def _setup_third_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
+        overworld_img = 'overworld-zoom.gif'
+        if scene.ratio == Scene.RATIO_4_3:
+            overworld_img = 'overworld-zoom-small.gif'
         scene.add_widget(
-            SpeechBubble(
-                text="Kano is a world where anything\nis possible!\nJudokas can make and play\nusing code powers.",
-                source=SpeechBubble.RIGHT,
-                scale=scene.scale_factor
-            ),
-            Placement(0.36, 0.4, 0),
-            Placement(0.4, 0.3, 0),
+            Gtk.Image.new_from_file(self.media_path(overworld_img)),
+            Placement(0.85, 0.4, 0),
+            Placement(0.8, 0.4, 0),
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('intro-gif-2.gif')),
-            Placement(0.71, 0.4, 0),
-            Placement(0.63, 0.4, 0),
+            Placement(0.1, 0.62, 0),
+            Placement(0.18, 0.61, 0),
+        )
+
+        copy = [
+            "Kano is a world where",
+            "anything is possible!",
+            "Judokas can make and play",
+            "using code powers."
+        ]
+        scene.add_widget(
+            SpeechBubble(
+                text='\n'.join(copy),
+                source=SpeechBubble.BOTTOM,
+                scale=scene.scale_factor
+            ),
+            Placement(0.12, 0.13, 0),
+            Placement(0.16, 0.21, 0),
         )
 
         scene.add_widget(
             NextButton(),
-            Placement(0.5, 0.78, 0),
-            Placement(0.5, 0.8, 0),
-            self.fourth_scene
+            Placement(0.5, 0.92, 0),
+            Placement(0.5, 0.92, 0),
+            self.fourth_scene,
+            key=Gdk.KEY_space
         )
 
         return scene
 
     def _setup_fourth_scene(self):
-        scene = Scene()
+        scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
+
+
+        overworld_img = 'overworld.png'
+        if scene.ratio == Scene.RATIO_4_3:
+            overworld_img = 'overworld-small.png'
         scene.add_widget(
-            SpeechBubble(
-                text='Ready to go? Jump on in!',
-                source=SpeechBubble.LEFT,
-                scale=scene.scale_factor
-            ),
-            Placement(0.7, 0.35),
-            Placement(0.65, 0.3)
+            Gtk.Image.new_from_file(self.media_path(overworld_img)),
+            Placement(0.85, 0.4, 0),
+            Placement(0.8, 0.4, 0),
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('intro-gif-3.gif')),
-            Placement(0.33, 0.3, 0),
-            Placement(0.42, 0.27, 0)
+            Placement(0.075, 0.5, 0),
+            Placement(0.18, 0.60, 0),
+        )
+
+        copy = ['Ready to go? Jump on in!']
+        scene.add_widget(
+            SpeechBubble(
+                text='\n'.join(copy),
+                source=SpeechBubble.BOTTOM,
+                scale=scene.scale_factor
+            ),
+            Placement(0.125, 0.13, 0),
+            Placement(0.176, 0.25, 0),
         )
 
         scene.add_widget(
             NextButton(),
-            Placement(0.5, 0.78, 0),
-            Placement(0.5, 0.8, 0),
-            self.next_stage
+            Placement(0.5, 0.92, 0),
+            Placement(0.5, 0.92, 0),
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene

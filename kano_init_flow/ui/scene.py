@@ -30,8 +30,8 @@ SCREEN_HEIGHT = Gdk.Screen.height()
 
 # 4 by 3
 
-# SCREEN_WIDTH = 1200
-# SCREEN_HEIGHT = 800
+#SCREEN_WIDTH = 1024
+#SCREEN_HEIGHT = 768
 
 
 class Placement(object):
