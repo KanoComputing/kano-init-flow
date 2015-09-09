@@ -4,10 +4,11 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf, Gdk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement, SCREEN_WIDTH, SCREEN_HEIGHT
+from kano_init_flow.ui.scene import Scene, Placement, SCREEN_WIDTH, \
+    SCREEN_HEIGHT
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano.gtk3.cursor import attach_cursor_events
 from kano_init_flow.paths import common_media_path

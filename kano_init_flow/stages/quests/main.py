@@ -5,7 +5,7 @@
 #
 
 import os
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
 from kano.utils import is_monitor
@@ -121,9 +121,14 @@ class Quests(Stage):
             self.third_scene
         )
 
+        copy = [
+            'Click on my scroll to find',
+            'out more and start the',
+            'next adventure...'
+        ]
         scene.add_widget(
             SpeechBubble(
-                text="Click on my scroll to find\nout more and start the\nnext adventure...",
+                text='\n'.join(copy),
                 source=SpeechBubble.RIGHT,
                 scale=scene.scale_factor
             ),
@@ -183,7 +188,8 @@ class Scroll(Gtk.Overlay):
         ]
         text_widgets = self._get_text_widgets(copy)
 
-        chest = Gtk.Image.new_from_file(self._stage.media_path('chest-closed.png'))
+        img_path = self._stage.media_path('chest-closed.png')
+        chest = Gtk.Image.new_from_file(img_path)
 
         button = KanoButton('NEXT', color='orange')
         button.connect('clicked', cb_wrapper, self.second_scroll)
