@@ -1,4 +1,10 @@
+#!/usr/bin/env python
 
+# drag_classes.py
+#
+# Copyright (C) 2015 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
+#
 
 from gi.repository import Gtk, Gdk
 from kano.gtk3.cursor import attach_cursor_events
