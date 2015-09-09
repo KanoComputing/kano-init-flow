@@ -24,6 +24,7 @@ from .stages.bugs import Bugs
 from .stages.intro import Intro
 from .stages.wardrobe import Wardrobe
 from .stages.blocks import Blocks
+from .stages.kano_world import KanoWorld
 
 
 class Controller(object):
@@ -62,7 +63,8 @@ class Controller(object):
             AudioLab,
             # LightLab,
             Blocks,
-            Wifi
+            Wifi,
+            KanoWorld
             # Quests
         ]
 
