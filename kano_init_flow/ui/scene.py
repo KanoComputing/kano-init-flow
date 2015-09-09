@@ -71,7 +71,8 @@ class Scene(object):
 
         if main_window:
             self._keys = {}
-            main_window.set_key_events_handler(self._keypress_cb_wrapper)
+            main_window.set_key_events_handlers(self._key_press_cb_wrapper,
+                                                self._key_release_cb_wrapper)
 
         self._overlay = Gtk.Overlay()
 
@@ -135,7 +136,8 @@ class Scene(object):
                                                            self._h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_character(self, p43, p169, clicked_cb=None, key=None, name=None, modal=False):
+    def add_character(self, p43, p169, clicked_cb=None, key=None,
+                      name=None, modal=False):
         # Character path in the home directory
         character_path = os.path.join(
             os.path.expanduser("~"),
@@ -194,7 +196,11 @@ class Scene(object):
                     msg = 'Scene must be initialised with main_window to ' + \
                           'be able to receive key events.'
                     raise RuntimeError(msg)
-                self._keys[key] = clicked_cb
+                cbs = {'action': clicked_cb}
+                if issubclass(widget.__class__, ActiveImage):
+                    cbs['down'] = widget.down
+                    cbs['up'] = widget.up
+                self._keys[key] = cbs
 
         align = Gtk.Alignment.new(placement.x, placement.y, 0, 0)
         align.add(root_widget)
@@ -228,16 +234,27 @@ class Scene(object):
         clicked_cb(*args)
         return True
 
-    def _keypress_cb_wrapper(self, widget, event):
+    def _handle_key_event(self, event, cb_seq):
         if hasattr(event, 'keyval'):
-            for key, cb in self._keys.iteritems():
+            for key, cbs in self._keys.iteritems():
                 if event.keyval == key:
-                    if isinstance(cb, (list, tuple)):
-                        cb[0](*cb[1:])
-                    else:
-                        cb()
+                    # call all the callbacks in the correct sequence
+                    for n in cb_seq:
+                        if n not in cbs or cbs[n] is None:
+                            next
+                        cb = cbs[n]
+                        if isinstance(cb, (list, tuple)):
+                            cb[0](*cb[1:])
+                        else:
+                            cb()
                     return True
         return False
+
+    def _key_press_cb_wrapper(self, widget, event):
+        return self._handle_key_event(event, ['down'])
+
+    def _key_release_cb_wrapper(self, widget, event):
+        return self._handle_key_event(event, ['action', 'up'])
 
     def scale_pixbuf_to_scene(self, pixbuf, scale_4_3, scale_16_9):
         screen_ratio = self._screen_ratio
@@ -279,8 +296,16 @@ class Scene(object):
 class ActiveImage(object):
     def __init__(self, img, hover=None, down=None):
         self._img = Gtk.Image.new_from_file(img)
-        self._hover = Gtk.Image.new_from_file(hover)
-        self._down = Gtk.Image.new_from_file(down)
+
+        if hover:
+            self._hover = Gtk.Image.new_from_file(hover)
+        else:
+            self._hover = self._img
+
+        if down:
+            self._down = Gtk.Image.new_from_file(down)
+        else:
+            self._down = self._img
 
     def scale(self, factor):
         scaled = []
@@ -315,11 +340,17 @@ class ActiveImage(object):
         else:
             self._w.set_from_pixbuf(img.get_pixbuf())
 
-    def _down_cb(self, widget, event, user=None):
+    def down(self):
         self.set(self._down)
 
-    def _up_cb(self, widget, event, user=None):
+    def up(self):
         self.set(self._img)
+
+    def _down_cb(self, widget, event, user=None):
+        self.down()
+
+    def _up_cb(self, widget, event, user=None):
+        self.up()
 
     def _enter_cb(self, widget, event, user=None):
         self.set(self._hover)

@@ -11,7 +11,7 @@ from kano.gtk3.buttons import KanoButton
 from kano.utils import play_sound
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class, cb_wrapper, scale_image
@@ -71,7 +71,8 @@ class AudioLab(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('button.png')),
+            ActiveImage(self.media_path('a.png'),
+                        down=self.media_path('a-down.png')),
             Placement(0.4, 0.55),
             Placement(0.387, 0.567),
             [self._a_clicked, scene],
@@ -79,7 +80,8 @@ class AudioLab(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('button.png')),
+            ActiveImage(self.media_path('s.png'),
+                        down=self.media_path('s-down.png')),
             Placement(0.55, 0.55),
             Placement(0.549, 0.567),
             [self._s_clicked, scene],
@@ -87,7 +89,8 @@ class AudioLab(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('button.png')),
+            ActiveImage(self.media_path('d.png'),
+                        down=self.media_path('d-down.png')),
             Placement(0.7, 0.55),
             Placement(0.7215, 0.567),
             [self._d_clicked, scene],
@@ -133,7 +136,8 @@ class AudioLab(Stage):
         self._show_console(scene)
 
     def _s_clicked(self, scene):
-        play_sound('/usr/share/kano-media/sounds/kano_achievement_unlock.wav', True)
+        play_sound('/usr/share/kano-media/sounds/kano_achievement_unlock.wav',
+                   True)
         self._show_console(scene)
 
     def _d_clicked(self, scene):
@@ -165,7 +169,9 @@ class AudioLab(Stage):
                 'No light? Check the GPIO',
                 ['The cable has to be connected to these',
                  'pins exactly.'],
-                [{'label': 'NEXT', 'callback': self.help_jack, 'color': 'green'}]
+                [{'label': 'NEXT',
+                  'callback': self.help_jack,
+                  'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
             Placement(0.45, 0.5, 0.0),
@@ -181,7 +187,9 @@ class AudioLab(Stage):
                 'Plug in the blue cable',
                 ['If you see the light, it\'s powered!',
                  'Now plug the audio.'],
-                [{'label': 'FINISHED', 'callback': self.remove_overlays, 'color': 'green'}]
+                [{'label': 'FINISHED',
+                  'callback': self.remove_overlays,
+                  'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
             Placement(0.45, 0.5, 0.0),
@@ -231,7 +239,8 @@ class ConsoleScreen(Gtk.EventBox):
 
 
 class Notebook(Gtk.Overlay):
-    def __init__(self, stage, image_path, image_scale, image_align, title, copy, buttons):
+    def __init__(self, stage, image_path, image_scale, image_align,
+                 title, copy, buttons):
         super(Notebook, self).__init__()
 
         self.add(Gtk.Image.new_from_file(stage.media_path('notebook.png')))

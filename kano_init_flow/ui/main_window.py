@@ -87,12 +87,17 @@ class MainWindow(Gtk.Window):
     def push(self, child):
         GLib.idle_add(self._do_push, child)
 
-    def set_key_events_handler(self, handler=None):
+    def set_key_events_handlers(self, press=None, release=None):
         if self._keypress_signal_id:
-            GObject.signal_handler_disconnect(self, self._keypress_signal_id)
+            GObject.signal_handler_disconnect(self, self._press_signal_id)
+            GObject.signal_handler_disconnect(self, self._release_signal_id)
 
-        if handler:
-            self._keypress_signal_id = self.connect('key-release-event', handler)
+        if press:
+            self._press_signal_id = self.connect('key-press-event', press)
+
+        if release:
+            self._release_signal_id = self.connect('key-release-event',
+                                                   release)
 
     def _do_push(self, child):
         if self._child:
