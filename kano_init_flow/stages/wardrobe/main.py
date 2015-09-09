@@ -8,7 +8,7 @@ import os
 from gi.repository import Gtk, Gdk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.paths import common_media_path
@@ -65,7 +65,8 @@ class Wardrobe(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("outline.gif")),
+            ActiveImage(self.media_path("outline.gif"),
+                        hover=self.media_path("outline-hover.png")),
             Placement(0.5, 0.7, 0.95),
             Placement(0.45, 0.72, 0.95),
             self._char_creator_dialog
