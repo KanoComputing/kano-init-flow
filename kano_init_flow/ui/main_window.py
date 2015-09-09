@@ -53,18 +53,19 @@ class MainWindow(Gtk.Window):
         self._container.set_halign(Gtk.Align.CENTER)
         self._container.set_valign(Gtk.Align.CENTER)
 
-        emergency_exit = Gtk.Button()
+        emergency_exit = Gtk.EventBox()
         emergency_exit.set_halign(Gtk.Align.START)
         emergency_exit.set_valign(Gtk.Align.START)
         emergency_exit.set_size_request(20, 20)
-        emergency_exit.connect('clicked', self._emergency_exit_cb)
+        emergency_exit.connect('button-release-event', self._emergency_exit_cb)
         overlay.add_overlay(emergency_exit)
 
         if start_from:
-            debug_button = Gtk.Button('Close')
+            debug_button = Gtk.EventBox()
+            debug_button.add(Gtk.Label('Close'))
             debug_button.set_halign(Gtk.Align.END)
             debug_button.set_valign(Gtk.Align.START)
-            debug_button.connect('clicked', Gtk.main_quit)
+            debug_button.connect('button-release-event', Gtk.main_quit)
             overlay.add_overlay(debug_button)
 
     def _emergency_exit_cb(self, widget, data=None):
