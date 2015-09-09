@@ -33,6 +33,8 @@ if __name__ == '__main__' and __package__ is None:
 import docopt
 from gi.repository import Gtk, GObject
 
+from kano_profile.tracker import Tracker
+
 from kano_init_flow.ui.main_window import MainWindow
 
 args = docopt.docopt(__doc__)
@@ -42,6 +44,7 @@ GObject.threads_init()
 mw = MainWindow(start_from)
 if not mw.prepare_first_stage():
     sys.exit(mw.return_value)
+Tracker()
 mw.show_all()
 Gtk.main()
 sys.exit(mw.return_value)

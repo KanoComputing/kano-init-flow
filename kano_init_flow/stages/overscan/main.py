@@ -10,6 +10,7 @@ from kano.gtk3.buttons import KanoButton
 from kano.utils import is_monitor, run_cmd
 from kano_settings.system.display import get_overscan_status, \
     write_overscan_values, set_overscan_status, launch_pipe
+from kano_profile.tracker import track_action
 
 
 from kano_init_flow.stage import Stage
@@ -39,6 +40,7 @@ class Overscan(Stage):
         #if is_monitor():
         #    self._ctl.next_stage()
 
+        track_action('init-flow-overscan-needed')
         s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1.widget)
 

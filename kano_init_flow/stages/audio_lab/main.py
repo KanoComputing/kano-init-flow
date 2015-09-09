@@ -9,6 +9,7 @@ from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
 from kano.utils import play_sound
+from kano_profile.tracker import track_action
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
@@ -36,6 +37,7 @@ class AudioLab(Stage):
         self._ctl.main_window.push(s.widget)
 
     def help_leds(self):
+        track_action('init-flow-audio-help-triggered')
         self.remove_overlays()
         self._setup_help_leds(self._scene)
 

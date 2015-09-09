@@ -9,6 +9,7 @@ from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
 from kano.utils import play_sound
+from kano_profile.tracker import track_action
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
@@ -36,6 +37,7 @@ class LightLab(Stage):
         self._ctl.main_window.push(s.widget)
 
     def help_power(self):
+        track_action('init-flow-light-help-triggered')
         self._setup_help_power()
 
     def remove_overlay(self):

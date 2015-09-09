@@ -10,6 +10,8 @@ import os
 import json
 from gi.repository import Gtk
 from kano.logging import logger
+from kano_profile.tracker import session_start, session_end, \
+    track_data, track_action
 
 from .status import Status
 from .paths import OLD_FIRST_BOOT_FILE
@@ -53,6 +55,7 @@ class Controller(object):
             self._status.set_debug_mode(start_from)
 
         self._return_value = self.FINISHED_FIRST_BOOT
+        self._tracking_session = None
 
         self._stages = [
             Intro,
@@ -98,12 +101,16 @@ class Controller(object):
             index = 0
             if self._status.location is not None:
                 index = self._get_stage_index(self._status.location)
+                track_data('init-flow-resumed', {'stage': self._status.location})
+            else:
+                track_action('init-flow-started')
 
             stage_ctl = self._stages[index](self)
             stage_ctl.first_scene()
         else:
             raise RuntimeError('No flow stages available')
 
+        self._tracking_session = session_start(stage_ctl.id, os.getpid())
         return True
 
     def next_stage(self):
@@ -118,14 +125,25 @@ class Controller(object):
         else:
             index = self._get_stage_index(self._status.location)
 
+        # Finish the previous tracking session
+        if self._tracking_session is not None:
+            session_end(self._tracking_session)
+
+        self._main_window.set_key_events_handlers()
+
         if index is not None and index < len(self._stages) - 1:
             stage_ctl = self._stages[index + 1](self)
             self._status.location = self._stages[index + 1].id
             self._status.save()
+
+            # Start a new tracking session
+            self._tracking_session = session_start(stage_ctl.id, os.getpid())
+
             stage_ctl.first_scene()
         else:
             self._status.completed = True
             self._status.save()
+            track_action('init-flow-finished')
             Gtk.main_quit()
 
     def complete(self):
