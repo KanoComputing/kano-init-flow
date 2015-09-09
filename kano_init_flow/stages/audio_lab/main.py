@@ -100,7 +100,8 @@ class AudioLab(Stage):
             Placement(0.95, 0.9)
         )
 
-        copy = 'Welcome to the sound lab!\nPress the keys to play sounds.'
+        copy = 'Now let\'s check the sound works!\n' + \
+               'Try pressing the A, S or D keys to play a song!'
         scene.add_widget(
             SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
                          source_align=0.8, scale=scene.scale_factor),
@@ -204,7 +205,7 @@ class ConsoleScreen(Gtk.EventBox):
         vbox.set_halign(Gtk.Align.CENTER)
         #vbox.set_valign(Gtk.Align.CENTER)
 
-        question = Gtk.Label('Can you hear the sound?')
+        question = Gtk.Label('Can you hear a sound?')
         question.set_line_wrap(True)
         question.set_justify(Gtk.Justification.CENTER)
         question.set_valign(Gtk.Align.CENTER)

@@ -77,13 +77,10 @@ class Bugs(Stage):
 
     def _place_judoka_into_scene(self, scene, happy=False):
         image = 'judoka-scared.png'
-        copy = 'Arrgh!\nLook at the size of those pesky bugs.\n\n' + \
-               'I can\'t reach them from here,\n' + \
-               'help me get rid of them, quick!'
+        copy = 'Oh no, bugs!\n\nClick on them to debug the computer.'
         if happy:
             image = 'judoka.png'
-            copy = 'Great work!\n\nThere\'s nothing worse than\n' + \
-                   'a computer full of bugs.'
+            copy = 'Phew, thanks for cleaning up!'
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path(image)),

@@ -75,12 +75,13 @@ class Blocks(Stage):
     def _setup_first_scene(self):
         scene = self._setup_base_temple_scene()
 
-        copy = "Oh no, there's a boulder" + \
-               "\nblocking our exit!"
-
+        copy = [
+            'Oh no, there\'s a boulder',
+            'in the way!'
+        ]
         scene.add_widget(
             SpeechBubble(
-                text=copy,
+                text='\n'.join(copy),
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5,
                 scale=scene.scale_factor
@@ -107,12 +108,15 @@ class Blocks(Stage):
     def _setup_second_scene(self):
         scene = self._setup_base_temple_scene()
 
+        copy = [
+            'But don\'t worry, you can',
+            'use Kano blocks to create code',
+            'to change what\'s around you.\n',
+            'Looks like there\'s one over there!'
+        ]
         scene.add_widget(
             SpeechBubble(
-                text="But don\'t worry,"
-                     "\nJudokas can use code blocks" +
-                     "\nto change the world around them." +
-                     "\n\nLooks like there is one over there.",
+                text='\n'.join(copy),
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5,
                 scale=scene.scale_factor
@@ -216,7 +220,7 @@ class Blocks(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="Well done, now you can escape!",
+                text="Awesome, now we can escape!",
                 source=SpeechBubble.BOTTOM,
                 source_align=0.5,
                 scale=scene.scale_factor

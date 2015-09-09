@@ -55,7 +55,8 @@ class LightLab(Stage):
             Placement(0.12, 0.9)
         )
 
-        copy = 'Welcome to the lights lab!\nPress the on button to light up.'
+        copy = 'Now let\'s check the lights work!\n\n' + \
+               'Press the ON button to light up.'
         scene.add_widget(
             SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
                          source_align=0.2, scale=scene.scale_factor),
