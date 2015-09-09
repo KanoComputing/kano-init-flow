@@ -48,7 +48,7 @@ class Bugs(Stage):
                              self.media_path('forest-16-9.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('left-bug.png')),
+            Gtk.Image.new_from_file(self.media_path('left-bug.gif')),
             Placement(0.03, 0.1),
             Placement(0.05, 0.2),
             [self._bug_zapped, scene, 'left-bug'],
