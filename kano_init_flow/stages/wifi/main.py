@@ -12,6 +12,7 @@ from gi.repository import Gtk, GLib, Gdk
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.cursor import attach_cursor_events
 from kano.logging import logger
+from kano_profile.tracker import track_action
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
@@ -35,6 +36,7 @@ class Wifi(Stage):
     def __init__(self, ctl):
         super(Wifi, self).__init__(ctl)
 
+        self._tries = 0
         apply_styling_to_screen(self.css_path('console.css'))
 
     def first_scene(self):
@@ -45,6 +47,7 @@ class Wifi(Stage):
         # TODO: uncomment before release
         # Jump directly at the end if we have internet
         if is_internet():
+            track_action('init-flow-connected-already')
             self.connected_scene()
             return
 
@@ -52,12 +55,19 @@ class Wifi(Stage):
         self._ctl.main_window.push(s2.widget)
 
     def connected_scene(self):
+        track_action('init-flow-connected')
         s3 = self._setup_connected_scene()
         self._ctl.main_window.push(s3.widget)
 
     def disconnected_scene(self):
+        track_action('init-flow-disconnected')
         s4 = self._setup_disconnected_scene()
         self._ctl.main_window.push(s4.widget)
+
+    def new_try(self):
+        self._tries += 1
+        if self._tries > 1:
+            track_action('init-flow-wifi-retried')
 
     def next_stage(self):
         self._ctl.next_stage()
@@ -249,6 +259,8 @@ class WifiConsole(Gtk.Overlay):
         socket = WifiGUI(self._connected_cb, self.troubleshoot_option)
         screen = ExternalApp(self._stage, socket)
 
+        self._stage.new_try()
+
         eb = Gtk.EventBox()
         eb.add(screen)
 
@@ -269,6 +281,8 @@ class WifiConsole(Gtk.Overlay):
         )
         self._eb.add(screen)
         self._eb.show_all()
+
+        track_action('init-flow-wifi-troubleshoot-triggered')
 
     def troubleshoot_ethernet(self):
         self._clear()
@@ -336,7 +350,7 @@ class TroubleshootOrDisconnect(Gtk.Box):
         image = Gtk.Image.new_from_file(img_path)
 
         troubleshoot = KanoButton('TROUBLESHOOT')
-        troubleshoot.connect('clicked', self._cb_wrapper, troubleshoot_cb)
+        troubleshoot.connect('clicked', self._cb_wrapper, troubleshoot)
 
         skip = KanoButton('SKIP', color="orange")
         skip.connect('clicked', self._cb_wrapper, skip_cb)
@@ -385,7 +399,8 @@ class AreYouSure(Gtk.Box):
         try_again.connect('clicked', self._cb_wrapper, try_again_cb)
 
         skip = KanoButton('YES I WANT TO SKIP', color="orange")
-        skip.connect('clicked', self._cb_wrapper, skip_cb)
+        skip.connect('clicked', self._cb_wrapper, skip_cb,
+                     'init-flow-wifi-skipped')
 
         buttons = Gtk.HBox(False, 0)
         buttons.pack_start(try_again, True, True, 20)
@@ -395,7 +410,9 @@ class AreYouSure(Gtk.Box):
         self.pack_start(desc, False, False, 40)
         self.pack_start(buttons, False, False, 40)
 
-    def _cb_wrapper(self, widget, cb):
+    def _cb_wrapper(self, widget, cb, tracking_event=None):
+        if tracking_event:
+            track_action(tracking_event)
         cb()
         return True
 
@@ -422,10 +439,10 @@ class ParentalScreen(Gtk.VBox):
         padlock = Gtk.Image.new_from_file(stage.media_path('padlock.png'))
 
         later = KanoButton('LATER')
-        later.connect('clicked', self._cb_wrapper, later_cb)
+        later.connect('clicked', self._cb_wrapper, later_cb, 'init-flow-parental-skipped')
 
         now = KanoButton('SET NOW', color="orange")
-        now.connect('clicked', self._cb_wrapper, now_cb)
+        now.connect('clicked', self._cb_wrapper, now_cb, 'init-flow-parental-set')
 
         buttons = Gtk.HBox(False, 0)
         buttons.pack_start(later, True, True, 20)
@@ -436,7 +453,9 @@ class ParentalScreen(Gtk.VBox):
         self.pack_start(padlock, False, False, 10)
         self.pack_start(buttons, False, False, 30)
 
-    def _cb_wrapper(self, widget, cb):
+    def _cb_wrapper(self, widget, cb, tracking_event=None):
+        if tracking_event:
+            track_action(tracking_event)
         cb()
         return True
 

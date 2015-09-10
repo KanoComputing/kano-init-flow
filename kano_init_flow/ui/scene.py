@@ -238,7 +238,7 @@ class Scene(object):
         if hasattr(event, 'keyval'):
             for key, cbs in self._keys.iteritems():
                 if event.keyval == key:
-                    # call all the callbacks in the correct sequence
+                    # call all the callbacks in the sequence
                     for n in cb_seq:
                         if n not in cbs or cbs[n] is None:
                             next
