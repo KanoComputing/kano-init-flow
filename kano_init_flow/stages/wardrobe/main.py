@@ -5,7 +5,7 @@
 #
 
 import os
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GLib
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
@@ -14,6 +14,7 @@ from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.paths import common_media_path
 from kano_avatar_gui.CharacterCreator import CharacterCreator
 from kano.gtk3.kano_dialog import KanoDialog
+from kano.gtk3.buttons import KanoButton
 from kano_init_flow.ui.components import NextButton
 
 
@@ -69,7 +70,7 @@ class Wardrobe(Stage):
                         hover=self.media_path("outline-hover.png")),
             Placement(0.5, 0.7, 0.95),
             Placement(0.45, 0.72, 0.95),
-            self._char_creator_dialog
+            self._char_creator_window
         )
 
         return scene
@@ -84,7 +85,7 @@ class Wardrobe(Stage):
         blur.set_size_request(width, height)
         return blur
 
-    def _char_creator_dialog(self):
+    def _char_creator_window(self):
         self._blur = self._create_blur()
 
         # Add watch cursor
@@ -102,11 +103,7 @@ class Wardrobe(Stage):
         while Gtk.events_pending():
             Gtk.main_iteration()
 
-        char_edit = CharacterCreator(randomise=True)
-        kdialog = KanoDialog(widget=char_edit)
-        kdialog.run()
-        char_edit.save()
-        self.second_scene()
+        CharacterWindow(self.second_scene)
 
     def _setup_second_scene(self):
         self._ctl.main_window.get_window().set_cursor(None)
@@ -153,3 +150,33 @@ class Wardrobe(Stage):
 
     def _next_stage_wrapper(self, widget, event):
         self.next_stage()
+
+
+class CharacterWindow(Gtk.Window):
+    def __init__(self, cb):
+        super(CharacterWindow, self).__init__()
+        self.set_decorated(False)
+        self.close_cb = cb
+
+        self.char_edit = CharacterCreator(randomise=True)
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.add(vbox)
+
+        vbox.pack_start(self.char_edit, False, False, 0)
+        button = KanoButton("OK")
+        button.connect("clicked", self.close_window)
+        button.pack_and_align()
+
+        self.connect("delete-event", Gtk.main_quit)
+        self.set_keep_above(True)
+
+        vbox.pack_start(button.align, False, False, 0)
+        self.show_all()
+
+        self.char_edit.show_pop_up_menu_for_category("judoka-faces")
+        self.char_edit.select_category_button("judoka-faces")
+
+    def close_window(self, widget):
+        self.char_edit.save()
+        self.destroy()
+        GLib.idle_add(self.close_cb)
