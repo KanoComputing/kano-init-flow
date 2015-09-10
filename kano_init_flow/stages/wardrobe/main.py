@@ -155,6 +155,7 @@ class Wardrobe(Stage):
 class CharacterWindow(Gtk.Window):
     def __init__(self, cb):
         super(CharacterWindow, self).__init__()
+        self.get_style_context().add_class("character_window")
         self.set_decorated(False)
         self.close_cb = cb
 
@@ -170,7 +171,7 @@ class CharacterWindow(Gtk.Window):
         self.connect("delete-event", Gtk.main_quit)
         self.set_keep_above(True)
 
-        vbox.pack_start(button.align, False, False, 0)
+        vbox.pack_start(button.align, False, False, 10)
         self.show_all()
 
         self.char_edit.show_pop_up_menu_for_category("judoka-faces")

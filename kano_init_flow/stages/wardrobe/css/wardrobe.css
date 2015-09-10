@@ -1,3 +1,7 @@
 .blur {
     background-color: RGBA(0, 0, 0, 0.35);
 }
+
+.character_window {
+    background: #ffffff;
+}
