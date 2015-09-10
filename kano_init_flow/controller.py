@@ -63,8 +63,8 @@ class Controller(object):
             AudioLab,
             # LightLab,
             Blocks,
-            Wifi
-            # KanoWorld
+            Wifi,
+            KanoWorld
             # Quests
         ]
 
