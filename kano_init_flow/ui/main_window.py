@@ -44,13 +44,10 @@ class MainWindow(Gtk.Window):
 
         self.set_decorated(False)
 
-        # self.fullscreen()
-        # self.set_keep_below(True)
-
         screen = Gdk.Screen.get_default()
         width = screen.get_width()
         height = screen.get_height()
-        self.set_size_request(width, height)
+        self.set_size_request(width, height + 1)
         self.set_position(Gtk.WindowPosition.CENTER)
 
         overlay = Gtk.Overlay()

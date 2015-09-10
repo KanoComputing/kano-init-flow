@@ -12,6 +12,8 @@ from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
 from kano.logging import logger
 
+from kano.network import is_internet
+
 
 class KanoWorld(Stage):
     """
@@ -26,6 +28,10 @@ class KanoWorld(Stage):
         self._ctl = ctl
 
     def first_scene(self):
+        if not is_internet():
+            self.next_stage()
+            return
+
         s = self._setup_first_scene()
         self._ctl.main_window.push(s.widget)
 
