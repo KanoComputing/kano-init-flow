@@ -350,7 +350,7 @@ class TroubleshootOrDisconnect(Gtk.Box):
         image = Gtk.Image.new_from_file(img_path)
 
         troubleshoot = KanoButton('TROUBLESHOOT')
-        troubleshoot.connect('clicked', self._cb_wrapper, troubleshoot)
+        troubleshoot.connect('clicked', self._cb_wrapper, troubleshoot_cb)
 
         skip = KanoButton('SKIP', color="orange")
         skip.connect('clicked', self._cb_wrapper, skip_cb)
