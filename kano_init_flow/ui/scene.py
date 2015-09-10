@@ -300,12 +300,18 @@ class ActiveImage(object):
         if hover:
             self._hover = Gtk.Image.new_from_file(hover)
         else:
-            self._hover = Gtk.Image.new_from_pixbuf(self._img.get_pixbuf())
+            self._hover = self._copy_img()
 
         if down:
             self._down = Gtk.Image.new_from_file(down)
         else:
-            self._down = Gtk.Image.new_from_pixbuf(self._img.get_pixbuf())
+            self._down = self._copy_img()
+
+    def _copy_img(self):
+        if self._img.get_animation():
+            return Gtk.Image.new_from_animation(self._img.get_animation())
+        else:
+            return Gtk.Image.new_from_pixbuf(self._img.get_pixbuf())
 
     def scale(self, factor):
         scaled = []

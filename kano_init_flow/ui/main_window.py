@@ -35,7 +35,8 @@ class MainWindow(Gtk.Window):
         self.connect("delete-event", Gtk.main_quit)
         self._child = None
 
-        self._keypress_signal_id = None
+        self._press_signal_id = None
+        self._release_signal_id = None
         self._emergency_counter = 0
 
         apply_common_to_screen()
@@ -93,8 +94,10 @@ class MainWindow(Gtk.Window):
         GLib.idle_add(self._do_push, child)
 
     def set_key_events_handlers(self, press=None, release=None):
-        if self._keypress_signal_id:
+        if self._press_signal_id:
             GObject.signal_handler_disconnect(self, self._press_signal_id)
+
+        if self._release_signal_id:
             GObject.signal_handler_disconnect(self, self._release_signal_id)
 
         if press:

@@ -97,6 +97,8 @@ class Controller(object):
                 self.complete()
                 return False
 
+        self._main_window.set_key_events_handlers()
+
         if len(self._stages):
             index = 0
             if self._status.location is not None:
