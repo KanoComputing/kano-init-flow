@@ -74,8 +74,9 @@ class AudioLab(Stage):
 
         scene.add_widget(
             ActiveImage(self.media_path('a.png'),
+                        hover=self.media_path('a-hover.png'),
                         down=self.media_path('a-down.png')),
-            Placement(0.4, 0.55),
+            Placement(0.425, 0.485),
             Placement(0.387, 0.567),
             [self._a_clicked, scene],
             key=Gdk.KEY_a
@@ -83,8 +84,9 @@ class AudioLab(Stage):
 
         scene.add_widget(
             ActiveImage(self.media_path('s.png'),
+                        hover=self.media_path('s-hover.png'),
                         down=self.media_path('s-down.png')),
-            Placement(0.55, 0.55),
+            Placement(0.585, 0.485),
             Placement(0.549, 0.567),
             [self._s_clicked, scene],
             key=Gdk.KEY_s
@@ -92,8 +94,9 @@ class AudioLab(Stage):
 
         scene.add_widget(
             ActiveImage(self.media_path('d.png'),
+                        hover=self.media_path('d-hover.png'),
                         down=self.media_path('d-down.png')),
-            Placement(0.7, 0.55),
+            Placement(0.789, 0.485),
             Placement(0.7215, 0.567),
             [self._d_clicked, scene],
             key=Gdk.KEY_d
@@ -106,11 +109,11 @@ class AudioLab(Stage):
         )
 
         copy = 'Now let\'s check the sound works!\n' + \
-               'Try pressing the A, S or D keys to play a song!'
+               'Try pressing the A, S or D\nkeys to play a song!'
         scene.add_widget(
             SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
                          source_align=0.8, scale=scene.scale_factor),
-            Placement(0.95, 0.5),
+            Placement(0.95, 0.35),
             Placement(0.95, 0.45)
         )
 
