@@ -11,9 +11,7 @@ from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.ui.css import apply_styling_to_screen
-from kano_init_flow.paths import common_media_path
 from kano_avatar_gui.CharacterCreator import CharacterCreator
-from kano.gtk3.kano_dialog import KanoDialog
 from kano.gtk3.buttons import KanoButton
 from kano_init_flow.ui.components import NextButton
 
@@ -137,6 +135,8 @@ class Wardrobe(Stage):
             Placement(0.9, 0.4),
             Placement(0.9, 0.4)
         )
+
+        scene.add_profile_icon()
 
         scene.add_widget(
             NextButton(),

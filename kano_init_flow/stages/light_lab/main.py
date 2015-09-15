@@ -51,6 +51,8 @@ class LightLab(Stage):
         scene.set_background(self.media_path('off-4-3.png'),
                              self.media_path('off-16-9.png'))
 
+        scene.add_profile_icon()
+
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('judoka.png')),
             Placement(0.08, 0.9),
@@ -66,14 +68,7 @@ class LightLab(Stage):
             Placement(0.12, 0.45)
         )
 
-        # Character path in the home directory
-        character_path = os.path.join(
-            os.path.expanduser("~"),
-            ".character-content/character.png"
-        )
-
-        scene.add_widget(
-            Gtk.Image.new_from_file(character_path),
+        scene.add_character(
             Placement(0.95, 0.9, 0.62),
             Placement(0.95, 0.9, 0.62)
         )
@@ -137,6 +132,7 @@ class LightLab(Stage):
             name='help-power'
         )
 
+
 class ConsoleScreen(Gtk.EventBox):
     def __init__(self, stage, scene, yes_cb, no_cb):
         super(ConsoleScreen, self).__init__()
@@ -151,7 +147,7 @@ class ConsoleScreen(Gtk.EventBox):
 
         vbox = Gtk.VBox(False, 0)
         vbox.set_halign(Gtk.Align.CENTER)
-        #vbox.set_valign(Gtk.Align.CENTER)
+        # vbox.set_valign(Gtk.Align.CENTER)
 
         question = Gtk.Label('Can you see the lights?')
         question.set_line_wrap(True)

@@ -17,6 +17,7 @@ from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class, cb_wrapper, scale_image
 from kano_init_flow.ui.css import apply_styling_to_screen
+from kano_init_flow.ui.profile_icon import ProfileIcon
 
 
 class AudioLab(Stage):
@@ -60,14 +61,9 @@ class AudioLab(Stage):
         scene.set_background(self.media_path('audio-lab-bg-4-3.png'),
                              self.media_path('audio-lab-bg-16-9.png'))
 
-        # Character path in the home directory
-        character_path = os.path.join(
-            os.path.expanduser("~"),
-            ".character-content/character.png"
-        )
+        scene.add_profile_icon()
 
-        scene.add_widget(
-            Gtk.Image.new_from_file(character_path),
+        scene.add_character(
             Placement(0.08, 0.9, 0.62),
             Placement(0.12, 0.9, 0.62)
         )

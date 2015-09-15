@@ -52,6 +52,8 @@ class Blocks(Stage):
         scene.set_background(self.media_path('blocks-scene-incomplete-1600x1200.png'),
                              self.media_path('blocks-scene-incomplete-1920x1080.png'))
 
+        scene.add_profile_icon()
+
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("boulder.png")),
             Placement(0.65, 0.47),
@@ -141,6 +143,8 @@ class Blocks(Stage):
         scene.set_background(common_media_path("blueprint-bg-4-3.png"),
                              common_media_path("blueprint-bg-16-9.png"))
 
+        scene.add_profile_icon()
+
         # Altar
         scene.add_widget(Gtk.Image.new_from_file(self.media_path('altar-incomplete.png')),
                          Placement(0.5, 0.5, 1),
@@ -186,6 +190,8 @@ class Blocks(Stage):
         scene.set_background(common_media_path("blueprint-bg-4-3.png"),
                              common_media_path("blueprint-bg-16-9.png"))
 
+        scene.add_profile_icon()
+
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("altar-complete.png")),
             Placement(0.5, 0.5, 1),
@@ -206,6 +212,8 @@ class Blocks(Stage):
         scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('blocks-scene-complete-1600x1200.png'),
                              self.media_path('blocks-scene-complete-1920x1080.png'))
+
+        scene.add_profile_icon()
 
         # Move boulder
         scene.add_widget(

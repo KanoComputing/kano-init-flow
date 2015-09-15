@@ -42,10 +42,13 @@ class KanoWorld(Stage):
         self._is_on = False
 
         self._scene = scene = Scene(self._ctl.main_window)
+
         scene.set_background(
             self.media_path('world-registration-scene-1600x1200.png'),
             self.media_path('world-registration-scene-1920x1080.png')
         )
+
+        scene.add_profile_icon()
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('rocket-animation-file-medium.gif')),
