@@ -9,7 +9,7 @@ import subprocess
 import threading
 
 from gi.repository import Gtk, GLib, Gdk
-from kano.gtk3.buttons import KanoButton
+from kano.gtk3.buttons import KanoButton, OrangeButton
 from kano.gtk3.cursor import attach_cursor_events
 from kano.logging import logger
 from kano_profile.tracker import track_action
@@ -448,18 +448,23 @@ class ParentalScreen(Gtk.VBox):
 
         later = KanoButton('LATER')
         later.connect('clicked', self._cb_wrapper, later_cb, 'init-flow-parental-skipped')
+        later.set_size_request(200, 50)
 
-        now = KanoButton('SET NOW', color="orange")
+        now = OrangeButton('SET NOW')
         now.connect('clicked', self._cb_wrapper, now_cb, 'init-flow-parental-set')
 
-        buttons = Gtk.HBox(False, 0)
+        emptylabel = Gtk.Label("       ")
+
+        buttons = Gtk.ButtonBox()
+        buttons.set_layout(Gtk.ButtonBoxStyle.SPREAD)
+        buttons.pack_start(emptylabel, True, True, 0)
         buttons.pack_start(later, True, True, 20)
-        buttons.pack_start(now, True, True, 0)
+        buttons.pack_start(now, True, True, 20)
 
         self.pack_start(heading, False, False, 30)
         self.pack_start(desc, False, False, 20)
         self.pack_start(padlock, False, False, 10)
-        self.pack_start(buttons, False, False, 30)
+        self.pack_start(buttons, True, True, 30)
 
     def _cb_wrapper(self, widget, cb, tracking_event=None):
         if tracking_event:
