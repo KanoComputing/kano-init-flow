@@ -4,7 +4,6 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-import os
 from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
@@ -14,10 +13,8 @@ from kano_profile.tracker import track_action
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
-from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class, cb_wrapper, scale_image
 from kano_init_flow.ui.css import apply_styling_to_screen
-from kano_init_flow.ui.profile_icon import ProfileIcon
 
 
 class AudioLab(Stage):
@@ -197,6 +194,7 @@ class AudioLab(Stage):
             modal=True,
             name='help-jack'
         )
+
 
 class ConsoleScreen(Gtk.EventBox):
     def __init__(self, stage, scene, yes_cb, no_cb):
