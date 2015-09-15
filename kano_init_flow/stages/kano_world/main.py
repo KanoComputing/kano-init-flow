@@ -55,8 +55,8 @@ class KanoWorld(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('world-widget-animation.gif')),
-            Placement(0.95, 0.05),
-            Placement(0.95, 0.05)
+            Placement(0.95, 0.05, 0),
+            Placement(0.95, 0.05, 0)
         )
 
         # Launch the settings on top
