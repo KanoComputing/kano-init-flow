@@ -446,7 +446,7 @@ class ParentalScreen(Gtk.VBox):
         # TODO: Add image
         padlock = Gtk.Image.new_from_file(stage.media_path('padlock.png'))
 
-        later = KanoButton('LATER')
+        later = KanoButton('GOT IT')
         later.connect('clicked', self._cb_wrapper, later_cb, 'init-flow-parental-skipped')
         later.set_size_request(200, 50)
 
@@ -587,7 +587,7 @@ class ParentalControlGUI(ConsoleContainer):
         try:
             script_path = os.path.join("/usr/bin/kano-settings")
             socket_id = self.socket.get_id()
-            cmd = "sudo {} --plug={} --onescreen --label=advanced".format(
+            cmd = "sudo {} --plug={} --onescreen --label=set-parental-password".format(
                 script_path, socket_id
             )
 
