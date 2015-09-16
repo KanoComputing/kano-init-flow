@@ -77,12 +77,12 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
-        scene.add_profile_icon()
+        # scene.add_profile_icon()
 
-        scene.add_character(
-            Placement(0.08, 0.9, 0.5),
-            Placement(0.12, 0.9, 0.6)
-        )
+        # scene.add_character(
+        #    Placement(0.08, 0.9, 0.5),
+        #    Placement(0.12, 0.9, 0.6)
+        # )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('spaceman.png')),
@@ -118,7 +118,7 @@ class Wifi(Stage):
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
-        scene.add_profile_icon()
+        # scene.add_profile_icon()
 
         scene.add_widget(
             WifiConsole(self, self.connected_scene, self.next_stage),
@@ -133,12 +133,12 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-2-bg-4-3.png'),
                              self.media_path('space-2-bg-16-9.png'))
 
-        scene.add_profile_icon()
+        # scene.add_profile_icon()
 
-        scene.add_character(
-            Placement(0.08, 0.9, 0.5),
-            Placement(0.12, 0.9, 0.6)
-        )
+        # scene.add_character(
+        #    Placement(0.08, 0.9, 0.5),
+        #    Placement(0.12, 0.9, 0.6)
+        # )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('spaceman.png')),
@@ -169,12 +169,12 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
-        scene.add_profile_icon()
+        # scene.add_profile_icon()
 
-        scene.add_character(
-            Placement(0.08, 0.9, 0.5),
-            Placement(0.12, 0.9, 0.6)
-        )
+        # scene.add_character(
+        #    Placement(0.08, 0.9, 0.5),
+        #    Placement(0.12, 0.9, 0.6)
+        # )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('spaceman.png')),

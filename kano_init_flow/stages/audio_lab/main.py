@@ -58,12 +58,12 @@ class AudioLab(Stage):
         scene.set_background(self.media_path('audio-lab-bg-4-3.png'),
                              self.media_path('audio-lab-bg-16-9.png'))
 
-        scene.add_profile_icon()
+        # scene.add_profile_icon()
 
-        scene.add_character(
-            Placement(0.08, 0.9, 0.62),
-            Placement(0.12, 0.9, 0.62)
-        )
+        # scene.add_character(
+        #    Placement(0.08, 0.9, 0.62),
+        #    Placement(0.12, 0.9, 0.62)
+        # )
 
         scene.add_widget(
             ActiveImage(self.media_path('a.png'),

@@ -51,7 +51,7 @@ class LightLab(Stage):
         scene.set_background(self.media_path('off-4-3.png'),
                              self.media_path('off-16-9.png'))
 
-        scene.add_profile_icon()
+        # scene.add_profile_icon()
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('judoka.png')),
