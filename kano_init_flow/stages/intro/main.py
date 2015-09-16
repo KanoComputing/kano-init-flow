@@ -7,7 +7,7 @@
 from gi.repository import Gtk, Gdk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
+from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.ui.components import NextButton
@@ -64,46 +64,47 @@ class Intro(Stage):
             Placement(0, 0, 0),
         )
 
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("keyboard-intro.gif")),
-            Placement(0.5, 0.45, 0),
-            Placement(0.5, 0.45, 0),
-        )
-
-        scene.add_widget(
-            NextButton(),
-            Placement(0.5, 0.75, 0),
-            Placement(0.5, 0.75, 0),
-            self.second_scene,
-            key=Gdk.KEY_space
-        )
-
-        grab_label = Gtk.Label("GRAB YOUR KEYBOARD")
+        # Create the keyboard and pack it before putting it in the
+        grab_label = Gtk.Label("Click NEXT to start")
         grab_label.get_style_context().add_class("big_intro_label")
         click_label = Gtk.Label("CLICK")
         click_label.get_style_context().add_class("intro_label")
         move_label = Gtk.Label("MOVE")
         move_label.get_style_context().add_class("intro_label")
 
+        keyboard_gif = Gtk.Image.new_from_file(self.media_path("keyboard-intro.gif"))
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        hbox = Gtk.Box()
+
+        hbox.pack_start(click_label, False, False, 0)
+        hbox.pack_end(move_label, False, False, 0)
+        click_label.set_margin_left(30)
+        move_label.set_margin_right(30)
+
+        vbox.pack_start(grab_label, False, False, 0)
+        vbox.pack_start(keyboard_gif, False, False, 0)
+        vbox.pack_start(hbox, False, False, 0)
+
         scene.add_widget(
-            grab_label,
-            Placement(0.5, 0.25, 0),
-            Placement(0.5, 0.25, 0)
+            vbox,
+            Placement(0.5, 0.4, 0),
+            Placement(0.5, 0.4, 0)
         )
 
         scene.add_widget(
-            click_label,
-            Placement(0.25, 0.63, 0),
-            Placement(0.315, 0.63, 0)
-        )
-
-        scene.add_widget(
-            move_label,
-            Placement(0.72, 0.63, 0),
-            Placement(0.665, 0.63, 0)
+            NextButton(),
+            Placement(0.5, 0.75, 0),
+            Placement(0.5, 0.75, 0),
+            # self.second_scene,
+            self.next_stage,
+            key=Gdk.KEY_space
         )
 
         return scene
+
+    ###############################################################
+    # These screens aren't currently used in the flow
+    ###############################################################
 
     def _setup_second_scene(self):
         scene = Scene(self._ctl.main_window)
@@ -192,8 +193,6 @@ class Intro(Stage):
         scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
-
-
 
         overworld_img = 'overworld.png'
         if scene.ratio == Scene.RATIO_4_3:
