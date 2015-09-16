@@ -27,6 +27,10 @@ from .stages.intro import Intro
 from .stages.wardrobe import Wardrobe
 from .stages.blocks import Blocks
 from .stages.kano_world import KanoWorld
+from .stages.pi_hdmi import PiHdmi
+from .stages.pi_wifi import PiWifi
+from .stages.pi_keyboard import PiKeyboard
+from .stages.pi_audio import PiAudio
 
 
 class Controller(object):
@@ -59,13 +63,17 @@ class Controller(object):
 
         self._stages = [
             Intro,
-            # Overscan,
+            PiHdmi,
+            Overscan,
+            PiKeyboard,
             DragAndDrop,
             Bugs,
             Wardrobe,
-            AudioLab,
-            # LightLab,
             Blocks,
+            PiAudio,
+            AudioLab,
+            LightLab,
+            PiWifi,
             Wifi,
             KanoWorld
             # Quests
