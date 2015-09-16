@@ -68,14 +68,14 @@ class Controller(object):
             PiKeyboard,
             DragAndDrop,
             Bugs,
-            Wardrobe,
-            Blocks,
+            # Wardrobe,
+            # Blocks,
             PiAudio,
             AudioLab,
-            LightLab,
+            # LightLab,
             PiWifi,
             Wifi,
-            KanoWorld
+            # KanoWorld
             # Quests
         ]
 
