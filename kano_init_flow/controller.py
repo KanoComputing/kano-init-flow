@@ -31,6 +31,7 @@ from .stages.pi_hdmi import PiHdmi
 from .stages.pi_wifi import PiWifi
 from .stages.pi_keyboard import PiKeyboard
 from .stages.pi_audio import PiAudio
+from .stages.desktop import Desktop
 
 
 class Controller(object):
@@ -77,6 +78,7 @@ class Controller(object):
             Wifi,
             # KanoWorld
             # Quests
+            Desktop
         ]
 
     @property

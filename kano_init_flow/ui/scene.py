@@ -137,12 +137,13 @@ class Scene(object):
                                                            self._h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_profile_icon(self):
+    def add_profile_icon(self, callback=None):
         # We always want to add the widget to the same position in each screen
         self.add_widget(
             ProfileIcon(),
             Placement(0.03, 0.05, 0),
-            Placement(0.03, 0.05, 0)
+            Placement(0.03, 0.05, 0),
+            callback
         )
 
     def add_character(self, p43, p169, clicked_cb=None, key=None,

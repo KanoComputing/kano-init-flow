@@ -58,6 +58,7 @@ class Intro(Stage):
         height = screen.get_height()
         blur.set_size_request(width, height)
 
+        # This currently blocks the emergency exit button
         scene.add_widget(
             blur,
             Placement(0, 0, 0),
