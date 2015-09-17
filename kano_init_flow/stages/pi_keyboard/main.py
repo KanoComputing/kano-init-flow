@@ -58,7 +58,7 @@ class PiKeyboard(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble('Let\'s configure the keyboard!'),
+            SpeechBubble('Let\'s learn to master the mouse!'),
             Placement(0.08, 0.24),
             Placement(0.15, 0.3)
         )

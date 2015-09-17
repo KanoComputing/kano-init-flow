@@ -47,10 +47,8 @@ class PiComplete(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text='Well done! The computer is\n' +
-                     'all configured! Click on it to\n' +
-                     'jump in and create your\n' +
-                     'profile to start making!',
+                text='You set it up! Now it\'s time to play.\n' +
+                     'Let\'s go!',
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),

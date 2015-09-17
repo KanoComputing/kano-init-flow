@@ -152,7 +152,7 @@ class Wifi(Stage):
             self.next_stage
         )
 
-        copy = 'Connection established. Well done!\n\n' + \
+        copy = 'We have signal! Great work.\n\n' + \
                'All aboard!\nWe can still make it on time!'
         scene.add_widget(
             SpeechBubble(text=copy, source=SpeechBubble.RIGHT,
@@ -346,8 +346,8 @@ class TroubleshootOrDisconnect(Gtk.Box):
         self.set_margin_left(40)
         self.set_margin_right(40)
 
-        heading = Gtk.Label('Troubleshoot')
-        add_class(heading, 'console-screen-heading')
+        # heading = Gtk.Label('Troubleshoot')
+        # add_class(heading, 'console-screen-heading')
 
         desc = Gtk.Label('Oops there was a problem connecting to internet.')
         desc.set_line_wrap(True)
@@ -356,7 +356,7 @@ class TroubleshootOrDisconnect(Gtk.Box):
         img_path = self._stage.media_path("troubleshooting.png")
         image = Gtk.Image.new_from_file(img_path)
 
-        troubleshoot = KanoButton('TROUBLESHOOT')
+        troubleshoot = KanoButton('FIX IT')
         troubleshoot.connect('clicked', self._cb_wrapper, troubleshoot_cb)
 
         skip = KanoButton('SKIP', color="orange")
@@ -366,9 +366,9 @@ class TroubleshootOrDisconnect(Gtk.Box):
         buttons.pack_start(troubleshoot, True, True, 20)
         buttons.pack_start(skip, True, True, 0)
 
-        self.pack_start(heading, False, False, 30)
-        self.pack_start(image, False, False, 10)
+        # self.pack_start(heading, False, False, 30)
         self.pack_start(desc, False, False, 10)
+        self.pack_start(image, False, False, 10)
         self.pack_start(buttons, False, False, 30)
 
     def _cb_wrapper(self, widget, cb):
@@ -394,9 +394,7 @@ class AreYouSure(Gtk.Box):
         desc = Gtk.Label(
             "Kano uses WiFi to stay up to date" +
             "\nwith all new software updates, apps" +
-            "\nand features." +
-            "\n\nDon't worry, you can connect to WiFi" +
-            "\nlater from the desktop"
+            "\nand features."
         )
         desc.set_justify(Gtk.Justification.CENTER)
         desc.set_line_wrap(True)
@@ -405,7 +403,7 @@ class AreYouSure(Gtk.Box):
         try_again = KanoButton('TRY AGAIN')
         try_again.connect('clicked', self._cb_wrapper, try_again_cb)
 
-        skip = KanoButton('YES I WANT TO SKIP', color="orange")
+        skip = KanoButton('YES I WANT TO SKIP', color="grey")
         skip.connect('clicked', self._cb_wrapper, skip_cb,
                      'init-flow-wifi-skipped')
 

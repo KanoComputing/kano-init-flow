@@ -27,7 +27,8 @@ class PiHdmi(Stage):
     def first_scene(self):
         # Check if the pi is connected to a monitor
         if is_monitor():
-            self._ctl.next_stage()
+            self.next_stage()
+            return
 
         s = self._setup_first_scene()
         self._ctl.main_window.push(s.widget)
@@ -63,7 +64,7 @@ class PiHdmi(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble('Let\'s configure the HDMI!'),
+            SpeechBubble('CLICK on the yellow HDMI cable'),
             Placement(0.08, 0.3),
             Placement(0.14, 0.3)
         )
