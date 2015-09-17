@@ -317,7 +317,7 @@ class Desktop(Stage):
             logger.debug("kano-login failed to launch")
 
         self._ctl.main_window.get_window().set_cursor(None)
-        GLib.idle_add(self.third_scene)
+        GLib.idle_add(self.next_stage)
 
     def _create_blur(self):
         blur = Gtk.EventBox()
