@@ -6,6 +6,7 @@
 
 from gi.repository import Gtk
 
+from kano.utils import is_monitor
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.paths import common_media_path
@@ -25,8 +26,8 @@ class PiHdmi(Stage):
 
     def first_scene(self):
         # Check if the pi is connected to a monitor
-        #if is_monitor():
-        #    self._ctl.next_stage()
+        if is_monitor():
+            self._ctl.next_stage()
 
         s = self._setup_first_scene()
         self._ctl.main_window.push(s.widget)

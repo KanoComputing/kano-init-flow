@@ -20,6 +20,7 @@ from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.ui.utils import cb_wrapper
 
+
 class Overscan(Stage):
     """
         The overscan setting window
@@ -37,8 +38,8 @@ class Overscan(Stage):
 
     def first_scene(self):
         # TODO: Uncomment
-        #if is_monitor():
-        #    self._ctl.next_stage()
+        if is_monitor():
+            self._ctl.next_stage()
 
         track_action('init-flow-overscan-needed')
         s1 = self._setup_first_scene()
