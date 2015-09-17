@@ -91,8 +91,7 @@ class Wifi(Stage):
         )
 
         copy = [
-            'Did you know setting up Wifi',
-            'can get you to Kano World?',
+            'Let\'s connect to the web!',
             '',
             'Get started by clicking',
             'the Wifi console!'
@@ -437,8 +436,8 @@ class ParentalScreen(Gtk.VBox):
         heading = Gtk.Label('Parental controls')
         add_class(heading, 'console-screen-heading')
 
-        copy = 'Kano Wifi is a safe place for kids, ' + \
-               'and you can set specific safety guidelines yourself.'
+        copy = 'Allow Kano content + updates in, ' + \
+               'keep suspicious websites out!'
         desc = Gtk.Label(copy)
         desc.set_line_wrap(True)
         add_class(desc, 'console-screen-desc')
