@@ -206,8 +206,8 @@ class Wifi(Stage):
             NextButton(),
             Placement(0.5, 0.99, 0),
             Placement(0.45, 0.99, 0),
-            self.next_stage,
-            key=Gdk.KEY_space
+            self.next_stage
+            # key=Gdk.KEY_space
         )
 
         return scene

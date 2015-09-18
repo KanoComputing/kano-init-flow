@@ -114,8 +114,8 @@ class DragAndDrop(Stage):
             NextButton(),
             Placement(0.5, 0.7, 0),
             Placement(0.5, 0.7, 0),
-            self.next_stage,
-            key=Gdk.KEY_space
+            self.next_stage
+            # key=Gdk.KEY_space
         )
 
         return scene

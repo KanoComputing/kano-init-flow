@@ -97,8 +97,8 @@ class Intro(Stage):
             Placement(0.5, 0.75, 0),
             Placement(0.5, 0.75, 0),
             # self.second_scene,
-            self.next_stage,
-            key=Gdk.KEY_space
+            self.next_stage
+            # key=Gdk.KEY_space
         )
 
         return scene
