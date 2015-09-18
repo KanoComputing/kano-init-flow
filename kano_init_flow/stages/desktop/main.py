@@ -31,6 +31,7 @@ class Desktop(Stage):
 
     def __init__(self, ctl):
         super(Desktop, self).__init__(ctl)
+        apply_styling_to_screen(self.css_path("style.css"))
 
     def first_scene(self):
         s = self._setup_first_scene()
@@ -140,12 +141,14 @@ class Desktop(Stage):
         )
 
         # Shortcut
-        # scene.add_widget(
-        #    NextButton(),
-        #    Placement(0.5, 0.5),
-        #    Placement(0.5, 0.5),
-        #    self.third_scene
-        # )
+        '''
+        scene.add_widget(
+            NextButton(),
+            Placement(0.5, 0.5),
+            Placement(0.5, 0.5),
+            self.third_scene
+        )
+        '''
 
         return scene
 
@@ -194,6 +197,7 @@ class Desktop(Stage):
         # Pass the callback of what we want to launch in the profile icon
         scene.add_profile_icon()
         self._add_world_icon(scene)
+        self._add_taskbar(scene)
 
         # Go through all the desktop icons and add them to the desktop
         # Either go through all files in a folder with a specific pattern, or
@@ -237,8 +241,8 @@ class Desktop(Stage):
 
         scene.add_widget(
             icon_grid,
-            Placement(0.5, 0.9, 0),
-            Placement(0.5, 0.9, 0)
+            Placement(0.5, 0.85, 0),
+            Placement(0.5, 0.85, 0)
         )
 
         scene.add_widget(
@@ -262,8 +266,8 @@ class Desktop(Stage):
 
         scene.add_widget(
             NextButton(),
-            Placement(0.8, 0.4, 0),
-            Placement(0.8, 0.4, 0),
+            Placement(0.5, 0.5, 0),
+            Placement(0.5, 0.5, 0),
             self.next_stage
         )
 
@@ -278,18 +282,54 @@ class Desktop(Stage):
         )
 
     def _add_taskbar(self, scene):
+
         # Need to collect the icons from the taskbar
         taskbar = Gtk.EventBox()
+        taskbar.get_style_context().add_class("taskbar")
 
         # Make the the right width and height
         taskbar.set_size_request(scene.get_width(), 50)
 
+        # Get all the icons
+
         scene.add_widget(
             taskbar,
-            Placement(1, 0, 0),
-            Placement(1, 0, 0)
+            Placement(1, 1, 0),
+            Placement(1, 1, 0)
         )
 
+        start_menu = Gtk.Image.new_from_file("/usr/share/kano-desktop/images/startmenu.png")
+
+        end_filenames = [
+            "/usr/share/kano-settings/settings-widget.png",
+            "/usr/share/kano-updater/images/widget-no-updates.png",
+            "/usr/share/kano-settings/icon/widget-wifi.png",
+            "/usr/share/kano-profile/icon/profile-login-widget.png",
+            "/usr/share/kano-feedback/media/icons/feedback-widget.png",
+            "/usr/share/kano-widgets/icons/home-widget.png"
+        ]
+
+        # Black box to show "how hard" the processor is working
+        processor_monitor = Gtk.EventBox()
+        processor_monitor.get_style_context().add_class("black")
+        processor_monitor.set_size_request(40, 45)
+
+        # Get time
+        time = Gtk.Label("12:33")
+        time.get_style_context().add_class("time")
+
+        hbox = Gtk.Box()
+        hbox.pack_start(start_menu, False, False, 0)
+        hbox.pack_end(processor_monitor, False, False, 3)
+        hbox.pack_end(time, False, False, 3)
+        hbox.set_margin_bottom(20)
+
+        for f in end_filenames:
+            image = Gtk.Image.new_from_file(f)
+            hbox.pack_end(image, False, False, 3)
+
+        taskbar.add(hbox)
+        taskbar.show_all()
         return taskbar
 
     def _launch_registration(self):

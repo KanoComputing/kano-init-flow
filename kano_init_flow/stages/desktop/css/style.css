@@ -2,3 +2,15 @@
     color: #ffffff;
     background: #ffffff;
 }
+
+.taskbar {
+    background: #ffffff;
+}
+
+.time {
+    font: Bariol 15px;
+}
+
+.black {
+    background: #000000;
+}
