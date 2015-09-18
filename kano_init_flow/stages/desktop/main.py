@@ -247,7 +247,7 @@ class Desktop(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("apps-judoka.png")),
-            Placement(0.7, 0.6),
+            Placement(0.8, 0.6),
             Placement(0.7, 0.6)
         )
 
@@ -260,7 +260,7 @@ class Desktop(Stage):
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
-            Placement(0.7, 0.25),
+            Placement(0.85, 0.25),
             Placement(0.7, 0.25)
         )
 
