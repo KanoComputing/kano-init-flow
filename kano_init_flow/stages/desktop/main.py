@@ -58,7 +58,7 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         # Pass the callback of what we want to launch in the profile icon
-        scene.add_profile_icon(self._char_creator_window)
+        scene.add_profile_icon(self._char_creator_window, True)
 
         # Add judoka
         scene.add_widget(
@@ -357,7 +357,7 @@ class Desktop(Stage):
             logger.debug("kano-login failed to launch")
 
         self._ctl.main_window.get_window().set_cursor(None)
-        GLib.idle_add(self.next_stage)
+        GLib.idle_add(self.third_scene)
 
     def _create_blur(self):
         blur = Gtk.EventBox()

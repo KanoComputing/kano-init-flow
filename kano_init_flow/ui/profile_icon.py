@@ -10,11 +10,11 @@ from kano_profile.profile import get_avatar_circ_image_path, recreate_char
 from kano_profile.badges import calculate_kano_level
 from kano_world.functions import get_mixed_username
 from kano.gtk3.apply_styles import apply_styling_to_screen
-from kano_init_flow.paths import common_css_path
+from kano_init_flow.paths import common_css_path, common_media_path
 
 
 class ProfileIcon(Gtk.Fixed):
-    def __init__(self):
+    def __init__(self, use_default=False):
         super(ProfileIcon, self).__init__()
         apply_styling_to_screen(common_css_path("profile_icon.css"))
 
@@ -22,16 +22,28 @@ class ProfileIcon(Gtk.Fixed):
         username_label = Gtk.Label(username)
         username_label.get_style_context().add_class("username_desktop_label")
 
-        level, progress, _ = calculate_kano_level()
-        level_label = Gtk.Label("Level {}".format(level))
-        level_label.get_style_context().add_class("level_desktop_label")
+        # this is faster
+        if use_default:
+            level_label = Gtk.Label("Level 1")
+            level_label.get_style_context().add_class("level_desktop_label")
 
-        progress_img = Gtk.Image.new_from_file(self._get_progress_path(progress))
-        avatar_img = Gtk.Image.new_from_file(self._get_avatar_path())
+            progress_img = Gtk.Image.new_from_file(self._get_progress_path(0))
+            avatar_img = Gtk.Image.new_from_file(self._get_local_avatar_path())
+        else:
+            level, progress, _ = calculate_kano_level()
+            level_label = Gtk.Label("Level {}".format(level))
+
+            progress_img = Gtk.Image.new_from_file(self._get_progress_path(progress))
+            avatar_img = Gtk.Image.new_from_file(self._get_avatar_path())
+
+        level_label.get_style_context().add_class("level_desktop_label")
         self.put(progress_img, 0, 0)
         self.put(avatar_img, 12, 12)
         self.put(username_label, 90, 20)
         self.put(level_label, 90, 38)
+
+    def _get_local_avatar_path(self):
+        return common_media_path("character_circ_ring.png")
 
     def _get_avatar_path(self):
         avatar_image_path = get_avatar_circ_image_path()
@@ -41,7 +53,8 @@ class ProfileIcon(Gtk.Fixed):
 
         # If it still doesn't exist leave it empty
         if not os.path.exists(avatar_image_path):
-            return 'image_missing'
+            # use default
+            avatar_image_path = self._get_local_avatar_path()
 
         return avatar_image_path
 

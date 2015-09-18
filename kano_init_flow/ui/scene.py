@@ -31,8 +31,8 @@ SCREEN_HEIGHT = Gdk.Screen.height()
 
 # 4 by 3
 
-#SCREEN_WIDTH = 1024
-#SCREEN_HEIGHT = 768
+# SCREEN_WIDTH = 1024
+# SCREEN_HEIGHT = 768
 
 
 class Placement(object):
@@ -137,10 +137,10 @@ class Scene(object):
                                                            self._h)
         self._background.set_from_pixbuf(bg_pixbuf)
 
-    def add_profile_icon(self, callback=None):
+    def add_profile_icon(self, callback=None, use_default=False):
         # We always want to add the widget to the same position in each screen
         self.add_widget(
-            ProfileIcon(),
+            ProfileIcon(use_default),
             Placement(0.03, 0.05, 0),
             Placement(0.03, 0.05, 0),
             callback
