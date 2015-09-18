@@ -58,7 +58,7 @@ class PiAudio(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble('Let\'s configure the audio!'),
+            SpeechBubble('Let\'s make sure our sound is loud and clear.'),
             Placement(0.1, 0.3),
             Placement(0.11, 0.3)
         )
