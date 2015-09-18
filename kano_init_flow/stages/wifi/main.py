@@ -46,10 +46,10 @@ class Wifi(Stage):
     def second_scene(self):
         # TODO: uncomment before release
         # Jump directly at the end if we have internet
-        if is_internet():
-            track_action('init-flow-connected-already')
-            self.connected_scene()
-            return
+        # if is_internet():
+        #    track_action('init-flow-connected-already')
+        #    self.connected_scene()
+        #    return
 
         s2 = self._setup_second_scene()
         self._ctl.main_window.push(s2.widget)
@@ -314,6 +314,19 @@ class WifiConsole(Gtk.Overlay):
             self._stage.media_path('router.png'),
             1.0, 0.25, copy, 330,
             self.troubleshoot_ethernet,
+            self.contact_us
+        )
+        self._eb.add(screen)
+        self._eb.show_all()
+
+    def contact_us(self):
+        self._clear()
+        copy = 'Having trouble connecting? Find us at help.kano.me and we\'ll come to the rescue!'
+        screen = SlideScreen(
+            self._stage,
+            self._stage.media_path('judoka-call-centre.png'),
+            0.5, 0.37, copy, 200,
+            self.troubleshoot_router,
             self.wifi_screen
         )
         self._eb.add(screen)
@@ -367,8 +380,8 @@ class TroubleshootOrDisconnect(Gtk.Box):
         buttons.pack_start(skip, True, True, 0)
 
         # self.pack_start(heading, False, False, 30)
-        self.pack_start(desc, False, False, 10)
-        self.pack_start(image, False, False, 10)
+        self.pack_start(desc, False, False, 40)
+        self.pack_start(image, False, False, 20)
         self.pack_start(buttons, False, False, 30)
 
     def _cb_wrapper(self, widget, cb):
@@ -615,10 +628,10 @@ class WifiGUI(ConsoleContainer):
 
     def _cb_wrapper(self, widget, connected_cb, fail_cb):
         # if there is internet, then the user suceeded with connecting
-        if is_internet():
-            connected_cb()
-        else:
-            fail_cb()
+        # if is_internet():
+        #    connected_cb()
+        # else:
+        fail_cb()
 
     def _do_launch_plug_process(self):
         try:
