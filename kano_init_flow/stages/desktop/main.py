@@ -322,7 +322,6 @@ class Desktop(Stage):
         hbox.pack_start(start_menu, False, False, 0)
         hbox.pack_end(processor_monitor, False, False, 3)
         hbox.pack_end(time, False, False, 3)
-        hbox.set_margin_bottom(20)
 
         for f in end_filenames:
             image = Gtk.Image.new_from_file(f)
