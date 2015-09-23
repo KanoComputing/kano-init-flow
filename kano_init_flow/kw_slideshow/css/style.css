@@ -1,0 +1,12 @@
+GtkWindow {
+    background: #ffffff;
+}
+
+.title {
+    font: Bariol bold 22px;
+}
+
+.description {
+    font: Bariol bold 16px;
+    color: #555555;
+}

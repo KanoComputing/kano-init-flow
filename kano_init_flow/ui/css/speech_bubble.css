@@ -1,0 +1,18 @@
+.speech-bubble {
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 0px;
+}
+
+.speech-bubble GtkLabel {
+    /*font: Bariol 20px;*/
+    font-weight: bold;
+    color: #777;
+}
+
+.speech-bubble .heading {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #2b2b2b;
+}

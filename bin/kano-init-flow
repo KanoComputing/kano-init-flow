@@ -2,63 +2,49 @@
 
 # kano-init-flow
 #
-# Copyright (C) 2014-2015 Kano Computing Ltd.
-# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+# Copyright (C) 2015 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 # Main entry point to the application
 #
 
-#
-# FIXME: An extremely nasty, but at this point the only effective way of
-# making sure that an exception in this program will not cause the WIFI
-# loop in the bootflow. We should ged rid of this and refactor as soon as
-# we can drop support of the Beta-1.2.1 China image.
-#
-try:
-    import os
-    import sys
-    import gettext
-    from gi.repository import Gtk
+"""
+kano-init-flow onboards users to Kano OS.
 
-    if __name__ == '__main__' and __package__ is None:
-        DIR_PATH = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..'))
-        if DIR_PATH != '/usr':
-            sys.path.insert(1, DIR_PATH)
-            LOCALE_PATH = os.path.join(DIR_PATH, 'locale')
-        else:
-            LOCALE_PATH = None
+Usage:
+  kano-init-flow [-d <stage-id>]
 
-    gettext.install('kano-init-flow', LOCALE_PATH, unicode=1)
+Options:
+  -h, --help        Show this message.
+  -d, --debug=<id>  Launch in debug mode [default: none].
+"""
 
-    from kano.utils import enforce_root
+import os
+import sys
 
-    from kano_init_flow.main_window import MainWindow
-    from kano_init_flow.first_screen import FirstScreen
-    from kano_init_flow.audio_screen import AudioScreen
+# Add the parent directory in the python path
+# TODO: move this elsewhere?
+if __name__ == '__main__' and __package__ is None:
+    dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    if dir_path != '/usr':
+        sys.path.insert(1, dir_path)
 
-    enforce_root(_('Please run it as root / sudo user!'))
 
-    def main():
-        # Check for possible arguments
-        # We need this for backwards compatibility 1.3.1
-        if len(sys.argv) == 2:
-            first_screen = AudioScreen
-            reboot_at_end = True
-        else:
-            first_screen = FirstScreen
-            reboot_at_end = False
+import docopt
+from gi.repository import Gtk, GObject
 
-        MainWindow(first_screen, reboot_at_end)
-        Gtk.main()
+from kano_profile.tracker import Tracker
 
-    if __name__ == '__main__':
-        main()
-except:
-    import traceback
-    from kano.logging import logger
-    exc = traceback.format_exc().splitlines()
-    for line in exc:
-        logger.error(line)
+from kano_init_flow.ui.main_window import MainWindow
 
-    sys.exit(0)
+args = docopt.docopt(__doc__)
+
+start_from = args['--debug'] if args['--debug'] != 'none' else None
+GObject.threads_init()
+mw = MainWindow(start_from)
+if not mw.prepare_first_stage():
+    sys.exit(mw.return_value)
+Tracker()
+mw.show_all()
+Gtk.main()
+sys.exit(mw.return_value)
