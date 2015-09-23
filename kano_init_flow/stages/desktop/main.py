@@ -288,7 +288,7 @@ class Desktop(Stage):
         taskbar.get_style_context().add_class("taskbar")
 
         # Make the the right width and height
-        taskbar.set_size_request(scene.get_width(), 50)
+        taskbar.set_size_request(scene.get_width(), 44)
 
         # Get all the icons
 
