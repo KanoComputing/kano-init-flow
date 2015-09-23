@@ -69,6 +69,7 @@ class Scene(object):
         self._scale_factor = self._get_scale_factor()
 
         self._widgets = {}
+        self._scheduled = []
 
         self._main_window = None
         if main_window:
@@ -253,19 +254,11 @@ class Scene(object):
             :type callback: function
         """
 
-        if not self._main_window:
-            msg = 'Can\'t schedule events without a reference to MainWindow.'
-            raise RuntimeError(msg)
+        self._scheduled.append({'delay': delay, 'callback': callback})
 
-        # This function just calls the callback and returns False to
-        # make sure the timer isn't repeated.
-        def __wrapper():
-            callback()
-            return False
-
-        t_id = GLib.timeout_add_seconds(delay, __wrapper)
-        self._main_window.register_timeout(t_id)
-
+    @property
+    def scheduled_events(self):
+        return self._scheduled
 
     def _clicked_cb_wrapper(self, widget, clicked_cb, *args):
         clicked_cb(*args)

@@ -13,6 +13,7 @@ from kano.logging import logger
 
 from kano_init_flow.controller import Controller
 from kano_init_flow.ui.css import apply_styling_to_screen
+from kano_init_flow.ui.scene import Scene
 from kano_init_flow.paths import common_css_path
 
 
@@ -98,9 +99,11 @@ class MainWindow(Gtk.Window):
     def set_key_events_handlers(self, press=None, release=None):
         if self._press_signal_id:
             GObject.signal_handler_disconnect(self, self._press_signal_id)
+            self._press_signal_id = None
 
         if self._release_signal_id:
             GObject.signal_handler_disconnect(self, self._release_signal_id)
+            self._release_signal_id = None
 
         if press:
             self._press_signal_id = self.connect('key-press-event', press)
@@ -111,8 +114,27 @@ class MainWindow(Gtk.Window):
 
     def _do_push(self, child):
         # Cleans up any pending scheduled events
-        for t_id in self._timeouts:
-            GLib.source_remove(t_id)
+        for i, src in enumerate(self._timeouts):
+            if not src.is_destroyed():
+                GLib.source_remove(src.get_id())
+            del self._timeouts[i]
+
+
+        if issubclass(child.__class__, Scene):
+            for event in child.scheduled_events:
+                # The callback must always return False not to be rescheduled.
+                # This wrapper makes sure of that.
+                def __wrapper1():
+                    def __wrapper2():
+                        event['callback']()
+                        return False
+                    GLib.idle_add(__wrapper2)
+
+                t_id = GLib.timeout_add_seconds(event['delay'], __wrapper1)
+                src = GLib.MainContext.default().find_source_by_id(t_id)
+                self._timeouts.append(src)
+
+            child = child.widget
 
         if self._child:
             self._container.remove(self._child)

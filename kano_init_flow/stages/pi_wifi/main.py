@@ -25,7 +25,7 @@ class PiWifi(Stage):
 
     def first_scene(self):
         s = self._setup_first_scene()
-        self._ctl.main_window.push(s.widget)
+        self._ctl.main_window.push(s)
 
     def next_stage(self):
         self._ctl.next_stage()

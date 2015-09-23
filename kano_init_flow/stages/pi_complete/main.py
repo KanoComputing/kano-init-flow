@@ -25,7 +25,7 @@ class PiComplete(Stage):
 
     def first_scene(self):
         s1 = self._setup_first_scene()
-        self._ctl.main_window.push(s1.widget)
+        self._ctl.main_window.push(s1)
 
     def _setup_first_scene(self):
         self._scene = scene = Scene(self._ctl.main_window)

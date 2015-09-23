@@ -32,7 +32,7 @@ class AudioLab(Stage):
 
     def first_scene(self):
         s = self._setup_first_scene()
-        self._ctl.main_window.push(s.widget)
+        self._ctl.main_window.push(s)
 
     def help_leds(self):
         track_action('init-flow-audio-help-triggered')

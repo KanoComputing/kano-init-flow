@@ -34,7 +34,7 @@ class LightLab(Stage):
 
     def first_scene(self):
         s = self._setup_first_scene()
-        self._ctl.main_window.push(s.widget)
+        self._ctl.main_window.push(s)
 
     def help_power(self):
         track_action('init-flow-light-help-triggered')

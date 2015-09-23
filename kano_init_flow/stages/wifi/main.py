@@ -41,7 +41,7 @@ class Wifi(Stage):
 
     def first_scene(self):
         s1 = self._setup_first_scene()
-        self._ctl.main_window.push(s1.widget)
+        self._ctl.main_window.push(s1)
 
     def second_scene(self):
         # TODO: uncomment before release
@@ -52,17 +52,17 @@ class Wifi(Stage):
             return
 
         s2 = self._setup_second_scene()
-        self._ctl.main_window.push(s2.widget)
+        self._ctl.main_window.push(s2)
 
     def connected_scene(self):
         track_action('init-flow-connected')
         s3 = self._setup_connected_scene()
-        self._ctl.main_window.push(s3.widget)
+        self._ctl.main_window.push(s3)
 
     def disconnected_scene(self):
         track_action('init-flow-disconnected')
         s4 = self._setup_disconnected_scene()
-        self._ctl.main_window.push(s4.widget)
+        self._ctl.main_window.push(s4)
 
     def new_try(self):
         self._tries += 1

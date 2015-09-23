@@ -43,7 +43,7 @@ class Overscan(Stage):
 
         track_action('init-flow-overscan-needed')
         s1 = self._setup_first_scene()
-        self._ctl.main_window.push(s1.widget)
+        self._ctl.main_window.push(s1)
 
     def save_and_exit(self):
         self._overscan_ctl.reset() # TODO remove
@@ -234,5 +234,4 @@ class OverscanControl(object):
             # Do allow negative values
             self._current[side] = max(value + change, 0)
 
-        print self._current
         set_overscan_status(self._current)

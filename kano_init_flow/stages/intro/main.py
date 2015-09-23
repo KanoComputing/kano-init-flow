@@ -28,19 +28,19 @@ class Intro(Stage):
 
     def first_scene(self):
         s1 = self._setup_first_scene()
-        self._ctl.main_window.push(s1.widget)
+        self._ctl.main_window.push(s1)
 
     def second_scene(self):
         s2 = self._setup_second_scene()
-        self._ctl.main_window.push(s2.widget)
+        self._ctl.main_window.push(s2)
 
     def third_scene(self):
         s3 = self._setup_third_scene()
-        self._ctl.main_window.push(s3.widget)
+        self._ctl.main_window.push(s3)
 
     def fourth_scene(self):
         s4 = self._setup_fourth_scene()
-        self._ctl.main_window.push(s4.widget)
+        self._ctl.main_window.push(s4)
 
     def next_stage(self):
         self._ctl.next_stage()
@@ -100,6 +100,8 @@ class Intro(Stage):
             self.next_stage
             # key=Gdk.KEY_space
         )
+
+        scene.schedule(10, self.next_stage)
 
         return scene
 

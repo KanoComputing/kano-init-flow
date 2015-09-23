@@ -30,11 +30,11 @@ class Wardrobe(Stage):
 
     def first_scene(self):
         s1 = self._setup_first_scene()
-        self._ctl.main_window.push(s1.widget)
+        self._ctl.main_window.push(s1)
 
     def second_scene(self):
-        s3 = self._setup_second_scene()
-        self._ctl.main_window.push(s3.widget)
+        s2 = self._setup_second_scene()
+        self._ctl.main_window.push(s2)
 
     def next_stage(self):
         self._ctl.next_stage()

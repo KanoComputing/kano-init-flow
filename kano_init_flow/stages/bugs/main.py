@@ -40,7 +40,7 @@ class Bugs(Stage):
 
     def first_scene(self):
         s = self._setup_first_scene()
-        self._ctl.main_window.push(s.widget)
+        self._ctl.main_window.push(s)
 
     def _setup_first_scene(self):
         scene = Scene(self._ctl.main_window)
