@@ -10,7 +10,7 @@ import os
 from distutils.core import setup
 
 
-files = ["ui/media/*", "ui/css/*"]
+pkg_data = ["media/*", "css/*"]
 
 
 def get_stages():
@@ -30,7 +30,7 @@ def get_stages_data():
 
     for s in stages:
         root = s.replace('.', '/')
-        for f in files:
+        for f in pkg_data:
             subdir = f.split('/')[0]
             if os.path.isdir(os.path.join(root, subdir)):
                 if s not in data:
@@ -45,14 +45,17 @@ def merge_dicts(a, b):
     res.update(b)
     return res
 
-
 setup(
     name='kano-init-flow',
     version='2.0',
     description='The init flow for Kano OS',
     author='Kano Computing',
     author_email='help@kano.me',
-    packages=['kano_init_flow', 'kano_init_flow.stages'] + get_stages(),
-    scripts=['bin/kano-init-flow'],
-    package_data=merge_dicts({"kano_init_flow": files}, get_stages_data())
+    packages=['kano_init_flow', 'kano_init_flow.stages', 'kano_init_flow.ui',
+              'kano_init_flow.kw_slideshow'] + get_stages(),
+    scripts=['bin/kano-init-flow', 'bin/kano-init-flow-mknod',
+             'bin/kano-world-slideshow'],
+    package_data=merge_dicts({"kano_init_flow.ui": pkg_data,
+                              "kano_init_flow.kw_slideshow": pkg_data,
+                             }, get_stages_data())
 )
