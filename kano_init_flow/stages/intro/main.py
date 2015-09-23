@@ -101,8 +101,6 @@ class Intro(Stage):
             # key=Gdk.KEY_space
         )
 
-        scene.schedule(10, self.next_stage)
-
         return scene
 
     ###############################################################
