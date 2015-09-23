@@ -7,7 +7,7 @@
 import os
 import time
 
-from gi.repository import Gtk, Gdk, GdkPixbuf
+from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
 from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, \
@@ -70,7 +70,9 @@ class Scene(object):
 
         self._widgets = {}
 
+        self._main_window = None
         if main_window:
+            self._main_window = main_window
             self._keys = {}
             main_window.set_key_events_handlers(self._key_press_cb_wrapper,
                                                 self._key_release_cb_wrapper)
@@ -239,6 +241,31 @@ class Scene(object):
             w = self._widgets[wid]
             del self._widgets[wid]
             self._fixed.remove(w)
+
+    def schedule(self, delay, callback):
+        """
+            Trigger an event after a certain time.
+
+            :param delay: For how long to delay the event.
+            :type delay: int
+
+            :param callback: The function to be called.
+            :type callback: function
+        """
+
+        if not self._main_window:
+            msg = 'Can\'t schedule events without a reference to MainWindow.'
+            raise RuntimeError(msg)
+
+        # This function just calls the callback and returns False to
+        # make sure the timer isn't repeated.
+        def __wrapper():
+            callback()
+            return False
+
+        t_id = GLib.timeout_add_seconds(delay, __wrapper)
+        self._main_window.register_timeout(t_id)
+
 
     def _clicked_cb_wrapper(self, widget, clicked_cb, *args):
         clicked_cb(*args)

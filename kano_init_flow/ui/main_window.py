@@ -39,6 +39,8 @@ class MainWindow(Gtk.Window):
         self._release_signal_id = None
         self._emergency_counter = 0
 
+        self._timeouts = []
+
         apply_common_to_screen()
         apply_styling_to_screen(common_css_path('scene.css'))
         apply_styling_to_screen(common_css_path('speech_bubble.css'))
@@ -108,6 +110,10 @@ class MainWindow(Gtk.Window):
                                                    release)
 
     def _do_push(self, child):
+        # Cleans up any pending scheduled events
+        for t_id in self._timeouts:
+            GLib.source_remove(t_id)
+
         if self._child:
             self._container.remove(self._child)
             self._child.destroy()
