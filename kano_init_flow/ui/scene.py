@@ -261,6 +261,14 @@ class Scene(object):
         return self._scheduled
 
     def _clicked_cb_wrapper(self, widget, clicked_cb, *args):
+        widget.set_sensitive(False)
+
+        # A callback to reactivate the button
+        def __reactivate_button():
+            widget.set_sensitive(True)
+            return False
+        GLib.timeout_add_seconds(1, __reactivate_button)
+
         clicked_cb(*args)
         return True
 
