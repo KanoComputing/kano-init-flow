@@ -78,7 +78,7 @@ class DragAndDrop(Stage):
 
         scene.add_widget(
             speechbubble,
-            Placement(0.46, 0.25),
+            Placement(0.34, 0.25),
             Placement(0.44, 0.25)
         )
 
