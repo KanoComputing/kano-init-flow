@@ -38,29 +38,35 @@ class PiWifi(Stage):
             common_media_path('blueprint-bg-16-9.png')
         )
 
+        scene.add_arrow(
+            "down",
+            Placement(0.46, 0.36),
+            Placement(0.46, 0.44)
+        )
+
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('wifi.gif')),
-            Placement(0.39, 0.58),
-            Placement(0.375, 0.631),
+            Placement(0.48, 0.58),
+            Placement(0.475, 0.631),
             self.next_stage
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('Pi-wifi.png')),
-            Placement(0.7, 0.2),
-            Placement(0.6, 0.2)
+            Placement(0.83, 0.2),
+            Placement(0.73, 0.2)
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(common_media_path('pi-judoka.png')),
-            Placement(0.2, 0.6),
-            Placement(0.2, 0.6)
+            Placement(0.19, 0.6),
+            Placement(0.18, 0.6)
         )
 
         scene.add_widget(
-            SpeechBubble('Connect to the world with WiFi.'),
-            Placement(0.13, 0.3),
-            Placement(0.15, 0.3)
+            SpeechBubble('Connect to the world\nwith WiFi.'),
+            Placement(0.12, 0.27),
+            Placement(0.14, 0.28)
         )
 
         return scene

@@ -19,3 +19,8 @@ GtkWindow {
 .modal {
   background-color: rgba(0, 0, 0, 0.7);
 }
+
+.click_label {
+    font: Bariol bold 25px;
+    color: #ffffff;
+}
