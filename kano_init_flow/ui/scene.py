@@ -15,6 +15,7 @@ from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, \
 
 from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 from kano_init_flow.ui.profile_icon import ProfileIcon
+from kano_init_flow.paths import common_media_path
 
 
 # TODO: for debuging of different screen ratios
@@ -159,6 +160,52 @@ class Scene(object):
 
         self.add_widget(
             Gtk.Image.new_from_file(character_path),
+            p43,
+            p169,
+            clicked_cb,
+            key,
+            name,
+            modal
+        )
+
+    def add_arrow(self, direction, p43, p169, clicked_cb=None, key=None,
+                  name=None, modal=False):
+
+        click_label = Gtk.Label("CLICK")
+        click_label.get_style_context().add_class("click_label")
+
+        if direction in ["down", "left", "right", "up-right", "up-left"]:
+            arrow_image = Gtk.Image.new_from_file(
+                common_media_path(
+                    'arrow-pi-screen-{}.gif'.format(direction)
+                )
+            )
+
+        if direction == "down":
+            box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+            box.pack_start(click_label, False, False, 0)
+            box.pack_start(arrow_image, False, False, 0)
+
+        elif direction == "down":
+            box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+            box.pack_start(arrow_image, False, False, 0)
+            box.pack_start(click_label, False, False, 0)
+
+        elif direction == "left":
+            box = Gtk.Box()
+            box.pack_start(arrow_image, False, False, 0)
+            box.pack_start(click_label, False, False, 0)
+
+        elif direction == "right":
+            box = Gtk.Box()
+            box.pack_start(click_label, False, False, 0)
+            box.pack_start(arrow_image, False, False, 0)
+        else:
+            box = Gtk.Box()
+            box.pack_start(arrow_image, False, False, 0)
+
+        self.add_widget(
+            box,
             p43,
             p169,
             clicked_cb,

@@ -57,6 +57,12 @@ class PiHdmi(Stage):
             Placement(0.52, 0.2)
         )
 
+        scene.add_arrow(
+            "right",
+            Placement(0.53, 0.21, 0),
+            Placement(0.5, 0.21, 0)
+        )
+
         scene.add_widget(
             Gtk.Image.new_from_file(common_media_path('pi-judoka.png')),
             Placement(0.18, 0.6),
@@ -64,9 +70,9 @@ class PiHdmi(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble('CLICK on the yellow HDMI cable'),
-            Placement(0.08, 0.3),
-            Placement(0.14, 0.3)
+            SpeechBubble('CLICK on the yellow\nHDMI cable'),
+            Placement(0.09, 0.26),
+            Placement(0.14, 0.26)
         )
 
         return scene

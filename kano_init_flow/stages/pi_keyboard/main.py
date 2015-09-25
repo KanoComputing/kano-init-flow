@@ -40,27 +40,35 @@ class PiKeyboard(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('keyboard.gif')),
-            Placement(0.43, 0.61),
-            Placement(0.4, 0.695),
+            Placement(0.43, 0.75),
+            Placement(0.4, 0.79),
             self.next_stage
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('pi-keyboard.png')),
-            Placement(0.67, 0),
-            Placement(0.55, 0)
+            Placement(0.67, 0.33),
+            Placement(0.55, 0.33)
+        )
+
+        scene.add_arrow(
+            "right",
+            Placement(0.25, 0.74, 0),
+            Placement(0.28, 0.775, 0)
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(common_media_path('pi-judoka.png')),
-            Placement(0.2, 0.53),
-            Placement(0.2, 0.6)
+            Gtk.Image.new_from_file(
+                common_media_path('down-right-pointing-judoka.png')
+            ),
+            Placement(0.2, 0.49),
+            Placement(0.2, 0.5)
         )
 
         scene.add_widget(
             SpeechBubble('CLICK on the keyboard dongle'),
-            Placement(0.08, 0.24),
-            Placement(0.15, 0.3)
+            Placement(0.08, 0.2),
+            Placement(0.15, 0.18)
         )
 
         return scene
