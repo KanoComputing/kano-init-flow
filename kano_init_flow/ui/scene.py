@@ -290,7 +290,7 @@ class Scene(object):
             del self._widgets[wid]
             self._fixed.remove(w)
 
-    def schedule(self, delay, callback):
+    def schedule(self, delay, callback, *args):
         """
             Trigger an event after a certain time.
 
@@ -300,8 +300,9 @@ class Scene(object):
             :param callback: The function to be called.
             :type callback: function
         """
-
-        self._scheduled.append({'delay': delay, 'callback': callback})
+        self._scheduled.append({'delay': delay,
+                                'callback': callback,
+                                'args': args})
 
     @property
     def scheduled_events(self):
