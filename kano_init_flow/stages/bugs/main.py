@@ -89,17 +89,27 @@ class Bugs(Stage):
             name='judoka'
         )
 
+        speech_bubble = SpeechBubble(
+            text=copy,
+            source=SpeechBubble.RIGHT,
+            source_align=0.0,
+            scale=scene.scale_factor
+        )
         scene.add_widget(
-            SpeechBubble(
-                text=copy,
-                source=SpeechBubble.RIGHT,
-                source_align=0.0,
-                scale=scene.scale_factor
-            ),
+            speech_bubble,
             Placement(0.65, 0.76),
-            Placement(0.74, 0.74),
+            Placement(0.73, 0.70),
             name='speech-bubble'
         )
+
+        #if happy:
+            #scene.schedule(4, self._ctl.next_stage)
+        #else:
+        if not happy:
+            scene.schedule(20, self._show_hint, speech_bubble)
+
+    def _show_hint(self, speech_bubble):
+        speech_bubble.set_text("Left-click on the moving bugs\nto remove them.")
 
     def _bug_zapped(self, scene, wid):
         self._zapped += 1
