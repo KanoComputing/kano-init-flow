@@ -126,7 +126,7 @@ class MainWindow(Gtk.Window):
                 # This wrapper makes sure of that.
                 def __wrapper1():
                     def __wrapper2():
-                        event['callback']()
+                        event['callback'](*event['args'])
                         return False
                     GLib.idle_add(__wrapper2)
 
