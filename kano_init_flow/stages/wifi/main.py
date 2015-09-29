@@ -96,11 +96,12 @@ class Wifi(Stage):
             'Get started by clicking',
             'the Wifi console!'
         ]
+        sb = SpeechBubble(text='\n'.join(copy), source=SpeechBubble.BOTTOM,
+                          scale=scene.scale_factor)
         scene.add_widget(
-            SpeechBubble(text='\n'.join(copy), source=SpeechBubble.RIGHT,
-                         scale=scene.scale_factor),
-            Placement(0.78, 0.72),
-            Placement(0.74, 0.68)
+            sb,
+            Placement(0.95, 0.55),
+            Placement(0.94, 0.46)
         )
 
         scene.add_widget(
@@ -110,7 +111,19 @@ class Wifi(Stage):
             self.second_scene
         )
 
+        scene.schedule(20, self._show_console_hint, scene, sb)
+
         return scene
+
+    def _show_console_hint(self, scene, sb):
+        sb.set_text("Click on the console\n" +
+                    "in the lower part of\n" +
+                    "the screen to continue.")
+        scene.add_arrow(
+            'down',
+            Placement(0.36, 0.51),
+            Placement(0.39, 0.4),
+        )
 
     def _setup_second_scene(self):
         scene = Scene()
@@ -155,13 +168,23 @@ class Wifi(Stage):
         copy = 'We have signal! Great work.\n\n' + \
                'All aboard!\nWe can still make it on time!'
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.RIGHT,
+            SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
-            Placement(0.78, 0.72),
-            Placement(0.74, 0.68)
+            Placement(0.97, 0.57),
+            Placement(0.95, 0.46)
         )
 
+        scene.schedule(20, self._show_rocket_hint, scene)
+
         return scene
+
+    def _show_rocket_hint(self, scene):
+        scene.add_arrow(
+            'right',
+            Placement(0.45, 0.51),
+            Placement(0.5, 0.3),
+        )
+
 
     def _setup_disconnected_scene(self):
         scene = Scene(self._ctl.main_window)
@@ -196,10 +219,10 @@ class Wifi(Stage):
             'To try again, click the console.'
         ]
         scene.add_widget(
-            SpeechBubble(text='\n'.join(copy), source=SpeechBubble.RIGHT,
+            SpeechBubble(text='\n'.join(copy), source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
-            Placement(0.78, 0.72),
-            Placement(0.74, 0.68)
+            Placement(0.97, 0.57),
+            Placement(0.95, 0.46)
         )
 
         scene.add_widget(
@@ -209,6 +232,8 @@ class Wifi(Stage):
             self.next_stage
             # key=Gdk.KEY_space
         )
+
+        scene.schedule(20, self._show_rocket_hint, scene)
 
         return scene
 
