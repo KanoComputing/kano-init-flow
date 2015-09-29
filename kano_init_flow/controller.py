@@ -65,8 +65,8 @@ class Controller(object):
 
         self._stages = [
             Intro,
-            PiHdmi,
-            Overscan,
+            # PiHdmi,
+            # Overscan,
             PiKeyboard,
             DragAndDrop,
             Bugs,
