@@ -66,33 +66,13 @@ class AudioLab(Stage):
         # )
 
         scene.add_widget(
-            ActiveImage(self.media_path('a.png'),
-                        hover=self.media_path('a-hover.png'),
-                        down=self.media_path('a-down.png')),
-            Placement(0.425, 0.485),
-            Placement(0.387, 0.567),
-            [self._a_clicked, scene],
-            key=Gdk.KEY_a
-        )
-
-        scene.add_widget(
-            ActiveImage(self.media_path('s.png'),
-                        hover=self.media_path('s-hover.png'),
-                        down=self.media_path('s-down.png')),
-            Placement(0.585, 0.485),
-            Placement(0.549, 0.567),
-            [self._s_clicked, scene],
-            key=Gdk.KEY_s
-        )
-
-        scene.add_widget(
-            ActiveImage(self.media_path('d.png'),
-                        hover=self.media_path('d-hover.png'),
-                        down=self.media_path('d-down.png')),
-            Placement(0.789, 0.485),
-            Placement(0.7215, 0.567),
-            [self._d_clicked, scene],
-            key=Gdk.KEY_d
+            ActiveImage(self.media_path('tab.png'),
+                        hover=self.media_path('tab-hover.png'),
+                        down=self.media_path('tab-down.png')),
+            Placement(0.6555, 0.52),
+            Placement(0.5485, 0.5935),
+            [self._tab_clicked, scene],
+            key=Gdk.KEY_Tab
         )
 
         scene.add_widget(
@@ -133,7 +113,7 @@ class AudioLab(Stage):
         play_sound('/usr/share/kano-media/sounds/kano_error.wav', True)
         self._show_console(scene)
 
-    def _s_clicked(self, scene):
+    def _tab_clicked(self, scene):
         play_sound('/usr/share/kano-media/sounds/kano_achievement_unlock.wav',
                    True)
         self._show_console(scene)
