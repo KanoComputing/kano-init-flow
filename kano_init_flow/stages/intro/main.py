@@ -84,7 +84,7 @@ class Intro(Stage):
 
         vbox.pack_start(grab_label, False, False, 0)
         vbox.pack_start(keyboard_gif, False, False, 0)
-        vbox.pack_start(hbox, False, False, 0)
+        #vbox.pack_start(hbox, False, False, 0)
 
         scene.add_widget(
             vbox,
@@ -94,8 +94,8 @@ class Intro(Stage):
 
         scene.add_widget(
             NextButton(),
-            Placement(0.5, 0.75, 0),
-            Placement(0.5, 0.75, 0),
+            Placement(0.5, 0.85, 0),
+            Placement(0.5, 0.85, 0),
             # self.second_scene,
             self.next_stage
             # key=Gdk.KEY_space
