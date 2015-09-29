@@ -95,26 +95,15 @@ class DragAndDrop(Stage):
             Placement(1, 0)
         )
 
-        scene.schedule(10, self._scene_1_hint, scene)
+        scene.schedule(10, self._scene_1_hint, speechbubble)
 
         return scene
 
-    def _scene_1_hint(self, scene):
-        scene.remove_widget('speech')
+    def _scene_1_hint(self, speechbubble):
 
-        speechbubble = SpeechBubble(
-            text='Pick me up with the cursor\nand hold the left button down\n' +
-                 'while dragging me over.',
-            source=SpeechBubble.LEFT,
-            source_align=0.0,
-            scale=scene.scale_factor
-        )
-
-        scene.add_widget(
-            speechbubble,
-            Placement(0.34, 0.25),
-            Placement(0.44, 0.25),
-            name='speech'
+        speechbubble.set_text(
+            'Pick me up with the cursor\nand hold the left button down\n' +
+            'while dragging me over.'
         )
 
     def _setup_second_scene(self):

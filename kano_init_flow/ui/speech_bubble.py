@@ -109,3 +109,6 @@ class SpeechBubble(Gtk.Grid):
         self._button_box.set_valign(Gtk.Align.CENTER)
 
         return button
+
+    def set_text(self, new_text):
+        self._text.set_text(new_text)
