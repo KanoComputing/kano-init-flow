@@ -63,10 +63,16 @@ class PiAudio(Stage):
             Placement(0.16, 0.6)
         )
 
+        sb = SpeechBubble('Let\'s make sure our sound\nis loud and clear.')
         scene.add_widget(
-            SpeechBubble('Let\'s make sure our sound\nis loud and clear.'),
+            sb,
             Placement(0.1, 0.2),
             Placement(0.105, 0.26)
         )
 
+        scene.schedule(20, self._show_hint, sb)
+
         return scene
+
+    def _show_hint(self, sb):
+        sb.set_text('Click on the blue cable\nto continue.')

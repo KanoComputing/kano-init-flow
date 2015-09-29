@@ -33,9 +33,6 @@ class DragAndDrop(Stage):
         s2 = self._setup_second_scene()
         self._ctl.main_window.push(s2)
 
-    def next_stage(self):
-        self._ctl.next_stage()
-
     def _setup_first_scene(self):
         scene = Scene()
         scene.set_background(self.media_path('cliff-file-1600x1200.png'),
@@ -95,7 +92,7 @@ class DragAndDrop(Stage):
             Placement(1, 0)
         )
 
-        scene.schedule(10, self._scene_1_hint, speechbubble)
+        scene.schedule(20, self._scene_1_hint, speechbubble)
 
         return scene
 
@@ -128,8 +125,10 @@ class DragAndDrop(Stage):
             NextButton(),
             Placement(0.5, 0.7, 0),
             Placement(0.5, 0.7, 0),
-            self.next_stage
+            self._ctl.next_stage
             # key=Gdk.KEY_space
         )
+
+        scene.schedule(4, self._ctl.next_stage)
 
         return scene
