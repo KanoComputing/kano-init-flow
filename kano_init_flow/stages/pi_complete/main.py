@@ -33,15 +33,15 @@ class PiComplete(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('pi-complete.png')),
-            Placement(0.25, 0.2),
-            Placement(0.3, 0.2),
+            Gtk.Image.new_from_file(self.media_path('pi-complete.gif')),
+            Placement(0.25, 0.0, 0.0),
+            Placement(0.3, 0.0, 0.0),
             self._ctl.next_stage
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('left-pointing-judoka.png')),
-            Placement(0.8, 0.6),
+            Placement(0.9, 0.6),
             Placement(0.75, 0.6)
         )
 
@@ -52,8 +52,8 @@ class PiComplete(Stage):
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
-            Placement(0.83, 0.3),
-            Placement(0.83, 0.2)
+            Placement(0.95, 0.3),
+            Placement(0.79, 0.25)
         )
 
         return scene
