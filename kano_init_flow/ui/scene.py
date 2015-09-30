@@ -186,7 +186,7 @@ class Scene(object):
             box.pack_start(click_label, False, False, 0)
             box.pack_start(arrow_image, False, False, 0)
 
-        elif direction == "down":
+        elif direction == "up":
             box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
             box.pack_start(arrow_image, False, False, 0)
             box.pack_start(click_label, False, False, 0)

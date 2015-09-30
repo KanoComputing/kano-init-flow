@@ -24,3 +24,7 @@ GtkWindow {
     font: Bariol bold 25px;
     color: #ffffff;
 }
+
+GtkLabel:insensitive {
+    background: transparent;
+}

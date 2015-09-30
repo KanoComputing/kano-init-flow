@@ -38,7 +38,7 @@ class ProfileIcon(Gtk.Fixed):
 
         level_label.get_style_context().add_class("level_desktop_label")
         self.put(progress_img, 0, 0)
-        self.put(avatar_img, 12, 12)
+        self.put(avatar_img, 13, 13)
         self.put(username_label, 90, 20)
         self.put(level_label, 90, 38)
 

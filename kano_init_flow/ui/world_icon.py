@@ -27,4 +27,4 @@ class WorldIcon(Gtk.Fixed):
 
         self.put(icon_img, 0, 0)
         self.put(kano_world_label, 10, 20)
-        self.put(status_label, 10, 38)
+        self.put(status_label, 40, 38)
