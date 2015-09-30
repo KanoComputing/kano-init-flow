@@ -14,7 +14,6 @@ from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, \
                                     scale_gif
 
 from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
-from kano_init_flow.ui.profile_icon import ProfileIcon
 from kano_init_flow.paths import common_media_path
 
 
@@ -140,15 +139,6 @@ class Scene(object):
         bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, self._w,
                                                            self._h)
         self._background.set_from_pixbuf(bg_pixbuf)
-
-    def add_profile_icon(self, callback=None, use_default=False):
-        # We always want to add the widget to the same position in each screen
-        self.add_widget(
-            ProfileIcon(use_default),
-            Placement(0.03, 0.05, 0),
-            Placement(0.03, 0.05, 0),
-            callback
-        )
 
     def add_character(self, p43, p169, clicked_cb=None, key=None,
                       name=None, modal=False):

@@ -16,16 +16,16 @@ from kano_init_flow.paths import common_css_path, common_media_path
 class ProfileIcon(Gtk.Fixed):
     def __init__(self, use_default=False):
         super(ProfileIcon, self).__init__()
-        apply_styling_to_screen(common_css_path("profile_icon.css"))
+        apply_styling_to_screen(common_css_path("profile_world_icon.css"))
 
         username = get_mixed_username()
         username_label = Gtk.Label(username)
-        username_label.get_style_context().add_class("username_desktop_label")
+        username_label.get_style_context().add_class("heading_desktop_label")
 
         # this is faster
         if use_default:
             level_label = Gtk.Label("Level 1")
-            level_label.get_style_context().add_class("level_desktop_label")
+            level_label.get_style_context().add_class("subheading_desktop_label")
 
             progress_img = Gtk.Image.new_from_file(self._get_progress_path(0))
             avatar_img = Gtk.Image.new_from_file(self._get_local_avatar_path())
@@ -36,7 +36,7 @@ class ProfileIcon(Gtk.Fixed):
             progress_img = Gtk.Image.new_from_file(self._get_progress_path(progress))
             avatar_img = Gtk.Image.new_from_file(self._get_avatar_path())
 
-        level_label.get_style_context().add_class("level_desktop_label")
+        level_label.get_style_context().add_class("subheading_desktop_label")
         self.put(progress_img, 0, 0)
         self.put(avatar_img, 13, 13)
         self.put(username_label, 90, 20)
