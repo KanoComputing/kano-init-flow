@@ -7,7 +7,7 @@
 from gi.repository import Gtk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 
@@ -45,7 +45,8 @@ class PiWifi(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('wifi.gif')),
+            ActiveImage(self.media_path('wifi.gif'),
+                        hover=self.media_path('wifi-hover.gif')),
             Placement(0.48, 0.58),
             Placement(0.475, 0.631),
             self.next_stage
