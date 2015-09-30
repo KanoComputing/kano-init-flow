@@ -10,21 +10,26 @@ from kano_init_flow.paths import common_css_path
 
 
 class WorldIcon(Gtk.Fixed):
-    def __init__(self):
+    def __init__(self, offline=True):
         super(WorldIcon, self).__init__()
-        apply_styling_to_screen(common_css_path("profile_icon.css"))
+        apply_styling_to_screen(common_css_path("profile_world_icon.css"))
 
         kano_world_label = Gtk.Label("Kano World")
-        kano_world_label.get_style_context().add_class("username_desktop_label")
-
-        # Check here if there is a token (which there shouldn't be)
-        status_label = Gtk.Label("OFFLINE")
-        status_label.get_style_context().add_class("level_desktop_label")
+        kano_world_label.get_style_context().add_class("heading_desktop_label")
 
         # world icon path
         img_path = "/usr/share/kano-desktop/icons/kano-world-launcher.png"
         icon_img = Gtk.Image.new_from_file(img_path)
 
         self.put(icon_img, 0, 0)
+
+        # Check here if there is a token (which there shouldn't be)
+        if offline:
+            status_label = Gtk.Label("OFFLINE")
+            self.put(status_label, 40, 38)
+        else:
+            status_label = Gtk.Label("ONLINE")
+            self.put(status_label, 48, 38)
+
+        status_label.get_style_context().add_class("subheading_desktop_label")
         self.put(kano_world_label, 10, 20)
-        self.put(status_label, 40, 38)
