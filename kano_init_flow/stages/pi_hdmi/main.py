@@ -8,7 +8,7 @@ from gi.repository import Gtk
 
 from kano.utils import is_monitor
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 
@@ -27,17 +27,14 @@ class PiHdmi(Stage):
     def first_scene(self):
         # Check if the pi is connected to a monitor
         if is_monitor():
-            self.next_stage()
+            self._ctl.next_stage()
             return
+            pass
 
         s = self._setup_first_scene()
         self._ctl.main_window.push(s)
 
-    def next_stage(self):
-        self._ctl.next_stage()
-
     def _setup_first_scene(self):
-
         self._scene = scene = Scene(self._ctl.main_window)
         scene.set_background(
             common_media_path('blueprint-bg-4-3.png'),
@@ -45,10 +42,11 @@ class PiHdmi(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('HDMI-cable-cut.gif')),
+            ActiveImage(self.media_path('hdmi-cable.gif'),
+                        hover=self.media_path('hdmi-cable-hover.gif')),
             Placement(0.68, 0),
             Placement(0.6, 0),
-            self.next_stage
+            self._ctl.next_stage
         )
 
         scene.add_widget(
