@@ -63,6 +63,7 @@ class Desktop(Stage):
         # Pass the callback of what we want to launch in the profile icon
         self._add_profile_icon(self._first_scene, self._char_creator_window, True)
 
+        '''
         # Add judoka
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("left-pointing-judoka.png")),
@@ -80,6 +81,19 @@ class Desktop(Stage):
             ),
             Placement(0.4, 0.1),
             Placement(0.2, 0.1)
+        )
+        '''
+
+        scene.add_widget(
+            SpeechBubble(
+                text='Welcome to the desktop!\n'
+                     'Click on this icon to set up\n'
+                     'your profile',
+                source=SpeechBubble.LEFT,
+                scale=scene.scale_factor
+            ),
+            Placement(0.34, 0.05),
+            Placement(0.25, 0.05)
         )
 
         # Shortcut
@@ -123,6 +137,7 @@ class Desktop(Stage):
         self._add_world_icon(scene, self._launch_registration, offline=False)
 
         # Add judoka
+        '''
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("right-pointing-judoka.png")),
             Placement(0.6, 0.45),
@@ -140,6 +155,20 @@ class Desktop(Stage):
             ),
             Placement(0.6, 0.1),
             Placement(0.8, 0.1)
+        )
+        '''
+
+        scene.add_widget(
+            SpeechBubble(
+                text='This icon is Kano World!\n'
+                     'This is where Judokas make\n'
+                     'and share projects togther\n'
+                     'online.',
+                source=SpeechBubble.RIGHT,
+                scale=scene.scale_factor
+            ),
+            Placement(0.65, 0.05),
+            Placement(0.73, 0.05)
         )
 
         # Shortcut
@@ -162,6 +191,14 @@ class Desktop(Stage):
         self._add_profile_icon(scene)
         self._add_world_icon(scene, offline=False)
 
+        '''
+        # Add judoka
+        scene.add_widget(
+            Gtk.Image.new_from_file(self.media_path("taskbar-judoka.png")),
+            Placement(0.5, 0.8),
+            Placement(0.5, 0.8)
+        )
+
         scene.add_widget(
             SpeechBubble(
                 text='This is the Taskbar! Here you can\n'
@@ -173,19 +210,26 @@ class Desktop(Stage):
             Placement(0.5, 0.4),
             Placement(0.5, 0.4)
         )
-        # Add judoka
+        '''
+
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("taskbar-judoka.png")),
-            Placement(0.5, 0.8),
-            Placement(0.5, 0.8)
+            SpeechBubble(
+                text='This is the Taskbar! Here you can\n'
+                     'manage settings and make\n'
+                     'changes to the computer.',
+                source=SpeechBubble.BOTTOM,
+                scale=scene.scale_factor
+            ),
+            Placement(0.5, 0.9),
+            Placement(0.5, 0.9)
         )
 
         self._add_taskbar(scene)
 
         scene.add_widget(
             NextButton(),
-            Placement(0.7, 0.8, 0),
-            Placement(0.7, 0.8, 0),
+            Placement(0.5, 0.6, 0),
+            Placement(0.5, 0.6, 0),
             self.fourth_scene,
         )
 
@@ -197,7 +241,7 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         # Pass the callback of what we want to launch in the profile icon
-        scene.add_profile_icon(scene)
+        self._add_profile_icon(scene)
         self._add_world_icon(scene)
         self._add_taskbar(scene)
 
@@ -247,6 +291,7 @@ class Desktop(Stage):
             Placement(0.5, 0.85, 0)
         )
 
+        '''
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path("apps-judoka.png")),
             Placement(0.8, 0.6),
@@ -264,6 +309,20 @@ class Desktop(Stage):
             ),
             Placement(0.85, 0.25),
             Placement(0.7, 0.25)
+        )
+        '''
+
+        scene.add_widget(
+            SpeechBubble(
+                text='And these are your apps! With\n'
+                     'them you can make amazing\n'
+                     'code creations to share in\n'
+                     'Kano World',
+                source=SpeechBubble.BOTTOM,
+                scale=scene.scale_factor
+            ),
+            Placement(0.85, 0.55),
+            Placement(0.75, 0.55)
         )
 
         scene.add_widget(
