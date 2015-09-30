@@ -6,14 +6,15 @@
 
 import os
 import subprocess
+import threading
 from gi.repository import Gtk, Gdk, GLib
-from kano_profile.tracker import track_action
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.world_icon import WorldIcon
+from kano_init_flow.ui.profile_icon import ProfileIcon
 from kano_init_flow.ui.components import NextButton
 from kano_avatar_gui.CharacterCreator import CharacterCreator
 from kano.gtk3.buttons import KanoButton
@@ -32,6 +33,8 @@ class Desktop(Stage):
     def __init__(self, ctl):
         super(Desktop, self).__init__(ctl)
         apply_styling_to_screen(self.css_path("style.css"))
+        # Flag to see whether to launch the character creator
+        self._launch_char_window = True
 
     def first_scene(self):
         s = self._setup_first_scene()
@@ -58,7 +61,7 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         # Pass the callback of what we want to launch in the profile icon
-        scene.add_profile_icon(self._char_creator_window, True)
+        self._add_profile_icon(self._first_scene, self._char_creator_window, True)
 
         # Add judoka
         scene.add_widget(
@@ -92,33 +95,32 @@ class Desktop(Stage):
         return scene
 
     def _char_creator_window(self):
-        self._blur = self._create_blur()
 
-        # Add watch cursor
-        watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
-        self._ctl.main_window.get_window().set_cursor(watch_cursor)
+        if self._launch_char_window:
+            # Stop this being launched again
+            self._launch_char_window = False
 
-        self._first_scene.add_widget(
-            self._blur,
-            Placement(0, 0),
-            Placement(0, 0)
-        )
-        self._blur.get_style_context().add_class("blur")
-        self._first_scene.show_all()
+            # Add watch cursor
+            watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+            self._ctl.main_window.get_window().set_cursor(watch_cursor)
+            self._first_scene.show_all()
 
-        while Gtk.events_pending():
-            Gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
 
-        CharacterWindow(self.second_scene, self.css_path("style.css"))
-        self._ctl.main_window.get_window().set_cursor(None)
+            # This doesn't have to be in separate thread since this window
+            # doesn't change size, so it doesn't matter whether the GUI behind it
+            # updates
+            CharacterWindow(self.second_scene, self.css_path("style.css"))
+            self._ctl.main_window.get_window().set_cursor(None)
 
     def _setup_second_scene(self):
         self._second_scene = scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
-        scene.add_profile_icon()
-        self._add_world_icon(scene, self._launch_registration)
+        self._add_profile_icon(self._second_scene)
+        self._add_world_icon(scene, self._launch_registration, offline=False)
 
         # Add judoka
         scene.add_widget(
@@ -157,8 +159,8 @@ class Desktop(Stage):
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
-        scene.add_profile_icon()
-        self._add_world_icon(scene)
+        self._add_profile_icon(scene)
+        self._add_world_icon(scene, offline=False)
 
         scene.add_widget(
             SpeechBubble(
@@ -195,7 +197,7 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         # Pass the callback of what we want to launch in the profile icon
-        scene.add_profile_icon()
+        scene.add_profile_icon(scene)
         self._add_world_icon(scene)
         self._add_taskbar(scene)
 
@@ -273,9 +275,19 @@ class Desktop(Stage):
 
         return scene
 
-    def _add_world_icon(self, scene, callback=None):
+    def _add_profile_icon(self, scene, callback=None, use_default=False):
+        # We always want to add the widget to the same position in each screen
         scene.add_widget(
-            WorldIcon(),
+            ProfileIcon(use_default),
+            Placement(0.03, 0.05, 0),
+            Placement(0.03, 0.05, 0),
+            callback,
+            name="profile_icon"
+        )
+
+    def _add_world_icon(self, scene, callback=None, offline=True):
+        scene.add_widget(
+            WorldIcon(offline),
             Placement(0.97, 0.05, 0),
             Placement(0.97, 0.05, 0),
             callback
@@ -332,31 +344,37 @@ class Desktop(Stage):
         return taskbar
 
     def _launch_registration(self):
-        self._blur = self._create_blur()
 
         # Add watch cursor
         watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
         self._ctl.main_window.get_window().set_cursor(watch_cursor)
-
-        self._second_scene.add_widget(
-            self._blur,
-            Placement(0, 0),
-            Placement(0, 0)
-        )
+        # Disable the desktop button so the user cannot click
+        # on it multiple times
+        # Think it might be done automatically?
 
         self._second_scene.show_all()
 
         while Gtk.events_pending():
             Gtk.main_iteration()
 
+        self._launch_login_process_thread()
+
+    def _launch_login_process_thread(self):
+        t = threading.Thread(target=self._launch_login_process)
+        t.start()
+
+    def _launch_login_process(self):
         try:
             p = subprocess.Popen(['/usr/bin/kano-login', '-r'])
             p.wait()
         except Exception:
             logger.debug("kano-login failed to launch")
 
+        GLib.idle_add(self._finish_login_thread)
+
+    def _finish_login_thread(self):
         self._ctl.main_window.get_window().set_cursor(None)
-        GLib.idle_add(self.third_scene)
+        self.third_scene()
 
     def _create_blur(self):
         blur = Gtk.EventBox()
