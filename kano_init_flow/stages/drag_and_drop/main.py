@@ -68,7 +68,7 @@ class DragAndDrop(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('arrow-cliff.gif')),
+            Gtk.Image.new_from_file(self.media_path('wayfinding-arrow.png')),
             Placement(0.5, 0.05, 0),
             Placement(0.5, 0.1, 0)
         )
