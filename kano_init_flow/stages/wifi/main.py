@@ -15,7 +15,7 @@ from kano.logging import logger
 from kano_profile.tracker import track_action
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
@@ -105,7 +105,8 @@ class Wifi(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('console.gif')),
+            ActiveImage(self.media_path('console.gif'),
+                        hover=self.media_path('console-hover.gif')),
             Placement(0.35, 0.925, 0.8),
             Placement(0.367, 0.888),
             self.second_scene
@@ -159,7 +160,8 @@ class Wifi(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('rocket.gif')),
+            ActiveImage(self.media_path('rocket.gif'),
+                        hover=self.media_path('rocket-hover.gif')),
             Placement(0.697, 0.597, 0.8),
             Placement(0.695, 0.275),
             self.next_stage
