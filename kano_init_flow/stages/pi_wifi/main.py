@@ -10,6 +10,7 @@ from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.speech_bubble import SpeechBubble
+from kano.network import is_internet
 
 
 class PiWifi(Stage):
@@ -24,6 +25,11 @@ class PiWifi(Stage):
         super(PiWifi, self).__init__(ctl)
 
     def first_scene(self):
+
+        if is_internet():
+            self._ctl.next_stage()
+            return
+
         s = self._setup_first_scene()
         self._ctl.main_window.push(s)
 
