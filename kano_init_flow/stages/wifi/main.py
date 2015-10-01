@@ -8,7 +8,7 @@ import os
 import subprocess
 import threading
 
-from gi.repository import Gtk, GLib, Gdk
+from gi.repository import Gtk, GLib
 from kano.gtk3.buttons import KanoButton, OrangeButton
 from kano.gtk3.cursor import attach_cursor_events
 from kano.logging import logger
@@ -40,6 +40,11 @@ class Wifi(Stage):
         apply_styling_to_screen(self.css_path('console.css'))
 
     def first_scene(self):
+        # This is very slow
+        if is_internet():
+            self._ctl.next_stage()
+            return
+
         s1 = self._setup_first_scene()
         self._ctl.main_window.push(s1)
 
@@ -186,7 +191,6 @@ class Wifi(Stage):
             Placement(0.45, 0.51),
             Placement(0.5, 0.3),
         )
-
 
     def _setup_disconnected_scene(self):
         scene = Scene(self._ctl.main_window)
