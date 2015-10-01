@@ -221,7 +221,7 @@ class Notebook(Gtk.Overlay):
                  title, copy, buttons):
         super(Notebook, self).__init__()
 
-        self.add(Gtk.Image.new_from_file(stage.media_path('notebook.png')))
+        self.add(Gtk.Image.new_from_file(stage.media_path('lonely-notebook.png')))
 
         fixed = Gtk.Fixed()
         self.add_overlay(fixed)
@@ -230,7 +230,7 @@ class Notebook(Gtk.Overlay):
         add_class(self._eb, 'notebook-content-area')
         self._eb.set_size_request(415, 460)
 
-        fixed.put(self._eb, 180, 70)
+        fixed.put(self._eb, 20, 70)
 
         vbox = Gtk.VBox(False, 0)
         vbox.set_vexpand(True)
