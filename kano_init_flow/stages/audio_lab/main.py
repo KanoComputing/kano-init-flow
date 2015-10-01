@@ -91,7 +91,17 @@ class AudioLab(Stage):
             Placement(0.95, 0.45)
         )
 
+        scene.schedule(5, self._show_hint, scene)
+
         return scene
+
+    def _show_hint(self, scene):
+        scene.add_arrow(
+            'right',
+            Placement(0.4, 0.52),
+            Placement(0.43, 0.5935),
+            name='hint'
+        )
 
     def _show_console(self, scene):
         if self._console_on:
