@@ -104,7 +104,7 @@ class AudioLab(Stage):
         )
 
         scene.add_widget(
-            ConsoleScreen(self, scene, self._ctl.next_stage, self.help_leds),
+            ConsoleScreen(self, scene, self._ctl.next_stage, self.help_jack),
             Placement(0.5155, 0.918),
             Placement(0.5155, 0.918)
         )
@@ -122,15 +122,32 @@ class AudioLab(Stage):
         play_sound('/usr/share/kano-media/sounds/kano_init.wav', True)
         self._show_console(scene)
 
+    def _setup_help_jack(self, scene):
+        scene.add_widget(
+            Notebook(
+                self,
+                self.media_path('jack.png'), 1.0, 0.5,
+                'Plug in the blue cable',
+                ['Check you\'ve plugged in the audio'],
+                [{'label': 'NEXT',
+                  'callback': self.help_leds,
+                  'color': 'green'}]
+            ),
+            Placement(0.5, 0.5, 0.0),
+            Placement(0.45, 0.5, 0.0),
+            modal=True,
+            name='help-jack'
+        )
+
     def _setup_help_leds(self, scene):
         scene.add_widget(
             Notebook(
                 self,
-                self.media_path('leds.png'), 0.8, 0.3,
+                self.media_path('troubleshooting-sound.png'), 0.5, 0.3,
                 'Can you see the light?',
                 ['If the power plugs are connected correctly,',
                  'you should see a blue light.'],
-                [{'label': 'YES', 'callback': self.help_jack, 'color': 'green'},
+                [{'label': 'YES', 'callback': self.remove_overlays, 'color': 'green'},
                  {'label': 'NO', 'callback': self.help_power, 'color': 'red'}]
             ),
             Placement(0.5, 0.5, 0.0),
@@ -147,24 +164,6 @@ class AudioLab(Stage):
                 'No light? Check the GPIO',
                 ['The cable has to be connected to these',
                  'pins exactly.'],
-                [{'label': 'NEXT',
-                  'callback': self.help_jack,
-                  'color': 'green'}]
-            ),
-            Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0),
-            modal=True,
-            name='help-power'
-        )
-
-    def _setup_help_jack(self, scene):
-        scene.add_widget(
-            Notebook(
-                self,
-                self.media_path('jack.png'), 1.0, 0.5,
-                'Plug in the blue cable',
-                ['If you see the light, it\'s powered!',
-                 'Now plug the audio.'],
                 [{'label': 'FINISHED',
                   'callback': self.remove_overlays,
                   'color': 'green'}]
@@ -172,7 +171,7 @@ class AudioLab(Stage):
             Placement(0.5, 0.5, 0.0),
             Placement(0.45, 0.5, 0.0),
             modal=True,
-            name='help-jack'
+            name='help-power'
         )
 
 
