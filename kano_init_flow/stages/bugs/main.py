@@ -13,7 +13,7 @@ from kano_settings.system.display import get_overscan_status, \
 
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
@@ -48,7 +48,8 @@ class Bugs(Stage):
                              self.media_path('forest-16-9.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('left-bug.gif')),
+            ActiveImage(self.media_path('left-bug.gif'),
+                        hover=self.media_path('left-bug-hover.gif')),
             Placement(0.03, 0.1),
             Placement(0.05, 0.2),
             [self._bug_zapped, scene, 'left-bug'],
@@ -56,7 +57,8 @@ class Bugs(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('middle-bug.gif')),
+            ActiveImage(self.media_path('middle-bug.gif'),
+                        hover=self.media_path('middle-bug-hover.gif')),
             Placement(0.47, 0.45),
             Placement(0.47, 0.49),
             [self._bug_zapped, scene, 'middle-bug'],
@@ -64,7 +66,8 @@ class Bugs(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('right-bug.gif')),
+            ActiveImage(self.media_path('right-bug.gif'),
+                        hover=self.media_path('right-bug-hover.gif')),
             Placement(0.9, 0.05),
             Placement(0.955, 0.04),
             [self._bug_zapped, scene, 'right-bug'],

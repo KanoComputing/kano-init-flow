@@ -7,7 +7,7 @@
 from gi.repository import Gtk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 
@@ -39,7 +39,8 @@ class PiKeyboard(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('keyboard.gif')),
+            ActiveImage(self.media_path('keyboard.gif'),
+                        hover=self.media_path('keyboard-hover.gif')),
             Placement(0.43, 0.75),
             Placement(0.4, 0.79),
             self.next_stage

@@ -7,7 +7,7 @@
 from gi.repository import Gtk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 
@@ -45,7 +45,8 @@ class PiAudio(Stage):
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('audio.gif')),
+            ActiveImage(self.media_path('audio.gif'),
+                        hover=self.media_path('audio-hover.gif')),
             Placement(0.542, 0.405),
             Placement(0.445, 0.34),
             self.next_stage
