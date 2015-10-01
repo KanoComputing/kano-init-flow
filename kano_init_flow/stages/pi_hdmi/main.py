@@ -68,7 +68,8 @@ class PiHdmi(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble('CLICK on the yellow\nHDMI cable'),
+            SpeechBubble('CLICK on the yellow\nHDMI cable',
+                         scale=scene.scale_factor),
             Placement(0.09, 0.26),
             Placement(0.14, 0.26)
         )

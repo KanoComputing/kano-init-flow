@@ -64,7 +64,8 @@ class PiAudio(Stage):
             Placement(0.16, 0.6)
         )
 
-        sb = SpeechBubble('Let\'s make sure our sound\nis loud and clear.')
+        sb = SpeechBubble('Let\'s make sure our sound\nis loud and clear.',
+                          scale=scene.scale_factor)
         scene.add_widget(
             sb,
             Placement(0.1, 0.2),
