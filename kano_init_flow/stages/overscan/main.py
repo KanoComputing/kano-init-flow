@@ -37,7 +37,6 @@ class Overscan(Stage):
         apply_styling_to_screen(self.css_path('overscan.css'))
 
     def first_scene(self):
-        # TODO: Uncomment
         if is_monitor():
             self._ctl.next_stage()
 
