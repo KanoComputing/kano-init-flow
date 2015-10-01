@@ -90,6 +90,9 @@ class Scene(object):
         self._fixed = Gtk.Fixed()
         self._overlay.add_overlay(self._fixed)
 
+        # True if the scene is shown on the screen
+        self._active = False
+
         self._eb = Gtk.EventBox()
         self._eb.set_size_request(self._w, self._h)
         self._eb.add(self._overlay)
@@ -123,6 +126,9 @@ class Scene(object):
         if self._screen_ratio == self.RATIO_4_3:
             return self._h / 1200.0
         return self._h / 1080.0
+
+    def set_active(self):
+        self._active = True
 
     def set_background(self, ver_43, ver_169):
         """
@@ -290,9 +296,20 @@ class Scene(object):
             :param callback: The function to be called.
             :type callback: function
         """
-        self._scheduled.append({'delay': delay,
-                                'callback': callback,
-                                'args': args})
+        event = {'delay': delay,
+                 'callback': callback,
+                 'args': args}
+
+        self._scheduled.append(event)
+
+        # The Scene has been realised already so we need to trigger The
+        # timer right away instead of waiting for the MainWindow to do it.
+        if self._active:
+            if not self._main_window:
+                self._main_window.schedule_event(event)
+            else:
+                msg = 'Can\'t schedule events without main_window.'
+                raise RuntimeError(msg)
 
     @property
     def scheduled_events(self):
