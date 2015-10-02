@@ -115,8 +115,11 @@ class Overscan(Stage):
             name='notebook'
         )
 
+        self._overscan_ctl.disable()
+
     def hide_notebook(self):
         self._scene.remove_widget('notebook')
+        self._overscan_ctl.enable()
 
 
 class Notebook(Gtk.Overlay):
@@ -196,6 +199,7 @@ class Notebook(Gtk.Overlay):
 
         self._eb.add(vbox)
 
+
 class OverscanControl(object):
     def __init__(self):
         # launch_pipe()
@@ -203,15 +207,19 @@ class OverscanControl(object):
         # TODO: This would be nice to refactor.
         run_cmd('sudo kano-init-flow-mknod')
 
+        self._enabled = True
         self._step = 10
         self._original = get_overscan_status()
         self._current = get_overscan_status()
 
     def zoom_in(self):
-        self._change_overscan(self._step)
+        if self._enabled:
+            if max(self._current.values()) < 250:
+                self._change_overscan(self._step)
 
     def zoom_out(self):
-        self._change_overscan(-self._step)
+        if self._enabled:
+            self._change_overscan(-self._step)
 
     def reset(self, *_):
         """ Restore overscan if any changes were made """
@@ -219,6 +227,12 @@ class OverscanControl(object):
         if self._original != self._current:
             self._current = self._original
             set_overscan_status(self._original)
+
+    def enable(self):
+        self._enabled = True
+
+    def disable(self):
+        self._enabled = False
 
     def save_changes(self):
         if self._original != self._current:
