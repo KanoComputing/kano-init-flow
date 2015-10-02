@@ -33,8 +33,11 @@ class Desktop(Stage):
     def __init__(self, ctl):
         super(Desktop, self).__init__(ctl)
         apply_styling_to_screen(self.css_path("style.css"))
+
         # Flag to see whether to launch the character creator
-        self._launch_char_window = True
+        # and registration page.
+        self._char_window_launched = False
+        self._login_launched = False
 
     def first_scene(self):
         s = self._setup_first_scene()
@@ -110,9 +113,9 @@ class Desktop(Stage):
 
     def _char_creator_window(self):
 
-        if self._launch_char_window:
+        if not self._char_window_launched:
             # Stop this being launched again
-            self._launch_char_window = False
+            self._char_window_launched = True
 
             # Add watch cursor
             watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
@@ -134,7 +137,7 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         self._add_profile_icon(self._second_scene)
-        self._add_world_icon(scene, self._launch_registration, offline=False)
+        self._add_world_icon(scene, self._launch_login, offline=False)
 
         # Add judoka
         '''
@@ -249,11 +252,8 @@ class Desktop(Stage):
         # Either go through all files in a folder with a specific pattern, or
         # just list them in an array
 
-        # All icons are in /usr/share/icons/Kano/88x88/apps (apart from the
-        # translucent one)
-        icon_grid = Gtk.Grid()
-        icon_grid.set_row_spacing(50)
-        icon_grid.set_column_spacing(50)
+        # All icons are in /usr/share/icons/Kano/88x88/apps
+        # or /usr/share/kano-desktop/icons
         parent_dir = "/usr/share/kano-desktop/icons"
         parent_dir_2 = "/usr/share/icons/Kano/88x88/apps"
 
@@ -273,6 +273,10 @@ class Desktop(Stage):
             os.path.join(parent_dir, "plus-icon.png")
 
         ]
+
+        icon_grid = Gtk.Grid()
+        icon_grid.set_row_spacing(50)
+        icon_grid.set_column_spacing(50)
         row = 1
         column = 0
 
@@ -402,21 +406,21 @@ class Desktop(Stage):
         taskbar.show_all()
         return taskbar
 
-    def _launch_registration(self):
+    def _launch_login(self):
 
-        # Add watch cursor
-        watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
-        self._ctl.main_window.get_window().set_cursor(watch_cursor)
-        # Disable the desktop button so the user cannot click
-        # on it multiple times
-        # Think it might be done automatically?
+        # Only launch this once
+        if not self._login_launched:
+            self._login_launched = True
 
-        self._second_scene.show_all()
+            # Add watch cursor
+            watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+            self._ctl.main_window.get_window().set_cursor(watch_cursor)
+            self._second_scene.show_all()
 
-        while Gtk.events_pending():
-            Gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
 
-        self._launch_login_process_thread()
+            self._launch_login_process_thread()
 
     def _launch_login_process_thread(self):
         t = threading.Thread(target=self._launch_login_process)
