@@ -26,10 +26,10 @@ class WorldIcon(Gtk.Fixed):
         # Check here if there is a token (which there shouldn't be)
         if offline:
             status_label = Gtk.Label("OFFLINE")
-            self.put(status_label, 40, 38)
+            self.put(status_label, 60, 39)
         else:
             status_label = Gtk.Label("ONLINE")
-            self.put(status_label, 48, 38)
+            self.put(status_label, 68, 39)
 
         status_label.get_style_context().add_class("subheading_desktop_label")
-        self.put(kano_world_label, 10, 20)
+        self.put(kano_world_label, 30, 21)
