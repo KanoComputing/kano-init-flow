@@ -132,7 +132,6 @@ class Controller(object):
             This callback is passed over to each stage to be called once
             it's over and the control should be handed to the subsequent one.
         """
-        print self._status.location
         if self._status.location is None:
             self._status.location = self._stages[0].id
             index = 0
@@ -155,7 +154,6 @@ class Controller(object):
 
             stage_ctl.first_scene()
         else:
-            print 'quitting'
             self._status.completed = True
             self._status.save()
             track_action('init-flow-finished')

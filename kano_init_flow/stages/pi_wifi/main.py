@@ -70,7 +70,8 @@ class PiWifi(Stage):
             Placement(0.18, 0.6)
         )
 
-        sb = SpeechBubble('Connect to the world\nwith WiFi.')
+        sb = SpeechBubble('Connect to the world\nwith WiFi.',
+                          scale=scene.scale_factor)
         scene.add_widget(
             sb,
             Placement(0.12, 0.27),

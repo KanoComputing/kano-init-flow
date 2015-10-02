@@ -96,6 +96,19 @@ class MainWindow(Gtk.Window):
     def push(self, child):
         GLib.idle_add(self._do_push, child)
 
+    def schedule_event(self, event):
+        # The callback must always return False not to be rescheduled.
+        # This wrapper makes sure of that.
+        def __wrapper1():
+            def __wrapper2():
+                event['callback'](*event['args'])
+                return False
+            GLib.idle_add(__wrapper2)
+
+        t_id = GLib.timeout_add_seconds(event['delay'], __wrapper1)
+        src = GLib.MainContext.default().find_source_by_id(t_id)
+        self._timeouts.append(src)
+
     def set_key_events_handlers(self, press=None, release=None):
         if self._press_signal_id:
             GObject.signal_handler_disconnect(self, self._press_signal_id)
@@ -119,21 +132,11 @@ class MainWindow(Gtk.Window):
                 GLib.source_remove(src.get_id())
             del self._timeouts[i]
 
-
         if issubclass(child.__class__, Scene):
             for event in child.scheduled_events:
-                # The callback must always return False not to be rescheduled.
-                # This wrapper makes sure of that.
-                def __wrapper1():
-                    def __wrapper2():
-                        event['callback'](*event['args'])
-                        return False
-                    GLib.idle_add(__wrapper2)
+                self.schedule_event(event)
 
-                t_id = GLib.timeout_add_seconds(event['delay'], __wrapper1)
-                src = GLib.MainContext.default().find_source_by_id(t_id)
-                self._timeouts.append(src)
-
+            child.set_active()
             child = child.widget
 
         if self._child:

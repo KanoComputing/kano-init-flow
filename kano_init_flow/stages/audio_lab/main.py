@@ -45,6 +45,7 @@ class AudioLab(Stage):
 
     def help_jack(self):
         self.remove_overlays()
+        self._hide_console(self._scene)
         self._setup_help_jack(self._scene)
 
     def remove_overlays(self):
@@ -90,7 +91,17 @@ class AudioLab(Stage):
             Placement(0.95, 0.45)
         )
 
+        scene.schedule(5, self._show_hint, scene)
+
         return scene
+
+    def _show_hint(self, scene):
+        scene.add_arrow(
+            'right',
+            Placement(0.4, 0.52),
+            Placement(0.43, 0.5935),
+            name='hint'
+        )
 
     def _show_console(self, scene):
         if self._console_on:
@@ -100,14 +111,24 @@ class AudioLab(Stage):
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('console.png')),
             Placement(0.5, 1.0),
-            Placement(0.5, 1.0)
+            Placement(0.5, 1.0),
+            name='console-bg'
         )
 
         scene.add_widget(
             ConsoleScreen(self, scene, self._ctl.next_stage, self.help_jack),
             Placement(0.5155, 0.918),
-            Placement(0.5155, 0.918)
+            Placement(0.5155, 0.918),
+            name='console-screen'
         )
+
+    def _hide_console(self, scene):
+        if not self._console_on:
+            return
+
+        scene.remove_widget('console-bg')
+        scene.remove_widget('console-screen')
+        self._console_on = False
 
     def _a_clicked(self, scene):
         play_sound('/usr/share/kano-media/sounds/kano_error.wav', True)
