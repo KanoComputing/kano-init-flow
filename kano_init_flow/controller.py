@@ -62,7 +62,7 @@ class Controller(object):
 
         # This is used to store values need for multiple screens
         # Referenced in self.get_var, self.set_var and self.has_var
-        self._ctrl_map = {}
+        self._vars_map = {}
 
         self._return_value = self.FINISHED_FIRST_BOOT
         self._tracking_session = None
@@ -169,16 +169,16 @@ class Controller(object):
         self._status.save()
 
     def set_var(self, prop_name, value):
-        self._ctrl_map[prop_name] = value
+        self._vars_map[prop_name] = value
 
     def get_var(self, prop_name):
         if self.has_var(prop_name):
-            return self._ctrl_map[prop_name]
+            return self._vars_map[prop_name]
 
         return None
 
     def has_var(self, prop_name):
-        return prop_name in self._ctrl_map
+        return prop_name in self._vars_map
 
     @property
     def return_value(self):
