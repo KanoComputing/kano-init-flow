@@ -60,6 +60,10 @@ class Controller(object):
         if start_from:
             self._status.set_debug_mode(start_from)
 
+        # This is used to store values need for multiple screens
+        # Referenced in self.get_var, self.set_var and self.has_var
+        self._ctrl_map = {}
+
         self._return_value = self.FINISHED_FIRST_BOOT
         self._tracking_session = None
 
@@ -163,6 +167,18 @@ class Controller(object):
         self._status.location = self._stages[-1].id
         self._status.completed = True
         self._status.save()
+
+    def set_var(self, prop_name, value):
+        self._ctrl_map[prop_name] = value
+
+    def get_var(self, prop_name):
+        if self.has_var(prop_name):
+            return self._ctrl_map[prop_name]
+
+        return None
+
+    def has_var(self, prop_name):
+        return prop_name in self._ctrl_map
 
     @property
     def return_value(self):
