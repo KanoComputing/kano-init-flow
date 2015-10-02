@@ -165,7 +165,7 @@ class AudioLab(Stage):
             Notebook(
                 self,
                 self.media_path('troubleshooting-sound.png'), 0.5, 0.3,
-                'Can you see the light?',
+                'Can you see the blue light?',
                 ['If the power plugs are connected correctly,',
                  'you should see a blue light.'],
                 [{'label': 'YES', 'callback': self.remove_overlays, 'color': 'green'},
