@@ -29,7 +29,6 @@ class PiHdmi(Stage):
         if is_monitor():
             self._ctl.next_stage()
             return
-            pass
 
         s = self._setup_first_scene()
         self._ctl.main_window.push(s)
