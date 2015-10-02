@@ -155,7 +155,7 @@ class AudioLab(Stage):
                   'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0),
+            Placement(0.5, 0.5, 0.0),
             modal=True,
             name='help-jack'
         )
@@ -172,7 +172,7 @@ class AudioLab(Stage):
                  {'label': 'NO', 'callback': self.help_power, 'color': 'red'}]
             ),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0),
+            Placement(0.5, 0.5, 0.0),
             modal=True,
             name='help-leds'
         )
