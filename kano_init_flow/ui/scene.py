@@ -305,7 +305,7 @@ class Scene(object):
         # The Scene has been realised already so we need to trigger The
         # timer right away instead of waiting for the MainWindow to do it.
         if self._active:
-            if not self._main_window:
+            if self._main_window:
                 self._main_window.schedule_event(event)
             else:
                 msg = 'Can\'t schedule events without main_window.'

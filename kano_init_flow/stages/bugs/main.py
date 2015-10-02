@@ -123,10 +123,11 @@ class Bugs(Stage):
             scene.remove_widget('speech-bubble')
             self._place_judoka_into_scene(scene, True)
 
-            scene.add_widget(
-                NextButton(),
-                Placement(0.5, 0.9, 0),
-                Placement(0.5, 0.9, 0),
-                self._ctl.next_stage
-                # key=Gdk.KEY_space
-            )
+            scene.schedule(4, self._ctl.next_stage)
+            #scene.add_widget(
+            #    NextButton(),
+            #    Placement(0.5, 0.9, 0),
+            #    Placement(0.5, 0.9, 0),
+            #    self._ctl.next_stage
+            #    # key=Gdk.KEY_space
+            #)

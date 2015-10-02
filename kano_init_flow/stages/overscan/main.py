@@ -39,6 +39,7 @@ class Overscan(Stage):
     def first_scene(self):
         if is_monitor():
             self._ctl.next_stage()
+            return
 
         track_action('init-flow-overscan-needed')
         s1 = self._setup_first_scene()
