@@ -27,6 +27,7 @@ class PiWifi(Stage):
     def first_scene(self):
 
         if is_internet():
+            self._ctl.set_var("has_internet", True)
             self._ctl.next_stage()
             return
 

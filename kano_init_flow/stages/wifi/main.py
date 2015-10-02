@@ -41,7 +41,8 @@ class Wifi(Stage):
 
     def first_scene(self):
         # This is very slow
-        if is_internet():
+        if self._ctl.has_var("has_internet") and \
+                self._ctl.get_var("has_internet"):
             self._ctl.next_stage()
             return
 
