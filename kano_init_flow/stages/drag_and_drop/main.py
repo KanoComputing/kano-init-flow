@@ -92,7 +92,7 @@ class DragAndDrop(Stage):
             Placement(1, 0)
         )
 
-        scene.schedule(20, self._scene_1_hint, speechbubble)
+        scene.schedule(40, self._scene_1_hint, speechbubble)
 
         return scene
 
@@ -129,6 +129,6 @@ class DragAndDrop(Stage):
             # key=Gdk.KEY_space
         )
 
-        scene.schedule(4, self._ctl.next_stage)
+        scene.schedule(3, self._ctl.next_stage)
 
         return scene
