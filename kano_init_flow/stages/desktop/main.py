@@ -5,6 +5,7 @@
 #
 
 import os
+import time
 import subprocess
 import threading
 from gi.repository import Gtk, Gdk, GLib
@@ -392,13 +393,13 @@ class Desktop(Stage):
         processor_monitor.set_size_request(40, 45)
 
         # Get time
-        time = Gtk.Label("12:33")
-        time.get_style_context().add_class("time")
+        time_label = Gtk.Label(time.strftime("%H:%M"))
+        time_label.get_style_context().add_class("time")
 
         hbox = Gtk.Box()
         hbox.pack_start(start_menu, False, False, 0)
         hbox.pack_end(processor_monitor, False, False, 3)
-        hbox.pack_end(time, False, False, 3)
+        hbox.pack_end(time_label, False, False, 3)
 
         for f in end_filenames:
             image = Gtk.Image.new_from_file(f)
