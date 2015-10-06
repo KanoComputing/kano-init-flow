@@ -51,19 +51,19 @@ class Intro(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         # Grey overlay
-        blur = Gtk.EventBox()
-        blur.get_style_context().add_class("blur")
-        screen = Gdk.Screen.get_default()
-        width = screen.get_width()
-        height = screen.get_height()
-        blur.set_size_request(width, height)
+        #blur = Gtk.EventBox()
+        #blur.get_style_context().add_class("blur")
+        #screen = Gdk.Screen.get_default()
+        #width = screen.get_width()
+        #height = screen.get_height()
+        #blur.set_size_request(width, height)
 
         # This currently blocks the emergency exit button
-        scene.add_widget(
-            blur,
-            Placement(0, 0, 0),
-            Placement(0, 0, 0),
-        )
+        #scene.add_widget(
+        #    blur,
+        #    Placement(0, 0, 0),
+        #    Placement(0, 0, 0),
+        #)
 
         # Create the keyboard and pack it before putting it in the
         grab_label = Gtk.Label("Click NEXT to start")
