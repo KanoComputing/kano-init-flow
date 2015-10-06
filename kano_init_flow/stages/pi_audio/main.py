@@ -72,7 +72,7 @@ class PiAudio(Stage):
             Placement(0.105, 0.26)
         )
 
-        scene.schedule(20, self._show_hint, sb)
+        scene.schedule(40, self._show_hint, sb)
 
         return scene
 
