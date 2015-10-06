@@ -92,11 +92,12 @@ class Desktop(Stage):
                 text='Welcome to the desktop!\n'
                      'Click on this icon to set up\n'
                      'your profile',
-                source=SpeechBubble.LEFT,
+                source=SpeechBubble.TOP,
+                source_align=0.0,
                 scale=scene.scale_factor
             ),
-            Placement(0.34, 0.05),
-            Placement(0.25, 0.05)
+            Placement(0.15, 0.2),
+            Placement(0.12, 0.2)
         )
 
         # Shortcut
@@ -167,11 +168,12 @@ class Desktop(Stage):
                      'This is where Judokas make\n'
                      'and share projects togther\n'
                      'online.',
-                source=SpeechBubble.RIGHT,
+                source=SpeechBubble.TOP,
+                source_align=1.0,
                 scale=scene.scale_factor
             ),
-            Placement(0.65, 0.05),
-            Placement(0.73, 0.05)
+            Placement(0.8, 0.2),
+            Placement(0.88, 0.2)
         )
 
         # Shortcut
@@ -325,14 +327,14 @@ class Desktop(Stage):
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
-            Placement(0.85, 0.55),
-            Placement(0.75, 0.55)
+            Placement(0.5, 0.5),
+            Placement(0.5, 0.5)
         )
 
         scene.add_widget(
             NextButton(),
-            Placement(0.5, 0.5, 0),
-            Placement(0.5, 0.5, 0),
+            Placement(0.85, 0.55, 0),
+            Placement(0.75, 0.55, 0),
             self.next_stage
         )
 
