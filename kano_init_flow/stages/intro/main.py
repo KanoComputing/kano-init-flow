@@ -102,13 +102,12 @@ class Intro(Stage):
         )
 
         scene.schedule(60, self._show_hint, scene)
-
         return scene
 
     def _show_hint(self, scene):
         scene.add_arrow('right',
-                        Placement(0.25, 0.75),
-                        Placement(0.35, 0.75)
+                        Placement(0.25, 0.85),
+                        Placement(0.35, 0.85)
         )
 
     ###############################################################
