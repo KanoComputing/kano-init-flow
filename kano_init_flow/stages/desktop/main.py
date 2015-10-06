@@ -20,6 +20,7 @@ from kano_avatar_gui.CharacterCreator import CharacterCreator
 from kano.gtk3.buttons import KanoButton
 from kano.logging import logger
 from kano.gtk3.apply_styles import apply_styling_to_screen
+from kano_world.functions import is_registered
 
 
 class Desktop(Stage):
@@ -137,7 +138,8 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         self._add_profile_icon(self._second_scene)
-        self._add_world_icon(scene, self._launch_login, offline=False)
+        self._add_world_icon(scene, self._launch_login,
+                             offline=(not is_registered()))
 
         # Add judoka
         '''
@@ -192,7 +194,7 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         self._add_profile_icon(scene)
-        self._add_world_icon(scene, offline=False)
+        self._add_world_icon(scene, offline=(not is_registered()))
 
         '''
         # Add judoka
@@ -245,7 +247,7 @@ class Desktop(Stage):
 
         # Pass the callback of what we want to launch in the profile icon
         self._add_profile_icon(scene)
-        self._add_world_icon(scene)
+        self._add_world_icon(scene, offline=(not is_registered()))
         self._add_taskbar(scene)
 
         # Go through all the desktop icons and add them to the desktop

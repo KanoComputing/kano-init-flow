@@ -25,7 +25,7 @@ class WorldIcon(Gtk.Fixed):
 
         # Check here if there is a token (which there shouldn't be)
         if offline:
-            status_label = Gtk.Label("OFFLINE")
+            status_label = Gtk.Label("SIGN UP")
             self.put(status_label, 60, 39)
         else:
             status_label = Gtk.Label("ONLINE")
