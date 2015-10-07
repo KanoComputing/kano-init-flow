@@ -15,6 +15,7 @@ from kano_profile.tracker import session_start, session_end, \
 
 from .status import Status
 from .paths import OLD_FIRST_BOOT_FILE
+from .ui.utils import trigger_led_speaker
 
 from .stages.wifi import Wifi
 from .stages.overscan import Overscan
@@ -157,6 +158,7 @@ class Controller(object):
             self._tracking_session = session_start(stage_ctl.id, os.getpid())
 
             stage_ctl.first_scene()
+            trigger_led_speaker()
         else:
             self._status.completed = True
             self._status.save()

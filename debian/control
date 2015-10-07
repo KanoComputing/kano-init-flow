@@ -9,5 +9,5 @@ Package: kano-init-flow
 Architecture: all
 Depends: ${misc:Depends}, gir1.2-gtk-3.0, kano-toolset (>=1.2-2),
          kano-profile (>=1.2-2), kano-settings (>=2.2-1),
-         kano-connect (>=2.0-1)
+         kano-connect (>=2.0-1), kano-peripherals
 Description: Kanux initial boot

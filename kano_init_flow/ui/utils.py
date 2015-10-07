@@ -7,6 +7,8 @@
 
 from gi.repository import GdkPixbuf, Gtk, GLib
 
+from kano.utils import run_bg
+
 
 def add_class(widget, class_name):
     widget.get_style_context().add_class(class_name)
@@ -77,3 +79,12 @@ def scale_gif(widget, scale):
     image = Gtk.Image()
     image.set_from_animation(simpleanim)
     return image
+
+
+def trigger_led_speaker():
+    run_bg('sudo kano-speakerleds initflow start')
+
+    def __stop_led_speaker():
+        run_bg('sudo kano-speakerleds initflow stop')
+
+    GLib.timeout_add_seconds(2, __stop_led_speaker)
