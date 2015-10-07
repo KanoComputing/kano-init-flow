@@ -105,9 +105,7 @@ class Bugs(Stage):
             name='speech-bubble'
         )
 
-        #if happy:
-            #scene.schedule(4, self._ctl.next_stage)
-        #else:
+
         if not happy:
             scene.schedule(20, self._show_hint, speech_bubble)
 
@@ -123,7 +121,7 @@ class Bugs(Stage):
             scene.remove_widget('speech-bubble')
             self._place_judoka_into_scene(scene, True)
 
-            scene.schedule(4, self._ctl.next_stage)
+            scene.schedule(3, self._ctl.next_stage)
             #scene.add_widget(
             #    NextButton(),
             #    Placement(0.5, 0.9, 0),
