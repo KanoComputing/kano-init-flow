@@ -69,6 +69,8 @@ class MainWindow(Gtk.Window):
         emergency_exit.connect('button-release-event', self._emergency_exit_cb)
         overlay.add_overlay(emergency_exit)
 
+        self.connect('key-release-event', self._key_emergency_exit)
+
         if start_from:
             debug_button = Gtk.EventBox()
             debug_button.add(Gtk.Label('Close'))
@@ -76,6 +78,15 @@ class MainWindow(Gtk.Window):
             debug_button.set_valign(Gtk.Align.START)
             debug_button.connect('button-release-event', Gtk.main_quit)
             overlay.add_overlay(debug_button)
+
+    def _key_emergency_exit(self, widget, event):
+        if hasattr(event, 'keyval'):
+            if event.keyval in [Gdk.KEY_Q, Gdk.KEY_q] and \
+               event.state & Gdk.ModifierType.SHIFT_MASK and \
+               event.state & Gdk.ModifierType.CONTROL_MASK:
+                self._emergency_exit_cb(widget)
+
+        return False
 
     def _emergency_exit_cb(self, widget, data=None):
         self._emergency_counter += 1
