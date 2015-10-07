@@ -33,9 +33,9 @@ class PiComplete(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('pi-complete.gif')),
-            Placement(0.25, 0.0, 0.0),
-            Placement(0.3, 0.0, 0.0),
+            Gtk.Image.new_from_file(self.media_path('pi-complete.png')),
+            Placement(0.25, 0.0, 1.0),
+            Placement(0.3, 0.0, 1.0),
             self._ctl.next_stage
         )
 
