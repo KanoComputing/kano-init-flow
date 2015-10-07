@@ -121,13 +121,13 @@ class DragAndDrop(Stage):
             Placement(0.9, 0.35, 0.96)
         )
 
-        scene.add_widget(
-            NextButton(),
-            Placement(0.5, 0.7, 0),
-            Placement(0.5, 0.7, 0),
-            self._ctl.next_stage
-            # key=Gdk.KEY_space
-        )
+        #scene.add_widget(
+        #    NextButton(),
+        #    Placement(0.5, 0.7, 0),
+        #    Placement(0.5, 0.7, 0),
+        #    self._ctl.next_stage
+        #    # key=Gdk.KEY_space
+        #)
 
         scene.schedule(3, self._ctl.next_stage)
 
