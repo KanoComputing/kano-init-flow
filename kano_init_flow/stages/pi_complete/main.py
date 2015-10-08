@@ -7,7 +7,7 @@
 from gi.repository import Gtk
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 
@@ -33,7 +33,11 @@ class PiComplete(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('pi-complete.png')),
+            ActiveImage(
+                self.media_path('pi-complete.gif'),
+                self.media_path('pi-complete-hover.gif'),
+                self.media_path('pi-complete-hover.gif'),
+            ),
             Placement(0.25, 0.0, 1.0),
             Placement(0.3, 0.0, 1.0),
             self._ctl.next_stage
