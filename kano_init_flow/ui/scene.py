@@ -333,13 +333,12 @@ class Scene(object):
                 if event.keyval == key:
                     # call all the callbacks in the sequence
                     for n in cb_seq:
-                        if n not in cbs or cbs[n] is None:
-                            next
-                        cb = cbs[n]
-                        if isinstance(cb, (list, tuple)):
-                            cb[0](*cb[1:])
-                        else:
-                            cb()
+                        if n in cbs and cbs[n] is not None:
+                            cb = cbs[n]
+                            if isinstance(cb, (list, tuple)):
+                                cb[0](*cb[1:])
+                            else:
+                                cb()
                     return True
         return False
 

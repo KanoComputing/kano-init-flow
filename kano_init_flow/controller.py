@@ -18,7 +18,7 @@ from .paths import OLD_FIRST_BOOT_FILE
 from .ui.utils import trigger_led_speaker
 
 from .stages.wifi import Wifi
-from .stages.overscan import Overscan
+from .stages.overscan_old import OverscanOld
 from .stages.drag_and_drop import DragAndDrop
 from .stages.quests import Quests
 from .stages.audio_lab import AudioLab
@@ -71,7 +71,7 @@ class Controller(object):
         self._stages = [
             Intro,
             PiHdmi,
-            Overscan,
+            OverscanOld,
             PiKeyboard,
             DragAndDrop,
             Bugs,
