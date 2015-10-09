@@ -5,6 +5,7 @@
 #
 #
 
+import time
 from gi.repository import GdkPixbuf, Gtk, GLib
 
 from kano.utils import run_bg
@@ -81,10 +82,11 @@ def scale_gif(widget, scale):
     return image
 
 
+LEDS_LAST_TRIGGER=0
 def trigger_led_speaker():
-    run_bg('sudo kano-speakerleds initflow start')
+    global LEDS_LAST_TRIGGER
 
-    def __stop_led_speaker():
-        run_bg('sudo kano-speakerleds initflow stop')
-
-    GLib.timeout_add_seconds(2, __stop_led_speaker)
+    now = time.time()
+    if now - LEDS_LAST_TRIGGER > 3:
+        run_bg('sudo kano-speakerleds initflow 2 4')
+        LEDS_LAST_TRIGGER = now
