@@ -439,10 +439,12 @@ class ActiveImage(object):
             self._w.set_from_pixbuf(img.get_pixbuf())
 
     def down(self):
-        self.set(self._down)
+        if hasattr(self, '_down') and self._down:
+            self.set(self._down)
 
     def up(self):
-        self.set(self._img)
+        if hasattr(self, '_img') and self._img:
+            self.set(self._img)
 
     def _down_cb(self, widget, event, user=None):
         self.down()
@@ -451,7 +453,9 @@ class ActiveImage(object):
         self.up()
 
     def _enter_cb(self, widget, event, user=None):
-        self.set(self._hover)
+        if hasattr(self, '_hover') and self._hover:
+            self.set(self._hover)
 
     def _leave_cb(self, widget, event, user=None):
-        self.set(self._img)
+        if hasattr(self, '_img') and self._img:
+            self.set(self._img)

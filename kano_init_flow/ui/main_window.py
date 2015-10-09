@@ -40,6 +40,7 @@ class MainWindow(Gtk.Window):
         self._release_signal_id = None
         self._emergency_counter = 0
 
+        self._to_id_counter = 0
         self._timeouts = []
 
         apply_common_to_screen()
@@ -110,15 +111,20 @@ class MainWindow(Gtk.Window):
     def schedule_event(self, event):
         # The callback must always return False not to be rescheduled.
         # This wrapper makes sure of that.
+        self._to_id_counter += 1
+        t_id = self._to_id_counter
+
         def __wrapper1():
             def __wrapper2():
-                event['callback'](*event['args'])
+                if t_id in self._timeouts:
+                    event['callback'](*event['args'])
+                    idx = self._timeouts.index(t_id)
+                    del self._timeouts[idx]
                 return False
             GLib.idle_add(__wrapper2)
 
-        t_id = GLib.timeout_add_seconds(event['delay'], __wrapper1)
-        src = GLib.MainContext.default().find_source_by_id(t_id)
-        self._timeouts.append(src)
+        GLib.timeout_add_seconds(event['delay'], __wrapper1)
+        self._timeouts.append(t_id)
 
     def set_key_events_handlers(self, press=None, release=None):
         if self._press_signal_id:
@@ -139,9 +145,12 @@ class MainWindow(Gtk.Window):
     def _do_push(self, child):
         # Cleans up any pending scheduled events
         for i, src in enumerate(self._timeouts):
-            if not src.is_destroyed():
-                GLib.source_remove(src.get_id())
             del self._timeouts[i]
+            #print GLib.source_remove_by_funcs_user_data(src.source_funcs,
+            #                                            src.callback_data)
+            #src.destroy()
+            #if not src.is_destroyed():
+            #    GLib.source_remove(src.get_id())
 
         if issubclass(child.__class__, Scene):
             for event in child.scheduled_events:
