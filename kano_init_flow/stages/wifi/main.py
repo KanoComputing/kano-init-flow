@@ -174,7 +174,7 @@ class Wifi(Stage):
         )
 
         copy = 'We have signal! Great work.\n\n' + \
-               'All aboard!\nWe can still make it on time!'
+               'Click the rocket to continue!'
         scene.add_widget(
             SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
@@ -219,11 +219,8 @@ class Wifi(Stage):
         )
 
         copy = [
-            'Oh no, connection failed!',
-            'We won\'t be able to make it',
-            'to Kano World.',
-            '',
-            'To try again, click the console.'
+            'Oh no, the connection failed!',
+            'But we can still play.',
         ]
         scene.add_widget(
             SpeechBubble(text='\n'.join(copy), source=SpeechBubble.BOTTOM,

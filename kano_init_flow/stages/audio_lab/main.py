@@ -82,8 +82,7 @@ class AudioLab(Stage):
             Placement(0.95, 0.9)
         )
 
-        copy = 'Now let\'s check the sound works!\n' + \
-               'Try pressing the A, S or D\nkeys to play a song!'
+        copy = 'Press the TAB key to play a song!'
         scene.add_widget(
             SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
                          source_align=0.8, scale=scene.scale_factor),
