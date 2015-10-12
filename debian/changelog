@@ -1,3 +1,9 @@
+kano-init-flow (2.2.0-1) unstable; urgency=low
+
+  * New versioning convention.
+
+ -- Team Kano <dev@kano.me>  Mon, 12 Oct 2015 16:08:00 +0100
+
 kano-init-flow (2.2-1) unstable; urgency=low
 
   * A complete rewrite of the app.

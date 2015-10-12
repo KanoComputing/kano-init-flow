@@ -47,7 +47,7 @@ def merge_dicts(a, b):
 
 setup(
     name='kano-init-flow',
-    version='2.0',
+    version='2.2.0',
     description='The init flow for Kano OS',
     author='Kano Computing',
     author_email='help@kano.me',
