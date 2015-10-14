@@ -1,4 +1,5 @@
 GtkButton {
+  outline-width: 0;
   background-color: transparent;
   background: transparent;
   border-color: transparent;
