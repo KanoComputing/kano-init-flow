@@ -381,6 +381,7 @@ class Desktop(Stage):
         start_menu = Gtk.Image.new_from_file("/usr/share/kano-desktop/images/startmenu.png")
 
         end_filenames = [
+            "/usr/share/icons/Kano/44x44/status/audio-volume-high.png",
             "/usr/share/kano-settings/settings-widget.png",
             "/usr/share/kano-updater/images/widget-no-updates.png",
             "/usr/share/kano-settings/icon/widget-wifi.png",
@@ -397,15 +398,18 @@ class Desktop(Stage):
         # Get time
         time_label = Gtk.Label(time.strftime("%H:%M"))
         time_label.get_style_context().add_class("time")
+        time_label.set_margin_right(15)
 
         hbox = Gtk.Box()
         hbox.pack_start(start_menu, False, False, 0)
-        hbox.pack_end(processor_monitor, False, False, 3)
-        hbox.pack_end(time_label, False, False, 3)
+        hbox.pack_end(processor_monitor, False, False, 1)
+        hbox.pack_end(time_label, False, False, 1)
 
-        for f in end_filenames:
+        for i, f in enumerate(end_filenames):
             image = Gtk.Image.new_from_file(f)
-            hbox.pack_end(image, False, False, 3)
+            if i == 0:
+                image.set_margin_right(15)
+            hbox.pack_end(image, False, False, 1)
 
         taskbar.add(hbox)
         taskbar.show_all()
