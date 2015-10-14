@@ -40,21 +40,21 @@ class PiAudio(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('pi-sound.png')),
-            Placement(0.67, 0.4),
-            Placement(0.5, 0.2)
+            Placement(0.67, 0.0),
+            Placement(0.5, 0.0)
         )
 
         scene.add_widget(
             ActiveImage(self.media_path('audio.gif'),
                         hover=self.media_path('audio-hover.gif')),
-            Placement(0.542, 0.405),
-            Placement(0.445, 0.34),
+            Placement(0.542, 0.28),
+            Placement(0.445, 0.32),
             self.next_stage
         )
 
         scene.add_arrow(
             "down",
-            Placement(0.542, 0.15, 0),
+            Placement(0.542, 0.05, 0),
             Placement(0.445, 0.13, 0)
         )
 
