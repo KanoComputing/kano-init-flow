@@ -469,7 +469,7 @@ class CharacterWindow(Gtk.Window):
         self.set_decorated(False)
         self.close_cb = cb
 
-        self.char_edit = CharacterCreator(randomise=True)
+        self.char_edit = CharacterCreator(randomise=True, no_sync=True)
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.add(vbox)
 
