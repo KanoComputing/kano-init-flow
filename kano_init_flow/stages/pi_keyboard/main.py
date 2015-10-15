@@ -48,8 +48,8 @@ class PiKeyboard(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('pi-keyboard.png')),
-            Placement(0.67, 0.33),
-            Placement(0.55, 0.33)
+            Placement(0.67, 0),
+            Placement(0.55, 0)
         )
 
         scene.add_arrow(
