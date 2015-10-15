@@ -189,7 +189,7 @@ class AudioLab(Stage):
                   'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
-            Placement(0.45, 0.5, 0.0),
+            Placement(0.5, 0.5, 0.0),
             modal=True,
             name='help-power'
         )
