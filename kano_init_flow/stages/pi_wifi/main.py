@@ -47,22 +47,22 @@ class PiWifi(Stage):
 
         scene.add_arrow(
             "down",
-            Placement(0.46, 0.36),
+            Placement(0.46, 0.31),
             Placement(0.46, 0.44)
         )
 
         scene.add_widget(
             ActiveImage(self.media_path('wifi.gif'),
                         hover=self.media_path('wifi-hover.gif')),
-            Placement(0.48, 0.58),
-            Placement(0.475, 0.631),
+            Placement(0.48, 0.53),
+            Placement(0.475, 0.6),
             self.next_stage
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('Pi-wifi.png')),
-            Placement(0.83, 0.2),
-            Placement(0.73, 0.2)
+            Placement(0.83, 0),
+            Placement(0.73, 0)
         )
 
         scene.add_widget(
