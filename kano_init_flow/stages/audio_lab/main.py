@@ -90,7 +90,7 @@ class AudioLab(Stage):
             Placement(0.95, 0.45)
         )
 
-        scene.schedule(5, self._show_hint, scene)
+        scene.schedule(40, self._show_hint, scene)
 
         return scene
 
