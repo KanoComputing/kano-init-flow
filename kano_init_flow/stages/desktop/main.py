@@ -169,7 +169,7 @@ class Desktop(Stage):
             SpeechBubble(
                 text='This icon is Kano World!\n'
                      'This is where Judokas make\n'
-                     'and share projects togther\n'
+                     'and share projects together\n'
                      'online.',
                 source=SpeechBubble.TOP,
                 source_align=1.0,
