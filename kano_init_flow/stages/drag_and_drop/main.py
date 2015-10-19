@@ -51,7 +51,7 @@ class DragAndDrop(Stage):
             source_align=0.0,
             scale=scene.scale_factor
         )
-        keyboard = Gtk.Image.new_from_file(self.media_path('keyboard.gif'))
+        keyboard = Gtk.Image.new_from_file(self.media_path('Keyboard-Drag.gif'))
 
         drag_source = DragSource(judoka, char_pixbuf, speechbubble, keyboard)
 
@@ -66,12 +66,6 @@ class DragAndDrop(Stage):
             Placement(0.5, 0.9, 0),
             Placement(0.5, 0.9, 0)
         )
-
-        #scene.add_widget(
-        #    Gtk.Image.new_from_file(self.media_path('wayfinding-arrow.png')),
-        #    Placement(0.5, 0.05, 0),
-        #    Placement(0.5, 0.1, 0)
-        #)
 
         scene.add_widget(
             speechbubble,
