@@ -41,20 +41,20 @@ class PiKeyboard(Stage):
         scene.add_widget(
             ActiveImage(self.media_path('keyboard.gif'),
                         hover=self.media_path('keyboard-hover.gif')),
-            Placement(0.43, 0.75),
+            Placement(0.43, 0.70),
             Placement(0.4, 0.79),
             self.next_stage
         )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('pi-keyboard.png')),
-            Placement(0.67, 0.33),
-            Placement(0.55, 0.33)
+            Placement(0.67, 0),
+            Placement(0.55, 0)
         )
 
         scene.add_arrow(
             "right",
-            Placement(0.25, 0.74, 0),
+            Placement(0.25, 0.69, 0),
             Placement(0.28, 0.775, 0)
         )
 
@@ -62,7 +62,7 @@ class PiKeyboard(Stage):
             Gtk.Image.new_from_file(
                 common_media_path('down-right-pointing-judoka.png')
             ),
-            Placement(0.2, 0.49),
+            Placement(0.15, 0.45),
             Placement(0.2, 0.5)
         )
 

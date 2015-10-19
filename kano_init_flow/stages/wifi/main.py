@@ -166,15 +166,12 @@ class Wifi(Stage):
         )
 
         scene.add_widget(
-            ActiveImage(self.media_path('rocket.gif'),
-                        hover=self.media_path('rocket-hover.gif')),
+            Gtk.Image.new_from_file(self.media_path('rocket.png')),
             Placement(0.697, 0.597, 0.8),
-            Placement(0.695, 0.275),
-            self.next_stage
+            Placement(0.695, 0.275)
         )
 
-        copy = 'We have signal! Great work.\n\n' + \
-               'Click the rocket to continue!'
+        copy = 'We have signal! Great work.'
         scene.add_widget(
             SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
@@ -182,7 +179,7 @@ class Wifi(Stage):
             Placement(0.95, 0.46)
         )
 
-        scene.schedule(20, self._show_rocket_hint, scene)
+        scene.schedule(3, self.next_stage)
 
         return scene
 

@@ -169,7 +169,7 @@ class Desktop(Stage):
             SpeechBubble(
                 text='This icon is Kano World!\n'
                      'This is where Judokas make\n'
-                     'and share projects togther\n'
+                     'and share projects together\n'
                      'online.',
                 source=SpeechBubble.TOP,
                 source_align=1.0,
@@ -469,7 +469,7 @@ class CharacterWindow(Gtk.Window):
         self.set_decorated(False)
         self.close_cb = cb
 
-        self.char_edit = CharacterCreator(randomise=True)
+        self.char_edit = CharacterCreator(randomise=True, no_sync=True)
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.add(vbox)
 

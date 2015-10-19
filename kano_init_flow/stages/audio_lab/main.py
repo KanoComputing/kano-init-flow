@@ -90,7 +90,7 @@ class AudioLab(Stage):
             Placement(0.95, 0.45)
         )
 
-        scene.schedule(5, self._show_hint, scene)
+        scene.schedule(40, self._show_hint, scene)
 
         return scene
 
@@ -184,9 +184,13 @@ class AudioLab(Stage):
                 'No light? Check the GPIO',
                 ['The cable has to be connected to these',
                  'pins exactly.'],
-                [{'label': 'FINISHED',
+                [{'label': 'TRY AGAIN',
                   'callback': self.remove_overlays,
-                  'color': 'green'}]
+                  'color': 'green'},
+                  {'label': 'SKIP',
+                  'callback':  self._ctl.next_stage,
+                  'color': 'grey'}
+                ]
             ),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0),
