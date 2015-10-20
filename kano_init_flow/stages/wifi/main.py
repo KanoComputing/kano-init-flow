@@ -100,7 +100,7 @@ class Wifi(Stage):
             'Let\'s connect to the web!',
             '',
             'Get started by clicking',
-            'the Wifi console!'
+            'the WiFi console!'
         ]
         sb = SpeechBubble(text='\n'.join(copy), source=SpeechBubble.BOTTOM,
                           scale=scene.scale_factor)
@@ -470,11 +470,11 @@ class ParentalScreen(Gtk.VBox):
         self.set_margin_left(40)
         self.set_margin_right(40)
 
-        heading = Gtk.Label('Parental controls')
+        heading = Gtk.Label('For parents...')
         add_class(heading, 'console-screen-heading')
 
-        copy = 'Allow Kano content + updates in, ' + \
-               'keep suspicious websites out!'
+        copy = 'You can put a safety filter on Kano\'s internet. ' + \
+               'You can set it now or later.'
         desc = Gtk.Label(copy)
         desc.set_line_wrap(True)
         add_class(desc, 'console-screen-desc')
