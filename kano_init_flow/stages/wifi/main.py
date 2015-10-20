@@ -40,7 +40,6 @@ class Wifi(Stage):
         apply_styling_to_screen(self.css_path('console.css'))
 
     def first_scene(self):
-        # This is very slow
         if self._ctl.has_var("has_internet") and \
                 self._ctl.get_var("has_internet"):
             self._ctl.next_stage()
@@ -83,13 +82,6 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
-        # scene.add_profile_icon()
-
-        # scene.add_character(
-        #    Placement(0.08, 0.9, 0.5),
-        #    Placement(0.12, 0.9, 0.6)
-        # )
-
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('spaceman.png')),
             Placement(0.9, 0.9, 0.65),
@@ -106,7 +98,7 @@ class Wifi(Stage):
                           scale=scene.scale_factor)
         scene.add_widget(
             sb,
-            Placement(0.95, 0.55),
+            Placement(0.955, 0.55),
             Placement(0.94, 0.46)
         )
 
@@ -118,19 +110,21 @@ class Wifi(Stage):
             self.second_scene
         )
 
-        scene.schedule(20, self._show_console_hint, scene, sb)
+        # Commeted out hint
+        # scene.schedule(20, self._show_console_hint, scene, sb)
 
         return scene
 
-    def _show_console_hint(self, scene, sb):
-        sb.set_text("Click on the console\n" +
-                    "in the lower part of\n" +
-                    "the screen to continue.")
-        scene.add_arrow(
-            'down',
-            Placement(0.36, 0.51),
-            Placement(0.39, 0.4),
-        )
+    # Currently unused
+    # def _show_console_hint(self, scene, sb):
+    #    sb.set_text("Click on the console\n" +
+    #                "in the lower part of\n" +
+    #                "the screen to continue.")
+    #    scene.add_arrow(
+    #        'down',
+    #        Placement(0.36, 0.51),
+    #        Placement(0.39, 0.4),
+    #    )
 
     def _setup_second_scene(self):
         scene = Scene()
@@ -151,13 +145,6 @@ class Wifi(Stage):
         scene = Scene()
         scene.set_background(self.media_path('space-2-bg-4-3.png'),
                              self.media_path('space-2-bg-16-9.png'))
-
-        # scene.add_profile_icon()
-
-        # scene.add_character(
-        #    Placement(0.08, 0.9, 0.5),
-        #    Placement(0.12, 0.9, 0.6)
-        # )
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('spaceman.png')),
@@ -195,13 +182,6 @@ class Wifi(Stage):
         scene.set_background(self.media_path('space-1-bg-4-3.png'),
                              self.media_path('space-1-bg-16-9.png'))
 
-        # scene.add_profile_icon()
-
-        # scene.add_character(
-        #    Placement(0.08, 0.9, 0.5),
-        #    Placement(0.12, 0.9, 0.6)
-        # )
-
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('spaceman.png')),
             Placement(0.9, 0.9, 0.65),
@@ -231,7 +211,6 @@ class Wifi(Stage):
             Placement(0.5, 0.99, 0),
             Placement(0.45, 0.99, 0),
             self.next_stage
-            # key=Gdk.KEY_space
         )
 
         scene.schedule(20, self._show_rocket_hint, scene)
@@ -385,9 +364,6 @@ class TroubleshootOrDisconnect(Gtk.Box):
         self.set_margin_left(40)
         self.set_margin_right(40)
 
-        # heading = Gtk.Label('Troubleshoot')
-        # add_class(heading, 'console-screen-heading')
-
         desc = Gtk.Label('Oops there was a problem connecting to internet.')
         desc.set_line_wrap(True)
         add_class(desc, 'console-screen-desc')
@@ -405,7 +381,6 @@ class TroubleshootOrDisconnect(Gtk.Box):
         buttons.pack_start(troubleshoot, True, True, 20)
         buttons.pack_start(skip, True, True, 0)
 
-        # self.pack_start(heading, False, False, 30)
         self.pack_start(desc, False, False, 40)
         self.pack_start(image, False, False, 20)
         self.pack_start(buttons, False, False, 30)
@@ -479,7 +454,6 @@ class ParentalScreen(Gtk.VBox):
         desc.set_line_wrap(True)
         add_class(desc, 'console-screen-desc')
 
-        # TODO: Add image
         padlock = Gtk.Image.new_from_file(stage.media_path('padlock.png'))
 
         later = KanoButton('GOT IT')
