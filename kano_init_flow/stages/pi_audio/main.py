@@ -48,7 +48,7 @@ class PiAudio(Stage):
             ActiveImage(self.media_path('audio.gif'),
                         hover=self.media_path('audio-hover.gif')),
             Placement(0.542, 0.28),
-            Placement(0.445, 0.32),
+            Placement(0.4468, 0.32),
             self.next_stage
         )
 
