@@ -70,8 +70,7 @@ class Bugs(Stage):
 
     def _place_judoka_into_scene(self, scene, happy=False):
         image = 'judoka-scared.png'
-        copy = 'The rabbit left these bugs!\n' + \
-               'Click on them quick to remove them.'
+        copy = "Oh no bugs!\nClick on them quick to remove them."
         if happy:
             image = 'judoka.png'
             copy = 'Phew, thanks for cleaning up!'
