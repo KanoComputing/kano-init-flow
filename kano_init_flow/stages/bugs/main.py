@@ -4,22 +4,12 @@
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
 #
 
-from gi.repository import Gtk, Gdk
-
-from kano.gtk3.buttons import KanoButton
-from kano.utils import is_monitor
-from kano_settings.system.display import get_overscan_status, \
-    write_overscan_values, set_overscan_status, launch_pipe
-
+from gi.repository import Gtk
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
-from kano_init_flow.paths import common_media_path
-from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
-from kano_init_flow.ui.utils import cb_wrapper
-from kano_init_flow.ui.components import NextButton
 
 
 class Bugs(Stage):
@@ -80,7 +70,7 @@ class Bugs(Stage):
 
     def _place_judoka_into_scene(self, scene, happy=False):
         image = 'judoka-scared.png'
-        copy = 'Oh no, bugs!\n\nClick on them to debug the computer.'
+        copy = "Oh no bugs!\nClick on them quick to remove them."
         if happy:
             image = 'judoka.png'
             copy = 'Phew, thanks for cleaning up!'
@@ -100,17 +90,16 @@ class Bugs(Stage):
         )
         scene.add_widget(
             speech_bubble,
-            Placement(0.65, 0.76),
-            Placement(0.73, 0.70),
+            Placement(0.68, 0.68),
+            Placement(0.75, 0.66),
             name='speech-bubble'
         )
 
+        # if not happy:
+        #    scene.schedule(20, self._show_hint, speech_bubble)
 
-        if not happy:
-            scene.schedule(20, self._show_hint, speech_bubble)
-
-    def _show_hint(self, speech_bubble):
-        speech_bubble.set_text("Left-click on the moving bugs\nto remove them.")
+    # def _show_hint(self, speech_bubble):
+    #    speech_bubble.set_text("Left-click on the moving bugs\nto remove them")
 
     def _bug_zapped(self, scene, wid):
         self._zapped += 1
@@ -122,10 +111,3 @@ class Bugs(Stage):
             self._place_judoka_into_scene(scene, True)
 
             scene.schedule(3, self._ctl.next_stage)
-            #scene.add_widget(
-            #    NextButton(),
-            #    Placement(0.5, 0.9, 0),
-            #    Placement(0.5, 0.9, 0),
-            #    self._ctl.next_stage
-            #    # key=Gdk.KEY_space
-            #)

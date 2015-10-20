@@ -45,7 +45,7 @@ class PiComplete(Stage):
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('left-pointing-judoka.png')),
-            Placement(0.9, 0.6),
+            Placement(0.86, 0.67),
             Placement(0.75, 0.6)
         )
 
@@ -55,8 +55,8 @@ class PiComplete(Stage):
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
-            Placement(0.95, 0.3),
-            Placement(0.79, 0.25)
+            Placement(0.93, 0.38),
+            Placement(0.79, 0.27)
         )
 
         return scene

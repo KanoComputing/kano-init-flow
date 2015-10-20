@@ -68,8 +68,8 @@ class PiAudio(Stage):
                           scale=scene.scale_factor)
         scene.add_widget(
             sb,
-            Placement(0.1, 0.2),
-            Placement(0.105, 0.26)
+            Placement(0.155, 0.3),
+            Placement(0.12, 0.27)
         )
 
         scene.schedule(40, self._show_hint, sb)

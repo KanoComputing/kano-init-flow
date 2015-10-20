@@ -69,7 +69,7 @@ class PiKeyboard(Stage):
         scene.add_widget(
             SpeechBubble('CLICK on the keyboard dongle',
                          scale=scene.scale_factor),
-            Placement(0.08, 0.2),
+            Placement(0.07, 0.2),
             Placement(0.15, 0.18)
         )
 

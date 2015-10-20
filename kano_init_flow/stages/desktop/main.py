@@ -68,27 +68,6 @@ class Desktop(Stage):
         # Pass the callback of what we want to launch in the profile icon
         self._add_profile_icon(self._first_scene, self._char_creator_window, True)
 
-        '''
-        # Add judoka
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("left-pointing-judoka.png")),
-            Placement(0.4, 0.4),
-            Placement(0.2, 0.4)
-        )
-
-        scene.add_widget(
-            SpeechBubble(
-                text='Welcome to the desktop!\n'
-                     'Click on this icon to set up\n'
-                     'your profile',
-                source=SpeechBubble.BOTTOM,
-                scale=scene.scale_factor
-            ),
-            Placement(0.4, 0.1),
-            Placement(0.2, 0.1)
-        )
-        '''
-
         scene.add_widget(
             SpeechBubble(
                 text='Welcome to the desktop!\n'
@@ -143,34 +122,12 @@ class Desktop(Stage):
         self._add_world_icon(scene, self._launch_login,
                              offline=(not is_registered()))
 
-        # Add judoka
-        '''
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("right-pointing-judoka.png")),
-            Placement(0.6, 0.45),
-            Placement(0.8, 0.45)
-        )
-
         scene.add_widget(
             SpeechBubble(
-                text='This icon is Kano World!\n'
-                     'This is where Judokas make\n'
-                     'and share projects together\n'
-                     'online.',
-                source=SpeechBubble.BOTTOM,
-                scale=scene.scale_factor
-            ),
-            Placement(0.6, 0.1),
-            Placement(0.8, 0.1)
-        )
-        '''
-
-        scene.add_widget(
-            SpeechBubble(
-                text='This icon is Kano World!\n'
-                     'This is where Judokas make\n'
-                     'and share projects together\n'
-                     'online.',
+                text="This is Kano World, where\n"
+                     "you can code with cool people,\n"
+                     "and get new apps.\n"
+                     "Click to continue.",
                 source=SpeechBubble.TOP,
                 source_align=1.0,
                 scale=scene.scale_factor
@@ -199,32 +156,11 @@ class Desktop(Stage):
         self._add_profile_icon(scene)
         self._add_world_icon(scene, offline=(not is_registered()))
 
-        '''
-        # Add judoka
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("taskbar-judoka.png")),
-            Placement(0.5, 0.8),
-            Placement(0.5, 0.8)
-        )
-
         scene.add_widget(
             SpeechBubble(
-                text='This is the Taskbar! Here you can\n'
-                     'manage settings and make\n'
-                     'changes to the computer.',
-                source=SpeechBubble.BOTTOM,
-                scale=scene.scale_factor
-            ),
-            Placement(0.5, 0.4),
-            Placement(0.5, 0.4)
-        )
-        '''
-
-        scene.add_widget(
-            SpeechBubble(
-                text='This is the Taskbar! Here you can\n'
-                     'manage settings and make\n'
-                     'changes to the computer.',
+                text='This is your Taskbar!\n' +
+                     'Use its buttons to change settings,\n' +
+                     'get updates, and more.',
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
@@ -300,33 +236,12 @@ class Desktop(Stage):
             Placement(0.5, 0.85, 0)
         )
 
-        '''
-        scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path("apps-judoka.png")),
-            Placement(0.8, 0.6),
-            Placement(0.7, 0.6)
-        )
-
         scene.add_widget(
             SpeechBubble(
-                text='And these are your apps! With\n'
-                     'them you can make amazing\n'
-                     'code creations to share in\n'
-                     'Kano World',
-                source=SpeechBubble.BOTTOM,
-                scale=scene.scale_factor
-            ),
-            Placement(0.85, 0.25),
-            Placement(0.7, 0.25)
-        )
-        '''
-
-        scene.add_widget(
-            SpeechBubble(
-                text='And these are your apps! With\n'
-                     'them you can make amazing\n'
-                     'code creations to share in\n'
-                     'Kano World',
+                text='These are your Apps!\n' +
+                     'You can make games, songs,\n' +
+                     'artworks and more,\n' +
+                     'then share them to World.',
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
