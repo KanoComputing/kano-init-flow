@@ -33,18 +33,17 @@ class PiComplete(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         scene.add_widget(
-            ActiveImage(
-                self.media_path('pi-complete.gif'),
-                self.media_path('pi-complete-hover.gif'),
-                self.media_path('pi-complete-hover.gif'),
+            Gtk.Image.new_from_file(
+                self.media_path('pi-complete.png')
             ),
             Placement(0.25, 0.0, 1.0),
-            Placement(0.3, 0.0, 1.0),
-            self._ctl.next_stage
+            Placement(0.3, 0.0, 1.0)
         )
 
         scene.add_widget(
-            Gtk.Image.new_from_file(self.media_path('left-pointing-judoka.png')),
+            Gtk.Image.new_from_file(
+                self.media_path('left-pointing-judoka.png')
+            ),
             Placement(0.86, 0.67),
             Placement(0.75, 0.6)
         )
@@ -58,5 +57,7 @@ class PiComplete(Stage):
             Placement(0.93, 0.38),
             Placement(0.79, 0.27)
         )
+
+        scene.schedule(3, self._ctl.next_stage)
 
         return scene
