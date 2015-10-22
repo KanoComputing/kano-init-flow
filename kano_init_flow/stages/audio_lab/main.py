@@ -28,6 +28,8 @@ class AudioLab(Stage):
     def __init__(self, ctl):
         super(AudioLab, self).__init__(ctl)
 
+        # Flag to check if the troubleshooting screen is open
+        self._troubleshooting_open = False
         apply_styling_to_screen(self.css_path('audio-lab.css'))
 
     def first_scene(self):
@@ -45,10 +47,17 @@ class AudioLab(Stage):
 
     def help_jack(self):
         self.remove_overlays()
+
+        # Set flag as troubleshooting screen is opened
+        self._troubleshooting_open = True
+
         self._hide_console(self._scene)
         self._setup_help_jack(self._scene)
 
     def remove_overlays(self):
+        # Set flag as troubleshooting screen is being closed
+        self._troubleshooting_open = False
+
         for o in ['help-power', 'help-jack', 'help-leds']:
             self._scene.remove_widget(o)
 
@@ -58,13 +67,6 @@ class AudioLab(Stage):
         self._scene = scene = Scene(self._ctl.main_window)
         scene.set_background(self.media_path('audio-lab-bg-4-3.png'),
                              self.media_path('audio-lab-bg-16-9.png'))
-
-        # scene.add_profile_icon()
-
-        # scene.add_character(
-        #    Placement(0.08, 0.9, 0.62),
-        #    Placement(0.12, 0.9, 0.62)
-        # )
 
         scene.add_widget(
             ActiveImage(self.media_path('tab.png'),
@@ -95,12 +97,13 @@ class AudioLab(Stage):
         return scene
 
     def _show_hint(self, scene):
-        scene.add_arrow(
-            'right',
-            Placement(0.4, 0.52),
-            Placement(0.43, 0.5935),
-            name='hint'
-        )
+        if not self._troubleshooting_open:
+            scene.add_arrow(
+                'right',
+                Placement(0.4, 0.52),
+                Placement(0.43, 0.5935),
+                name='hint'
+            )
 
     def _show_console(self, scene):
         if self._console_on:
@@ -187,10 +190,9 @@ class AudioLab(Stage):
                 [{'label': 'TRY AGAIN',
                   'callback': self.remove_overlays,
                   'color': 'green'},
-                  {'label': 'SKIP',
+                 {'label': 'SKIP',
                   'callback':  self._ctl.next_stage,
-                  'color': 'grey'}
-                ]
+                  'color': 'grey'}]
             ),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0),
@@ -213,7 +215,6 @@ class ConsoleScreen(Gtk.EventBox):
 
         vbox = Gtk.VBox(False, 0)
         vbox.set_halign(Gtk.Align.CENTER)
-        #vbox.set_valign(Gtk.Align.CENTER)
 
         question = Gtk.Label('Can you hear a sound?')
         question.set_line_wrap(True)
