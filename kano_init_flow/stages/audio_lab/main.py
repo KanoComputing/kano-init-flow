@@ -46,10 +46,11 @@ class AudioLab(Stage):
         self._setup_help_power(self._scene)
 
     def help_jack(self):
+        self.remove_overlays()
+
         # Set flag as troubleshooting screen is opened
         self._troubleshooting_open = True
 
-        self.remove_overlays()
         self._hide_console(self._scene)
         self._setup_help_jack(self._scene)
 
