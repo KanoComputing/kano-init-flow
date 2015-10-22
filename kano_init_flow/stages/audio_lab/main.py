@@ -137,7 +137,7 @@ class AudioLab(Stage):
         self._show_console(scene)
 
     def _tab_clicked(self, scene):
-        play_sound('/usr/share/kano-media/sounds/kano_achievement_unlock.wav',
+        play_sound('/usr/share/kano-media/sounds/kano_test_sound.wav',
                    True)
         self._show_console(scene)
 
