@@ -38,6 +38,7 @@ class PiAudio(Stage):
             common_media_path('blueprint-bg-16-9.png')
         )
 
+        '''
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path('pi-sound.png')),
             Placement(0.67, 0.0),
@@ -71,8 +72,27 @@ class PiAudio(Stage):
             Placement(0.155, 0.3),
             Placement(0.12, 0.27)
         )
+        '''
 
-        scene.schedule(40, self._show_hint, sb)
+        scene.add_widget(
+            Gtk.Image.new_from_file(common_media_path('pi-judoka.png')),
+            Placement(0.5, 0.5),
+            Placement(0.5, 0.5)
+        )
+
+        sb = SpeechBubble(
+            'Let\'s make sure our sound\nis loud and clear.',
+            source=SpeechBubble.BOTTOM,
+            scale=scene.scale_factor
+        )
+
+        scene.add_widget(
+            sb,
+            Placement(0.5, 0.2),
+            Placement(0.5, 0.2)
+        )
+
+        scene.schedule(3, self.next_stage)
 
         return scene
 
