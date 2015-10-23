@@ -196,8 +196,6 @@ class AudioLab(Stage):
                 'color': 'blue'
             })
 
-        print "buttons = {}".format(buttons)
-
         scene.add_widget(
             Notebook(
                 self,
