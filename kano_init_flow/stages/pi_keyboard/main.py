@@ -76,9 +76,7 @@ class PiKeyboard(Stage):
         '''
 
         scene.add_widget(
-            Gtk.Image.new_from_file(
-                common_media_path('down-right-pointing-judoka.png')
-            ),
+            Gtk.Image.new_from_file(common_media_path('pi-judoka.png')),
             Placement(0.5, 0.5),
             Placement(0.5, 0.5)
         )
