@@ -92,8 +92,8 @@ class PiWifi(Stage):
                           scale=scene.scale_factor)
         scene.add_widget(
             sb,
-            Placement(0.5, 0.2),
-            Placement(0.5, 0.2)
+            Placement(0.49, 0.2),
+            Placement(0.49, 0.2)
         )
 
         # scene.schedule(20, self._show_hint, sb)

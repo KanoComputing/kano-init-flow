@@ -104,8 +104,8 @@ class DragAndDrop(Stage):
         scene.add_widget(
             SpeechBubble(text='Thanks!', source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
-            Placement(0.86, 0.06),
-            Placement(0.91, 0.1)
+            Placement(0.845, 0.08),
+            Placement(0.895, 0.1)
         )
 
         scene.add_widget(

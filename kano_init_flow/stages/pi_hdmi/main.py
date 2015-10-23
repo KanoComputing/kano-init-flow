@@ -85,8 +85,8 @@ class PiHdmi(Stage):
             SpeechBubble('Let\'s set up your display!',
                          source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
-            Placement(0.5, 0.2),
-            Placement(0.5, 0.2)
+            Placement(0.49, 0.2),
+            Placement(0.49, 0.2)
         )
 
         scene.schedule(3, self._ctl.next_stage)

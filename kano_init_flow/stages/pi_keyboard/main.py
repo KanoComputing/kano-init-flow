@@ -85,8 +85,8 @@ class PiKeyboard(Stage):
             SpeechBubble('Time to set up the keyboard!',
                          source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
-            Placement(0.5, 0.2),
-            Placement(0.5, 0.2)
+            Placement(0.49, 0.2),
+            Placement(0.49, 0.2)
         )
 
         scene.schedule(3, self.next_stage)
