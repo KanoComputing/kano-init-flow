@@ -53,7 +53,7 @@ setup(
     author_email='help@kano.me',
     packages=['kano_init_flow', 'kano_init_flow.stages', 'kano_init_flow.ui',
               'kano_init_flow.kw_slideshow'] + get_stages(),
-    scripts=['bin/kano-init-flow', 'bin/kano-init-flow-mknod',
+    scripts=['bin/kano-init-flow', 'bin/kano-init-flow-system-tool',
              'bin/kano-world-slideshow'],
     package_data=merge_dicts({"kano_init_flow.ui": pkg_data,
                               "kano_init_flow.kw_slideshow": pkg_data,
