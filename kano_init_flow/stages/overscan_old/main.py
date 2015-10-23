@@ -192,7 +192,7 @@ class OverscanControl(object):
         # launch_pipe()
         # The command below initialises the overscan pipe as root
         # TODO: This would be nice to refactor.
-        run_cmd('sudo kano-init-flow-mknod')
+        run_cmd('sudo kano-init-flow-system-tool init-overscan-pipe')
 
         self._enabled = True
         self._step = 10
