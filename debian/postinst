@@ -13,7 +13,7 @@ case "$1" in
 
         # Create custom sudoers file
         echo "%sudo   ALL=(root) NOPASSWD: /usr/bin/kano-init-flow" > $TMP_FILE
-        echo "%sudo   ALL=(root) NOPASSWD: /usr/bin/kano-init-flow-mknod" > $TMP_FILE
+        echo "%sudo   ALL=(root) NOPASSWD: /usr/bin/kano-init-flow-system-tool" > $TMP_FILE
 
         # The owner and group for the sudoers file must both be 0
         chown root:root $TMP_FILE
