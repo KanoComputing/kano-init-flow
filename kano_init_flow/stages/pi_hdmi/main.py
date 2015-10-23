@@ -40,6 +40,7 @@ class PiHdmi(Stage):
             common_media_path('blueprint-bg-16-9.png')
         )
 
+        '''
         scene.add_widget(
             ActiveImage(self.media_path('hdmi-cable.gif'),
                         hover=self.media_path('hdmi-cable-hover.gif')),
@@ -72,5 +73,22 @@ class PiHdmi(Stage):
             Placement(0.09, 0.26),
             Placement(0.14, 0.26)
         )
+        '''
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(common_media_path('pi-judoka.png')),
+            Placement(0.5, 0.5),
+            Placement(0.5, 0.5)
+        )
+
+        scene.add_widget(
+            SpeechBubble('Let\'s set up your display!'
+                         source=SpeechBubble.BOTTOM,
+                         scale=scene.scale_factor),
+            Placement(0.5, 0.2),
+            Placement(0.5, 0.2)
+        )
+
+        scene.schedule(3, self.next_stage)
 
         return scene

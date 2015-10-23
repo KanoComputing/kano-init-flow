@@ -45,6 +45,7 @@ class PiWifi(Stage):
             common_media_path('blueprint-bg-16-9.png')
         )
 
+        '''
         scene.add_arrow(
             "down",
             Placement(0.46, 0.31),
@@ -78,8 +79,25 @@ class PiWifi(Stage):
             Placement(0.17, 0.32),
             Placement(0.165, 0.28)
         )
+        '''
+
+        scene.add_widget(
+            Gtk.Image.new_from_file(common_media_path('pi-judoka.png')),
+            Placement(0.5, 0.5),
+            Placement(0.5, 0.5)
+        )
+
+        sb = SpeechBubble('Let\'s set up WiFi',
+                          source=SpeechBubble.BOTTOM,
+                          scale=scene.scale_factor)
+        scene.add_widget(
+            sb,
+            Placement(0.5, 0.2),
+            Placement(0.5, 0.2)
+        )
 
         # scene.schedule(20, self._show_hint, sb)
+        scene.schedule(3, self.next_stage)
 
         return scene
 
