@@ -82,7 +82,7 @@ class PiHdmi(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble('Let\'s set up your display!'
+            SpeechBubble('Let\'s set up your display!',
                          source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
             Placement(0.5, 0.2),
