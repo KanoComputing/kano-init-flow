@@ -7,7 +7,7 @@
 from gi.repository import Gtk, Gdk
 
 from kano.gtk3.buttons import KanoButton
-from kano.utils import play_sound
+from kano.utils import play_sound, run_cmd
 from kano_profile.tracker import track_action
 
 from kano_init_flow.stage import Stage
@@ -15,6 +15,7 @@ from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.ui.utils import add_class, cb_wrapper, scale_image
 from kano_init_flow.ui.css import apply_styling_to_screen
+from kano_settings.system.audio import hdmi_supported
 
 
 class AudioLab(Stage):
@@ -180,6 +181,23 @@ class AudioLab(Stage):
         )
 
     def _setup_help_power(self, scene):
+        buttons = [{
+            'label': 'TRY AGAIN',
+            'callback': self.remove_overlays,
+            'color': 'green'},
+            {'label': 'SKIP',
+            'callback':  self._ctl.next_stage,
+            'color': 'grey'}
+        ]
+        if hdmi_supported:
+            buttons.insert(1, {
+                'label': 'USE TV SPEAKERS',
+                'callback': self._set_to_hdmi,
+                'color': 'blue'
+            })
+
+        print "buttons = {}".format(buttons)
+
         scene.add_widget(
             Notebook(
                 self,
@@ -187,18 +205,18 @@ class AudioLab(Stage):
                 'No light? Check the GPIO',
                 ['The cable has to be connected to these',
                  'pins exactly.'],
-                [{'label': 'TRY AGAIN',
-                  'callback': self.remove_overlays,
-                  'color': 'green'},
-                 {'label': 'SKIP',
-                  'callback':  self._ctl.next_stage,
-                  'color': 'grey'}]
+                buttons
             ),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0),
             modal=True,
             name='help-power'
         )
+
+    def _set_to_hdmi(self):
+        # Need sudo permissions to do this.
+        run_cmd('sudo kano-init-flow-system-tool enable-tv-speakers')
+        self._ctl.next_stage()
 
 
 class ConsoleScreen(Gtk.EventBox):
