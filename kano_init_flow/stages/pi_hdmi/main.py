@@ -89,6 +89,6 @@ class PiHdmi(Stage):
             Placement(0.5, 0.2)
         )
 
-        scene.schedule(3, self.next_stage)
+        scene.schedule(3, self._ctl.next_stage)
 
         return scene

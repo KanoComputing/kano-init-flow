@@ -110,5 +110,5 @@ class Bugs(Stage):
             scene.remove_widget('speech-bubble')
             self._place_judoka_into_scene(scene, True)
 
-            # the gif is so slow to load, no need to a timeout
-            scene.schedule(0, self._ctl.next_stage)
+            # the gif is slow to load, so timeout can be quite short
+            scene.schedule(0.5, self._ctl.next_stage)
