@@ -284,6 +284,16 @@ class Desktop(Stage):
         elif name == "art":
             text = "Ever drawn or painted?\n" + \
                    "You can create incredible artworks with code."
+        elif name == "internet":
+            text = "You can browse the web."
+        elif name == "scratch":
+            text = "You can play with code blocks."
+        elif name == "home":
+            text = "Look at your files and folders here."
+        elif name == "apps":
+            text = "Find even more apps here."
+        elif name == "video":
+            text = "YouTube"
         else:
             text = ""
 
