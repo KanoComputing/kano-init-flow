@@ -12,6 +12,7 @@ from gi.repository import Gtk, Gdk, GLib
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
+from kano_init_flow.ui.utils import desaturate_image
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.world_icon import WorldIcon
@@ -19,6 +20,7 @@ from kano_init_flow.ui.profile_icon import ProfileIcon
 from kano_init_flow.ui.components import NextButton
 from kano_avatar_gui.CharacterCreator import CharacterCreator
 from kano.gtk3.buttons import KanoButton
+from kano.gtk3.cursor import attach_cursor_events
 from kano.logging import logger
 from kano.gtk3.apply_styles import apply_styling_to_screen
 from kano_world.functions import is_registered
@@ -214,6 +216,7 @@ class Desktop(Stage):
             ("plus", os.path.join(parent_dir, "plus-icon.png"))
         ]
 
+
         icon_grid = Gtk.Grid()
         icon_grid.set_row_spacing(50)
         icon_grid.set_column_spacing(50)
@@ -223,12 +226,12 @@ class Desktop(Stage):
         for info in icon_info:
             (name, f) = info
             icon = Gtk.Button()
-            icon.set_image(Gtk.Image.new_from_file(f))
+            icon.set_image(desaturate_image(Gtk.Image.new_from_file(f)))
+            attach_cursor_events(icon)
             icon.connect("clicked",
                          self._change_speechbubble_text,
                          name,
                          scene)
-
             icon_grid.attach(icon, column, row, 1, 1)
             column += 1
 
