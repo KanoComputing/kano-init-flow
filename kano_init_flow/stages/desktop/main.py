@@ -332,9 +332,9 @@ class Desktop(Stage):
             "wifi": "You can change Internet settings here.",
             "updater": "Want updates? Click on the Updater.",
             "settings": "And this is where you can change all the system Settings.",
-            "home": "home",
+            "home": "Click the Home button to return to the desktop.",
             "profile": "profile",
-            "audio": "audio"
+            "audio": "Control the volume of the system."
         }
 
         if name in hints:
