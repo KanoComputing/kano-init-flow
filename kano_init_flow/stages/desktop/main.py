@@ -68,38 +68,55 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         # Pass the callback of what we want to launch in the profile icon
-        self._add_profile_icon(self._first_scene, self._char_creator_window, True)
+        self._add_profile_icon(
+            scene=self._first_scene,
+            callback=self._char_creator_window,
+            use_default=True
+        )
 
         scene.add_widget(
             SpeechBubble(
-                text='Welcome to the desktop!\n'
-                     'Click on this icon to set up\n'
-                     'your profile',
+                text="We made it to the desktop!\n" +
+                     "Click here to set up your profile",
                 source=SpeechBubble.TOP,
                 source_align=0.0,
                 scale=scene.scale_factor
             ),
             Placement(0.15, 0.2),
-            Placement(0.12, 0.2)
+            Placement(0.035, 0.17),
+            name="profile_icon_speechbubble"
         )
 
         # Shortcut
-        '''
         scene.add_widget(
             NextButton(),
             Placement(0.5, 0.5),
             Placement(0.5, 0.5),
             self.second_scene
         )
-        '''
 
         return scene
 
     def _char_creator_window(self):
 
         if not self._char_window_launched:
+            # Remove the speechbubble
+            self._first_scene.remove_widget("profile_icon_speechbubble")
+
             # Stop this being launched again
             self._char_window_launched = True
+
+            # Wrap this in a function sp we can use as this in a callback
+            # self._first_scene.add_widget(
+            #    SpeechBubble(
+            #        text="Dress me up!",
+            #        source=SpeechBubble.BOTTOM,
+            #        source_align=0.5,
+            #        scale=self._first_scene.scale_factor
+            #    ),
+            #    Placement(0.5, 0.2),
+            #    Placement(0.5, 0.2)
+            # )
 
             # Add watch cursor
             watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
@@ -135,18 +152,17 @@ class Desktop(Stage):
                 scale=scene.scale_factor
             ),
             Placement(0.8, 0.2),
-            Placement(0.88, 0.2)
+            Placement(0.88, 0.2),
+            name="world_icon_speechbubble"
         )
 
         # Shortcut
-        '''
         scene.add_widget(
             NextButton(),
             Placement(0.5, 0.5),
             Placement(0.5, 0.5),
             self.third_scene
         )
-        '''
 
         return scene
 
@@ -167,7 +183,8 @@ class Desktop(Stage):
                 scale=scene.scale_factor
             ),
             Placement(0.5, 0.9),
-            Placement(0.5, 0.9)
+            Placement(0.5, 0.9),
+            name="toolbar_speechbubble"
         )
 
         self._add_taskbar(scene)
@@ -296,7 +313,7 @@ class Desktop(Stage):
             icon.set_image(self._desktop_icons[name]['bwicon'])
             attach_cursor_events(icon)
             icon.connect("clicked",
-                         self._change_speechbubble_text,
+                         self._change_apps_speechbubble_text,
                          name,
                          scene)
             icon_grid.attach(icon, column, row, 1, 1)
@@ -331,7 +348,7 @@ class Desktop(Stage):
     def _close_speechbubble(self, widget, event, scene):
         scene.remove_widget("app_speechbubble")
 
-    def _change_speechbubble_text(self, widget, name, scene):
+    def _change_apps_speechbubble_text(self, widget, name, scene):
         scene.remove_widget("app_speechbubble")
         widget.set_image(self._desktop_icons[name]['icon'])
 
@@ -373,6 +390,37 @@ class Desktop(Stage):
             )
 
 
+    def _change_toolbar_speechbubble_text(self, widget, scene, name):
+        hints = {
+            "help": "If you need Help, you can click here.",
+            "wifi": "You can change Internet settings here.",
+            "updater": "Want updates? Click on the Updater.",
+            "settings": "And this is where you can change all the system Settings.",
+            "home": "Click the Home button to return to the desktop.",
+            "profile": "profile",
+            "audio": "Control the volume of the system."
+        }
+
+        if name in hints:
+            text = hints[name]
+        else:
+            text = ""
+
+        scene.remove_widget("toolbar_speechbubble")
+
+        if text:
+            scene.add_widget(
+                SpeechBubble(
+                    text=text,
+                    source=SpeechBubble.BOTTOM,
+                    source_align=0.5,
+                    scale=scene.scale_factor
+                ),
+                Placement(0.5, 0.5),
+                Placement(0.5, 0.5),
+                name="toolbar_speechbubble"
+            )
+
     def _add_profile_icon(self, scene, callback=None, use_default=False):
         # We always want to add the widget to the same position in each screen
         scene.add_widget(
@@ -399,7 +447,6 @@ class Desktop(Stage):
 
         # Make the the right width and height
         taskbar.set_size_request(scene.get_width(), 44)
-
         # Get all the icons
 
         scene.add_widget(
@@ -410,14 +457,14 @@ class Desktop(Stage):
 
         start_menu = Gtk.Image.new_from_file("/usr/share/kano-desktop/images/startmenu.png")
 
-        end_filenames = [
-            "/usr/share/icons/Kano/44x44/status/audio-volume-high.png",
-            "/usr/share/kano-settings/settings-widget.png",
-            "/usr/share/kano-updater/images/widget-no-updates.png",
-            "/usr/share/kano-settings/icon/widget-wifi.png",
-            "/usr/share/kano-profile/icon/profile-login-widget.png",
-            "/usr/share/kano-feedback/media/icons/feedback-widget.png",
-            "/usr/share/kano-widgets/icons/home-widget.png"
+        icon_info = [
+            ("audio", "/usr/share/icons/Kano/44x44/status/audio-volume-high.png"),
+            ("settings", "/usr/share/kano-settings/settings-widget.png"),
+            ("updater", "/usr/share/kano-updater/images/widget-no-updates.png"),
+            ("wifi", "/usr/share/kano-settings/icon/widget-wifi.png"),
+            ("profile", "/usr/share/kano-profile/icon/profile-login-widget.png"),
+            ("help", "/usr/share/kano-feedback/media/icons/feedback-widget.png"),
+            ("home", "/usr/share/kano-widgets/icons/home-widget.png")
         ]
 
         # Black box to show "how hard" the processor is working
@@ -435,11 +482,17 @@ class Desktop(Stage):
         hbox.pack_end(processor_monitor, False, False, 1)
         hbox.pack_end(time_label, False, False, 1)
 
-        for i, f in enumerate(end_filenames):
-            image = Gtk.Image.new_from_file(f)
-            if i == 0:
-                image.set_margin_right(15)
-            hbox.pack_end(image, False, False, 1)
+        for info in icon_info:
+            (name, f) = info
+            button = Gtk.Button()
+            button.set_image(Gtk.Image.new_from_file(f))
+            button.connect("clicked",
+                           self._change_toolbar_speechbubble_text,
+                           scene,
+                           name)
+            if name == "audio":
+                button.set_margin_right(15)
+            hbox.pack_end(button, False, False, 1)
 
         taskbar.add(hbox)
         taskbar.show_all()
@@ -450,6 +503,8 @@ class Desktop(Stage):
         # Only launch this once
         if not self._login_launched:
             self._login_launched = True
+
+            self._second_scene.remove_widget("world_icon_speechbubble")
 
             # Add watch cursor
             watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
