@@ -209,9 +209,51 @@ class Desktop(Stage):
             ("art", os.path.join(parent_dir_2, "kano-draw.png")),
             ("terminal-quest", os.path.join(parent_dir_2, "linux-story.png")),
             ("scratch", os.path.join(parent_dir, "scratch.png")),
-            ("video", os.path.join(parent_dir_2, "video.png")),
-            ("plus", os.path.join(parent_dir, "plus-icon.png"))
+            ("video", os.path.join(parent_dir_2, "video.png"))
+            #("plus", os.path.join(parent_dir, "plus-icon.png"))
         ]
+
+        self._desktop_icons = {
+            "snake": {
+                "text": "Customize your own Snake game,\n" +
+                        "and share special gameboards."
+            },
+            "pong": {
+                "text": "You can make this classic game yourself,\n" +
+                        "with new rules, cheats, and powers."
+            },
+            "minecraft": {
+                "text": "Normal people play Minecraft.\n" +
+                        "On Kano, you can hack the game with code."
+            },
+            "terminal-quest": {
+                "text": "The Terminal talks to the computer's\n" +
+                        "brain directly. Use its powers to go on a quest."
+            },
+            "music": {
+                "text": "You can make sounds, beats, loops,\n" +
+                        "and songs on Kano."
+            },
+            "art": {
+                "text": "Ever drawn or painted?\n" +
+                        "You can create incredible artworks with code."
+            },
+            "internet": {
+                "text": "You can browse the web."
+            },
+            "scratch": {
+                "text": "You can play with code blocks."
+            },
+            "home": {
+                "text": "Look at your files and folders here."
+            },
+            "apps": {
+                "text": "Find even more apps here."
+            },
+            "video": {
+                "text": "YouTube"
+            }
+        }
 
         icon_grid = Gtk.Grid()
         icon_grid.set_row_spacing(50)
@@ -222,7 +264,9 @@ class Desktop(Stage):
         for info in icon_info:
             (name, f) = info
             icon = Gtk.Button()
-            icon.set_image(desaturate_image(Gtk.Image.new_from_file(f)))
+            self._desktop_icons[name]['icon'] = Gtk.Image.new_from_file(f)
+            self._desktop_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
+            icon.set_image(self._desktop_icons[name]['bwicon'])
             attach_cursor_events(icon)
             icon.connect("clicked",
                          self._change_apps_speechbubble_text,
@@ -265,40 +309,11 @@ class Desktop(Stage):
         return scene
 
     def _change_apps_speechbubble_text(self, widget, name, scene):
-        if name == "snake":
-            text = "Customize your own Snake game,\n" + \
-                   "and share special gameboards."
-        elif name == "pong":
-            text = "You can make this classic game yourself,\n" + \
-                   "with new rules, cheats, and powers."
-        elif name == "minecraft":
-            text = "Normal people play Minecraft.\n" + \
-                   "On Kano, you can hack the game with code."
-        elif name == "terminal-quest":
-            text = "The Terminal talks to the computer's\n" + \
-                   "brain directly. Use its powers to go on a quest."
-        elif name == "music":
-            text = "You can make sounds, beats, loops,\n" + \
-                   "and songs on Kano."
-        elif name == "art":
-            text = "Ever drawn or painted?\n" + \
-                   "You can create incredible artworks with code."
-        elif name == "internet":
-            text = "You can browse the web."
-        elif name == "scratch":
-            text = "You can play with code blocks."
-        elif name == "home":
-            text = "Look at your files and folders here."
-        elif name == "apps":
-            text = "Find even more apps here."
-        elif name == "video":
-            text = "YouTube"
-        else:
-            text = ""
-
         scene.remove_widget("app_speechbubble")
+        widget.set_image(self._desktop_icons[name]['icon'])
 
-        if text:
+        if name in self._desktop_icons:
+            text = self._desktop_icons[name]["text"]
             scene.add_widget(
                 SpeechBubble(
                     text=text,
