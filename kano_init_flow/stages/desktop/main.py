@@ -68,19 +68,23 @@ class Desktop(Stage):
                              common_media_path('blueprint-bg-16-9.png'))
 
         # Pass the callback of what we want to launch in the profile icon
-        self._add_profile_icon(self._first_scene, self._char_creator_window, True)
+        self._add_profile_icon(
+            scene=self._first_scene,
+            callback=self._char_creator_window,
+            use_default=True
+        )
 
         scene.add_widget(
             SpeechBubble(
-                text='Welcome to the desktop!\n'
-                     'Click on this icon to set up\n'
-                     'your profile',
+                text="We made it to the desktop!\n" +
+                     "Click here to set up your profile",
                 source=SpeechBubble.TOP,
                 source_align=0.0,
                 scale=scene.scale_factor
             ),
             Placement(0.15, 0.2),
-            Placement(0.12, 0.2)
+            Placement(0.035, 0.17),
+            name="profile_icon_speechbubble"
         )
 
         # Shortcut
@@ -96,8 +100,23 @@ class Desktop(Stage):
     def _char_creator_window(self):
 
         if not self._char_window_launched:
+            # Remove the speechbubble
+            self._first_scene.remove_widget("profile_icon_speechbubble")
+
             # Stop this being launched again
             self._char_window_launched = True
+
+            # Wrap this in a function sp we can use as this in a callback
+            # self._first_scene.add_widget(
+            #    SpeechBubble(
+            #        text="Dress me up!",
+            #        source=SpeechBubble.BOTTOM,
+            #        source_align=0.5,
+            #        scale=self._first_scene.scale_factor
+            #    ),
+            #    Placement(0.5, 0.2),
+            #    Placement(0.5, 0.2)
+            # )
 
             # Add watch cursor
             watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
@@ -133,7 +152,8 @@ class Desktop(Stage):
                 scale=scene.scale_factor
             ),
             Placement(0.8, 0.2),
-            Placement(0.88, 0.2)
+            Placement(0.88, 0.2),
+            name="world_icon_speechbubble"
         )
 
         # Shortcut
@@ -439,6 +459,8 @@ class Desktop(Stage):
         # Only launch this once
         if not self._login_launched:
             self._login_launched = True
+
+            self._second_scene.remove_widget("world_icon_speechbubble")
 
             # Add watch cursor
             watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
