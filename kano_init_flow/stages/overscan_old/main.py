@@ -127,7 +127,7 @@ class Window1(Gtk.EventBox):
 
         box.pack_start(head_img, False, False, 0)
 
-        heading = Gtk.Label('Let’s set up your screen')
+        heading = Gtk.Label('Let\'s set up your screen')
         heading.set_margin_top(25)
         heading.set_margin_bottom(25)
         add_class(heading, 'notebook-heading')

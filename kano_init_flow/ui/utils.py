@@ -90,3 +90,9 @@ def trigger_led_speaker():
     if now - LEDS_LAST_TRIGGER > 3:
         run_bg('sudo kano-speakerleds initflow 2 4')
         LEDS_LAST_TRIGGER = now
+
+
+def desaturate_image(image):
+    result = image.get_pixbuf().copy()
+    image.get_pixbuf().saturate_and_pixelate(result, 0.0, False)
+    return Gtk.Image.new_from_pixbuf(result)
