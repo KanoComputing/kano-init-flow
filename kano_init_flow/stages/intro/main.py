@@ -73,7 +73,9 @@ class Intro(Stage):
         move_label = Gtk.Label("MOVE")
         move_label.get_style_context().add_class("intro_label")
 
-        keyboard_gif = Gtk.Image.new_from_file(self.media_path("keyboard-intro.gif"))
+        keyboard_gif = Gtk.Image.new_from_file(
+            self.media_path("KeyboardClick.gif")
+        )
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         hbox = Gtk.Box()
 
@@ -83,19 +85,18 @@ class Intro(Stage):
         move_label.set_margin_right(30)
 
         vbox.pack_start(grab_label, False, False, 0)
-        vbox.pack_start(keyboard_gif, False, False, 0)
-        #vbox.pack_start(hbox, False, False, 0)
+        vbox.pack_start(keyboard_gif, False, False, 20)
 
         scene.add_widget(
             vbox,
-            Placement(0.5, 0.4, 0),
-            Placement(0.5, 0.4, 0)
+            Placement(0.5, 0.5, 0),
+            Placement(0.5, 0.5, 0)
         )
 
         scene.add_widget(
             NextButton(),
-            Placement(0.5, 0.85, 0),
-            Placement(0.5, 0.85, 0),
+            Placement(0.5, 0.75, 0),
+            Placement(0.5, 0.75, 0),
             # self.second_scene,
             self.next_stage
             # key=Gdk.KEY_space
