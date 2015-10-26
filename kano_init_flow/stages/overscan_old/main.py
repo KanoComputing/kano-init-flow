@@ -127,13 +127,13 @@ class Window1(Gtk.EventBox):
 
         box.pack_start(head_img, False, False, 0)
 
-        heading = Gtk.Label('Are the lines touching the edges of your screen?')
+        heading = Gtk.Label('Let’s set up your screen')
         heading.set_margin_top(25)
         heading.set_margin_bottom(25)
         add_class(heading, 'notebook-heading')
         box.pack_start(heading, False, False, 0)
 
-        heading = Gtk.Label('Make sure you can see all four lines')
+        heading = Gtk.Label('Are the white lines touching the edges?')
         heading.set_margin_bottom(35)
         add_class(heading, 'notebook-text')
         box.pack_start(heading, False, False, 0)
