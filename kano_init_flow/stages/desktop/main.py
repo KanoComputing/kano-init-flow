@@ -199,20 +199,19 @@ class Desktop(Stage):
         parent_dir_2 = "/usr/share/icons/Kano/88x88/apps"
 
         # Order the icons needed
-        icon_files = [
-            os.path.join(parent_dir, "snake.png"),
-            os.path.join(parent_dir, "pong.png"),
-            os.path.join(parent_dir, "make-minecraft.png"),
-            os.path.join(parent_dir, "sonicpi.png"),
-            os.path.join(parent_dir, "internet-desktop.png"),
-            os.path.join(parent_dir, "apps.png"),
-            os.path.join(parent_dir, "kano-homefolder.png"),
-            os.path.join(parent_dir_2, "kano-draw.png"),
-            os.path.join(parent_dir_2, "linux-story.png"),
-            os.path.join(parent_dir, "scratch.png"),
-            os.path.join(parent_dir_2, "video.png"),
-            os.path.join(parent_dir, "plus-icon.png")
-
+        icon_info = [
+            ("snake", os.path.join(parent_dir, "snake.png")),
+            ("pong", os.path.join(parent_dir, "pong.png")),
+            ("minecraft", os.path.join(parent_dir, "make-minecraft.png")),
+            ("music", os.path.join(parent_dir, "sonicpi.png")),
+            ("internet", os.path.join(parent_dir, "internet-desktop.png")),
+            ("apps", os.path.join(parent_dir, "apps.png")),
+            ("home", os.path.join(parent_dir, "kano-homefolder.png")),
+            ("art", os.path.join(parent_dir_2, "kano-draw.png")),
+            ("terminal-quest", os.path.join(parent_dir_2, "linux-story.png")),
+            ("scratch", os.path.join(parent_dir, "scratch.png")),
+            ("video", os.path.join(parent_dir_2, "video.png")),
+            ("plus", os.path.join(parent_dir, "plus-icon.png"))
         ]
 
         icon_grid = Gtk.Grid()
@@ -221,8 +220,15 @@ class Desktop(Stage):
         row = 1
         column = 0
 
-        for f in icon_files:
-            icon = Gtk.Image.new_from_file(f)
+        for info in icon_info:
+            (name, f) = info
+            icon = Gtk.Button()
+            icon.set_image(Gtk.Image.new_from_file(f))
+            icon.connect("clicked",
+                         self._change_speechbubble_text,
+                         name,
+                         scene)
+
             icon_grid.attach(icon, column, row, 1, 1)
             column += 1
 
@@ -246,7 +252,8 @@ class Desktop(Stage):
                 scale=scene.scale_factor
             ),
             Placement(0.5, 0.5),
-            Placement(0.5, 0.5)
+            Placement(0.5, 0.5),
+            name="app_speechbubble"
         )
 
         scene.add_widget(
@@ -257,6 +264,43 @@ class Desktop(Stage):
         )
 
         return scene
+
+    def _change_speechbubble_text(self, widget, name, scene):
+        if name == "snake":
+            text = "Customize your own Snake game,\n" + \
+                   "and share special gameboards."
+        elif name == "pong":
+            text = "You can make this classic game yourself,\n" + \
+                   "with new rules, cheats, and powers."
+        elif name == "minecraft":
+            text = "Normal people play Minecraft.\n" + \
+                   "On Kano, you can hack the game with code."
+        elif name == "terminal-quest":
+            text = "The Terminal talks to the computer's\n" + \
+                   "brain directly. Use its powers to go on a quest."
+        elif name == "music":
+            text = "You can make sounds, beats, loops,\n" + \
+                   "and songs on Kano."
+        elif name == "art":
+            text = "Ever drawn or painted?\n" + \
+                   "You can create incredible artworks with code."
+        else:
+            text = ""
+
+        scene.remove_widget("app_speechbubble")
+
+        if text:
+            scene.add_widget(
+                SpeechBubble(
+                    text=text,
+                    source=SpeechBubble.BOTTOM,
+                    source_align=0.5,
+                    scale=scene.scale_factor
+                ),
+                Placement(0.5, 0.5),
+                Placement(0.5, 0.5),
+                name="app_speechbubble"
+            )
 
     def _add_profile_icon(self, scene, callback=None, use_default=False):
         # We always want to add the widget to the same position in each screen
