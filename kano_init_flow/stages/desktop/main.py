@@ -88,12 +88,12 @@ class Desktop(Stage):
         )
 
         # Shortcut
-        scene.add_widget(
-            NextButton(),
-            Placement(0.5, 0.5),
-            Placement(0.5, 0.5),
-            self.second_scene
-        )
+        #scene.add_widget(
+        #    NextButton(),
+        #    Placement(0.5, 0.5),
+        #    Placement(0.5, 0.5),
+        #    self.second_scene
+        #)
 
         return scene
 
@@ -157,12 +157,12 @@ class Desktop(Stage):
         )
 
         # Shortcut
-        scene.add_widget(
-            NextButton(),
-            Placement(0.5, 0.5),
-            Placement(0.5, 0.5),
-            self.third_scene
-        )
+        #scene.add_widget(
+        #    NextButton(),
+        #    Placement(0.5, 0.5),
+        #    Placement(0.5, 0.5),
+        #    self.third_scene
+        #)
 
         return scene
 
