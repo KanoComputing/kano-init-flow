@@ -70,21 +70,21 @@ class Controller(object):
 
         self._stages = [
             Intro,
-            PiHdmi,
+            # PiHdmi,
             OverscanOld,
-            PiKeyboard,
+            # PiKeyboard,
             Bugs,
             DragAndDrop,
             # Wardrobe,
             # Blocks,
-            PiAudio,
+            # PiAudio,
             AudioLab,
             # LightLab,
-            PiWifi,
+            # PiWifi,
             Wifi,
             # KanoWorld
             # Quests,
-            PiComplete,
+            # PiComplete,
             Desktop
         ]
 
