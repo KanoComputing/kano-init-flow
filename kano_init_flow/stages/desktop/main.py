@@ -44,7 +44,7 @@ class Desktop(Stage):
         self._login_launched = False
 
     def first_scene(self):
-        s = self._setup_first_scene()
+        s = self._setup_fourth_scene() # TODO FIXME WTFOMG
         self._ctl.main_window.push(s)
 
     def second_scene(self):
@@ -200,6 +200,8 @@ class Desktop(Stage):
         parent_dir = "/usr/share/kano-desktop/icons"
         parent_dir_2 = "/usr/share/icons/Kano/88x88/apps"
 
+        self._next_button_shown = False
+
         # Order the icons needed
         icon_info = [
             ("snake", os.path.join(parent_dir, "snake.png")),
@@ -219,42 +221,64 @@ class Desktop(Stage):
         self._desktop_icons = {
             "snake": {
                 "text": "Customize your own Snake game,\n" +
-                        "and share special gameboards."
+                        "and share special gameboards.",
+                "position": [0, 340],
+                "source_align": 0.0
             },
             "pong": {
                 "text": "You can make this classic game yourself,\n" +
-                        "with new rules, cheats, and powers."
+                        "with new rules, cheats, and powers.",
+                "position": [0, 340],
+                "source_align": 0.39
             },
             "minecraft": {
                 "text": "Normal people play Minecraft.\n" +
-                        "On Kano, you can hack the game with code."
+                        "On Kano, you can hack the game with code.",
+                "position": [95, 340],
+                "source_align": 0.5
             },
             "terminal-quest": {
                 "text": "The Terminal talks to the computer's\n" +
-                        "brain directly. Use its powers to go on a quest."
+                        "brain directly. Use its powers to go on a quest.",
+                "position": [0, 190],
+                "source_align": 0.35
             },
             "music": {
                 "text": "You can make sounds, beats, loops,\n" +
-                        "and songs on Kano."
+                        "and songs on Kano.",
+                "position": [290, 340],
+                "source_align": 0.5
             },
             "art": {
                 "text": "Ever drawn or painted?\n" +
-                        "You can create incredible artworks with code."
+                        "You can create incredible artworks with code.",
+                "position": [0, 190],
+                "source_align": 0.0
             },
             "internet": {
-                "text": "You can browse the web."
+                "text": "You can browse the web.",
+                "position": [503, 360],
+                "source_align": 0.5
             },
             "scratch": {
-                "text": "You can play with code blocks."
+                "text": "You can play with code blocks.",
+                "position": [167, 210],
+                "source_align": 0.5
             },
             "home": {
-                "text": "Look at your files and folders here."
+                "text": "Look at your files and folders here.",
+                "position": [700, 360],
+                "source_align": 0.84
             },
             "apps": {
-                "text": "Find even more apps here."
+                "text": "Find even more apps here.",
+                "position": [645, 360],
+                "source_align": 0.5
             },
             "video": {
-                "text": "YouTube"
+                "text": "YouTube",
+                "position": [435, 210],
+                "source_align": 0.5
             }
         }
 
@@ -299,17 +323,13 @@ class Desktop(Stage):
             ),
             Placement(0.5, 0.5),
             Placement(0.5, 0.5),
-            name="app_speechbubble"
-        )
-
-        scene.add_widget(
-            NextButton(),
-            Placement(0.85, 0.55, 0),
-            Placement(0.75, 0.55, 0),
-            self.next_stage
+            name="app_speechbubble",
         )
 
         return scene
+
+    def _close_speechbubble(self, widget, event, scene):
+        scene.remove_widget("app_speechbubble")
 
     def _change_speechbubble_text(self, widget, name, scene):
         scene.remove_widget("app_speechbubble")
@@ -317,17 +337,41 @@ class Desktop(Stage):
 
         if name in self._desktop_icons:
             text = self._desktop_icons[name]["text"]
+            self._desktop_icons[name]['opened'] = True
+            fixed = Gtk.Fixed()
+            fixed.set_size_request(1024, 720)
+
+            sb = SpeechBubble(
+                text=text,
+                source=SpeechBubble.BOTTOM,
+                source_align= self._desktop_icons[name]["source_align"],
+                scale=scene.scale_factor
+            )
+            sb.connect('button-release-event', self._close_speechbubble, scene)
+
+            fixed.put(sb, self._desktop_icons[name]["position"][0],
+                      self._desktop_icons[name]["position"][1])
             scene.add_widget(
-                SpeechBubble(
-                    text=text,
-                    source=SpeechBubble.BOTTOM,
-                    source_align=0.5,
-                    scale=scene.scale_factor
-                ),
-                Placement(0.5, 0.5),
-                Placement(0.5, 0.5),
+                fixed,
+                Placement(0.5, 1.0),
+                Placement(0.5, 1.0),
                 name="app_speechbubble"
             )
+
+        for icon in self._desktop_icons.itervalues():
+            if not icon.has_key('opened') or not icon['opened']:
+                print icon
+                return True
+
+        if not self._next_button_shown:
+            self._next_button_shown = True
+            scene.add_widget(
+                NextButton(),
+                Placement(0.5, 0.3, 0),
+                Placement(0.5, 0.4, 0),
+                self.next_stage
+            )
+
 
     def _add_profile_icon(self, scene, callback=None, use_default=False):
         # We always want to add the widget to the same position in each screen
