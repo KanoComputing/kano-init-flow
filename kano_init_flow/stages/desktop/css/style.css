@@ -7,6 +7,11 @@
     background: #ffffff;
 }
 
+.taskbar_button {
+    padding: 0px;
+    margin: 0px;
+}
+
 .time {
     font: Bariol 15px;
     color: #000;

@@ -106,18 +106,6 @@ class Desktop(Stage):
             # Stop this being launched again
             self._char_window_launched = True
 
-            # Wrap this in a function sp we can use as this in a callback
-            # self._first_scene.add_widget(
-            #    SpeechBubble(
-            #        text="Dress me up!",
-            #        source=SpeechBubble.BOTTOM,
-            #        source_align=0.5,
-            #        scale=self._first_scene.scale_factor
-            #    ),
-            #    Placement(0.5, 0.2),
-            #    Placement(0.5, 0.2)
-            # )
-
             # Add watch cursor
             watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
             self._ctl.main_window.get_window().set_cursor(watch_cursor)
@@ -187,7 +175,7 @@ class Desktop(Stage):
             name="toolbar_speechbubble"
         )
 
-        self._add_taskbar(scene)
+        self._add_taskbar(scene, attach_callbacks=True)
 
         scene.add_widget(
             NextButton(),
@@ -439,7 +427,7 @@ class Desktop(Stage):
             callback
         )
 
-    def _add_taskbar(self, scene):
+    def _add_taskbar(self, scene, attach_callbacks=False):
 
         # Need to collect the icons from the taskbar
         taskbar = Gtk.EventBox()
@@ -486,10 +474,14 @@ class Desktop(Stage):
             (name, f) = info
             button = Gtk.Button()
             button.set_image(Gtk.Image.new_from_file(f))
-            button.connect("clicked",
-                           self._change_toolbar_speechbubble_text,
-                           scene,
-                           name)
+            button.get_style_context().add_class("taskbar_button")
+
+            # Only attach the callbacks for certain scene
+            if attach_callbacks:
+                button.connect("clicked",
+                               self._change_toolbar_speechbubble_text,
+                               scene,
+                               name)
             if name == "audio":
                 button.set_margin_right(15)
             hbox.pack_end(button, False, False, 1)
