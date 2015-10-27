@@ -77,7 +77,7 @@ class Desktop(Stage):
         scene.add_widget(
             SpeechBubble(
                 text="We made it to the desktop!\n" +
-                     "Click here to set up your profile",
+                     "Click here to set up your profile.",
                 source=SpeechBubble.TOP,
                 source_align=0.0
             ),
