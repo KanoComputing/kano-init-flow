@@ -40,8 +40,7 @@ class Wifi(Stage):
         apply_styling_to_screen(self.css_path('console.css'))
 
     def first_scene(self):
-        if self._ctl.has_var("has_internet") and \
-                self._ctl.get_var("has_internet"):
+        if is_internet():
             self._ctl.next_stage()
             return
 
