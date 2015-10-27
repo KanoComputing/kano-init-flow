@@ -424,6 +424,7 @@ class Desktop(Stage):
         scene.remove_widget("toolbar_speechbubble")
 
         if name in self._toolbar_icons:
+            widget.set_image(self._toolbar_icons[name]["icon"])
             text = self._toolbar_icons[name]["text"]
             position = self._toolbar_icons[name]["position"]
             source_align = self._toolbar_icons[name]["source_align"]
@@ -526,7 +527,9 @@ class Desktop(Stage):
         for info in icon_info:
             (name, f) = info
             button = Gtk.Button()
-            button.set_image(Gtk.Image.new_from_file(f))
+            self._toolbar_icons[name]['icon'] = Gtk.Image.new_from_file(f)
+            self._toolbar_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
+            button.set_image(self._toolbar_icons[name]['bwicon'])
             button.get_style_context().add_class("taskbar_button")
 
             # Only attach the callbacks for certain scene
