@@ -79,8 +79,7 @@ class Desktop(Stage):
                 text="We made it to the desktop!\n" +
                      "Click here to set up your profile",
                 source=SpeechBubble.TOP,
-                source_align=0.0,
-                scale=scene.scale_factor
+                source_align=0.0
             ),
             Placement(0.15, 0.2),
             Placement(0.035, 0.17),
@@ -90,8 +89,8 @@ class Desktop(Stage):
         # Shortcut
         #scene.add_widget(
         #    NextButton(),
-        #    Placement(0.5, 0.5),
-        #    Placement(0.5, 0.5),
+        #    Placement(0.5, 0.5, 0),
+        #    Placement(0.5, 0.5, 0),
         #    self.second_scene
         #)
 
@@ -136,8 +135,7 @@ class Desktop(Stage):
                      "and get new apps.\n"
                      "Click to continue.",
                 source=SpeechBubble.TOP,
-                source_align=1.0,
-                scale=scene.scale_factor
+                source_align=1.0
             ),
             Placement(0.8, 0.2),
             Placement(0.88, 0.2),
@@ -147,14 +145,62 @@ class Desktop(Stage):
         # Shortcut
         #scene.add_widget(
         #    NextButton(),
-        #    Placement(0.5, 0.5),
-        #    Placement(0.5, 0.5),
+        #    Placement(0.5, 0.5, 0),
+        #    Placement(0.5, 0.5, 0),
         #    self.third_scene
         #)
 
         return scene
 
     def _setup_third_scene(self):
+
+        self._toolbar_icons = {
+            "home": {
+                "text": "Click the Home button to\n" +
+                        "return to the desktop.",
+                "position": [0, 100],
+                "source_align": 0.2
+            },
+            "help": {
+                "text": "If you need Help,\n" +
+                        "you can click here.",
+                "position": [19, 100],
+                "source_align": 0.5
+            },
+            "profile": {
+                "text": "Here's where you can\n" +
+                        "sync your online Profile.",
+                "position": [38, 100],
+                "source_align": 0.5
+            },
+            "wifi": {
+                "text": "You can change Internet\n" +
+                        "settings here.",
+                "position": [75, 100],
+                "source_align": 0.5
+            },
+            "updater": {
+                "text": "Want updates?\n" +
+                        "Click on the Updater.",
+                "position": [150, 100],
+                "source_align": 0.5
+            },
+            "settings": {
+                "text": "And this is where you can change\n" +
+                        "all the system Settings.",
+                "position": [55, 100],
+                "source_align": 0.7
+            },
+            "audio": {
+                "text": "Control the volume\n" +
+                        "of the system.",
+                "position": [150, 100],
+                "source_align": 1.0
+            }
+        }
+
+        self._toolbar_next_button_shown = False
+
         scene = Scene(self._ctl.main_window)
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
@@ -167,8 +213,7 @@ class Desktop(Stage):
                 text='This is your Taskbar!\n' +
                      'Use its buttons to change settings,\n' +
                      'get updates, and more.',
-                source=SpeechBubble.BOTTOM,
-                scale=scene.scale_factor
+                source=SpeechBubble.BOTTOM
             ),
             Placement(0.5, 0.9),
             Placement(0.5, 0.9),
@@ -176,13 +221,6 @@ class Desktop(Stage):
         )
 
         self._add_taskbar(scene, attach_callbacks=True)
-
-        scene.add_widget(
-            NextButton(),
-            Placement(0.5, 0.6, 0),
-            Placement(0.5, 0.6, 0),
-            self.fourth_scene,
-        )
 
         return scene
 
@@ -205,7 +243,7 @@ class Desktop(Stage):
         parent_dir = "/usr/share/kano-desktop/icons"
         parent_dir_2 = "/usr/share/icons/Kano/88x88/apps"
 
-        self._next_button_shown = False
+        self._apps_next_button_shown = False
 
         # Order the icons needed
         icon_info = [
@@ -228,13 +266,13 @@ class Desktop(Stage):
                 "text": "Customize your own Snake game,\n" +
                         "and share special gameboards.",
                 "position": [0, 340],
-                "source_align": 0.0
+                "source_align": 0.1
             },
             "pong": {
                 "text": "You can make this classic game yourself,\n" +
                         "with new rules, cheats, and powers.",
                 "position": [0, 340],
-                "source_align": 0.39
+                "source_align": 0.42
             },
             "minecraft": {
                 "text": "Normal people play Minecraft.\n" +
@@ -245,8 +283,8 @@ class Desktop(Stage):
             "terminal-quest": {
                 "text": "The Terminal talks to the computer's\n" +
                         "brain directly. Use its powers to go on a quest.",
-                "position": [0, 190],
-                "source_align": 0.35
+                "position": [0, 210],
+                "source_align": 0.37
             },
             "music": {
                 "text": "You can make sounds, beats, loops,\n" +
@@ -257,12 +295,12 @@ class Desktop(Stage):
             "art": {
                 "text": "Ever drawn or painted?\n" +
                         "You can create incredible artworks with code.",
-                "position": [0, 190],
-                "source_align": 0.0
+                "position": [0, 210],
+                "source_align": 0.07
             },
             "internet": {
                 "text": "You can browse the web.",
-                "position": [503, 360],
+                "position": [490, 360],
                 "source_align": 0.5
             },
             "scratch": {
@@ -272,24 +310,33 @@ class Desktop(Stage):
             },
             "home": {
                 "text": "Look at your files and folders here.",
-                "position": [700, 360],
-                "source_align": 0.84
+                "position": [550, 360],
+                "source_align": 1.0
             },
             "apps": {
                 "text": "Find even more apps here.",
-                "position": [645, 360],
+                "position": [620, 360],
                 "source_align": 0.5
             },
             "video": {
                 "text": "YouTube",
-                "position": [435, 210],
+                "position": [435, 250],
                 "source_align": 0.5
             }
         }
 
+        fixed = Gtk.Fixed()
+        fixed.set_size_request(1024, 720)
+        scene.add_widget(
+            fixed,
+            Placement(0.5, 1.0, 0),
+            Placement(0.5, 1.0, 0),
+            name="icon_grid_fixed"
+        )
+
         icon_grid = Gtk.Grid()
-        icon_grid.set_row_spacing(50)
-        icon_grid.set_column_spacing(50)
+        icon_grid.set_row_spacing(35)
+        icon_grid.set_column_spacing(35)
         row = 1
         column = 0
 
@@ -300,6 +347,7 @@ class Desktop(Stage):
             self._desktop_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
             icon.set_image(self._desktop_icons[name]['bwicon'])
             attach_cursor_events(icon)
+
             icon.connect("clicked",
                          self._change_apps_speechbubble_text,
                          name,
@@ -311,11 +359,7 @@ class Desktop(Stage):
                 column = 0
                 row -= 1
 
-        scene.add_widget(
-            icon_grid,
-            Placement(0.5, 0.85, 0),
-            Placement(0.5, 0.85, 0)
-        )
+        fixed.put(icon_grid, 40, 380)
 
         scene.add_widget(
             SpeechBubble(
@@ -323,8 +367,7 @@ class Desktop(Stage):
                      'You can make games, songs,\n' +
                      'artworks and more,\n' +
                      'then share them to World.',
-                source=SpeechBubble.BOTTOM,
-                scale=scene.scale_factor
+                source=SpeechBubble.BOTTOM
             ),
             Placement(0.5, 0.5),
             Placement(0.5, 0.5),
@@ -343,33 +386,32 @@ class Desktop(Stage):
         if name in self._desktop_icons:
             text = self._desktop_icons[name]["text"]
             self._desktop_icons[name]['opened'] = True
-            fixed = Gtk.Fixed()
-            fixed.set_size_request(1024, 720)
 
             sb = SpeechBubble(
                 text=text,
                 source=SpeechBubble.BOTTOM,
-                source_align= self._desktop_icons[name]["source_align"],
-                scale=scene.scale_factor
+                source_align=self._desktop_icons[name]["source_align"]
             )
             sb.connect('button-release-event', self._close_speechbubble, scene)
 
+            fixed = Gtk.Fixed()
+            fixed.set_size_request(1024, 720)
             fixed.put(sb, self._desktop_icons[name]["position"][0],
                       self._desktop_icons[name]["position"][1])
+
             scene.add_widget(
                 fixed,
-                Placement(0.5, 1.0),
-                Placement(0.5, 1.0),
-                name="app_speechbubble"
+                Placement(0.5, 1, 0),
+                Placement(0.5, 1, 0),
+                name="app_speechbubble",
             )
 
         for icon in self._desktop_icons.itervalues():
             if not icon.has_key('opened') or not icon['opened']:
-                print icon
                 return True
 
-        if not self._next_button_shown:
-            self._next_button_shown = True
+        if not self._apps_next_button_shown:
+            self._apps_next_button_shown = True
             scene.add_widget(
                 NextButton(),
                 Placement(0.5, 0.3, 0),
@@ -377,36 +419,47 @@ class Desktop(Stage):
                 self.next_stage
             )
 
-
+    # TODO: this is a repeat of _change_apps_speechbubble_text
     def _change_toolbar_speechbubble_text(self, widget, scene, name):
-        hints = {
-            "help": "If you need Help, you can click here.",
-            "wifi": "You can change Internet settings here.",
-            "updater": "Want updates? Click on the Updater.",
-            "settings": "And this is where you can change all the system Settings.",
-            "home": "Click the Home button to return to the desktop.",
-            "profile": "profile",
-            "audio": "Control the volume of the system."
-        }
-
-        if name in hints:
-            text = hints[name]
-        else:
-            text = ""
-
         scene.remove_widget("toolbar_speechbubble")
 
-        if text:
+        if name in self._toolbar_icons:
+            text = self._toolbar_icons[name]["text"]
+            position = self._toolbar_icons[name]["position"]
+            source_align = self._toolbar_icons[name]["source_align"]
+
+            self._toolbar_icons[name]['opened'] = True
+            # fixed = Gtk.EventBox()
+            # fixed.get_style_context().add_class("black")
+            fixed = Gtk.Fixed()
+            fixed.set_size_request(500, 300)
+
+            sb = SpeechBubble(
+                text=text,
+                source=SpeechBubble.BOTTOM,
+                source_align=source_align
+            )
+            sb.connect('button-release-event', self._close_speechbubble, scene)
+
+            fixed.put(sb, position[0], position[1])
             scene.add_widget(
-                SpeechBubble(
-                    text=text,
-                    source=SpeechBubble.BOTTOM,
-                    source_align=0.5,
-                    scale=scene.scale_factor
-                ),
-                Placement(0.5, 0.5),
-                Placement(0.5, 0.5),
+                fixed,
+                Placement(1.0, 1.0),
+                Placement(1.0, 1.0),
                 name="toolbar_speechbubble"
+            )
+
+        for icon in self._toolbar_icons.itervalues():
+            if 'opened' not in icon or not icon['opened']:
+                return True
+
+        if not self._toolbar_next_button_shown:
+            self._toolbar_next_button_shown = True
+            scene.add_widget(
+                NextButton(),
+                Placement(0.5, 0.3, 0),
+                Placement(0.5, 0.4, 0),
+                self.fourth_scene
             )
 
     def _add_profile_icon(self, scene, callback=None, use_default=False):
