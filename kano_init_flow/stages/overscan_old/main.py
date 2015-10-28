@@ -9,7 +9,7 @@ from gi.repository import Gtk, Gdk
 from kano.gtk3.buttons import KanoButton
 from kano.utils import is_monitor, run_cmd
 from kano_settings.system.display import get_overscan_status, \
-    write_overscan_values, set_overscan_status, launch_pipe
+    set_overscan_status, launch_pipe
 from kano_profile.tracker import track_action
 
 
@@ -222,7 +222,13 @@ class OverscanControl(object):
 
     def save_changes(self):
         if self._original != self._current:
-            write_overscan_values(self._current)
+            #write_overscan_values(self._current)
+            run_cmd("sudo kano-init-system-tool write-overscan {} {} {} {}".format(
+                self._current['top'],
+                self._current['left'],
+                self._current['right'],
+                self._current['bottom'],
+            ))
 
     def _change_overscan(self, change):
         """
