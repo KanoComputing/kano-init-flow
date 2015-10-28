@@ -46,7 +46,6 @@ class OverscanOld(Stage):
         self._ctl.main_window.push(s1)
 
     def save_and_exit(self):
-        self._overscan_ctl.reset() # TODO remove
         self._overscan_ctl.save_changes()
         self._ctl.next_stage()
 
