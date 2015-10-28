@@ -65,24 +65,25 @@ class Intro(Stage):
         #    Placement(0, 0, 0),
         #)
 
+        # No longer in use.
+        # click_label = Gtk.Label("CLICK")
+        # click_label.get_style_context().add_class("intro_label")
+        # move_label = Gtk.Label("MOVE")
+        # move_label.get_style_context().add_class("intro_label")
+        # hbox = Gtk.Box()
+        # hbox.pack_start(click_label, False, False, 0)
+        # hbox.pack_end(move_label, False, False, 0)
+        # click_label.set_margin_left(30)
+        # move_label.set_margin_right(30)
+
         # Create the keyboard and pack it before putting it in the
         grab_label = Gtk.Label("Click NEXT to start")
         grab_label.get_style_context().add_class("big_intro_label")
-        click_label = Gtk.Label("CLICK")
-        click_label.get_style_context().add_class("intro_label")
-        move_label = Gtk.Label("MOVE")
-        move_label.get_style_context().add_class("intro_label")
 
         keyboard_gif = Gtk.Image.new_from_file(
             self.media_path("KeyboardClick.gif")
         )
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        hbox = Gtk.Box()
-
-        hbox.pack_start(click_label, False, False, 0)
-        hbox.pack_end(move_label, False, False, 0)
-        click_label.set_margin_left(30)
-        move_label.set_margin_right(30)
 
         vbox.pack_start(grab_label, False, False, 0)
         vbox.pack_start(keyboard_gif, False, False, 20)
@@ -97,9 +98,7 @@ class Intro(Stage):
             NextButton(),
             Placement(0.5, 0.75, 0),
             Placement(0.5, 0.75, 0),
-            # self.second_scene,
             self.next_stage
-            # key=Gdk.KEY_space
         )
 
         scene.schedule(60, self._show_hint, scene)
@@ -107,9 +106,8 @@ class Intro(Stage):
 
     def _show_hint(self, scene):
         scene.add_arrow('right',
-                        Placement(0.25, 0.85),
-                        Placement(0.35, 0.85)
-        )
+                        Placement(0.25, 0.75),
+                        Placement(0.35, 0.75))
 
     ###############################################################
     # These screens aren't currently used in the flow
