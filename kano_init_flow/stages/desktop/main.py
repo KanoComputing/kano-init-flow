@@ -208,15 +208,25 @@ class Desktop(Stage):
         self._add_profile_icon(scene)
         self._add_world_icon(scene, offline=(not is_registered()))
 
-        scene.add_widget(
+        # Pack the speechbubble into a fixed so it the same distance from
+        # toolbar for all resolutions
+        speechbubble_fixed = Gtk.Fixed()
+        speechbubble_fixed.set_size_request(500, 400)
+        speechbubble_fixed.put(
             SpeechBubble(
                 text='This is your Taskbar!\n' +
-                     'Use its buttons to change settings,\n' +
-                     'get updates, and more.',
+                     'Click on the different widgets to find\n' +
+                     'out more about what they do.',
+                     # 'Use its buttons to change settings,\n' +
+                     # 'get updates, and more.',
                 source=SpeechBubble.BOTTOM
             ),
-            Placement(0.5, 0.9),
-            Placement(0.5, 0.9),
+            0, 100
+        )
+        scene.add_widget(
+            speechbubble_fixed,
+            Placement(1, 1),
+            Placement(1, 1),
             name="toolbar_speechbubble"
         )
 
@@ -361,7 +371,11 @@ class Desktop(Stage):
 
         fixed.put(icon_grid, 40, 380)
 
-        scene.add_widget(
+        # Pack the speechbubble into a fixed so it the same distance from
+        # apps for all resolutions.
+        speechbubble_fixed = Gtk.Fixed()
+        speechbubble_fixed.set_size_request(1024, 720)
+        speechbubble_fixed.put(
             SpeechBubble(
                 text='These are your Apps!\n' +
                      'You can make games, songs,\n' +
@@ -369,9 +383,14 @@ class Desktop(Stage):
                      'then share them to World.',
                 source=SpeechBubble.BOTTOM
             ),
-            Placement(0.5, 0.5),
-            Placement(0.5, 0.5),
-            name="app_speechbubble",
+            300, 100
+        )
+
+        scene.add_widget(
+            speechbubble_fixed,
+            Placement(0.5, 1),
+            Placement(0.5, 1),
+            name="app_speechbubble"
         )
 
         return scene
@@ -430,8 +449,6 @@ class Desktop(Stage):
             source_align = self._toolbar_icons[name]["source_align"]
 
             self._toolbar_icons[name]['opened'] = True
-            # fixed = Gtk.EventBox()
-            # fixed.get_style_context().add_class("black")
             fixed = Gtk.Fixed()
             fixed.set_size_request(500, 300)
 
@@ -450,18 +467,15 @@ class Desktop(Stage):
                 name="toolbar_speechbubble"
             )
 
-        for icon in self._toolbar_icons.itervalues():
-            if 'opened' not in icon or not icon['opened']:
-                return True
-
-        if not self._toolbar_next_button_shown:
-            self._toolbar_next_button_shown = True
-            scene.add_widget(
-                NextButton(),
-                Placement(0.5, 0.3, 0),
-                Placement(0.5, 0.4, 0),
-                self.fourth_scene
-            )
+            # If the icon is in the toolbar, show the next button
+            if not self._toolbar_next_button_shown:
+                self._toolbar_next_button_shown = True
+                scene.add_widget(
+                    NextButton(),
+                    Placement(0.5, 0.5, 0),
+                    Placement(0.5, 0.5, 0),
+                    self.fourth_scene
+                )
 
     def _add_profile_icon(self, scene, callback=None, use_default=False):
         # We always want to add the widget to the same position in each screen
