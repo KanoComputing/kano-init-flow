@@ -138,7 +138,7 @@ class AudioLab(Stage):
         self._show_console(scene)
 
     def _tab_clicked(self, scene):
-        play_sound('/usr/share/kano-media/sounds/kano_test_sound.wav',
+        play_sound('/usr/share/kano-media/sounds/kano_boot_up.wav',
                    True)
         self._show_console(scene)
 
