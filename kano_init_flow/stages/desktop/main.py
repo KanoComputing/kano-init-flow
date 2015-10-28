@@ -542,8 +542,12 @@ class Desktop(Stage):
             (name, f) = info
             button = Gtk.Button()
             self._toolbar_icons[name]['icon'] = Gtk.Image.new_from_file(f)
-            self._toolbar_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
-            button.set_image(self._toolbar_icons[name]['bwicon'])
+            # Don't desaturate without callbacks
+            if attach_callbacks:
+                self._toolbar_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
+                button.set_image(self._toolbar_icons[name]['bwicon'])
+            else:
+                button.set_image(self._toolbar_icons[name]['icon'])
             button.get_style_context().add_class("taskbar_button")
 
             # Only attach the callbacks for certain scene
