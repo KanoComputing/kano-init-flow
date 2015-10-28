@@ -621,22 +621,30 @@ class CharacterWindow(Gtk.Window):
         self.close_cb = cb
 
         self.char_edit = CharacterCreator(randomise=True, no_sync=True)
+        self.char_edit.connect(
+            "character_changed",
+            self._make_button_sensitive
+        )
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.add(vbox)
 
         vbox.pack_start(self.char_edit, False, False, 0)
-        button = KanoButton("OK")
-        button.connect("clicked", self.close_window)
-        button.pack_and_align()
+        self._kano_button = KanoButton("OK")
+        self._kano_button.connect("clicked", self.close_window)
+        self._kano_button.pack_and_align()
+        self._kano_button.set_sensitive(False)
 
         self.connect("delete-event", Gtk.main_quit)
         self.set_keep_above(True)
 
-        vbox.pack_start(button.align, False, False, 10)
+        vbox.pack_start(self._kano_button.align, False, False, 10)
         self.show_all()
 
         self.char_edit.show_pop_up_menu_for_category("judoka-faces")
         self.char_edit.select_category_button("judoka-faces")
+
+    def _make_button_sensitive(self, widget=None):
+        self._kano_button.set_sensitive(True)
 
     def close_window(self, widget):
         self.char_edit.save()
