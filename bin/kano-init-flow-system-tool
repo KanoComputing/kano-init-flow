@@ -10,8 +10,9 @@
 import sys
 
 from kano.utils import enforce_root
-from kano_settings.system.display import launch_pipe
+from kano_settings.system.display import launch_pipe, write_overscan_values
 from kano_settings.system.audio import set_to_HDMI
+
 
 enforce_root('Need root to use the system tool')
 
@@ -19,6 +20,13 @@ if len(sys.argv) >= 2:
     first_arg = sys.argv[1]
     if first_arg == 'init-overscan-pipe':
         launch_pipe()
+    elif first_arg == 'write-overscan':
+        write_overscan_values({
+            'top': sys.argv[2],
+            'left': sys.argv[3],
+            'right': sys.argv[4],
+            'bottom': sys.argv[5]
+        })
     elif first_arg == 'enable-tv-speakers':
         set_to_HDMI(True)
 else:
