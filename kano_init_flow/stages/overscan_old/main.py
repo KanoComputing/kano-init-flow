@@ -222,7 +222,6 @@ class OverscanControl(object):
 
     def save_changes(self):
         if self._original != self._current:
-            #write_overscan_values(self._current)
             run_cmd("sudo kano-init-system-tool write-overscan {} {} {} {}".format(
                 self._current['top'],
                 self._current['left'],
