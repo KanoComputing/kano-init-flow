@@ -229,7 +229,7 @@ class OverscanControl(object):
                 self._current['bottom'],
             ))
 
-            # We need enable the overscan flag in the boot config
+            # We need enable the overscan flag in the boot config
             # if there's any overscan configured
             if self._current['top'] == 0:
                 set_config_value("disable_overscan", 1)
