@@ -91,7 +91,7 @@ class OverscanOld(Stage):
     def next_window(self):
         self._scene.remove_widget('window1')
         self._scene.add_widget(
-            Window2(self, self._overscan_ctl, self._ctl.next_stage),
+            Window2(self, self._overscan_ctl, self.save_and_exit),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0),
             modal=False,
@@ -188,7 +188,6 @@ class Window2(Gtk.EventBox):
 
 class OverscanControl(object):
     def __init__(self):
-        # launch_pipe()
         # The command below initialises the overscan pipe as root
         # TODO: This would be nice to refactor.
         run_cmd('sudo kano-init-flow-system-tool init-overscan-pipe')
@@ -222,7 +221,7 @@ class OverscanControl(object):
 
     def save_changes(self):
         if self._original != self._current:
-            run_cmd("sudo kano-init-system-tool write-overscan {} {} {} {}".format(
+            run_cmd("sudo kano-init-flow-system-tool write-overscan {} {} {} {}".format(
                 self._current['top'],
                 self._current['left'],
                 self._current['right'],
