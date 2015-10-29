@@ -12,6 +12,7 @@ import sys
 from kano.utils import enforce_root
 from kano_settings.system.display import launch_pipe, write_overscan_values
 from kano_settings.system.audio import set_to_HDMI
+from kano_settings.boot_config import set_config_value
 
 
 enforce_root('Need root to use the system tool')
@@ -21,6 +22,13 @@ if len(sys.argv) >= 2:
     if first_arg == 'init-overscan-pipe':
         launch_pipe()
     elif first_arg == 'write-overscan':
+        # We need enable the overscan flag in the boot config
+        # if there's any overscan configured
+        if sys.argv[2] == 0:
+            set_config_value("disable_overscan", 1)
+        else:
+            set_config_value("disable_overscan", 0)
+
         write_overscan_values({
             'top': sys.argv[2],
             'left': sys.argv[3],
