@@ -10,6 +10,7 @@ from kano.gtk3.buttons import KanoButton
 from kano.utils import is_monitor, run_cmd
 from kano_settings.system.display import get_overscan_status, \
     set_overscan_status, launch_pipe
+from kano_settings.boot_config import set_config_value
 from kano_profile.tracker import track_action
 
 
@@ -227,6 +228,13 @@ class OverscanControl(object):
                 self._current['right'],
                 self._current['bottom'],
             ))
+
+            # We need enable the overscan flag in the boot config
+            # if there's any overscan configured
+            if self._current['top'] == 0:
+                set_config_value("disable_overscan", 1)
+            else:
+                set_config_value("disable_overscan", 0)
 
     def _change_overscan(self, change):
         """
