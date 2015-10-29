@@ -24,7 +24,7 @@ if len(sys.argv) >= 2:
     elif first_arg == 'write-overscan':
         # We need enable the overscan flag in the boot config
         # if there's any overscan configured
-        if sys.argv[2] == 0:
+        if int(sys.argv[2]) == 0:
             set_config_value("disable_overscan", 1)
         else:
             set_config_value("disable_overscan", 0)
