@@ -71,6 +71,7 @@ class MainWindow(Gtk.Window):
         overlay.add_overlay(emergency_exit)
 
         self.connect('key-release-event', self._key_emergency_exit)
+        self.connect('key-release-event', self._key_skip_stage)
 
         if start_from:
             debug_button = Gtk.EventBox()
@@ -86,6 +87,15 @@ class MainWindow(Gtk.Window):
                event.state & Gdk.ModifierType.SHIFT_MASK and \
                event.state & Gdk.ModifierType.CONTROL_MASK:
                 self._emergency_exit_cb(widget)
+
+        return False
+
+    def _key_skip_stage(self, widget, event):
+        if hasattr(event, 'keyval'):
+            if event.keyval in [Gdk.KEY_N, Gdk.KEY_n] and \
+               event.state & Gdk.ModifierType.SHIFT_MASK and \
+               event.state & Gdk.ModifierType.CONTROL_MASK:
+                self._ctl.next_stage()
 
         return False
 
