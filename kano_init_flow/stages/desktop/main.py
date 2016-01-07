@@ -232,6 +232,8 @@ class Desktop(Stage):
 
         self._add_taskbar(scene, attach_callbacks=True)
 
+        scene.schedule(30, self._show_toolbar_next_button, scene)
+
         return scene
 
     def _setup_fourth_scene(self):
@@ -438,6 +440,16 @@ class Desktop(Stage):
                 self.next_stage
             )
 
+    def _show_toolbar_next_button(self, scene):
+        if not self._toolbar_next_button_shown:
+            self._toolbar_next_button_shown = True
+            scene.add_widget(
+                NextButton(),
+                Placement(0.5, 0.5, 0),
+                Placement(0.5, 0.5, 0),
+                self.fourth_scene
+            )
+
     # TODO: this is a repeat of _change_apps_speechbubble_text
     def _change_toolbar_speechbubble_text(self, widget, scene, name):
         scene.remove_widget("toolbar_speechbubble")
@@ -468,14 +480,7 @@ class Desktop(Stage):
             )
 
             # If the icon is in the toolbar, show the next button
-            if not self._toolbar_next_button_shown:
-                self._toolbar_next_button_shown = True
-                scene.add_widget(
-                    NextButton(),
-                    Placement(0.5, 0.5, 0),
-                    Placement(0.5, 0.5, 0),
-                    self.fourth_scene
-                )
+            self._show_toolbar_next_button(scene)
 
     def _add_profile_icon(self, scene, callback=None, use_default=False):
         # We always want to add the widget to the same position in each screen
