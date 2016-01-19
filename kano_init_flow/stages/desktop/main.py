@@ -362,7 +362,6 @@ class Desktop(Stage):
             (name, f) = info
             icon = Gtk.Button()
             self._desktop_icons[name]['icon'] = Gtk.Image.new_from_file(f)
-            #self._desktop_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
             icon.set_image(self._desktop_icons[name]['icon'])
             icon.connect('enter-notify-event', self._desktop_icon_enter_cb)
             icon.connect('leave-notify-event', self._desktop_icon_leave_cb)
@@ -419,7 +418,6 @@ class Desktop(Stage):
 
     def _change_apps_speechbubble_text(self, widget, name, scene):
         scene.remove_widget("app_speechbubble")
-        #widget.set_image(self._desktop_icons[name]['icon'])
         widget.set_opacity(1.0)
 
         if name in self._desktop_icons:
