@@ -20,3 +20,9 @@
 .black {
     background: #000000;
 }
+
+.desktop-label {
+    font: Bariol 20px;
+    font-weight: bold;
+    color: #ffffff;
+}

@@ -12,7 +12,7 @@ from gi.repository import Gtk, Gdk, GLib
 
 from kano_init_flow.stage import Stage
 from kano_init_flow.ui.scene import Scene, Placement
-from kano_init_flow.ui.utils import desaturate_image
+from kano_init_flow.ui.utils import desaturate_image, add_class
 from kano_init_flow.ui.speech_bubble import SpeechBubble
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.world_icon import WorldIcon
@@ -44,7 +44,8 @@ class Desktop(Stage):
         self._login_launched = False
 
     def first_scene(self):
-        s = self._setup_first_scene()
+        #TODO FIXME PUT BACK s = self._setup_first_scene()
+        s = self._setup_third_scene()
         self._ctl.main_window.push(s)
 
     def second_scene(self):
@@ -332,7 +333,7 @@ class Desktop(Stage):
             },
             "video": {
                 "text": "YouTube",
-                "position": [435, 250],
+                "position": [435, 220],
                 "source_align": 0.5
             }
         }
@@ -352,12 +353,20 @@ class Desktop(Stage):
         row = 1
         column = 0
 
+        # Add the persistent click on everything label
+        label = Gtk.Label('Click on each of the app icons')
+        add_class(label, 'desktop-label')
+        fixed.put(label, 350, 325)
+
         for info in icon_info:
             (name, f) = info
             icon = Gtk.Button()
             self._desktop_icons[name]['icon'] = Gtk.Image.new_from_file(f)
-            self._desktop_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
-            icon.set_image(self._desktop_icons[name]['bwicon'])
+            #self._desktop_icons[name]['bwicon'] = desaturate_image(Gtk.Image.new_from_file(f))
+            icon.set_image(self._desktop_icons[name]['icon'])
+            icon.connect('enter-notify-event', self._desktop_icon_enter_cb)
+            icon.connect('leave-notify-event', self._desktop_icon_leave_cb)
+            icon.set_opacity(0.5)
             attach_cursor_events(icon)
 
             icon.connect("clicked",
@@ -397,12 +406,21 @@ class Desktop(Stage):
 
         return scene
 
+    def _desktop_icon_enter_cb(self, widget, event, user=None):
+        if widget.get_opacity() < 1.0:
+            widget.set_opacity(0.75)
+
+    def _desktop_icon_leave_cb(self, widget, event, user=None):
+        if widget.get_opacity() < 1.0:
+            widget.set_opacity(0.5)
+
     def _close_speechbubble(self, widget, event, scene):
         scene.remove_widget("app_speechbubble")
 
     def _change_apps_speechbubble_text(self, widget, name, scene):
         scene.remove_widget("app_speechbubble")
-        widget.set_image(self._desktop_icons[name]['icon'])
+        #widget.set_image(self._desktop_icons[name]['icon'])
+        widget.set_opacity(1.0)
 
         if name in self._desktop_icons:
             text = self._desktop_icons[name]["text"]
