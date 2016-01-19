@@ -21,6 +21,7 @@ from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
 from kano_init_flow.ui.components import NextButton
+from kano_init_flow.ui.components import ExternalApp
 
 from kano.network import is_internet
 
@@ -532,21 +533,6 @@ class SlideScreen(Gtk.Overlay):
     def _cb_wrapper(self, widget, cb):
         cb()
         return True
-
-
-class ExternalApp(Gtk.Overlay):
-    def __init__(self, stage, socket_widget):
-        super(ExternalApp, self).__init__()
-        self.loading_bar = Gtk.Image.new_from_file(
-            stage.media_path("loading_bar.gif")
-        )
-        self.add(self.loading_bar)
-
-        # Pack the socket in a box so the socket doesn't stretch to
-        # fill the overlay
-        box = Gtk.Box()
-        box.pack_start(socket_widget, False, False, 0)
-        self.add_overlay(box)
 
 
 class ConsoleContainer(Gtk.Fixed):
