@@ -44,8 +44,7 @@ class Desktop(Stage):
         self._login_launched = False
 
     def first_scene(self):
-        #TODO FIXME PUT BACK s = self._setup_first_scene()
-        s = self._setup_third_scene()
+        s = self._setup_first_scene()
         self._ctl.main_window.push(s)
 
     def second_scene(self):
