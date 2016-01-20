@@ -34,6 +34,10 @@ class Desktop(Stage):
     id = 'desktop'
     _root = __file__
 
+    DESKTOP_ICON_OPACITY = 0.5
+    DESKTOP_ICON_HOVER_OPACITY = 0.75
+    DESKTOP_ICON_ACTIVE_OPACITY = 1.0
+
     def __init__(self, ctl):
         super(Desktop, self).__init__(ctl)
         apply_styling_to_screen(self.css_path("style.css"))
@@ -364,7 +368,7 @@ class Desktop(Stage):
             icon.set_image(self._desktop_icons[name]['icon'])
             icon.connect('enter-notify-event', self._desktop_icon_enter_cb)
             icon.connect('leave-notify-event', self._desktop_icon_leave_cb)
-            icon.set_opacity(0.5)
+            icon.set_opacity(self.DESKTOP_ICON_OPACITY)
             attach_cursor_events(icon)
 
             icon.connect("clicked",
@@ -405,19 +409,19 @@ class Desktop(Stage):
         return scene
 
     def _desktop_icon_enter_cb(self, widget, event, user=None):
-        if widget.get_opacity() < 1.0:
-            widget.set_opacity(0.75)
+        if widget.get_opacity() < self.DESKTOP_ICON_ACTIVE_OPACITY:
+            widget.set_opacity(self.DESKTOP_ICON_HOVER_OPACITY)
 
     def _desktop_icon_leave_cb(self, widget, event, user=None):
-        if widget.get_opacity() < 1.0:
-            widget.set_opacity(0.5)
+        if widget.get_opacity() < self.DESKTOP_ICON_ACTIVE_OPACITY:
+            widget.set_opacity(self.DESKTOP_ICON_OPACITY)
 
     def _close_speechbubble(self, widget, event, scene):
         scene.remove_widget("app_speechbubble")
 
     def _change_apps_speechbubble_text(self, widget, name, scene):
         scene.remove_widget("app_speechbubble")
-        widget.set_opacity(1.0)
+        widget.set_opacity(self.DESKTOP_ICON_ACTIVE_OPACITY)
 
         if name in self._desktop_icons:
             text = self._desktop_icons[name]["text"]
