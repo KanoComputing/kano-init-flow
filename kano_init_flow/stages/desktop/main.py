@@ -24,6 +24,7 @@ from kano.gtk3.cursor import attach_cursor_events
 from kano.logging import logger
 from kano.gtk3.apply_styles import apply_styling_to_screen
 from kano_world.functions import is_registered
+from kano_settings.system.wallpaper import get_current_wallpapers
 
 
 class Desktop(Stage):
@@ -47,6 +48,8 @@ class Desktop(Stage):
         self._char_window_launched = False
         self._login_launched = False
 
+        self._wallpapers = get_current_wallpapers()
+
     def first_scene(self):
         s = self._setup_first_scene()
         self._ctl.main_window.push(s)
@@ -68,8 +71,7 @@ class Desktop(Stage):
 
     def _setup_first_scene(self):
         self._first_scene = scene = Scene(self._ctl.main_window)
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
+        scene.set_background(self._wallpapers['4-3'], self._wallpapers['16-9'])
 
         # Pass the callback of what we want to launch in the profile icon
         self._add_profile_icon(
@@ -125,8 +127,7 @@ class Desktop(Stage):
 
     def _setup_second_scene(self):
         self._second_scene = scene = Scene(self._ctl.main_window)
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
+        scene.set_background(self._wallpapers['4-3'], self._wallpapers['16-9'])
 
         self._add_profile_icon(self._second_scene)
         self._add_world_icon(scene, self._launch_login,
@@ -206,8 +207,7 @@ class Desktop(Stage):
         self._toolbar_next_button_shown = False
 
         scene = Scene(self._ctl.main_window)
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
+        scene.set_background(self._wallpapers['4-3'], self._wallpapers['16-9'])
 
         self._add_profile_icon(scene)
         self._add_world_icon(scene, offline=(not is_registered()))
@@ -242,8 +242,7 @@ class Desktop(Stage):
 
     def _setup_fourth_scene(self):
         scene = Scene(self._ctl.main_window)
-        scene.set_background(common_media_path('blueprint-bg-4-3.png'),
-                             common_media_path('blueprint-bg-16-9.png'))
+        scene.set_background(self._wallpapers['4-3'], self._wallpapers['16-9'])
 
         # Pass the callback of what we want to launch in the profile icon
         self._add_profile_icon(scene)

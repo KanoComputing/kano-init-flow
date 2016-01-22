@@ -34,6 +34,7 @@ from .stages.pi_keyboard import PiKeyboard
 from .stages.pi_complete import PiComplete
 from .stages.pi_audio import PiAudio
 from .stages.desktop import Desktop
+from .stages.wallpaper import Wallpaper
 
 
 class Controller(object):
@@ -82,6 +83,7 @@ class Controller(object):
             # LightLab,
             # PiWifi,
             Wifi,
+            Wallpaper,
             # KanoWorld
             # Quests,
             # PiComplete,

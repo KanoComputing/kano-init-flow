@@ -51,7 +51,7 @@ if not mw.prepare_first_stage():
 if len(get_partition_info()) >3:
     path = common_media_path('waitscreen.png')
     os.system("kano-start-splash -t 50 -b 0 {}".format(path))
-        
+
 Tracker()
 mw.show_all()
 Gtk.main()
