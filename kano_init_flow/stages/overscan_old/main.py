@@ -14,7 +14,8 @@ from kano_profile.tracker import track_action
 
 
 from kano_init_flow.stage import Stage
-from kano_init_flow.ui.scene import Scene, Placement, ActiveImage
+from kano_init_flow.ui.scene import Scene, Placement, ActiveImage, \
+    SCREEN_HEIGHT
 from kano_init_flow.paths import common_media_path
 from kano_init_flow.ui.utils import add_class
 from kano_init_flow.ui.css import apply_styling_to_screen
@@ -167,7 +168,8 @@ class Window2(Gtk.EventBox):
         add_class(heading, 'notebook-heading')
         box.pack_start(heading, False, False, 0)
 
-        text1 = Gtk.Label('Stretch or shrink your screen, until the white lines')
+        label_copy = 'Stretch or shrink your screen, until the white lines'
+        text1 = Gtk.Label(label_copy)
         text1.set_margin_bottom(5)
         add_class(text1, 'notebook-text')
         box.pack_start(text1, False, False, 0)
@@ -199,7 +201,7 @@ class OverscanControl(object):
 
     def zoom_in(self):
         if self._enabled:
-            if max(self._current.values()) < 250:
+            if max(self._current.values()) < (SCREEN_HEIGHT / 3):
                 self._change_overscan(self._step)
 
     def zoom_out(self):
@@ -221,7 +223,9 @@ class OverscanControl(object):
 
     def save_changes(self):
         if self._original != self._current:
-            run_cmd("sudo kano-init-flow-system-tool write-overscan {} {} {} {}".format(
+            cmd_template = ("sudo kano-init-flow-system-tool write-overscan " +
+                            "{} {} {} {}")
+            run_cmd(cmd_template.format(
                 self._current['top'],
                 self._current['left'],
                 self._current['right'],
