@@ -271,6 +271,7 @@ class Desktop(Stage):
             ("home", os.path.join(parent_dir, "kano-homefolder.png")),
             ("art", os.path.join(parent_dir_2, "kano-draw.png")),
             ("terminal-quest", os.path.join(parent_dir_2, "linux-story.png")),
+            ("make-light", os.path.join(parent_dir, "make-light.png")),
             ("scratch", os.path.join(parent_dir, "scratch.png")),
             ("video", os.path.join(parent_dir_2, "video.png"))
             #("plus", os.path.join(parent_dir, "plus-icon.png"))
@@ -301,6 +302,12 @@ class Desktop(Stage):
                 "position": [0, 210],
                 "source_align": 0.37
             },
+            "make-light": {
+                "text": "Learn about LEDs and turn code\n" +
+                        "into light with Make Light.",
+                "position": [167, 210],
+                "source_align": 0.5
+            },
             "music": {
                 "text": "You can make sounds, beats, loops,\n" +
                         "and songs on Kano.",
@@ -320,7 +327,7 @@ class Desktop(Stage):
             },
             "scratch": {
                 "text": "You can play with code blocks.",
-                "position": [167, 210],
+                "position": [315, 220],
                 "source_align": 0.5
             },
             "home": {
@@ -335,7 +342,7 @@ class Desktop(Stage):
             },
             "video": {
                 "text": "YouTube",
-                "position": [435, 220],
+                "position": [570, 220],
                 "source_align": 0.5
             }
         }
