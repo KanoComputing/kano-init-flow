@@ -1,8 +1,8 @@
 # The base class for implementing scenes
 #
-# Copyright (C) 2015 Kano Computing Ltd.
+# Copyright (C) 2015-2016 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
-#
+
 
 import os
 import time
@@ -10,8 +10,7 @@ import time
 from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
-from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, \
-                                    scale_gif
+from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, scale_gif
 
 from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 from kano_init_flow.paths import common_media_path
@@ -96,8 +95,6 @@ class Scene(object):
         self._eb = Gtk.EventBox()
         self._eb.set_size_request(self._w, self._h)
         self._eb.add(self._overlay)
-        print 'Scene: self._w is {}, self._h is {}'.format(self._w, self._h)
-        print 'Scene: SCREEN_WIDTH is {}, SCREEN_HEIGHT is {}'.format(SCREEN_WIDTH, SCREEN_HEIGHT)
         add_class(self._eb, 'scene-backdrop')
 
     def _determine_screen_ratio(self):
