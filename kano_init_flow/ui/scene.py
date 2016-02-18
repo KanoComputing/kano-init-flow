@@ -96,6 +96,8 @@ class Scene(object):
         self._eb = Gtk.EventBox()
         self._eb.set_size_request(self._w, self._h)
         self._eb.add(self._overlay)
+        print 'Scene: self._w is {}, self._h is {}'.format(self._w, self._h)
+        print 'Scene: SCREEN_WIDTH is {}, SCREEN_HEIGHT is {}'.format(SCREEN_WIDTH, SCREEN_HEIGHT)
         add_class(self._eb, 'scene-backdrop')
 
     def _determine_screen_ratio(self):
@@ -111,10 +113,10 @@ class Scene(object):
         else:
             self._screen_ratio = Scene.RATIO_16_9
 
-        if ratio > 1:
-            self._h *= ratio * (1.0 / self._screen_ratio)
-        else:
-            self._w *= (1.0 / ratio) * self._screen_ratio
+        # if ratio > 1:
+        #     self._h *= ratio * (1.0 / self._screen_ratio)
+        # else:
+        #     self._w *= (1.0 / ratio) * self._screen_ratio
 
     def get_width(self):
         return self._w
@@ -142,8 +144,7 @@ class Scene(object):
         """
 
         bg_path = ver_43 if self._screen_ratio == self.RATIO_4_3 else ver_169
-        bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, self._w,
-                                                           self._h)
+        bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(bg_path, SCREEN_WIDTH, SCREEN_HEIGHT, False)
         self._background.set_from_pixbuf(bg_pixbuf)
 
     def add_character(self, p43, p169, clicked_cb=None, key=None,
