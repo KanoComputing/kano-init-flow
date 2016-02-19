@@ -1,8 +1,8 @@
 # The base class for implementing scenes
 #
-# Copyright (C) 2015 Kano Computing Ltd.
+# Copyright (C) 2015-2016 Kano Computing Ltd.
 # License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
-#
+
 
 import os
 import time
@@ -10,8 +10,7 @@ import time
 from gi.repository import Gtk, Gdk, GdkPixbuf, GLib
 from kano.gtk3.cursor import attach_cursor_events
 
-from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, \
-                                    scale_gif
+from kano_init_flow.ui.utils import scale_image, scale_pixbuf, add_class, scale_gif
 
 from kano_avatar.paths import AVATAR_DEFAULT_LOC, AVATAR_DEFAULT_NAME
 from kano_init_flow.paths import common_media_path
@@ -111,10 +110,10 @@ class Scene(object):
         else:
             self._screen_ratio = Scene.RATIO_16_9
 
-        if ratio > 1:
-            self._h *= ratio * (1.0 / self._screen_ratio)
-        else:
-            self._w *= (1.0 / ratio) * self._screen_ratio
+        # if ratio > 1:
+        #     self._h *= ratio * (1.0 / self._screen_ratio)
+        # else:
+        #     self._w *= (1.0 / ratio) * self._screen_ratio
 
     def get_width(self):
         return self._w
@@ -142,8 +141,7 @@ class Scene(object):
         """
 
         bg_path = ver_43 if self._screen_ratio == self.RATIO_4_3 else ver_169
-        bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(bg_path, self._w,
-                                                           self._h)
+        bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(bg_path, SCREEN_WIDTH, SCREEN_HEIGHT, False)
         self._background.set_from_pixbuf(bg_pixbuf)
 
     def add_character(self, p43, p169, clicked_cb=None, key=None,
