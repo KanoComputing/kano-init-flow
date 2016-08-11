@@ -165,7 +165,7 @@ class Scene(object):
     def add_arrow(self, direction, p43, p169, clicked_cb=None, key=None,
                   name=None, modal=False):
 
-        click_label = Gtk.Label("CLICK")
+        click_label = Gtk.Label(_("CLICK"))
         click_label.get_style_context().add_class("click_label")
 
         if direction in ["down", "left", "right", "up-right", "up-left"]:

@@ -81,7 +81,7 @@ class PiAudio(Stage):
         )
 
         sb = SpeechBubble(
-            'Let\'s make sure our sound\nis loud and clear.',
+            _("Let's make sure our sound\nis loud and clear."),
             source=SpeechBubble.BOTTOM,
             scale=scene.scale_factor
         )
@@ -97,4 +97,4 @@ class PiAudio(Stage):
         return scene
 
     def _show_hint(self, sb):
-        sb.set_text('Click on the blue cable\nto continue.')
+        sb.set_text(_("Click on the blue cable\nto continue."))

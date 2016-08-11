@@ -85,9 +85,9 @@ class AudioLab(Stage):
             Placement(0.95, 0.9)
         )
 
-        copy = 'Press the TAB key to play a song!'
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
+            SpeechBubble(text=_("Press the TAB key to play a song!"),
+                         source=SpeechBubble.BOTTOM,
                          source_align=0.8, scale=scene.scale_factor),
             Placement(0.95, 0.35),
             Placement(0.95, 0.45)
@@ -151,9 +151,9 @@ class AudioLab(Stage):
             Notebook(
                 self,
                 self.media_path('jack.png'), 1.0, 0.5,
-                'Plug in the blue cable',
-                ['Check you\'ve plugged in the audio'],
-                [{'label': 'NEXT',
+                _("Plug in the blue cable"),
+                [_("Check you've plugged in the audio")],
+                [{'label': _("NEXT"),
                   'callback': self.help_leds,
                   'color': 'green'}]
             ),
@@ -168,11 +168,11 @@ class AudioLab(Stage):
             Notebook(
                 self,
                 self.media_path('troubleshooting-sound.png'), 0.5, 0.3,
-                'Can you see the blue light?',
-                ['If the power plugs are connected correctly,',
-                 'you should see a blue light.'],
-                [{'label': 'YES', 'callback': self.remove_overlays, 'color': 'green'},
-                 {'label': 'NO', 'callback': self.help_power, 'color': 'red'}]
+                _("Can you see the blue light?"),
+                [_("If the power plugs are connected correctly,"),
+                 _("you should see a blue light.")],
+                [{'label': _("YES"), 'callback': self.remove_overlays, 'color': 'green'},
+                 {'label': _("NO"), 'callback': self.help_power, 'color': 'red'}]
             ),
             Placement(0.5, 0.5, 0.0),
             Placement(0.5, 0.5, 0.0),
@@ -182,16 +182,16 @@ class AudioLab(Stage):
 
     def _setup_help_power(self, scene):
         buttons = [{
-            'label': 'TRY AGAIN',
+            'label': _("TRY AGAIN"),
             'callback': self.remove_overlays,
             'color': 'green'},
-            {'label': 'SKIP',
+            {'label': _("SKIP"),
             'callback':  self._ctl.next_stage,
             'color': 'grey'}
         ]
         if hdmi_supported:
             buttons.insert(1, {
-                'label': 'USE TV SPEAKERS',
+                'label': _("USE TV SPEAKERS"),
                 'callback': self._set_to_hdmi,
                 'color': 'blue'
             })
@@ -200,9 +200,9 @@ class AudioLab(Stage):
             Notebook(
                 self,
                 self.media_path('power.png'), 0.8, 0.5,
-                'No light? Check the GPIO',
-                ['The cable has to be connected to these',
-                 'pins exactly.'],
+                _("No light? Check the GPIO"),
+                [_("The cable has to be connected to these"),
+                 _("pins exactly.")],
                 buttons
             ),
             Placement(0.5, 0.5, 0.0),
@@ -232,7 +232,7 @@ class ConsoleScreen(Gtk.EventBox):
         vbox = Gtk.VBox(False, 0)
         vbox.set_halign(Gtk.Align.CENTER)
 
-        question = Gtk.Label('Can you hear a sound?')
+        question = Gtk.Label(_("Can you hear a sound?"))
         question.set_line_wrap(True)
         question.set_justify(Gtk.Justification.CENTER)
         question.set_valign(Gtk.Align.CENTER)
@@ -244,10 +244,10 @@ class ConsoleScreen(Gtk.EventBox):
         hbox.set_halign(Gtk.Align.CENTER)
         hbox.set_valign(Gtk.Align.CENTER)
 
-        yes = KanoButton('YES')
+        yes = KanoButton(_("YES"))
         yes.connect('clicked', cb_wrapper, yes_cb)
 
-        no = KanoButton('NO', color='red')
+        no = KanoButton(_("NO"), color='red')
         no.connect('clicked', cb_wrapper, no_cb)
 
         hbox.pack_start(yes, False, False, 0)

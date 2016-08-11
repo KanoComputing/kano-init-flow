@@ -70,10 +70,10 @@ class Bugs(Stage):
 
     def _place_judoka_into_scene(self, scene, happy=False):
         image = 'judoka-scared.png'
-        copy = "Oh no bugs!\nClick on them quick to remove them."
+        copy = N_("Oh no bugs!\nClick on them quick to remove them.")
         if happy:
             image = 'judoka.png'
-            copy = 'Phew, thanks for cleaning up!'
+            copy = N_("Phew, thanks for cleaning up!")
 
         scene.add_widget(
             Gtk.Image.new_from_file(self.media_path(image)),
@@ -83,7 +83,7 @@ class Bugs(Stage):
         )
 
         speech_bubble = SpeechBubble(
-            text=copy,
+            text=_(copy),
             source=SpeechBubble.RIGHT,
             source_align=0.0,
             scale=scene.scale_factor

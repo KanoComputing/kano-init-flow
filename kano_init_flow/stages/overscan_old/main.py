@@ -127,23 +127,23 @@ class Window1(Gtk.EventBox):
 
         box.pack_start(head_img, False, False, 0)
 
-        heading = Gtk.Label('Let\'s set up your screen')
+        heading = Gtk.Label(_("Let's set up your screen"))
         heading.set_margin_top(25)
         heading.set_margin_bottom(25)
         add_class(heading, 'notebook-heading')
         box.pack_start(heading, False, False, 0)
 
-        heading = Gtk.Label('Are the white lines touching the edges?')
+        heading = Gtk.Label(_("Are the white lines touching the edges?"))
         heading.set_margin_bottom(35)
         add_class(heading, 'notebook-text')
         box.pack_start(heading, False, False, 0)
 
         buttons = Gtk.HBox(halign=Gtk.Align.CENTER)
         buttons.set_margin_bottom(25)
-        yes = KanoButton('YES', color='green')
+        yes = KanoButton(_("YES"), color='green')
         yes.connect('clicked', cb_wrapper, yes_cb)
         buttons.pack_start(yes, False, False, 0)
-        no = KanoButton('NO', color='red')
+        no = KanoButton(_("NO"), color='red')
         no.connect('clicked', cb_wrapper, no_cb)
         buttons.pack_start(no, False, False, 10)
 
@@ -162,26 +162,25 @@ class Window2(Gtk.EventBox):
 
         box.pack_start(head_img, False, False, 0)
 
-        heading = Gtk.Label('Use UP and DOWN keys')
+        heading = Gtk.Label(_("Use UP and DOWN keys"))
         heading.set_margin_top(25)
         heading.set_margin_bottom(25)
         add_class(heading, 'notebook-heading')
         box.pack_start(heading, False, False, 0)
 
-        label_copy = 'Stretch or shrink your screen, until the white lines'
-        text1 = Gtk.Label(label_copy)
+        text1 = Gtk.Label(_("Stretch or shrink your screen, until the white lines"))
         text1.set_margin_bottom(5)
         add_class(text1, 'notebook-text')
         box.pack_start(text1, False, False, 0)
 
-        text2 = Gtk.Label('are lined up with the edges')
+        text2 = Gtk.Label(_("are lined up with the edges"))
         text2.set_margin_bottom(25)
         add_class(text2, 'notebook-text')
         box.pack_start(text2, False, False, 0)
 
         buttons = Gtk.HBox(halign=Gtk.Align.CENTER)
         buttons.set_margin_bottom(25)
-        done = KanoButton('DONE', color='green')
+        done = KanoButton(_("DONE"), color='green')
         buttons.pack_start(done, False, False, 0)
         done.connect('clicked', cb_wrapper, next_cb)
 
@@ -223,7 +222,7 @@ class OverscanControl(object):
 
     def save_changes(self):
         if self._original != self._current:
-            cmd_template = ("sudo kano-init-flow-system-tool write-overscan " +
+            cmd_template = ("sudo kano-init-flow-system-tool write-overscan " \
                             "{} {} {} {}")
             run_cmd(cmd_template.format(
                 self._current['top'],

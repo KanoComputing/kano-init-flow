@@ -75,7 +75,7 @@ class MainWindow(Gtk.Window):
 
         if start_from:
             debug_button = Gtk.EventBox()
-            debug_button.add(Gtk.Label('Close'))
+            debug_button.add(Gtk.Label(_("Close")))
             debug_button.set_halign(Gtk.Align.END)
             debug_button.set_valign(Gtk.Align.START)
             debug_button.connect('button-release-event', Gtk.main_quit)

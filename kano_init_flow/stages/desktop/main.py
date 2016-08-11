@@ -82,8 +82,8 @@ class Desktop(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="We made it to the desktop!\n" +
-                     "Click here to set up your profile.",
+                text=_("We made it to the desktop!\n" \
+                       "Click here to set up your profile."),
                 source=SpeechBubble.TOP,
                 source_align=0.0
             ),
@@ -135,10 +135,10 @@ class Desktop(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="This is Kano World, where\n"
-                     "you can code with cool people,\n"
-                     "and get new apps.\n"
-                     "Click to continue.",
+                text=_("This is Kano World, where\n" \
+                       "you can code with cool people,\n" \
+                       "and get new apps.\n" \
+                       "Click to continue."),
                 source=SpeechBubble.TOP,
                 source_align=1.0
             ),
@@ -161,44 +161,44 @@ class Desktop(Stage):
 
         self._toolbar_icons = {
             "home": {
-                "text": "Click the Home button to\n" +
-                        "return to the desktop.",
+                "text": _("Click the Home button to\n" \
+                          "return to the desktop."),
                 "position": [0, 100],
                 "source_align": 0.2
             },
             "help": {
-                "text": "If you need Help,\n" +
-                        "you can click here.",
+                "text": _("If you need Help,\n" \
+                          "you can click here."),
                 "position": [19, 100],
                 "source_align": 0.5
             },
             "profile": {
-                "text": "Here's where you can\n" +
-                        "sync your online Profile.",
+                "text": _("Here's where you can\n" \
+                          "sync your online Profile."),
                 "position": [38, 100],
                 "source_align": 0.5
             },
             "wifi": {
-                "text": "You can change Internet\n" +
-                        "settings here.",
+                "text": _("You can change Internet\n" \
+                          "settings here."),
                 "position": [75, 100],
                 "source_align": 0.5
             },
             "updater": {
-                "text": "Want updates?\n" +
-                        "Click on the Updater.",
+                "text": _("Want updates?\n" \
+                          "Click on the Updater."),
                 "position": [150, 100],
                 "source_align": 0.5
             },
             "settings": {
-                "text": "And this is where you can change\n" +
-                        "all the system Settings.",
+                "text": _("And this is where you can change\n" \
+                          "all the system Settings."),
                 "position": [55, 100],
                 "source_align": 0.7
             },
             "audio": {
-                "text": "Control the volume\n" +
-                        "of the system.",
+                "text": _("Control the volume\n" \
+                          "of the system."),
                 "position": [150, 100],
                 "source_align": 1.0
             }
@@ -218,11 +218,11 @@ class Desktop(Stage):
         speechbubble_fixed.set_size_request(500, 400)
         speechbubble_fixed.put(
             SpeechBubble(
-                text='This is your Taskbar!\n' +
-                     'Click on the different widgets to find\n' +
-                     'out more about what they do.',
-                     # 'Use its buttons to change settings,\n' +
-                     # 'get updates, and more.',
+                text=_("This is your Taskbar!\n" \
+                       "Click on the different widgets to find\n" \
+                       "out more about what they do."),
+                       # "Use its buttons to change settings,\n" +
+                       # "get updates, and more.",
                 source=SpeechBubble.BOTTOM
             ),
             0, 100
@@ -279,69 +279,69 @@ class Desktop(Stage):
 
         self._desktop_icons = {
             "snake": {
-                "text": "Customize your own Snake game,\n" +
-                        "and share special gameboards.",
+                "text": _("Customize your own Snake game,\n" \
+                          "and share special gameboards."),
                 "position": [0, 340],
                 "source_align": 0.1
             },
             "pong": {
-                "text": "You can make this classic game yourself,\n" +
-                        "with new rules, cheats, and powers.",
+                "text": _("You can make this classic game yourself,\n" \
+                          "with new rules, cheats, and powers."),
                 "position": [0, 340],
                 "source_align": 0.42
             },
             "minecraft": {
-                "text": "Normal people play Minecraft.\n" +
-                        "On Kano, you can hack the game with code.",
+                "text": _("Normal people play Minecraft.\n" \
+                          "On Kano, you can hack the game with code."),
                 "position": [95, 340],
                 "source_align": 0.5
             },
             "terminal-quest": {
-                "text": "The Terminal talks to the computer's\n" +
-                        "brain directly. Use its powers to go on a quest.",
+                "text": _("The Terminal talks to the computer's\n" \
+                          "brain directly. Use its powers to go on a quest."),
                 "position": [0, 210],
                 "source_align": 0.37
             },
             "make-light": {
-                "text": "Learn about LEDs and turn code\n" +
-                        "into light with Make Light.",
+                "text": _("Learn about LEDs and turn code\n" \
+                          "into light with Make Light."),
                 "position": [167, 210],
                 "source_align": 0.5
             },
             "music": {
-                "text": "You can make sounds, beats, loops,\n" +
-                        "and songs on Kano.",
+                "text": _("You can make sounds, beats, loops,\n" \
+                          "and songs on Kano."),
                 "position": [290, 340],
                 "source_align": 0.5
             },
             "art": {
-                "text": "Ever drawn or painted?\n" +
-                        "You can create incredible artworks with code.",
+                "text": _("Ever drawn or painted?\n" \
+                          "You can create incredible artworks with code."),
                 "position": [0, 210],
                 "source_align": 0.07
             },
             "internet": {
-                "text": "You can browse the web.",
+                "text": _("You can browse the web."),
                 "position": [490, 360],
                 "source_align": 0.5
             },
             "scratch": {
-                "text": "You can play with code blocks.",
+                "text": _("You can play with code blocks."),
                 "position": [315, 220],
                 "source_align": 0.5
             },
             "home": {
-                "text": "Look at your files and folders here.",
+                "text": _("Look at your files and folders here."),
                 "position": [550, 360],
                 "source_align": 1.0
             },
             "apps": {
-                "text": "Find even more apps here.",
+                "text": _("Find even more apps here."),
                 "position": [620, 360],
                 "source_align": 0.5
             },
             "video": {
-                "text": "YouTube",
+                "text": _("YouTube"),
                 "position": [570, 220],
                 "source_align": 0.5
             }
@@ -363,7 +363,7 @@ class Desktop(Stage):
         column = 0
 
         # Add the persistent click on everything label
-        label = Gtk.Label('Click on each of the app icons')
+        label = Gtk.Label(_("Click on each of the app icons"))
         add_class(label, 'desktop-label')
         fixed.put(label, 350, 325)
 
@@ -396,10 +396,10 @@ class Desktop(Stage):
         speechbubble_fixed.set_size_request(1024, 720)
         speechbubble_fixed.put(
             SpeechBubble(
-                text='These are your Apps!\n' +
-                     'You can make games, songs,\n' +
-                     'artworks and more,\n' +
-                     'then share them to World.',
+                text=_("These are your Apps!\n" \
+                       "You can make games, songs,\n" \
+                       "artworks and more,\n" \
+                       "then share them to World."),
                 source=SpeechBubble.BOTTOM
             ),
             300, 100
@@ -659,7 +659,7 @@ class CharacterWindow(Gtk.Window):
         self.add(vbox)
 
         vbox.pack_start(self.char_edit, False, False, 0)
-        self._kano_button = KanoButton("OK")
+        self._kano_button = KanoButton(_("OK"))
         self._kano_button.connect("clicked", self.close_window)
         self._kano_button.pack_and_align()
         self._kano_button.set_sensitive(False)

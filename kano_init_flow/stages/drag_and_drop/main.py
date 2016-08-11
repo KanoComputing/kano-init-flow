@@ -45,7 +45,7 @@ class DragAndDrop(Stage):
         judoka = Gtk.Image.new_from_file(self.media_path('cliff-judoka.png'))
         judoka = scene.scale_image_to_scene(judoka, 0.92, 0.96)
         speechbubble = SpeechBubble(
-            text='Click on me,\nhold down the mouse button,\nand drag me across!',
+            text=_("Click on me,\nhold down the mouse button,\nand drag me across!"),
             source=SpeechBubble.LEFT,
             source_align=0.0,
             scale=scene.scale_factor
@@ -92,8 +92,8 @@ class DragAndDrop(Stage):
     def _scene_1_hint(self, speechbubble):
 
         speechbubble.set_text(
-            'Pick me up with the cursor\nand hold the left button down\n' +
-            'while dragging me over.'
+            _("Pick me up with the cursor\nand hold the left button down\n" \
+              "while dragging me over.")
         )
 
     def _setup_second_scene(self):
@@ -102,7 +102,7 @@ class DragAndDrop(Stage):
                              self.media_path('cliff-file-1920x1080.png'))
 
         scene.add_widget(
-            SpeechBubble(text='Thanks!', source=SpeechBubble.BOTTOM,
+            SpeechBubble(text=_("Thanks!"), source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
             Placement(0.845, 0.08),
             Placement(0.895, 0.1)

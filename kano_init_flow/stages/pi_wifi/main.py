@@ -87,7 +87,7 @@ class PiWifi(Stage):
             Placement(0.5, 0.5)
         )
 
-        sb = SpeechBubble('Let\'s set up WiFi',
+        sb = SpeechBubble(_("Let's set up WiFi"),
                           source=SpeechBubble.BOTTOM,
                           scale=scene.scale_factor)
         scene.add_widget(
@@ -102,4 +102,4 @@ class PiWifi(Stage):
         return scene
 
     def _show_hint(self, sb):
-        sb.set_text('Click on the green dongle\nto continue.')
+        sb.set_text(_("Click on the green dongle\nto continue."))

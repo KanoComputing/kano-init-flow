@@ -77,7 +77,7 @@ class Intro(Stage):
         # move_label.set_margin_right(30)
 
         # Create the keyboard and pack it before putting it in the
-        grab_label = Gtk.Label("Click NEXT to start")
+        grab_label = Gtk.Label(_("Click NEXT to start"))
         grab_label.get_style_context().add_class("big_intro_label")
 
         keyboard_gif = Gtk.Image.new_from_file(
@@ -118,15 +118,12 @@ class Intro(Stage):
         scene.set_background(common_media_path('blueprint-bg-4-3.png'),
                              common_media_path('blueprint-bg-16-9.png'))
 
-        copy = [
-            'Well done! You brought your',
-            'Kano to life! I\'m Judoka and I',
-            'will be your guide through the',
-            'world of Kano.'
-        ]
         scene.add_widget(
             SpeechBubble(
-                text='\n'.join(copy),
+                text=_("Well done! You brought your\n" \
+                       "Kano to life! I'm Judoka and I\n" \
+                       "will be your guide through the\n" \
+                       "world of Kano.")
                 source=SpeechBubble.LEFT,
                 scale=scene.scale_factor
             ),
@@ -170,15 +167,12 @@ class Intro(Stage):
             Placement(0.18, 0.61, 0),
         )
 
-        copy = [
-            "Kano is a world where",
-            "anything is possible!",
-            "Judokas can make and play",
-            "using code powers."
-        ]
         scene.add_widget(
             SpeechBubble(
-                text='\n'.join(copy),
+                text=_("Kano is a world where\n" \
+                       "anything is possible!\n" \
+                       "Judokas can make and play\n" \
+                       "using code powers.")
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
@@ -216,10 +210,9 @@ class Intro(Stage):
             Placement(0.18, 0.60, 0),
         )
 
-        copy = ['Ready to go? Jump on in!']
         scene.add_widget(
             SpeechBubble(
-                text='\n'.join(copy),
+                text=_("Ready to go? Jump on in!")
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),

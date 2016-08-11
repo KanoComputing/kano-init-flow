@@ -24,14 +24,14 @@ class ProfileIcon(Gtk.Fixed):
 
         # this is faster
         if use_default:
-            level_label = Gtk.Label("Level 1")
+            level_label = Gtk.Label(_("Level 1"))
             level_label.get_style_context().add_class("subheading_desktop_label")
 
             progress_img = Gtk.Image.new_from_file(self._get_progress_path(0))
             avatar_img = Gtk.Image.new_from_file(self._get_local_avatar_path())
         else:
             level, progress, _ = calculate_kano_level()
-            level_label = Gtk.Label("Level {}".format(level))
+            level_label = Gtk.Label(_("Level {}").format(level))
 
             progress_img = Gtk.Image.new_from_file(self._get_progress_path(progress))
             avatar_img = Gtk.Image.new_from_file(self._get_avatar_path())

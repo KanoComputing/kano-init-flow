@@ -14,7 +14,7 @@ class WorldIcon(Gtk.Fixed):
         super(WorldIcon, self).__init__()
         apply_styling_to_screen(common_css_path("profile_world_icon.css"))
 
-        kano_world_label = Gtk.Label("Kano World")
+        kano_world_label = Gtk.Label(_("Kano World"))
         kano_world_label.get_style_context().add_class("heading_desktop_label")
 
         # world icon path
@@ -25,10 +25,10 @@ class WorldIcon(Gtk.Fixed):
 
         # Check here if there is a token (which there shouldn't be)
         if offline:
-            status_label = Gtk.Label("SIGN UP")
+            status_label = Gtk.Label(_("SIGN UP"))
             self.put(status_label, 60, 39)
         else:
-            status_label = Gtk.Label("ONLINE")
+            status_label = Gtk.Label(_("ONLINE"))
             self.put(status_label, 68, 39)
 
         status_label.get_style_context().add_class("subheading_desktop_label")

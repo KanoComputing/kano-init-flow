@@ -82,7 +82,7 @@ class PiKeyboard(Stage):
         )
 
         scene.add_widget(
-            SpeechBubble('Time to set up the keyboard!',
+            SpeechBubble(_("Time to set up the keyboard!"),
                          source=SpeechBubble.BOTTOM,
                          scale=scene.scale_factor),
             Placement(0.49, 0.2),

@@ -50,7 +50,7 @@ class PiComplete(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text='You set it up! Now it\'s time to play.',
+                text=_("You set it up! Now it's time to play."),
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),

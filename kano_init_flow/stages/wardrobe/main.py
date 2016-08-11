@@ -49,7 +49,7 @@ class Wardrobe(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="Let's dress up your\ncharacter!",
+                text=_("Let's dress up your\ncharacter!"),
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
@@ -128,7 +128,7 @@ class Wardrobe(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="You look amazing!",
+                text=_("You look amazing!"),
                 source=SpeechBubble.BOTTOM,
                 scale=scene.scale_factor
             ),
@@ -164,7 +164,7 @@ class CharacterWindow(Gtk.Window):
         self.add(vbox)
 
         vbox.pack_start(self.char_edit, False, False, 0)
-        button = KanoButton("OK")
+        button = KanoButton(_("OK"))
         button.connect("clicked", self.close_window)
         button.pack_and_align()
 

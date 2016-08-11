@@ -143,15 +143,15 @@ class Notebook(Gtk.Overlay):
         vbox.set_margin_left(10)
         vbox.set_margin_right(10)
 
-        heading = Gtk.Label('Screen machine')
+        heading = Gtk.Label(_("Screen machine"))
         add_class(heading, 'heading')
         add_class(heading, 'notebook-heading')
 
         body_lines = [
-            "Use the up and down arrows on the",
-            "keyboard to adjust the picture until the",
-            "screen pushing machine lines up with the",
-            "edges of your TV."
+            _("Use the up and down arrows on the"),
+            _("keyboard to adjust the picture until the"),
+            _("screen pushing machine lines up with the"),
+            _("edges of your TV.")
         ]
         body_widgets = []
         for line in body_lines:
@@ -164,9 +164,9 @@ class Notebook(Gtk.Overlay):
 
         # TODO: info
         legend_data = [
-            {'icon': 'up-icon.png', 'desc': 'on your keyboard to increase'},
-            {'icon': 'down-icon.png', 'desc': 'on your keyboard to decrease'},
-            {'icon': 'ok-icon.png', 'desc': 'click the button to confirm'}
+            {'icon': 'up-icon.png', 'desc': _("on your keyboard to increase")},
+            {'icon': 'down-icon.png', 'desc': _("on your keyboard to decrease")},
+            {'icon': 'ok-icon.png', 'desc': _("click the button to confirm")}
         ]
         legend_widgets = []
         for l in legend_data:
@@ -180,7 +180,7 @@ class Notebook(Gtk.Overlay):
 
             legend_widgets.append(legend)
 
-        button = KanoButton('GO')
+        button = KanoButton(_("GO"))
         button.connect('clicked', cb_wrapper, next_cb)
 
         # Pack heading

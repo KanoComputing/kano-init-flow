@@ -31,19 +31,19 @@ class MainWindow(Gtk.Window):
             678
         )
         image = Gtk.Image.new_from_pixbuf(pixbuf)
-        title1 = Gtk.Label("Get Started")
+        title1 = Gtk.Label(_("Get Started"))
         title1.get_style_context().add_class("title")
-        title2 = Gtk.Label("Apps")
+        title2 = Gtk.Label(_("Apps"))
         title2.get_style_context().add_class("title")
         desc = Gtk.Label(
-            "Create and play with\n" +
-            "Kano's Apps to make and save your\n" +
-            "own code masterpieces, from games\n" +
-            "and minecraft world, to art and music pieces..."
+            _("Create and play with\n" \
+              "Kano's Apps to make and save your\n" \
+              "own code masterpieces, from games\n" \
+              "and minecraft world, to art and music pieces...")
         )
         desc.get_style_context().add_class("description")
 
-        next_button = KanoButton("NEXT")
+        next_button = KanoButton(_("NEXT"))
         next_button.connect("clicked", self.slide2_wrapper)
 
         fixed.put(image, 0, 0)
@@ -66,17 +66,17 @@ class MainWindow(Gtk.Window):
             678
         )
         image = Gtk.Image.new_from_pixbuf(pixbuf)
-        title = Gtk.Label("Kano World")
+        title = Gtk.Label(_("Kano World"))
         title.get_style_context().add_class("title")
         desc = Gtk.Label(
-            "Show off and share your creations to friends\n" +
-            "family and other Kano users on Kano World.\n\n" +
-            "Why not check it out now by clicking on the\n" +
-            "icon to see what people have made today."
+            _("Show off and share your creations to friends\n" \
+              "family and other Kano users on Kano World.\n\n" \
+              "Why not check it out now by clicking on the\n" \
+              "icon to see what people have made today.")
         )
         desc.get_style_context().add_class("description")
 
-        next_button = KanoButton("LET'S GO")
+        next_button = KanoButton(_("LET'S GO"))
         next_button.connect("clicked", Gtk.main_quit)
 
         fixed.put(image, 0, 0)

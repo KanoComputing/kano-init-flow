@@ -73,7 +73,11 @@ class Quests(Stage):
 
         scene.add_widget(
             SpeechBubble(
-                text="You did it! Now you know how\nto control your computer.\nThis was the first of many\nquests you'll find in the\nWorld of Kano",
+                text=_("You did it! Now you know how\n" \
+                       "to control your computer.\n" \
+                       "This was the first of many\n" \
+                       "quests you'll find in the\n" \
+                       "World of Kano"),
                 source=SpeechBubble.RIGHT,
                 scale=scene.scale_factor
             ),
@@ -122,13 +126,12 @@ class Quests(Stage):
         )
 
         copy = [
-            'Click on my scroll to find',
-            'out more and start the',
-            'next adventure...'
         ]
         scene.add_widget(
             SpeechBubble(
-                text='\n'.join(copy),
+                text=_("Click on my scroll to find\n" \
+                       "out more and start the\n" \
+                       "next adventure..."),
                 source=SpeechBubble.RIGHT,
                 scale=scene.scale_factor
             ),
@@ -182,16 +185,16 @@ class Scroll(Gtk.Overlay):
     def first_scroll(self):
         self._clear()
         copy = [
-            "Quests are a series of tasks that you",
-            "can complete on your Kano to get",
-            "great rewards."
+            _("Quests are a series of tasks that you"),
+            _("can complete on your Kano to get"),
+            _("great rewards.")
         ]
         text_widgets = self._get_text_widgets(copy)
 
         img_path = self._stage.media_path('chest-closed.png')
         chest = Gtk.Image.new_from_file(img_path)
 
-        button = KanoButton('NEXT', color='orange')
+        button = KanoButton(_("NEXT"), color='orange')
         button.connect('clicked', cb_wrapper, self.second_scroll)
 
         text_widgets[0].set_margin_top(30)
@@ -213,14 +216,14 @@ class Scroll(Gtk.Overlay):
         ticks = Gtk.Image.new_from_file(self._stage.media_path('ticks.png'))
 
         copy = [
-            "Complete all of the ticks in a",
-            "quest to unlock rewards."
+            _("Complete all of the ticks in a"),
+            _("quest to unlock rewards.")
         ]
         text_widgets = self._get_text_widgets(copy)
 
         chest = Gtk.Image.new_from_file(self._stage.media_path('chest-open.png'))
 
-        button = KanoButton('NEXT', color='orange')
+        button = KanoButton(_("NEXT"), color='orange')
         button.connect('clicked', cb_wrapper, self.third_scroll)
 
         ticks.set_margin_top(20)
@@ -243,17 +246,17 @@ class Scroll(Gtk.Overlay):
     def third_scroll(self):
         self._clear()
 
-        heading = Gtk.Label('New quest')
+        heading = Gtk.Label(_("New quest"))
         add_class(heading, 'scroll-heading')
 
         world = Gtk.Image.new_from_file(self._stage.media_path('world.png'))
 
         copy = [
-            "Journey to Kano World",
+            _("Journey to Kano World"),
         ]
         text_widgets = self._get_text_widgets(copy)
 
-        button = KanoButton('OK', color='orange')
+        button = KanoButton(_("OK"), color='orange')
         button.connect('clicked', cb_wrapper, self._stage._ctl.next_stage)
 
         heading.set_margin_top(35)

@@ -59,10 +59,10 @@ class LightLab(Stage):
             Placement(0.12, 0.9)
         )
 
-        copy = 'Now let\'s check the lights work!\n\n' + \
-               'Press the ON button to light up.'
         scene.add_widget(
-            SpeechBubble(text=copy, source=SpeechBubble.BOTTOM,
+            SpeechBubble(text=_("Now let's check the lights work!\n\n" \
+                                "Press the ON button to light up.|"),
+                         source=SpeechBubble.BOTTOM,
                          source_align=0.2, scale=scene.scale_factor),
             Placement(0.08, 0.5),
             Placement(0.12, 0.45)
@@ -121,10 +121,10 @@ class LightLab(Stage):
             Notebook(
                 self,
                 self.media_path('power.png'), 0.8, 0.5,
-                'No light? Check the GPIO',
-                ['The cable has to be connected to these',
-                 'pins exactly.'],
-                [{'label': 'GOT IT', 'callback': self.remove_overlay, 'color': 'green'}]
+                _("No light? Check the GPIO"),
+                [_("The cable has to be connected to these"),
+                 _("pins exactly.")],
+                [{'label': _("GOT IT"), 'callback': self.remove_overlay, 'color': 'green'}]
             ),
             Placement(0.5, 0.5, 0.0),
             Placement(0.45, 0.5, 0.0),
@@ -149,7 +149,7 @@ class ConsoleScreen(Gtk.EventBox):
         vbox.set_halign(Gtk.Align.CENTER)
         # vbox.set_valign(Gtk.Align.CENTER)
 
-        question = Gtk.Label('Can you see the lights?')
+        question = Gtk.Label(_("Can you see the lights?"))
         question.set_line_wrap(True)
         question.set_justify(Gtk.Justification.CENTER)
         question.set_valign(Gtk.Align.CENTER)
@@ -161,10 +161,10 @@ class ConsoleScreen(Gtk.EventBox):
         hbox.set_halign(Gtk.Align.CENTER)
         hbox.set_valign(Gtk.Align.CENTER)
 
-        yes = KanoButton('YES')
+        yes = KanoButton(_("YES"))
         yes.connect('clicked', cb_wrapper, yes_cb)
 
-        no = KanoButton('NO', color='red')
+        no = KanoButton(_("NO"), color='red')
         no.connect('clicked', cb_wrapper, no_cb)
 
         hbox.pack_start(yes, False, False, 0)
