@@ -5,6 +5,8 @@
 #
 
 import os
+from gi import require_version
+require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf
 from kano.gtk3.buttons import KanoButton
 from kano.gtk3.apply_styles import apply_styling_to_screen

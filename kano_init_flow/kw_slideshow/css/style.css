@@ -3,10 +3,12 @@ GtkWindow {
 }
 
 .title {
-    font: Bariol bold 22px;
+    font-family: Bariol Bold;
+    font-size: 22pt;
 }
 
 .description {
-    font: Bariol bold 16px;
+    font-family: Bariol Bold;
+    font-size: 16pt;
     color: #555555;
 }
